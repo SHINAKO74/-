@@ -580,7 +580,6 @@ const cardEl=document.getElementById('card');
 cardEl.addEventListener('touchstart',e=>{
   txStart=e.touches[0].clientX;tyStart=e.touches[0].clientY;
   tMoved=false;tHandled=false;
-  if(!didInteract){didInteract=true;const c=cards[currentIndex];if(c)speak(c.en);}
 },{passive:true});
 
 cardEl.addEventListener('touchmove',e=>{
@@ -603,6 +602,8 @@ cardEl.addEventListener('touchend',e=>{
   const dy=e.changedTouches[0].clientY-tyStart;
   if(e.target.closest('#speak-btn')) return;
   if(!tMoved){
+    if(!didInteract) didInteract=true;
+    if(cardState===0){ const c=cards[currentIndex]; if(c) speak(c.en); }
     advanceState();
   } else if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
     grade(dx>0,true);
@@ -614,6 +615,7 @@ cardEl.addEventListener('click',e=>{
   if(tHandled){tHandled=false;return;}
   if(e.target.closest('#speak-btn')) return;
   if(!didInteract) didInteract=true;
+  if(cardState===0){ const c=cards[currentIndex]; if(c) speak(c.en); }
   advanceState();
 });
 
