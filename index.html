@@ -1,994 +1,1009 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>CONTRAST</title>
-    <style>
-        :root {
-            --bg-color: #c0c0c0;
-            --cell-size: 11vmin; 
-            --gap: 1.2vmin;
-            --dot-size: 4vmin;
-            --anim-speed: 0.4s;
-            --custom-spring: cubic-bezier(0.43, 1.7, 0.64, 0.8);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEXICON — 英単語学習</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0d0b;
+    --surface: #1a1814;
+    --card-front: #f5f0e8;
+    --card-back: #1e2a1e;
+    --gold: #c9a84c;
+    --gold-dim: #7a6230;
+    --cream: #f5f0e8;
+    --sage: #7aaa7a;
+    --muted: #5a5650;
+    --text-dark: #1a1610;
+    --text-light: #e8e0d0;
+  }
 
-        body {
-            margin: 0;
-            background: var(--bg-color);
-            font-family: sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            user-select: none;
-            overflow: hidden;
-        }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* --- タイトル画面 --- */
-        #title-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 2000;
-            width: 100vw;
-            height: 100vh;
-            background: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
 
-        .title-container {
-            position: relative;
-            width: 80vmin;
-        }
+  /* Texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
 
-        #title-logo {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+  header {
+    width: 100%;
+    padding: 28px 40px 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    position: relative;
+    z-index: 1;
+  }
 
-        .title-btn {
-            position: absolute;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            filter: invert(1);
-            transition: filter 0.3s ease, transform 0.2s ease;
-        }
+  .logo {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
 
-        .title-btn:hover {
-            filter: invert(0);
-            transform: scale(1.05);
-        }
+  .logo-sub {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
 
-        .title-btn img {
-            width: 35vmin;
-            height: auto;
-        }
+  .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
 
-        #btn-play {
-            top: 15%;
-            left: 10%;
-        }
+  .deck-select {
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c9a84c'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .deck-select:hover { border-color: var(--gold); }
+  .deck-select option { background: #1a1814; }
 
-        #btn-about {
-            bottom: 15%;
-            right: 10%;
-        }
+  /* Progress */
+  .progress-section {
+    width: 100%;
+    max-width: 680px;
+    padding: 24px 20px 0;
+    position: relative;
+    z-index: 1;
+  }
 
-        /* --- ゲーム画面 --- */
-        #wrapper {
-            position: relative;
-            display: none; 
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
 
-        #side-right {
-            position: absolute;
-            top: 0;
-            right: -11vmin; 
-            display: flex;
-            flex-direction: column;
-            gap: 3vmin;
-            z-index: 100;
-        }
+  .progress-track {
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 1px;
+    overflow: visible;
+    position: relative;
+  }
 
-        .image-button {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: filter 0.2s ease;
-        }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 1px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
 
-        .image-button:hover {
-            filter: invert(1);
-        }
+  .progress-dot {
+    position: absolute;
+    right: -3px;
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--gold);
+  }
 
-        .image-button img {
-            width: 20vmin;
-            height: auto;
-        }
+  /* Score pills */
+  .score-pills {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+  }
 
-        #game-container {
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(6, var(--cell-size));
-            grid-template-rows: repeat(5, var(--cell-size));
-            gap: var(--gap);
-            margin-bottom: 6vmin;
-        }
+  .pill {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
 
-        .cell {
-            position: relative;
-            width: var(--cell-size);
-            height: var(--cell-size);
-            background: #fff;
-            border: 0.4vmin solid #333;
-            box-sizing: border-box;
-            z-index: 1;
-            opacity: 0;
-            transform: scale(0);
-            transition: opacity 0.4s ease, transform 0.5s var(--custom-spring), 
-                        background-color 0.5s ease, border-color 0.5s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 900;
-            font-size: 7vmin;
-            color: transparent; 
-        }
+  .pill-know {
+    background: rgba(122,170,122,0.12);
+    color: var(--sage);
+    border: 1px solid rgba(122,170,122,0.2);
+  }
 
-        .cell.show {
-            opacity: 1;
-            transform: scale(1);
-        }
+  .pill-unknown {
+    background: rgba(201,100,80,0.1);
+    color: #c96450;
+    border: 1px solid rgba(201,100,80,0.2);
+  }
 
-        .cell.visited {
-            background: #000;
-            border-color: #000;
-        }
+  .pill-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
 
-        .cell.show-text {
-            color: #fff !important;
-        }
+  /* Main area */
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px 20px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
 
-        .cell[data-index="25"] {
-            background: black;
-        }
+  /* Card scene */
+  .card-scene {
+    width: 560px;
+    max-width: 100%;
+    height: 340px;
+    perspective: 1200px;
+    cursor: pointer;
+    margin-bottom: 40px;
+  }
 
-        .cell.fade-out {
-            opacity: 0;
-            transform: scale(0.6);
-            transition: 0.6s ease-in-out;
-            color: #666;
-        }
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-        .cell.target-fade {
-            opacity: 0;
-            transform: scale(0.9);
-            transition: 1.5s ease-out;
-        }
+  .card-inner.flipped {
+    transform: rotateY(180deg);
+  }
 
-        .cell.white-target-text {
-            color: #000 !important;
-        }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+  }
 
-        .cell.black-target-text {
-            color: #fff !important;
-        }
+  .card-front {
+    background: var(--card-front);
+    color: var(--text-dark);
+  }
 
-        #player {
-            width: calc(var(--cell-size) - 3vmin);
-            height: calc(var(--cell-size) - 3vmin);
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 1.5vmin;
-            z-index: 10;
-            transition: transform var(--anim-speed) var(--custom-spring), opacity 0.5s;
-            opacity: 0;
-        }
+  .card-back {
+    background: var(--card-back);
+    color: var(--text-light);
+    transform: rotateY(180deg);
+    border: 1px solid rgba(122,170,122,0.15);
+  }
 
-        #player.initialized {
-            opacity: 1;
-        }
+  /* Decorative corners */
+  .card-face::before, .card-face::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+  }
 
-        #indicators {
-            display: flex;
-            flex-direction: column;
-            gap: 2vmin;
-        }
+  .card-front::before {
+    top: 14px; left: 14px;
+    border-top: 1.5px solid var(--gold-dim);
+    border-left: 1.5px solid var(--gold-dim);
+  }
+  .card-front::after {
+    bottom: 14px; right: 14px;
+    border-bottom: 1.5px solid var(--gold-dim);
+    border-right: 1.5px solid var(--gold-dim);
+  }
 
-        .indicator-row {
-            display: grid;
-            grid-template-columns: repeat(6, var(--cell-size));
-            gap: var(--gap);
-        }
+  .card-back::before {
+    top: 14px; left: 14px;
+    border-top: 1.5px solid rgba(122,170,122,0.3);
+    border-left: 1.5px solid rgba(122,170,122,0.3);
+  }
+  .card-back::after {
+    bottom: 14px; right: 14px;
+    border-bottom: 1.5px solid rgba(122,170,122,0.3);
+    border-right: 1.5px solid rgba(122,170,122,0.3);
+  }
 
-        .dot-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: var(--cell-size);
-            height: 8vmin;
-        }
+  .card-number {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    opacity: 0.3;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-        .dot { 
-            width: var(--dot-size);
-            height: var(--dot-size);
-            border-radius: 50%; 
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 900;
-            font-size: 8.5vmin;
-            color: transparent;
-        }
+  .card-category {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-        .dot.active {
-            background: #000;
-        }
+  .word-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
 
-        .dot.reveal-text { 
-            background: transparent !important; 
-            animation: textEmphasis 0.7s var(--custom-spring) forwards; 
-            z-index: 500;
-        }
+  .word-phonetic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    opacity: 0.4;
+    margin-bottom: 0;
+  }
 
-        .dot.final-fade {
-            animation: fadeOutOnly 1.2s ease-in-out forwards !important;
-            pointer-events: none;
-        }
+  .hint-text {
+    position: absolute;
+    bottom: 18px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.25;
+  }
 
-        @keyframes fadeOutOnly {
-            0% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1.0);
-            }
-        }
+  /* Back face content */
+  .meaning-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sage);
+    opacity: 0.6;
+    margin-bottom: 14px;
+  }
 
-        #whiteRow .dot.reveal-text {
-            color: #fff;
-        }
+  .meaning-ja {
+    font-size: 34px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 8px;
+    text-align: center;
+  }
 
-        #blackRow .dot.reveal-text {
-            color: #000;
-        }
+  .meaning-pos {
+    font-size: 11px;
+    color: var(--sage);
+    margin-bottom: 20px;
+    opacity: 0.7;
+    font-style: italic;
+  }
 
-        @keyframes textEmphasis {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.6);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-        }
+  .meaning-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(122,170,122,0.2);
+    margin-bottom: 18px;
+  }
 
-        @keyframes clearImgIn {
-            0% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+  .example-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    opacity: 0.55;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
 
-        #modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 5000;
-            cursor: pointer;
-        }
+  .example-ja {
+    font-size: 11px;
+    color: var(--cream);
+    opacity: 0.3;
+    text-align: center;
+    line-height: 1.5;
+  }
 
-        #modal-content img {
-            max-width: 85vw;
-            max-height: 85vh;
-            border-radius: 2vmin;
-        }
+  /* Buttons */
+  .action-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 0;
+  }
 
-        #clear-msg {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            z-index: 300;
-        }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
 
-        #clear-msg img {
-            width: 80vw;
-            max-width: 800px;
-            animation: clearImgIn 0.8s ease-out forwards;
-        }
+  .btn-unknown {
+    background: rgba(201,100,80,0.1);
+    color: #c96450;
+    border: 1px solid rgba(201,100,80,0.3);
+  }
 
-        #clear-btns {
-            margin-top: 4vmin;
-            display: flex;
-            gap: 3vmin;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
+  .btn-unknown:hover {
+    background: rgba(201,100,80,0.2);
+    border-color: #c96450;
+    transform: translateY(-1px);
+  }
 
-        #clear-btns.show {
-            opacity: 1;
-        }
+  .btn-know {
+    background: rgba(122,170,122,0.12);
+    color: var(--sage);
+    border: 1px solid rgba(122,170,122,0.3);
+  }
 
-        /* --- 行き詰まりメッセージ --- */
-        #stuck-msg {
-            position: absolute;
-            bottom: calc(15vmin + 3vmin); 
-            left: 50%;
-            transform: translateX(-50%) scale(2.5);
-            z-index: 50;
-            display: none;
-            max-width: 95%;
-        }
+  .btn-know:hover {
+    background: rgba(122,170,122,0.22);
+    border-color: var(--sage);
+    transform: translateY(-1px);
+  }
 
-        #stuck-msg img {
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            display: block;
-        }
+  .btn-skip {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 14px 20px;
+  }
 
-        #stuck-msg.show {
-            display: block;
-            animation: blink 1s steps(1, end) infinite;
-        }
+  .btn-skip:hover {
+    color: var(--cream);
+    border-color: rgba(255,255,255,0.15);
+  }
 
-        @keyframes blink {
-            0%, 49% {
-                opacity: 1;
-            }
-            50%, 99% {
-                opacity: 0;
-            }
-        }
-    </style>
+  /* Nav hint */
+  .key-hints {
+    margin-top: 24px;
+    display: flex;
+    gap: 20px;
+    opacity: 0.3;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .key-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .key {
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+
+  /* Complete screen */
+  .complete-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .complete-screen.visible { display: flex; }
+  .card-scene.hidden { display: none; }
+  .action-row.hidden { display: none; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .complete-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 40px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .complete-sub {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    margin-bottom: 40px;
+  }
+
+  .complete-stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-know .stat-num { color: var(--sage); }
+  .stat-unknown .stat-num { color: #c96450; }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .btn-restart {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 14px 40px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-restart:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+
+  /* Card flip animation on new card */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .card-scene.animating { animation: slideIn 0.35s cubic-bezier(0.4,0,0.2,1); }
+
+  .speak-btn {
+    margin-top: 14px;
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--text-dark);
+    opacity: 0.35;
+    transition: opacity 0.15s;
+  }
+  .speak-btn:hover { opacity: 0.7; }
+
+  .swipe-hints {
+    display: none;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 16px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    opacity: 0.5;
+    padding: 0 4px;
+  }
+  @media (max-width: 600px) {
+    .swipe-hints { display: flex; }
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    header {
+      padding: 16px 16px 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .logo { font-size: 18px; }
+    .logo-sub { display: none; }
+    .header-right { gap: 10px; }
+    .deck-select { font-size: 11px; padding: 5px 24px 5px 8px; }
+
+    .progress-section { padding: 16px 16px 0; }
+
+    main { padding: 20px 16px 16px; }
+
+    .card-scene {
+      width: 100%;
+      height: 280px;
+      margin-bottom: 24px;
+    }
+
+    .word-display { font-size: 38px; }
+    .meaning-ja { font-size: 26px; }
+    .card-face { padding: 28px 24px; }
+    .example-en { font-size: 12px; }
+    .example-ja { font-size: 10px; }
+
+    .action-row {
+      width: 100%;
+      gap: 10px;
+    }
+    .btn {
+      flex: 1;
+      padding: 16px 10px;
+      font-size: 11px;
+    }
+    .btn-skip { flex: 0 0 auto; padding: 16px 14px; }
+
+    .key-hints { display: none; }
+
+    .mode-tabs .mode-tab { padding: 6px 10px; font-size: 10px; }
+  }
+
+  /* Mode tabs */
+  .mode-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .mode-tab {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .mode-tab:last-child { border-right: none; }
+
+  .mode-tab.active {
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+  }
+
+  .mode-tab:hover:not(.active) {
+    color: var(--cream);
+    background: rgba(255,255,255,0.04);
+  }
+</style>
 </head>
 <body>
 
-<div id="title-screen">
-    <div class="title-container">
-        <button id="btn-play" class="title-btn">
-            <img src="play_btn.png" alt="PLAY">
-        </button>
-        <img src="title.jpg" alt="CONTRAST" id="title-logo">
-        <button id="btn-about" class="title-btn">
-            <img src="about_btn.png" alt="ABOUT">
-        </button>
+<header>
+  <div class="logo">Lexicon</div>
+  <div class="logo-sub">英単語学習</div>
+  <div class="header-right">
+    <div class="mode-tabs">
+      <button class="mode-tab active" onclick="setMode('flash')">フラッシュ</button>
+      <button class="mode-tab" onclick="setMode('review')">復習のみ</button>
     </div>
+    <select class="deck-select" onchange="changeDeck(this.value)">
+      <option value="basic">基本単語 (50)</option>
+      <option value="toeic">TOEIC頻出</option>
+      <option value="academic">学術語彙</option>
+    </select>
+  </div>
+</header>
+
+<div class="progress-section">
+  <div class="progress-meta">
+    <span id="progress-label">0 / 0</span>
+    <span id="progress-pct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill" style="width:0%">
+      <div class="progress-dot"></div>
+    </div>
+  </div>
+  <div class="score-pills">
+    <div class="pill pill-know">
+      <div class="pill-dot"></div>
+      <span>覚えた: <span id="score-know">0</span></span>
+    </div>
+    <div class="pill pill-unknown">
+      <div class="pill-dot"></div>
+      <span>要復習: <span id="score-unknown">0</span></span>
+    </div>
+  </div>
 </div>
 
-<div id="wrapper">
-    <div id="side-right">
-        <button class="image-button" id="btn-reset">
-            <img src="reset_btn.png" alt="Reset">
-        </button>
-        <button class="image-button" id="btn-howto">
-            <img src="howto_btn.png" alt="Howto">
-        </button>
+<main>
+  <div class="card-scene" id="card-scene" onclick="flipCard()">
+    <div class="card-inner" id="card-inner">
+      <div class="card-face card-front">
+        <div class="card-number" id="card-num">1 / 50</div>
+        <div class="card-category" id="card-cat">noun</div>
+        <div class="word-display" id="word-en">serenity</div>
+        <div class="word-phonetic" id="word-ph">/sɪˈrɛnɪti/</div>
+        <button class="speak-btn" onclick="event.stopPropagation(); speak(document.getElementById('word-en').textContent)" title="もう一度聞く">🔊</button>
+        <div class="hint-text">クリックして確認</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-number" id="card-num-b">1 / 50</div>
+        <div class="meaning-label">意味</div>
+        <div class="meaning-ja" id="word-ja">平静・静寂</div>
+        <div class="meaning-pos" id="word-pos">noun — 名詞</div>
+        <div class="meaning-divider"></div>
+        <div class="example-en" id="ex-en">"She found serenity in the morning light."</div>
+        <div class="example-ja" id="ex-ja">「彼女は朝の光の中に平静を見出した。」</div>
+      </div>
     </div>
-    <div id="game-container"></div>
-    <div id="stuck-msg">
-        <img src="telling.png" alt="これ以上は動けません。リセットしましょう。">
-    </div>
-    <div id="indicators">
-        <div id="whiteRow" class="indicator-row"></div>
-        <div id="blackRow" class="indicator-row"></div>
-    </div>
-</div>
+  </div>
 
-<div id="modal-overlay">
-    <div id="modal-content">
-        <img src="manual.png" alt="Manual">
-    </div>
-</div>
+  <div class="action-row" id="action-row">
+    <button class="btn btn-unknown" onclick="grade(false)">✕ 要復習</button>
+    <button class="btn btn-skip" onclick="nextCard()">→ スキップ</button>
+    <button class="btn btn-know" onclick="grade(true)">○ 覚えた</button>
+  </div>
 
-<div id="clear-msg">
-    <img src="clear.jpg" alt="Clear">
-    <div id="clear-btns">
-        <button id="btn-tweet" class="image-button" 
-                style="background:#00acee; border-radius:1.5vmin; padding:2vmin 4vmin; 
-                       color:white; font-family:sans-serif; font-weight:bold; 
-                       font-size:3vmin; min-width:20vmin;">
-            TWEET
-        </button>
-        <button id="btn-title" class="image-button" 
-                style="background:#333; border-radius:1.5vmin; padding:2vmin 4vmin; 
-                       color:white; font-family:sans-serif; font-weight:bold; 
-                       font-size:3vmin; min-width:20vmin;">
-            TITLE
-        </button>
+  <div class="key-hints">
+    <div class="key-hint"><span class="key">Space</span> めくる</div>
+    <div class="key-hint"><span class="key">←</span> 要復習</div>
+    <div class="key-hint"><span class="key">→</span> 覚えた</div>
+  </div>
+  <div class="swipe-hints">
+    <span>← 要復習</span><span>タップでめくる</span><span>覚えた →</span>
+  </div>
+
+  <div class="complete-screen" id="complete-screen">
+    <div class="complete-title">Complete</div>
+    <div class="complete-sub">セッション終了</div>
+    <div class="complete-stats">
+      <div class="stat stat-know">
+        <div class="stat-num" id="final-know">0</div>
+        <div class="stat-label">覚えた</div>
+      </div>
+      <div class="stat stat-unknown">
+        <div class="stat-num" id="final-unknown">0</div>
+        <div class="stat-label">要復習</div>
+      </div>
     </div>
-</div>
+    <button class="btn-restart" onclick="restart()">もう一度</button>
+  </div>
+</main>
 
 <script>
-// ゲーム定数
-const ALPHA_LIST = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-const ALPHA_MAP = {
-    A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J: 9,
-    K: 10, L: 11, M: 12, N: 13, O: 14, P: 15, Q: 16, R: 17, S: 18, T: 19,
-    U: 20, V: 21, W: 22, X: 23, Y: 24, Z: 25
-};
-const WHITE_TARGETS = { W: 22, H: 7, I: 8, T: 19, E: 4 };
-const BLACK_TARGETS = { B: 1, L: 11, A: 0, C: 2, K: 10 };
-
-// ゲーム状態
-let visited = new Set();
-let currentPos = 25;
-let isCleared = false;
-let isPaused = false;
-let playerEl;
-let stuckTimeout = null;
-
-/**
- * インデックスからグリッド座標を取得
- */
-function getCoord(i) {
-    if (i < 20) {
-        return {
-            x: i % 5,
-            y: Math.floor(i / 5)
-        };
-    } else {
-        return {
-            x: i - 20,
-            y: 4
-        };
-    }
-}
-
-/**
- * ゲームの初期化
- */
-function init() {
-    const container = document.getElementById("game-container");
-    container.innerHTML = '';
-    
-    // プレイヤー要素を作成
-    playerEl = document.createElement("div");
-    playerEl.id = "player";
-    container.appendChild(playerEl);
-    
-    // セルを作成
-    for (let i = 0; i < 26; i++) {
-        const cell = document.createElement("div");
-        cell.className = "cell";
-        cell.dataset.index = i;
-        cell.textContent = ALPHA_LIST[i];
-        
-        const pos = getCoord(i);
-        cell.style.gridColumn = pos.x + 1;
-        cell.style.gridRow = pos.y + 1;
-        
-        container.appendChild(cell);
-    }
-    
-    // インジケーター行を設定
-    setupIndicatorRow(["W", "H", "I", "T", "E"], "whiteRow", "w");
-    setupIndicatorRow(["B", "L", "A", "C", "K"], "blackRow", "b");
-    
-    resetGame();
-}
-
-/**
- * インジケーター行を設定
- */
-function setupIndicatorRow(chars, rowId, prefix) {
-    const row = document.getElementById(rowId);
-    row.innerHTML = '';
-    
-    chars.forEach(char => {
-        const wrap = document.createElement("div");
-        wrap.className = "dot-wrapper";
-        
-        const dot = document.createElement("div");
-        dot.className = "dot";
-        dot.id = `${prefix}-${char}`;
-        dot.textContent = char;
-        
-        wrap.appendChild(dot);
-        row.appendChild(wrap);
-    });
-}
-
-/**
- * タイトル画面からゲーム画面への遷移
- */
-function startSequence() {
-    const titleScreen = document.getElementById("title-screen");
-    const wrapper = document.getElementById("wrapper");
-    
-    // タイトル画面をフェードアウト
-    titleScreen.style.opacity = "0";
-    
-    setTimeout(() => {
-        titleScreen.style.display = "none";
-        wrapper.style.display = "flex";
-        
-        setTimeout(() => {
-            wrapper.style.opacity = "1";
-            
-            // セルを順次表示
-            document.querySelectorAll(".cell").forEach(cell => {
-                const idx = parseInt(cell.dataset.index);
-                const pos = getCoord(idx);
-                const dist = Math.sqrt(
-                    Math.pow(pos.x - 4, 2) + Math.pow(pos.y - 4, 2)
-                );
-                
-                setTimeout(() => {
-                    cell.classList.add("show");
-                }, dist * 100);
-            });
-            
-            // プレイヤーを表示
-            setTimeout(() => {
-                playerEl.classList.add("initialized");
-            }, 1200);
-        }, 50);
-    }, 500);
-}
-
-/**
- * プレイヤーの位置を更新
- */
-function updatePlayerPos() {
-    const pos = getCoord(currentPos);
-    const unit = Math.min(window.innerHeight, window.innerWidth) / 100;
-    const step = (11 + 1.2) * unit;
-    
-    playerEl.style.transform = `translate(${pos.x * step}px, ${pos.y * step}px)`;
-}
-
-/**
- * 移動可能かチェック
- */
-function canMove() {
-    const curr = getCoord(currentPos);
-    const directions = [
-        [0, -1],  // 上
-        [0, 1],   // 下
-        [-1, 0],  // 左
-        [1, 0]    // 右
-    ];
-    
-    for (const [dx, dy] of directions) {
-        const tx = curr.x + dx;
-        const ty = curr.y + dy;
-        
-        // その座標にセルがあり、まだ訪問していないかチェック
-        for (let i = 0; i < 26; i++) {
-            const c = getCoord(i);
-            if (c.x === tx && c.y === ty && !visited.has(i)) {
-                return true;
-            }
-        }
-    }
-    
-    return false;
-}
-
-/**
- * 行き詰まりをチェック
- */
-function checkStuck() {
-    // 既存のタイムアウトをクリア
-    if (stuckTimeout) {
-        clearTimeout(stuckTimeout);
-        stuckTimeout = null;
-    }
-    
-    // クリア後はチェックしない
-    if (isCleared) {
-        return;
-    }
-    
-    // 初期位置（Z）にいる場合はチェックしない
-    if (currentPos === 25) {
-        return;
-    }
-    
-    if (!canMove()) {
-        stuckTimeout = setTimeout(() => {
-            document.getElementById("stuck-msg").classList.add("show");
-        }, 3000);
-    }
-}
-
-/**
- * プレイヤーを移動
- */
-function move(dx, dy) {
-    if (isCleared || isPaused) {
-        return;
-    }
-    
-    const curr = getCoord(currentPos);
-    const tx = curr.x + dx;
-    const ty = curr.y + dy;
-    
-    // 移動先のセルを探す
-    let next = -1;
-    for (let i = 0; i < 26; i++) {
-        const c = getCoord(i);
-        if (c.x === tx && c.y === ty) {
-            next = i;
-            break;
-        }
-    }
-    
-    // 移動先が無効または既に訪問済みの場合
-    if (next === -1 || visited.has(next)) {
-        return;
-    }
-    
-    // stuck-msgを非表示にする
-    if (stuckTimeout) {
-        clearTimeout(stuckTimeout);
-        stuckTimeout = null;
-    }
-    document.getElementById("stuck-msg").classList.remove("show");
-    
-    // 移動処理
-    currentPos = next;
-    visited.add(next);
-    
-    // セルを訪問済みにする
-    const cell = document.querySelector(`.cell[data-index="${next}"]`);
-    if (cell && next !== 25) {
-        cell.classList.add("visited");
-        
-        // E と U の位置では文字を表示
-        if (next === 4 || next === 20) {
-            cell.classList.add("show-text");
-        }
-    }
-    
-    // インジケーターを更新
-    for (const [char, pos] of Object.entries(WHITE_TARGETS)) {
-        if (pos === next) {
-            document.getElementById(`w-${char}`).classList.add("active");
-        }
-    }
-    for (const [char, pos] of Object.entries(BLACK_TARGETS)) {
-        if (pos === next) {
-            document.getElementById(`b-${char}`).classList.add("active");
-        }
-    }
-    
-    updatePlayerPos();
-    
-    // クリア判定
-    const whiteFail = Object.values(WHITE_TARGETS).some(p => visited.has(p));
-    const blackComp = Object.values(BLACK_TARGETS).every(p => visited.has(p));
-    
-    if (!whiteFail && blackComp) {
-        isCleared = true;
-        setTimeout(() => {
-            playerEl.style.opacity = 0;
-            startClearAnim();
-        }, 800);
-    } else {
-        setTimeout(checkStuck, 500);
-    }
-}
-
-/**
- * クリアアニメーション
- */
-async function startClearAnim() {
-    document.getElementById("side-right").style.opacity = 0;
-    
-    const alphaReverse = [...ALPHA_LIST].reverse();
-    const baseInterval = 350;
-    
-    for (const char of alphaReverse) {
-        const isWhite = Object.keys(WHITE_TARGETS).includes(char);
-        const isBlack = Object.keys(BLACK_TARGETS).includes(char);
-        const idx = ALPHA_MAP[char];
-        
-        // セルのアニメーション
-        const cell = document.querySelector(`.cell[data-index="${idx}"]`);
-        if (cell) {
-            if (isWhite) {
-                cell.classList.add("target-fade", "white-target-text");
-            } else if (isBlack) {
-                cell.classList.add("target-fade", "black-target-text");
-            } else {
-                cell.classList.add("fade-out");
-            }
-        }
-        
-        // ドットのアニメーション
-        const dotWhite = document.getElementById(`w-${char}`);
-        const dotBlack = document.getElementById(`b-${char}`);
-        
-        if (dotWhite) {
-            dotWhite.classList.add("reveal-text");
-        }
-        if (dotBlack) {
-            dotBlack.classList.add("reveal-text");
-        }
-        
-        const waitTime = (isWhite || isBlack) ? 1500 : baseInterval;
-        await new Promise(resolve => setTimeout(resolve, waitTime));
-    }
-    
-    // 最終フェードアウト
-    setTimeout(() => {
-        document.querySelectorAll(".dot.reveal-text").forEach(dot => {
-            dot.classList.add("final-fade");
-        });
-        
-        // クリアメッセージを表示
-        setTimeout(() => {
-            document.getElementById("clear-msg").style.display = "flex";
-            setTimeout(() => {
-                document.getElementById("clear-btns").classList.add("show");
-            }, 800);
-        }, 1500);
-    }, 500);
-}
-
-/**
- * ゲームをリセット
- */
-function resetGame() {
-    // stuck-msg関連のタイマーと表示を最初にクリア
-    if (stuckTimeout) {
-        clearTimeout(stuckTimeout);
-        stuckTimeout = null;
-    }
-    const stuckMsg = document.getElementById("stuck-msg");
-    stuckMsg.classList.remove("show");
-    stuckMsg.style.display = "none";
-    
-    visited.clear();
-    currentPos = 25;
-    isCleared = false;
-    
-    // UI要素をリセット
-    document.getElementById("clear-msg").style.display = "none";
-    document.getElementById("clear-btns").classList.remove("show");
-    document.getElementById("side-right").style.opacity = 1;
-    
-    // プレイヤーをリセット
-    playerEl.style.transition = `transform 0.6s var(--custom-spring), opacity 0.5s`;
-    playerEl.style.opacity = 1;
-    
-    // セルをリセット
-    document.querySelectorAll(".cell").forEach(cell => {
-        cell.classList.remove(
-            "visited", "fade-out", "target-fade",
-            "white-target-text", "black-target-text", "show-text"
-        );
-        
-        if (document.getElementById("title-screen").style.display === "none") {
-            cell.classList.add("show");
-        }
-    });
-    
-    // ドットをリセット
-    document.querySelectorAll(".dot").forEach(dot => {
-        dot.classList.remove("active", "reveal-text", "final-fade");
-        dot.style.animation = "";
-    });
-    
-    // 初期位置を訪問済みに
-    visited.add(25);
-    updatePlayerPos();
-    
-    setTimeout(() => {
-        playerEl.style.transition = "";
-        // stuck-msgを再び表示可能にする
-        stuckMsg.style.display = "";
-    }, 600);
-}
-
-// ===== イベントリスナー =====
-
-// ツイートボタン
-document.getElementById("btn-tweet").onclick = () => {
-    const url = window.location.href;
-    const text = "CONTRAST Clear! ⬛️⬜️\n" +
-                 "白と黒の狭間を通り抜け、鮮やかなコントラストを完成させた。\n\n" +
-                 "⇩あなたもこちらからプレイ⇩\n" + url + "\n\n" +
-                 "#CONTRAST\n#宇宙謎";
-    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(tweetUrl, '_blank');
+const DECKS = {
+  basic: [
+    { en: "serenity", ph: "/sɪˈrɛnɪti/", ja: "平静・静寂", pos: "名詞", cat: "noun", exEn: "She found serenity in the garden.", exJa: "彼女は庭の中に平静を見出した。" },
+    { en: "eloquent", ph: "/ˈɛləkwənt/", ja: "雄弁な・流暢な", pos: "形容詞", cat: "adjective", exEn: "He gave an eloquent speech.", exJa: "彼は雄弁なスピーチをした。" },
+    { en: "arduous", ph: "/ˈɑːdʒuəs/", ja: "困難な・骨の折れる", pos: "形容詞", cat: "adjective", exEn: "The climb was arduous but rewarding.", exJa: "登山は大変だったが、やりがいがあった。" },
+    { en: "ephemeral", ph: "/ɪˈfɛmərəl/", ja: "はかない・短命の", pos: "形容詞", cat: "adjective", exEn: "Beauty is often ephemeral.", exJa: "美しさはしばしばはかないものだ。" },
+    { en: "benevolent", ph: "/bɪˈnɛvələnt/", ja: "慈悲深い・善意の", pos: "形容詞", cat: "adjective", exEn: "A benevolent king ruled the land.", exJa: "慈悲深い王が国を治めた。" },
+    { en: "meticulous", ph: "/mɪˈtɪkjʊləs/", ja: "几帳面な・丁寧な", pos: "形容詞", cat: "adjective", exEn: "She is meticulous about details.", exJa: "彼女は細部にこだわる。" },
+    { en: "ambiguous", ph: "/æmˈbɪɡjuəs/", ja: "曖昧な・不明確な", pos: "形容詞", cat: "adjective", exEn: "His answer was ambiguous.", exJa: "彼の答えは曖昧だった。" },
+    { en: "diligent", ph: "/ˈdɪlɪdʒənt/", ja: "勤勉な・まじめな", pos: "形容詞", cat: "adjective", exEn: "A diligent student studies every day.", exJa: "勤勉な学生は毎日勉強する。" },
+    { en: "resilient", ph: "/rɪˈzɪliənt/", ja: "回復力のある・柔軟な", pos: "形容詞", cat: "adjective", exEn: "Children are remarkably resilient.", exJa: "子どもたちは驚くほど回復力がある。" },
+    { en: "profound", ph: "/prəˈfaʊnd/", ja: "深い・深遠な", pos: "形容詞", cat: "adjective", exEn: "The book had a profound impact.", exJa: "その本は深い影響を与えた。" },
+    { en: "eloquence", ph: "/ˈɛləkwəns/", ja: "雄弁・弁舌の巧みさ", pos: "名詞", cat: "noun", exEn: "Her eloquence won the debate.", exJa: "彼女の雄弁さが討論を制した。" },
+    { en: "alleviate", ph: "/əˈliːvieɪt/", ja: "軽減する・和らげる", pos: "動詞", cat: "verb", exEn: "This medicine will alleviate the pain.", exJa: "この薬で痛みが和らぐでしょう。" },
+    { en: "scrutinize", ph: "/ˈskruːtɪnaɪz/", ja: "精査する・詳しく調べる", pos: "動詞", cat: "verb", exEn: "She scrutinized every document.", exJa: "彼女はすべての書類を精査した。" },
+    { en: "contemplate", ph: "/ˈkɒntəmpleɪt/", ja: "熟考する・瞑想する", pos: "動詞", cat: "verb", exEn: "He contemplated his next move.", exJa: "彼は次の手を熟考した。" },
+    { en: "indulge", ph: "/ɪnˈdʌldʒ/", ja: "ふける・甘やかす", pos: "動詞", cat: "verb", exEn: "Don't indulge in bad habits.", exJa: "悪習慣にふけってはいけない。" },
+    { en: "pragmatic", ph: "/præɡˈmætɪk/", ja: "実用的な・現実的な", pos: "形容詞", cat: "adjective", exEn: "We need a pragmatic solution.", exJa: "現実的な解決策が必要だ。" },
+    { en: "obscure", ph: "/əbˈskjʊər/", ja: "不明瞭な・無名の", pos: "形容詞", cat: "adjective", exEn: "It's an obscure reference.", exJa: "それは分かりにくい表現だ。" },
+    { en: "vivid", ph: "/ˈvɪvɪd/", ja: "鮮明な・生き生きとした", pos: "形容詞", cat: "adjective", exEn: "She has vivid memories of childhood.", exJa: "幼少期の記憶が鮮明に残っている。" },
+    { en: "persevere", ph: "/ˌpɜːsɪˈvɪər/", ja: "粘り強く続ける", pos: "動詞", cat: "verb", exEn: "You must persevere through hardship.", exJa: "苦難を乗り越えて頑張り続けなければならない。" },
+    { en: "subtle", ph: "/ˈsʌtl/", ja: "微妙な・繊細な", pos: "形容詞", cat: "adjective", exEn: "There's a subtle difference.", exJa: "微妙な違いがある。" },
+    { en: "flourish", ph: "/ˈflʌrɪʃ/", ja: "繁栄する・栄える", pos: "動詞", cat: "verb", exEn: "The business began to flourish.", exJa: "ビジネスが繁栄し始めた。" },
+    { en: "virtue", ph: "/ˈvɜːtʃuː/", ja: "美徳・徳", pos: "名詞", cat: "noun", exEn: "Patience is a virtue.", exJa: "忍耐は美徳だ。" },
+    { en: "austere", ph: "/ɒˈstɪər/", ja: "簡素な・厳格な", pos: "形容詞", cat: "adjective", exEn: "He led an austere lifestyle.", exJa: "彼は質素な生活を送っていた。" },
+    { en: "inquisitive", ph: "/ɪnˈkwɪzɪtɪv/", ja: "探究心旺盛な・好奇心が強い", pos: "形容詞", cat: "adjective", exEn: "She was an inquisitive child.", exJa: "彼女は好奇心旺盛な子どもだった。" },
+    { en: "daunting", ph: "/ˈdɔːntɪŋ/", ja: "気の滅入る・おじけさせる", pos: "形容詞", cat: "adjective", exEn: "The task seemed daunting at first.", exJa: "その課題は最初は怖気づくように思えた。" },
+    { en: "concise", ph: "/kənˈsaɪs/", ja: "簡潔な・簡明な", pos: "形容詞", cat: "adjective", exEn: "Please keep your answer concise.", exJa: "答えは簡潔にしてください。" },
+    { en: "skeptical", ph: "/ˈskɛptɪkl/", ja: "懐疑的な", pos: "形容詞", cat: "adjective", exEn: "I'm skeptical about this claim.", exJa: "この主張には懐疑的だ。" },
+    { en: "tenacious", ph: "/tɪˈneɪʃəs/", ja: "粘り強い・頑固な", pos: "形容詞", cat: "adjective", exEn: "She is a tenacious negotiator.", exJa: "彼女は粘り強い交渉者だ。" },
+    { en: "delegate", ph: "/ˈdɛlɪɡeɪt/", ja: "委任する・代表者", pos: "動詞/名詞", cat: "verb", exEn: "He learned to delegate tasks.", exJa: "彼はタスクを委任することを学んだ。" },
+    { en: "credible", ph: "/ˈkrɛdɪbl/", ja: "信頼できる・信憑性のある", pos: "形容詞", cat: "adjective", exEn: "We need a credible witness.", exJa: "信頼できる目撃者が必要だ。" },
+    { en: "coincide", ph: "/ˌkəʊɪnˈsaɪd/", ja: "一致する・同時に起こる", pos: "動詞", cat: "verb", exEn: "Our opinions coincide.", exJa: "私たちの意見は一致する。" },
+    { en: "inevitable", ph: "/ɪnˈɛvɪtəbl/", ja: "避けられない・必然的な", pos: "形容詞", cat: "adjective", exEn: "Change is inevitable.", exJa: "変化は避けられない。" },
+    { en: "transparent", ph: "/trænsˈpærənt/", ja: "透明な・明瞭な", pos: "形容詞", cat: "adjective", exEn: "The process should be transparent.", exJa: "プロセスは透明であるべきだ。" },
+    { en: "paramount", ph: "/ˈpærəmaʊnt/", ja: "最重要の・最高の", pos: "形容詞", cat: "adjective", exEn: "Safety is of paramount importance.", exJa: "安全が最重要だ。" },
+    { en: "collaborate", ph: "/kəˈlæbəreɪt/", ja: "協力する・共同作業する", pos: "動詞", cat: "verb", exEn: "Let's collaborate on this project.", exJa: "このプロジェクトで協力しよう。" },
+    { en: "ambivalent", ph: "/æmˈbɪvələnt/", ja: "相反する感情を持つ", pos: "形容詞", cat: "adjective", exEn: "She felt ambivalent about leaving.", exJa: "彼女は去ることへの相反する感情を持った。" },
+    { en: "diminish", ph: "/dɪˈmɪnɪʃ/", ja: "減少する・弱まる", pos: "動詞", cat: "verb", exEn: "His enthusiasm began to diminish.", exJa: "彼の熱意が弱まり始めた。" },
+    { en: "eloquently", ph: "/ˈɛləkwəntli/", ja: "雄弁に・滑らかに", pos: "副詞", cat: "adverb", exEn: "She spoke eloquently on the topic.", exJa: "彼女はそのテーマについて雄弁に語った。" },
+    { en: "tranquil", ph: "/ˈtræŋkwɪl/", ja: "穏やかな・静かな", pos: "形容詞", cat: "adjective", exEn: "The lake was tranquil at dawn.", exJa: "夜明けの湖は穏やかだった。" },
+    { en: "initiative", ph: "/ɪˈnɪʃɪətɪv/", ja: "主導権・イニシアチブ", pos: "名詞", cat: "noun", exEn: "Take the initiative in this project.", exJa: "このプロジェクトで主導権を取れ。" },
+    { en: "obsolete", ph: "/ˈɒbsəliːt/", ja: "時代遅れの・廃れた", pos: "形容詞", cat: "adjective", exEn: "This technology is now obsolete.", exJa: "この技術は今や時代遅れだ。" },
+    { en: "advocate", ph: "/ˈædvəkɪt/", ja: "主唱者・提唱する", pos: "名詞/動詞", cat: "noun", exEn: "She's an advocate for change.", exJa: "彼女は変革の提唱者だ。" },
+    { en: "compassion", ph: "/kəmˈpæʃən/", ja: "思いやり・共感", pos: "名詞", cat: "noun", exEn: "Show compassion to those in need.", exJa: "困っている人に思いやりを示そう。" },
+    { en: "intricate", ph: "/ˈɪntrɪkɪt/", ja: "複雑な・入り組んだ", pos: "形容詞", cat: "adjective", exEn: "The design was intricate.", exJa: "デザインは複雑だった。" },
+    { en: "spontaneous", ph: "/spɒnˈteɪniəs/", ja: "自発的な・突発的な", pos: "形容詞", cat: "adjective", exEn: "It was a spontaneous decision.", exJa: "それは自発的な決断だった。" },
+    { en: "coherent", ph: "/kəʊˈhɪərənt/", ja: "筋の通った・一貫した", pos: "形容詞", cat: "adjective", exEn: "Give a coherent explanation.", exJa: "筋の通った説明をしてください。" },
+    { en: "leverage", ph: "/ˈliːvərɪdʒ/", ja: "てこの力・活用する", pos: "名詞/動詞", cat: "noun", exEn: "Leverage your strengths.", exJa: "自分の強みを活用しろ。" },
+    { en: "fluctuate", ph: "/ˈflʌktʃueɪt/", ja: "変動する・揺れ動く", pos: "動詞", cat: "verb", exEn: "Prices fluctuate constantly.", exJa: "価格は常に変動する。" },
+    { en: "eloquence", ph: "/ˈɛləkwəns/", ja: "雄弁・流暢さ", pos: "名詞", cat: "noun", exEn: "Her eloquence was remarkable.", exJa: "彼女の雄弁さは際立っていた。" },
+    { en: "perseverance", ph: "/ˌpɜːsɪˈvɪərəns/", ja: "忍耐力・根気", pos: "名詞", cat: "noun", exEn: "Success requires perseverance.", exJa: "成功には忍耐力が必要だ。" },
+  ],
+  toeic: [
+    { en: "comply", ph: "/kəmˈplaɪ/", ja: "従う・応じる", pos: "動詞", cat: "verb", exEn: "Please comply with the rules.", exJa: "規則に従ってください。" },
+    { en: "invoice", ph: "/ˈɪnvɔɪs/", ja: "請求書・送り状", pos: "名詞", cat: "noun", exEn: "Send the invoice by Friday.", exJa: "金曜日までに請求書を送ってください。" },
+    { en: "quarterly", ph: "/ˈkwɔːtərli/", ja: "四半期の・年4回の", pos: "形容詞", cat: "adjective", exEn: "The quarterly report is due.", exJa: "四半期報告書が提出期限だ。" },
+    { en: "accommodate", ph: "/əˈkɒmədeɪt/", ja: "収容する・対応する", pos: "動詞", cat: "verb", exEn: "We can accommodate 200 guests.", exJa: "200名を収容できます。" },
+    { en: "negotiate", ph: "/nɪˈɡəʊʃieɪt/", ja: "交渉する・折衝する", pos: "動詞", cat: "verb", exEn: "We need to negotiate the contract.", exJa: "契約について交渉する必要がある。" },
+    { en: "expenditure", ph: "/ɪkˈspɛndɪtʃə/", ja: "支出・経費", pos: "名詞", cat: "noun", exEn: "Reduce unnecessary expenditure.", exJa: "不要な支出を減らせ。" },
+    { en: "reimbursement", ph: "/ˌriːɪmˈbɜːsmənt/", ja: "払い戻し・返金", pos: "名詞", cat: "noun", exEn: "Submit receipts for reimbursement.", exJa: "払い戻しのためにレシートを提出してください。" },
+    { en: "implement", ph: "/ˈɪmplɪmɛnt/", ja: "実施する・導入する", pos: "動詞", cat: "verb", exEn: "We'll implement the new policy.", exJa: "新しい方針を実施します。" },
+    { en: "substantial", ph: "/səbˈstænʃəl/", ja: "実質的な・かなりの", pos: "形容詞", cat: "adjective", exEn: "A substantial improvement was made.", exJa: "かなりの改善がなされた。" },
+    { en: "tentative", ph: "/ˈtɛntətɪv/", ja: "暫定的な・仮の", pos: "形容詞", cat: "adjective", exEn: "This is a tentative schedule.", exJa: "これは暫定的なスケジュールです。" },
+  ],
+  academic: [
+    { en: "hypothesis", ph: "/haɪˈpɒθɪsɪs/", ja: "仮説", pos: "名詞", cat: "noun", exEn: "We tested the hypothesis.", exJa: "仮説を検証した。" },
+    { en: "empirical", ph: "/ɪmˈpɪrɪkl/", ja: "経験的な・実証的な", pos: "形容詞", cat: "adjective", exEn: "Empirical evidence is needed.", exJa: "実証的な証拠が必要だ。" },
+    { en: "methodology", ph: "/ˌmɛθəˈdɒlədʒi/", ja: "方法論", pos: "名詞", cat: "noun", exEn: "Describe your methodology.", exJa: "方法論を説明しなさい。" },
+    { en: "paradigm", ph: "/ˈpærədaɪm/", ja: "パラダイム・模範", pos: "名詞", cat: "noun", exEn: "A paradigm shift occurred.", exJa: "パラダイムシフトが起きた。" },
+    { en: "synthesize", ph: "/ˈsɪnθɪsaɪz/", ja: "統合する・合成する", pos: "動詞", cat: "verb", exEn: "Synthesize the research findings.", exJa: "研究結果を統合する。" },
+    { en: "discourse", ph: "/ˈdɪskɔːs/", ja: "談話・論説", pos: "名詞", cat: "noun", exEn: "Academic discourse is rigorous.", exJa: "学術的な論説は厳格だ。" },
+    { en: "inherent", ph: "/ɪnˈhɪərənt/", ja: "固有の・本質的な", pos: "形容詞", cat: "adjective", exEn: "There are inherent risks.", exJa: "固有のリスクがある。" },
+    { en: "postulate", ph: "/ˈpɒstʃʊleɪt/", ja: "仮定する・公準", pos: "動詞/名詞", cat: "verb", exEn: "She postulated a new theory.", exJa: "彼女は新しい理論を仮定した。" },
+    { en: "phenomena", ph: "/fɪˈnɒmɪnə/", ja: "現象（複数形）", pos: "名詞", cat: "noun", exEn: "Natural phenomena fascinate scientists.", exJa: "自然現象は科学者を魅了する。" },
+    { en: "plausible", ph: "/ˈplɔːzɪbl/", ja: "もっともらしい・妥当な", pos: "形容詞", cat: "adjective", exEn: "That's a plausible explanation.", exJa: "それはもっともらしい説明だ。" },
+  ]
 };
 
-// タイトル画面ボタン
-document.getElementById("btn-play").onclick = startSequence;
+let currentDeck = 'basic';
+let cards = [];
+let currentIndex = 0;
+let scoreKnow = 0;
+let scoreUnknown = 0;
+let isFlipped = false;
+let currentMode = 'flash';
+let unknownCards = [];
 
-document.getElementById("btn-about").onclick = () => {
-    document.getElementById("modal-overlay").style.display = "flex";
-    isPaused = true;
-};
+function initDeck() {
+  cards = [...DECKS[currentDeck]];
+  if (currentMode === 'review') {
+    const stored = JSON.parse(localStorage.getItem('unknown_' + currentDeck) || '[]');
+    cards = stored.length ? stored : cards;
+  }
+  // Shuffle
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  currentIndex = 0;
+  scoreKnow = 0;
+  scoreUnknown = 0;
+  unknownCards = [];
+  isFlipped = false;
+  updateUI();
+  showCard(true);
+  document.getElementById('complete-screen').classList.remove('visible');
+  document.getElementById('card-scene').classList.remove('hidden');
+  document.getElementById('action-row').classList.remove('hidden');
+}
 
-// ゲーム画面ボタン
-document.getElementById("btn-howto").onclick = () => {
-    document.getElementById("modal-overlay").style.display = "flex";
-    isPaused = true;
-};
+function speak(text) {
+  if (!speechSynthesisEnabled) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.85;
+  utter.pitch = 1;
+  // Prefer a natural English voice
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.lang === 'en-US' && v.localService) || voices.find(v => v.lang.startsWith('en'));
+  if (preferred) utter.voice = preferred;
+  window.speechSynthesis.speak(utter);
+}
 
-document.getElementById("modal-overlay").onclick = () => {
-    document.getElementById("modal-overlay").style.display = "none";
-    isPaused = false;
-};
+function showCard(animate) {
+  if (currentIndex >= cards.length) {
+    showComplete();
+    return;
+  }
+  const c = cards[currentIndex];
+  document.getElementById('card-num').textContent = `${currentIndex + 1} / ${cards.length}`;
+  document.getElementById('card-num-b').textContent = `${currentIndex + 1} / ${cards.length}`;
+  document.getElementById('card-cat').textContent = c.cat;
+  document.getElementById('word-en').textContent = c.en;
+  document.getElementById('word-ph').textContent = c.ph;
+  document.getElementById('word-ja').textContent = c.ja;
+  document.getElementById('word-pos').textContent = `${c.cat} — ${c.pos}`;
+  document.getElementById('ex-en').textContent = `"${c.exEn}"`;
+  document.getElementById('ex-ja').textContent = `「${c.exJa}」`;
 
-document.getElementById("btn-reset").onclick = resetGame;
+  // Reset flip
+  isFlipped = false;
+  document.getElementById('card-inner').classList.remove('flipped');
 
-document.getElementById("btn-title").onclick = () => {
-    const wrapper = document.getElementById("wrapper");
-    const titleScreen = document.getElementById("title-screen");
-    const clearMsg = document.getElementById("clear-msg");
-    const clearBtns = document.getElementById("clear-btns");
-    
-    // ボタンを消す
-    clearBtns.style.opacity = "0";
-    
-    // クリアメッセージをフェードアウト
-    setTimeout(() => {
-        clearMsg.style.transition = "opacity 0.5s ease";
-        clearMsg.style.opacity = "0";
-        
-        // クリアメッセージのフェードアウト完了後、0.2秒待つ
-        setTimeout(() => {
-            clearMsg.style.display = "none";
-            clearMsg.style.opacity = "1";
-            clearMsg.style.transition = "";
-            
-            // ゲーム画面をフェードアウト
-            wrapper.style.transition = "opacity 1.5s ease";
-            wrapper.style.opacity = "0";
-            
-            // フェードアウトが完全に終わるまで待つ
-            setTimeout(() => {
-                wrapper.style.display = "none";
-                
-                // タイトル画面を表示準備
-                titleScreen.style.display = "flex";
-                titleScreen.style.opacity = "0";
-                titleScreen.style.transition = "opacity 1.5s ease";
-                
-                // 少し待ってからフェードイン開始
-                setTimeout(() => {
-                    titleScreen.style.opacity = "1";
-                    
-                    // フェードインが完了してからリセット
-                    setTimeout(() => {
-                        resetGame();
-                        // セルを非表示に戻す
-                        document.querySelectorAll(".cell").forEach(cell => {
-                            cell.classList.remove("show");
-                        });
-                        playerEl.classList.remove("initialized");
-                        // transitionを元に戻す
-                        titleScreen.style.transition = "opacity 0.5s ease";
-                        wrapper.style.transition = "opacity 0.8s ease";
-                    }, 1600);
-                }, 100);
-            }, 1600);
-        }, 700); // 0.5秒フェード + 0.2秒待機
-    }, 100);
-};
+  // 発音（少し遅延してカードアニメと合わせる）
+  setTimeout(() => speak(c.en), 200);
 
-// キーボード操作
-document.onkeydown = (e) => {
-    // タイトル画面でスペースキーを押してゲーム開始
-    if (e.key === " " && document.getElementById("title-screen").style.display !== "none") {
-        e.preventDefault();
-        startSequence();
-        return;
-    }
-    
-    // 矢印キーでの移動
-    if (e.key === "ArrowUp") {
-        move(0, -1);
-    } else if (e.key === "ArrowDown") {
-        move(0, 1);
-    } else if (e.key === "ArrowLeft") {
-        move(-1, 0);
-    } else if (e.key === "ArrowRight") {
-        move(1, 0);
-    }
-    // スペースキー or Rキーでリセット（ゲーム画面、クリア演出中は無効）
-    else if (e.key === " " || e.key === "r" || e.key === "R") {
-        e.preventDefault(); // スペースキーのスクロールを防止
-        if (document.getElementById("wrapper").style.display === "flex" && !isCleared) {
-            resetGame();
-        }
-    }
-    // Aキーで操作方法
-    else if (e.key === "a" || e.key === "A") {
-        if (document.getElementById("wrapper").style.display === "flex" && !isCleared) {
-            document.getElementById("modal-overlay").style.display = "flex";
-            isPaused = true;
-        }
-    }
-    // Zキーで About（タイトル画面のみ）
-    else if (e.key === "z" || e.key === "Z") {
-        if (document.getElementById("title-screen").style.display !== "none") {
-            document.getElementById("modal-overlay").style.display = "flex";
-            isPaused = true;
-        }
-    }
-    // Escキーでモーダルを閉じる
-    else if (e.key === "Escape") {
-        document.getElementById("modal-overlay").style.display = "none";
-        isPaused = false;
-    }
-};
+  if (animate) {
+    const scene = document.getElementById('card-scene');
+    scene.classList.remove('animating');
+    void scene.offsetWidth;
+    scene.classList.add('animating');
+  }
 
-// タッチ操作
-let touchStartX = 0;
-let touchStartY = 0;
+  // Speak after brief delay (wait for card animation)
+  setTimeout(() => speak(c.en), 200);
+}
 
-document.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-}, { passive: false });
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('card-inner').classList.toggle('flipped', isFlipped);
+}
 
-document.addEventListener('touchend', (e) => {
-    if (isCleared || isPaused) {
-        return;
-    }
-    
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    
-    if (Math.abs(dx) > Math.abs(dy)) {
-        if (Math.abs(dx) > 30) {
-            move(dx > 0 ? 1 : -1, 0);
-        }
-    } else {
-        if (Math.abs(dy) > 30) {
-            move(0, dy > 0 ? 1 : -1);
-        }
-    }
-}, { passive: false });
+function grade(known) {
+  if (!isFlipped) { flipCard(); return; }
+  if (known) {
+    scoreKnow++;
+  } else {
+    scoreUnknown++;
+    unknownCards.push(cards[currentIndex]);
+  }
+  currentIndex++;
+  updateUI();
+  showCard(true);
+}
 
-// リサイズ対応
-window.addEventListener('resize', updatePlayerPos);
+function nextCard() {
+  currentIndex++;
+  updateUI();
+  showCard(true);
+}
 
-// 初期化実行
-init();
+function updateUI() {
+  const total = cards.length;
+  const done = currentIndex;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('progress-label').textContent = `${done} / ${total}`;
+  document.getElementById('progress-pct').textContent = `${pct}%`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('score-know').textContent = scoreKnow;
+  document.getElementById('score-unknown').textContent = scoreUnknown;
+}
+
+function showComplete() {
+  document.getElementById('complete-screen').classList.add('visible');
+  document.getElementById('card-scene').classList.add('hidden');
+  document.getElementById('action-row').classList.add('hidden');
+  document.getElementById('final-know').textContent = scoreKnow;
+  document.getElementById('final-unknown').textContent = scoreUnknown;
+  // Save unknowns
+  localStorage.setItem('unknown_' + currentDeck, JSON.stringify(unknownCards));
+}
+
+function restart() {
+  initDeck();
+}
+
+function changeDeck(val) {
+  currentDeck = val;
+  initDeck();
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && mode === 'flash') || (i === 1 && mode === 'review'));
+  });
+  initDeck();
+}
+
+// 発音
+function speak(word) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = 'en-US';
+  utter.rate = 0.85;
+  utter.pitch = 1;
+  // 英語音声を優先
+  const voices = window.speechSynthesis.getVoices();
+  const enVoice = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+  if (enVoice) utter.voice = enVoice;
+  window.speechSynthesis.speak(utter);
+}
+
+// voicesは非同期で読み込まれる場合がある
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+
+// スワイプ操作（モバイル）
+let touchStartX = 0, touchStartY = 0;
+const scene = document.getElementById('card-scene');
+scene.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+scene.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) < 10 && Math.abs(dy) < 10) { flipCard(); return; }
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+    grade(dx > 0);
+  }
+}, { passive: true });
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+  if (e.key === 'ArrowRight') grade(true);
+  if (e.key === 'ArrowLeft') grade(false);
+});
+
+initDeck();
 </script>
-
 </body>
 </html>
