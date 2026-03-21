@@ -60,6 +60,13 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
   transition:transform 0.15s ease;
 }
 .card:active{transform:scale(0.99)}
+.card.swipe-left{background:#2a1410;box-shadow:0 18px 48px rgba(0,0,0,0.55),-4px 0 24px rgba(201,100,80,0.25),0 0 0 1px rgba(201,100,80,0.2);transform:rotate(-3deg) translateX(-8px);transition:transform 0.1s ease,background 0.1s,box-shadow 0.1s}
+.card.swipe-right{background:#10221a;box-shadow:0 18px 48px rgba(0,0,0,0.55),4px 0 24px rgba(122,170,122,0.25),0 0 0 1px rgba(122,170,122,0.2);transform:rotate(3deg) translateX(8px);transition:transform 0.1s ease,background 0.1s,box-shadow 0.1s}
+.swipe-label{position:absolute;top:18px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;opacity:0;transition:opacity 0.1s;pointer-events:none;padding:4px 11px;border-radius:2px}
+.swipe-label-left{left:16px;color:var(--red);border:1px solid rgba(201,100,80,0.4);background:rgba(201,100,80,0.1)}
+.swipe-label-right{right:16px;color:var(--sage);border:1px solid rgba(122,170,122,0.4);background:rgba(122,170,122,0.1)}
+.card.swipe-left .swipe-label-left{opacity:1}
+.card.swipe-right .swipe-label-right{opacity:1}
 
 /* corners */
 .card::before,.card::after{content:'';position:absolute;width:22px;height:22px}
@@ -221,6 +228,8 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 <main>
   <div class="card-wrap" id="card-wrap">
     <div class="card" id="card">
+      <div class="swipe-label swipe-label-left">✕ 要復習</div>
+      <div class="swipe-label swipe-label-right">○ 正解</div>
       <div class="master-badge" id="master-badge">★ 習得済み</div>
       <div class="card-number" id="card-num">1 / 50</div>
       <div class="card-content" id="card-content"></div>
@@ -575,11 +584,21 @@ cardEl.addEventListener('touchstart',e=>{
 },{passive:true});
 
 cardEl.addEventListener('touchmove',e=>{
-  if(Math.abs(e.touches[0].clientX-txStart)>7||Math.abs(e.touches[0].clientY-tyStart)>7) tMoved=true;
+  const dx=e.touches[0].clientX-txStart;
+  const dy=e.touches[0].clientY-tyStart;
+  if(Math.abs(dx)>7||Math.abs(dy)>7) tMoved=true;
+  // swipe direction feedback
+  if(Math.abs(dx)>20&&Math.abs(dx)>Math.abs(dy)){
+    cardEl.classList.toggle('swipe-left', dx<0);
+    cardEl.classList.toggle('swipe-right', dx>0);
+  } else {
+    cardEl.classList.remove('swipe-left','swipe-right');
+  }
 },{passive:true});
 
 cardEl.addEventListener('touchend',e=>{
   tHandled=true;
+  cardEl.classList.remove('swipe-left','swipe-right');
   const dx=e.changedTouches[0].clientX-txStart;
   const dy=e.changedTouches[0].clientY-tyStart;
   if(e.target.closest('#speak-btn')) return;
