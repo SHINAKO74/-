@@ -6,30 +6,20 @@
 <title>LEXICON — 英単語学習</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0e0d0b; --card:#1a1814;
-  --gold:#c9a84c; --gold-dim:#7a6230;
-  --cream:#f5f0e8; --sage:#7aaa7a;
-  --red:#c96450; --muted:#5a5650; --text-dark:#1a1610;
-}
+:root{--bg:#0e0d0b;--card:#1a1814;--gold:#c9a84c;--gold-dim:#7a6230;--cream:#f5f0e8;--sage:#7aaa7a;--red:#c96450;--muted:#5a5650;--text-dark:#1a1610}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
-
-/* HEADER */
 header{width:100%;padding:16px 22px 13px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(201,168,76,0.15);position:relative;z-index:10;flex-wrap:wrap}
 .logo{font-family:'IM Fell English SC',serif;font-size:20px;letter-spacing:0.2em;color:var(--gold)}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.deck-select{background:transparent;border:1px solid var(--gold-dim);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 26px 6px 10px;border-radius:2px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c9a84c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
-.deck-select option{background:#1a1814}
+
 .mode-tabs{display:flex;border:1px solid rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
 .mode-tab{background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 13px;cursor:pointer;transition:all 0.15s;border-right:1px solid rgba(255,255,255,0.07)}
 .mode-tab:last-child{border-right:none}
 .mode-tab.active{background:rgba(201,168,76,0.12);color:var(--gold)}
 .history-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.1em;padding:7px 12px;border-radius:2px;cursor:pointer;transition:all 0.15s}
 .history-btn:hover{color:var(--cream);border-color:rgba(255,255,255,0.25)}
-
-/* PROGRESS */
 .progress-section{width:100%;max-width:680px;padding:16px 22px 0;position:relative;z-index:1}
 .progress-meta{display:flex;justify-content:space-between;font-size:11px;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
 .progress-track{height:2px;background:rgba(255,255,255,0.06);border-radius:1px;position:relative}
@@ -41,74 +31,39 @@ header{width:100%;padding:16px 22px 13px;display:flex;align-items:center;gap:10p
 .pill-know{background:rgba(122,170,122,0.12);color:var(--sage);border:1px solid rgba(122,170,122,0.2)}
 .pill-unknown{background:rgba(201,100,80,0.1);color:var(--red);border:1px solid rgba(201,100,80,0.2)}
 .pill-master{background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2)}
-
-/* MAIN */
 main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px 18px;width:100%;position:relative;z-index:1}
-
-/* CARD */
 .card-wrap{width:560px;max-width:100%;margin-bottom:26px;position:relative;touch-action:pan-y;user-select:none;-webkit-user-select:none}
-
-.card{
-  width:100%;min-height:300px;
-  background:var(--card);
-  border-radius:5px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:36px 40px;
-  box-shadow:0 18px 48px rgba(0,0,0,0.55),0 0 0 1px rgba(255,255,255,0.04);
-  position:relative;
-  cursor:pointer;
-  transition:transform 0.15s ease;
-}
-.card:active{transform:scale(0.99)}
-.card.swipe-left{background:#2a1410;box-shadow:0 18px 48px rgba(0,0,0,0.55),-4px 0 24px rgba(201,100,80,0.25),0 0 0 1px rgba(201,100,80,0.2);transform:rotate(-3deg) translateX(-8px);transition:transform 0.1s ease,background 0.1s,box-shadow 0.1s}
-.card.swipe-right{background:#10221a;box-shadow:0 18px 48px rgba(0,0,0,0.55),4px 0 24px rgba(122,170,122,0.25),0 0 0 1px rgba(122,170,122,0.2);transform:rotate(3deg) translateX(8px);transition:transform 0.1s ease,background 0.1s,box-shadow 0.1s}
+.card{width:100%;min-height:300px;background:var(--card);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 40px;box-shadow:0 18px 48px rgba(0,0,0,0.55),0 0 0 1px rgba(255,255,255,0.04);position:relative;cursor:pointer;transition:background 0.1s,box-shadow 0.1s,transform 0.1s}
+.card::before,.card::after{content:'';position:absolute;width:22px;height:22px}
+.card::before{top:13px;left:13px;border-top:1.5px solid var(--gold-dim);border-left:1.5px solid var(--gold-dim)}
+.card::after{bottom:13px;right:13px;border-bottom:1.5px solid var(--gold-dim);border-right:1.5px solid var(--gold-dim)}
+.card.swipe-left{background:#2a1410;box-shadow:0 18px 48px rgba(0,0,0,0.55),-4px 0 24px rgba(201,100,80,0.25),0 0 0 1px rgba(201,100,80,0.2);transform:rotate(-3deg) translateX(-8px)}
+.card.swipe-right{background:#10221a;box-shadow:0 18px 48px rgba(0,0,0,0.55),4px 0 24px rgba(122,170,122,0.25),0 0 0 1px rgba(122,170,122,0.2);transform:rotate(3deg) translateX(8px)}
 .swipe-label{position:absolute;top:18px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;opacity:0;transition:opacity 0.1s;pointer-events:none;padding:4px 11px;border-radius:2px}
 .swipe-label-left{left:16px;color:var(--red);border:1px solid rgba(201,100,80,0.4);background:rgba(201,100,80,0.1)}
 .swipe-label-right{right:16px;color:var(--sage);border:1px solid rgba(122,170,122,0.4);background:rgba(122,170,122,0.1)}
 .card.swipe-left .swipe-label-left{opacity:1}
 .card.swipe-right .swipe-label-right{opacity:1}
-
-/* corners */
-.card::before,.card::after{content:'';position:absolute;width:22px;height:22px}
-.card::before{top:13px;left:13px;border-top:1.5px solid var(--gold-dim);border-left:1.5px solid var(--gold-dim)}
-.card::after{bottom:13px;right:13px;border-bottom:1.5px solid var(--gold-dim);border-right:1.5px solid var(--gold-dim)}
-
 .card-number{position:absolute;top:13px;right:17px;font-size:10px;letter-spacing:0.2em;opacity:0.3}
 .master-badge{position:absolute;top:13px;left:15px;font-size:10px;letter-spacing:0.15em;color:var(--gold);opacity:0;transition:opacity 0.3s;text-transform:uppercase}
 .master-badge.show{opacity:0.7}
-
-/* state indicator dots */
 .state-dots{display:flex;gap:6px;position:absolute;bottom:14px;left:50%;transform:translateX(-50%)}
 .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.15);transition:background 0.2s}
 .dot.active{background:var(--gold)}
-
-/* card content layers */
-.card-content{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center}
-
-/* state 0: english */
+.card-content{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;animation:fadeSlideIn 0.22s ease}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .s-cat{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;opacity:0.38;margin-bottom:14px}
 .s-word{font-family:'Playfair Display',serif;font-size:50px;font-weight:700;line-height:1;color:var(--cream);margin-bottom:10px}
 .s-ph{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;opacity:0.35;margin-bottom:10px}
 .speak-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:13px;cursor:pointer;color:var(--cream);opacity:0.3;transition:opacity 0.15s}
 .speak-btn:hover{opacity:0.65}
-
-/* state 1: meaning */
+.hint-text{position:absolute;bottom:15px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.18}
 .s-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--sage);opacity:0.6;margin-bottom:12px}
 .s-ja{font-size:36px;font-weight:300;color:var(--cream);margin-bottom:6px;line-height:1.2}
 .s-pos{font-size:11px;color:var(--sage);opacity:0.65;font-style:italic}
-
-/* state 2: example */
 .s-ex-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);opacity:0.55;margin-bottom:16px}
 .s-ex-en{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:var(--cream);opacity:0.8;line-height:1.65;margin-bottom:12px}
 .s-ex-ja{font-size:13px;color:var(--cream);opacity:0.38;line-height:1.6}
-
-.hint-text{position:absolute;bottom:15px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.18}
-
-/* fade animation */
-@keyframes fadeSlideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.card-content{animation:fadeSlideIn 0.22s ease}
-
-/* ACTIONS */
 .action-row{display:flex;gap:12px}
 .btn{font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:14px 28px;border:none;border-radius:2px;cursor:pointer;transition:all 0.18s;font-weight:500}
 .btn-unknown{background:rgba(201,100,80,0.1);color:var(--red);border:1px solid rgba(201,100,80,0.3)}
@@ -116,13 +71,10 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .btn-know{background:rgba(122,170,122,0.12);color:var(--sage);border:1px solid rgba(122,170,122,0.3)}
 .btn-know:active{background:rgba(122,170,122,0.28)}
 .btn-skip{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.07);padding:14px 15px}
-
 .swipe-hints{display:none;justify-content:space-between;width:100%;margin-top:13px;font-size:11px;letter-spacing:0.07em;color:var(--muted);opacity:0.4;padding:0 4px}
 .key-hints{margin-top:16px;display:flex;gap:16px;opacity:0.27;font-size:11px;letter-spacing:0.08em}
 .key-hint{display:flex;align-items:center;gap:5px}
 .key{border:1px solid currentColor;border-radius:3px;padding:2px 6px;font-size:10px}
-
-/* COMPLETE */
 .complete-screen{display:none;flex-direction:column;align-items:center;text-align:center;animation:fadeIn 0.5s ease}
 .complete-screen.visible{display:flex}
 .card-wrap.hidden,.action-row.hidden{display:none}
@@ -136,8 +88,6 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .stat-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted)}
 .btn-restart{background:transparent;color:var(--gold);border:1px solid var(--gold-dim);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;padding:13px 36px;border-radius:2px;cursor:pointer;transition:all 0.18s}
 .btn-restart:hover{background:rgba(201,168,76,0.08);border-color:var(--gold)}
-
-/* HISTORY */
 .history-panel{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:flex-end}
 .history-panel.open{display:flex;animation:fadeIn 0.2s ease}
 .history-drawer{width:min(500px,100vw);height:100%;background:#131210;border-left:1px solid rgba(201,168,76,0.12);display:flex;flex-direction:column;animation:slideInR 0.25s cubic-bezier(0.4,0,0.2,1)}
@@ -166,32 +116,18 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .h-time{margin-left:auto;font-size:11px;opacity:0.32;white-space:nowrap}
 .history-empty{padding:56px 20px;text-align:center;color:var(--muted);font-size:13px;letter-spacing:0.1em}
 .history-count{padding:8px 20px 6px;font-size:11px;color:var(--muted);letter-spacing:0.08em;opacity:0.6}
-
-/* MOBILE */
 @media(max-width:580px){
-  header{padding:12px 13px;gap:7px}
-  .logo{font-size:17px}
-  .header-right{gap:6px}
-  .deck-select{font-size:11px}
-  .mode-tab{padding:6px 9px;font-size:10px}
-  .history-btn{font-size:10px;padding:6px 9px}
+  header{padding:12px 13px;gap:7px}.logo{font-size:17px}.header-right{gap:6px}
+  .deck-select{font-size:11px}.mode-tab{padding:6px 9px;font-size:10px}.history-btn{font-size:10px;padding:6px 9px}
   .progress-section{padding:12px 13px 0}
   main{padding:16px 12px 14px}
-  .card{min-height:260px;padding:28px 22px}
-  .s-word{font-size:36px}
-  .s-ja{font-size:28px}
-  .s-ex-en{font-size:15px}
-  .s-ex-ja{font-size:12px}
-  .action-row{width:100%;gap:8px}
-  .btn{flex:1;padding:15px 6px;font-size:11px;letter-spacing:0.06em}
-  .btn-skip{flex:0 0 auto;padding:15px 11px}
-  .key-hints{display:none}
-  .swipe-hints{display:flex}
+  .card{min-height:260px;padding:28px 22px}.s-word{font-size:36px}.s-ja{font-size:28px}.s-ex-en{font-size:15px}.s-ex-ja{font-size:12px}
+  .action-row{width:100%;gap:8px}.btn{flex:1;padding:15px 6px;font-size:11px;letter-spacing:0.06em}.btn-skip{flex:0 0 auto;padding:15px 11px}
+  .key-hints{display:none}.swipe-hints{display:flex}
 }
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">Lexicon</div>
   <div class="header-right">
@@ -199,39 +135,25 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
       <button class="mode-tab active" onclick="setMode('flash')">通常</button>
       <button class="mode-tab" onclick="setMode('review')">復習のみ</button>
     </div>
-    <select class="deck-select" onchange="changeDeck(this.value)">
-      <option value="basic">基本単語</option>
-      <option value="toeic">TOEIC頻出</option>
-      <option value="academic">学術語彙</option>
-    </select>
     <button class="history-btn" onclick="openHistory()">履歴</button>
   </div>
 </header>
-
 <div class="progress-section">
-  <div class="progress-meta">
-    <span id="progress-label">0 / 0</span>
-    <span id="progress-pct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progress-fill" style="width:0%">
-      <div class="progress-dot"></div>
-    </div>
-  </div>
+  <div class="progress-meta"><span id="progress-label">0 / 0</span><span id="progress-pct">0%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"><div class="progress-dot"></div></div></div>
   <div class="score-pills">
     <div class="pill pill-know"><div class="pill-dot"></div>正解: <span id="score-know">0</span></div>
     <div class="pill pill-unknown"><div class="pill-dot"></div>要復習: <span id="score-unknown">0</span></div>
     <div class="pill pill-master"><div class="pill-dot"></div>習得: <span id="score-master">0</span></div>
   </div>
 </div>
-
 <main>
   <div class="card-wrap" id="card-wrap">
     <div class="card" id="card">
       <div class="swipe-label swipe-label-left">✕ 要復習</div>
       <div class="swipe-label swipe-label-right">○ 正解</div>
       <div class="master-badge" id="master-badge">★ 習得済み</div>
-      <div class="card-number" id="card-num">1 / 50</div>
+      <div class="card-number" id="card-num">1 / 549</div>
       <div class="card-content" id="card-content"></div>
       <div class="state-dots" id="state-dots">
         <div class="dot active" id="dot0"></div>
@@ -240,22 +162,17 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
       </div>
     </div>
   </div>
-
   <div class="action-row" id="action-row">
     <button class="btn btn-unknown" onclick="grade(false)">✕ 要復習</button>
     <button class="btn btn-skip" onclick="nextCard()">→</button>
     <button class="btn btn-know" onclick="grade(true)">○ 正解</button>
   </div>
-
   <div class="key-hints">
     <div class="key-hint"><span class="key">Space</span>次へ</div>
     <div class="key-hint"><span class="key">←</span>要復習</div>
     <div class="key-hint"><span class="key">→</span>正解</div>
   </div>
-  <div class="swipe-hints">
-    <span>← 要復習</span><span>タップで次へ</span><span>正解 →</span>
-  </div>
-
+  <div class="swipe-hints"><span>← 要復習</span><span>タップで次へ</span><span>正解 →</span></div>
   <div class="complete-screen" id="complete-screen">
     <div class="complete-title">Complete</div>
     <div class="complete-sub">セッション終了</div>
@@ -267,7 +184,6 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
     <button class="btn-restart" onclick="restart()">もう一度</button>
   </div>
 </main>
-
 <div class="history-panel" id="history-panel" onclick="handlePanelBg(event)">
   <div class="history-drawer">
     <div class="history-header">
@@ -287,215 +203,657 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
     <div class="history-list" id="history-list"></div>
   </div>
 </div>
-
 <script>
-const DECKS = {
-  basic:[
-    {en:"serenity",ph:"/sɪˈrɛnɪti/",ja:"平静・静寂",pos:"名詞",cat:"noun",exEn:"She found serenity in the garden.",exJa:"彼女は庭の中に平静を見出した。"},
-    {en:"eloquent",ph:"/ˈɛləkwənt/",ja:"雄弁な・流暢な",pos:"形容詞",cat:"adjective",exEn:"He gave an eloquent speech.",exJa:"彼は雄弁なスピーチをした。"},
-    {en:"arduous",ph:"/ˈɑːdʒuəs/",ja:"困難な・骨の折れる",pos:"形容詞",cat:"adjective",exEn:"The climb was arduous but rewarding.",exJa:"登山は大変だったが、やりがいがあった。"},
-    {en:"ephemeral",ph:"/ɪˈfɛmərəl/",ja:"はかない・短命の",pos:"形容詞",cat:"adjective",exEn:"Beauty is often ephemeral.",exJa:"美しさはしばしばはかないものだ。"},
-    {en:"benevolent",ph:"/bɪˈnɛvələnt/",ja:"慈悲深い・善意の",pos:"形容詞",cat:"adjective",exEn:"A benevolent king ruled the land.",exJa:"慈悲深い王が国を治めた。"},
-    {en:"meticulous",ph:"/mɪˈtɪkjʊləs/",ja:"几帳面な・丁寧な",pos:"形容詞",cat:"adjective",exEn:"She is meticulous about details.",exJa:"彼女は細部にこだわる。"},
-    {en:"ambiguous",ph:"/æmˈbɪɡjuəs/",ja:"曖昧な・不明確な",pos:"形容詞",cat:"adjective",exEn:"His answer was ambiguous.",exJa:"彼の答えは曖昧だった。"},
-    {en:"diligent",ph:"/ˈdɪlɪdʒənt/",ja:"勤勉な・まじめな",pos:"形容詞",cat:"adjective",exEn:"A diligent student studies every day.",exJa:"勤勉な学生は毎日勉強する。"},
-    {en:"resilient",ph:"/rɪˈzɪliənt/",ja:"回復力のある・柔軟な",pos:"形容詞",cat:"adjective",exEn:"Children are remarkably resilient.",exJa:"子どもたちは驚くほど回復力がある。"},
-    {en:"profound",ph:"/prəˈfaʊnd/",ja:"深い・深遠な",pos:"形容詞",cat:"adjective",exEn:"The book had a profound impact.",exJa:"その本は深い影響を与えた。"},
-    {en:"alleviate",ph:"/əˈliːvieɪt/",ja:"軽減する・和らげる",pos:"動詞",cat:"verb",exEn:"This medicine will alleviate the pain.",exJa:"この薬で痛みが和らぐでしょう。"},
-    {en:"scrutinize",ph:"/ˈskruːtɪnaɪz/",ja:"精査する・詳しく調べる",pos:"動詞",cat:"verb",exEn:"She scrutinized every document.",exJa:"彼女はすべての書類を精査した。"},
-    {en:"contemplate",ph:"/ˈkɒntəmpleɪt/",ja:"熟考する・瞑想する",pos:"動詞",cat:"verb",exEn:"He contemplated his next move.",exJa:"彼は次の手を熟考した。"},
-    {en:"pragmatic",ph:"/præɡˈmætɪk/",ja:"実用的な・現実的な",pos:"形容詞",cat:"adjective",exEn:"We need a pragmatic solution.",exJa:"現実的な解決策が必要だ。"},
-    {en:"obscure",ph:"/əbˈskjʊər/",ja:"不明瞭な・無名の",pos:"形容詞",cat:"adjective",exEn:"It's an obscure reference.",exJa:"それは分かりにくい表現だ。"},
-    {en:"vivid",ph:"/ˈvɪvɪd/",ja:"鮮明な・生き生きとした",pos:"形容詞",cat:"adjective",exEn:"She has vivid memories of childhood.",exJa:"幼少期の記憶が鮮明に残っている。"},
-    {en:"persevere",ph:"/ˌpɜːsɪˈvɪər/",ja:"粘り強く続ける",pos:"動詞",cat:"verb",exEn:"You must persevere through hardship.",exJa:"苦難を乗り越えて頑張り続けなければならない。"},
-    {en:"subtle",ph:"/ˈsʌtl/",ja:"微妙な・繊細な",pos:"形容詞",cat:"adjective",exEn:"There's a subtle difference.",exJa:"微妙な違いがある。"},
-    {en:"flourish",ph:"/ˈflʌrɪʃ/",ja:"繁栄する・栄える",pos:"動詞",cat:"verb",exEn:"The business began to flourish.",exJa:"ビジネスが繁栄し始めた。"},
-    {en:"virtue",ph:"/ˈvɜːtʃuː/",ja:"美徳・徳",pos:"名詞",cat:"noun",exEn:"Patience is a virtue.",exJa:"忍耐は美徳だ。"},
-    {en:"austere",ph:"/ɒˈstɪər/",ja:"簡素な・厳格な",pos:"形容詞",cat:"adjective",exEn:"He led an austere lifestyle.",exJa:"彼は質素な生活を送っていた。"},
-    {en:"inquisitive",ph:"/ɪnˈkwɪzɪtɪv/",ja:"探究心旺盛な・好奇心が強い",pos:"形容詞",cat:"adjective",exEn:"She was an inquisitive child.",exJa:"彼女は好奇心旺盛な子どもだった。"},
-    {en:"daunting",ph:"/ˈdɔːntɪŋ/",ja:"気の滅入る・おじけさせる",pos:"形容詞",cat:"adjective",exEn:"The task seemed daunting at first.",exJa:"その課題は最初は怖気づくように思えた。"},
-    {en:"concise",ph:"/kənˈsaɪs/",ja:"簡潔な・簡明な",pos:"形容詞",cat:"adjective",exEn:"Please keep your answer concise.",exJa:"答えは簡潔にしてください。"},
-    {en:"skeptical",ph:"/ˈskɛptɪkl/",ja:"懐疑的な",pos:"形容詞",cat:"adjective",exEn:"I'm skeptical about this claim.",exJa:"この主張には懐疑的だ。"},
-    {en:"tenacious",ph:"/tɪˈneɪʃəs/",ja:"粘り強い・頑固な",pos:"形容詞",cat:"adjective",exEn:"She is a tenacious negotiator.",exJa:"彼女は粘り強い交渉者だ。"},
-    {en:"credible",ph:"/ˈkrɛdɪbl/",ja:"信頼できる・信憑性のある",pos:"形容詞",cat:"adjective",exEn:"We need a credible witness.",exJa:"信頼できる目撃者が必要だ。"},
-    {en:"inevitable",ph:"/ɪnˈɛvɪtəbl/",ja:"避けられない・必然的な",pos:"形容詞",cat:"adjective",exEn:"Change is inevitable.",exJa:"変化は避けられない。"},
-    {en:"transparent",ph:"/trænsˈpærənt/",ja:"透明な・明瞭な",pos:"形容詞",cat:"adjective",exEn:"The process should be transparent.",exJa:"プロセスは透明であるべきだ。"},
-    {en:"paramount",ph:"/ˈpærəmaʊnt/",ja:"最重要の・最高の",pos:"形容詞",cat:"adjective",exEn:"Safety is of paramount importance.",exJa:"安全が最重要だ。"},
-    {en:"collaborate",ph:"/kəˈlæbəreɪt/",ja:"協力する・共同作業する",pos:"動詞",cat:"verb",exEn:"Let's collaborate on this project.",exJa:"このプロジェクトで協力しよう。"},
-    {en:"ambivalent",ph:"/æmˈbɪvələnt/",ja:"相反する感情を持つ",pos:"形容詞",cat:"adjective",exEn:"She felt ambivalent about leaving.",exJa:"彼女は去ることへの相反する感情を持った。"},
-    {en:"diminish",ph:"/dɪˈmɪnɪʃ/",ja:"減少する・弱まる",pos:"動詞",cat:"verb",exEn:"His enthusiasm began to diminish.",exJa:"彼の熱意が弱まり始めた。"},
-    {en:"tranquil",ph:"/ˈtræŋkwɪl/",ja:"穏やかな・静かな",pos:"形容詞",cat:"adjective",exEn:"The lake was tranquil at dawn.",exJa:"夜明けの湖は穏やかだった。"},
-    {en:"initiative",ph:"/ɪˈnɪʃɪətɪv/",ja:"主導権・イニシアチブ",pos:"名詞",cat:"noun",exEn:"Take the initiative in this project.",exJa:"このプロジェクトで主導権を取れ。"},
-    {en:"obsolete",ph:"/ˈɒbsəliːt/",ja:"時代遅れの・廃れた",pos:"形容詞",cat:"adjective",exEn:"This technology is now obsolete.",exJa:"この技術は今や時代遅れだ。"},
-    {en:"advocate",ph:"/ˈædvəkɪt/",ja:"主唱者・提唱する",pos:"名詞/動詞",cat:"noun",exEn:"She's an advocate for change.",exJa:"彼女は変革の提唱者だ。"},
-    {en:"compassion",ph:"/kəmˈpæʃən/",ja:"思いやり・共感",pos:"名詞",cat:"noun",exEn:"Show compassion to those in need.",exJa:"困っている人に思いやりを示そう。"},
-    {en:"intricate",ph:"/ˈɪntrɪkɪt/",ja:"複雑な・入り組んだ",pos:"形容詞",cat:"adjective",exEn:"The design was intricate.",exJa:"デザインは複雑だった。"},
-    {en:"spontaneous",ph:"/spɒnˈteɪniəs/",ja:"自発的な・突発的な",pos:"形容詞",cat:"adjective",exEn:"It was a spontaneous decision.",exJa:"それは自発的な決断だった。"},
-    {en:"coherent",ph:"/kəʊˈhɪərənt/",ja:"筋の通った・一貫した",pos:"形容詞",cat:"adjective",exEn:"Give a coherent explanation.",exJa:"筋の通った説明をしてください。"},
-    {en:"leverage",ph:"/ˈliːvərɪdʒ/",ja:"てこの力・活用する",pos:"名詞/動詞",cat:"noun",exEn:"Leverage your strengths.",exJa:"自分の強みを活用しろ。"},
-    {en:"fluctuate",ph:"/ˈflʌktʃueɪt/",ja:"変動する・揺れ動く",pos:"動詞",cat:"verb",exEn:"Prices fluctuate constantly.",exJa:"価格は常に変動する。"},
-    {en:"eloquence",ph:"/ˈɛləkwəns/",ja:"雄弁・流暢さ",pos:"名詞",cat:"noun",exEn:"Her eloquence was remarkable.",exJa:"彼女の雄弁さは際立っていた。"},
-    {en:"perseverance",ph:"/ˌpɜːsɪˈvɪərəns/",ja:"忍耐力・根気",pos:"名詞",cat:"noun",exEn:"Success requires perseverance.",exJa:"成功には忍耐力が必要だ。"},
-    {en:"plausible",ph:"/ˈplɔːzɪbl/",ja:"もっともらしい・妥当な",pos:"形容詞",cat:"adjective",exEn:"That's a plausible explanation.",exJa:"それはもっともらしい説明だ。"},
-    {en:"nuance",ph:"/ˈnjuːɑːns/",ja:"微妙なニュアンス",pos:"名詞",cat:"noun",exEn:"The nuance was lost in translation.",exJa:"翻訳でニュアンスが失われた。"},
-    {en:"dilemma",ph:"/dɪˈlɛmə/",ja:"ジレンマ・難問",pos:"名詞",cat:"noun",exEn:"She faced a difficult dilemma.",exJa:"彼女は難しいジレンマに直面した。"},
-    {en:"paradigm",ph:"/ˈpærədaɪm/",ja:"パラダイム・模範",pos:"名詞",cat:"noun",exEn:"A paradigm shift occurred.",exJa:"パラダイムシフトが起きた。"},
-    {en:"coherence",ph:"/kəʊˈhɪərəns/",ja:"一貫性",pos:"名詞",cat:"noun",exEn:"Coherence in writing is essential.",exJa:"文章の一貫性は重要だ。"},
-    {en:"indulge",ph:"/ɪnˈdʌldʒ/",ja:"ふける・甘やかす",pos:"動詞",cat:"verb",exEn:"Don't indulge in bad habits.",exJa:"悪習慣にふけってはいけない。"},
-  ],
-  toeic:[
-    {en:"comply",ph:"/kəmˈplaɪ/",ja:"従う・応じる",pos:"動詞",cat:"verb",exEn:"Please comply with the rules.",exJa:"規則に従ってください。"},
-    {en:"invoice",ph:"/ˈɪnvɔɪs/",ja:"請求書・送り状",pos:"名詞",cat:"noun",exEn:"Send the invoice by Friday.",exJa:"金曜日までに請求書を送ってください。"},
-    {en:"quarterly",ph:"/ˈkwɔːtərli/",ja:"四半期の・年4回の",pos:"形容詞",cat:"adjective",exEn:"The quarterly report is due.",exJa:"四半期報告書が提出期限だ。"},
-    {en:"accommodate",ph:"/əˈkɒmədeɪt/",ja:"収容する・対応する",pos:"動詞",cat:"verb",exEn:"We can accommodate 200 guests.",exJa:"200名を収容できます。"},
-    {en:"negotiate",ph:"/nɪˈɡəʊʃieɪt/",ja:"交渉する・折衝する",pos:"動詞",cat:"verb",exEn:"We need to negotiate the contract.",exJa:"契約について交渉する必要がある。"},
-    {en:"expenditure",ph:"/ɪkˈspɛndɪtʃə/",ja:"支出・経費",pos:"名詞",cat:"noun",exEn:"Reduce unnecessary expenditure.",exJa:"不要な支出を減らせ。"},
-    {en:"reimbursement",ph:"/ˌriːɪmˈbɜːsmənt/",ja:"払い戻し・返金",pos:"名詞",cat:"noun",exEn:"Submit receipts for reimbursement.",exJa:"払い戻しのためにレシートを提出してください。"},
-    {en:"implement",ph:"/ˈɪmplɪmɛnt/",ja:"実施する・導入する",pos:"動詞",cat:"verb",exEn:"We'll implement the new policy.",exJa:"新しい方針を実施します。"},
-    {en:"substantial",ph:"/səbˈstænʃəl/",ja:"実質的な・かなりの",pos:"形容詞",cat:"adjective",exEn:"A substantial improvement was made.",exJa:"かなりの改善がなされた。"},
-    {en:"tentative",ph:"/ˈtɛntətɪv/",ja:"暫定的な・仮の",pos:"形容詞",cat:"adjective",exEn:"This is a tentative schedule.",exJa:"これは暫定的なスケジュールです。"},
-  ],
-  academic:[
-    {en:"hypothesis",ph:"/haɪˈpɒθɪsɪs/",ja:"仮説",pos:"名詞",cat:"noun",exEn:"We tested the hypothesis.",exJa:"仮説を検証した。"},
-    {en:"empirical",ph:"/ɪmˈpɪrɪkl/",ja:"経験的な・実証的な",pos:"形容詞",cat:"adjective",exEn:"Empirical evidence is needed.",exJa:"実証的な証拠が必要だ。"},
-    {en:"methodology",ph:"/ˌmɛθəˈdɒlədʒi/",ja:"方法論",pos:"名詞",cat:"noun",exEn:"Describe your methodology.",exJa:"方法論を説明しなさい。"},
-    {en:"synthesize",ph:"/ˈsɪnθɪsaɪz/",ja:"統合する・合成する",pos:"動詞",cat:"verb",exEn:"Synthesize the research findings.",exJa:"研究結果を統合する。"},
-    {en:"discourse",ph:"/ˈdɪskɔːs/",ja:"談話・論説",pos:"名詞",cat:"noun",exEn:"Academic discourse is rigorous.",exJa:"学術的な論説は厳格だ。"},
-    {en:"inherent",ph:"/ɪnˈhɪərənt/",ja:"固有の・本質的な",pos:"形容詞",cat:"adjective",exEn:"There are inherent risks.",exJa:"固有のリスクがある。"},
-    {en:"postulate",ph:"/ˈpɒstʃʊleɪt/",ja:"仮定する・公準",pos:"動詞/名詞",cat:"verb",exEn:"She postulated a new theory.",exJa:"彼女は新しい理論を仮定した。"},
-    {en:"phenomena",ph:"/fɪˈnɒmɪnə/",ja:"現象（複数形）",pos:"名詞",cat:"noun",exEn:"Natural phenomena fascinate scientists.",exJa:"自然現象は科学者を魅了する。"},
-    {en:"paradigm",ph:"/ˈpærədaɪm/",ja:"パラダイム・模範",pos:"名詞",cat:"noun",exEn:"A paradigm shift occurred.",exJa:"パラダイムシフトが起きた。"},
-    {en:"nuance",ph:"/ˈnjuːɑːns/",ja:"微妙なニュアンス",pos:"名詞",cat:"noun",exEn:"The nuance was lost in translation.",exJa:"翻訳でニュアンスが失われた。"},
-  ]
-};
+const WORDS = [
+{en:"aggressive",ph:"/əˈɡrɛsɪv/",ja:"攻撃的な",pos:"形容詞",cat:"adjective",exEn:"His aggressive behavior alarmed his colleagues.",exJa:"彼の攻撃的な行動は同僚を不安にさせた。"},
+{en:"organism",ph:"/ˈɔːɡənɪzəm/",ja:"生物",pos:"名詞",cat:"noun",exEn:"Every organism needs energy to survive.",exJa:"すべての生物は生存するためにエネルギーが必要だ。"},
+{en:"astronomer",ph:"/əˈstrɒnəmər/",ja:"天文学者",pos:"名詞",cat:"noun",exEn:"The astronomer discovered a new planet.",exJa:"その天文学者は新しい惑星を発見した。"},
+{en:"confront",ph:"/kənˈfrʌnt/",ja:"直面する",pos:"動詞",cat:"verb",exEn:"We must confront this problem directly.",exJa:"私たちはこの問題に直接向き合わなければならない。"},
+{en:"shortage",ph:"/ˈʃɔːtɪdʒ/",ja:"不足",pos:"名詞",cat:"noun",exEn:"There is a severe shortage of clean water.",exJa:"きれいな水が深刻に不足している。"},
+{en:"profound",ph:"/prəˈfaʊnd/",ja:"深い",pos:"形容詞",cat:"adjective",exEn:"Reading had a profound effect on her thinking.",exJa:"読書は彼女の思考に深い影響を与えた。"},
+{en:"civil",ph:"/ˈsɪvəl/",ja:"市民の",pos:"形容詞",cat:"adjective",exEn:"Civil rights must be protected by law.",exJa:"市民の権利は法律によって守られなければならない。"},
+{en:"physician",ph:"/fɪˈzɪʃən/",ja:"内科医",pos:"名詞",cat:"noun",exEn:"The physician examined the patient carefully.",exJa:"その内科医は患者を丁寧に診察した。"},
+{en:"agency",ph:"/ˈeɪdʒənsi/",ja:"機関",pos:"名詞",cat:"noun",exEn:"The government agency released a new report.",exJa:"政府機関が新しい報告書を発表した。"},
+{en:"attribute",ph:"/ˈætrɪbjuːt/",ja:"〜に帰する",pos:"動詞",cat:"verb",exEn:"She attributed her success to hard work.",exJa:"彼女は自分の成功を努力のおかげだと考えた。"},
+{en:"trait",ph:"/treɪt/",ja:"特徴",pos:"名詞",cat:"noun",exEn:"Honesty is an admirable trait.",exJa:"正直さは称賛に値する特徴だ。"},
+{en:"hence",ph:"/hɛns/",ja:"それゆえ",pos:"副詞",cat:"adverb",exEn:"He was ill; hence he could not attend.",exJa:"彼は病気だった。それゆえ出席できなかった。"},
+{en:"prosperity",ph:"/prɒˈspɛrɪti/",ja:"繁栄",pos:"名詞",cat:"noun",exEn:"The nation enjoyed a period of great prosperity.",exJa:"その国は大きな繁栄の時代を享受した。"},
+{en:"inherit",ph:"/ɪnˈhɛrɪt/",ja:"相続する",pos:"動詞",cat:"verb",exEn:"She inherited the house from her grandmother.",exJa:"彼女は祖母から家を相続した。"},
+{en:"Bible",ph:"/ˈbaɪbəl/",ja:"聖書",pos:"名詞",cat:"noun",exEn:"The Bible is one of the world's most read books.",exJa:"聖書は世界で最も読まれている本の一つだ。"},
+{en:"crucial",ph:"/ˈkruːʃəl/",ja:"重大な",pos:"形容詞",cat:"adjective",exEn:"This step is crucial to our success.",exJa:"このステップは私たちの成功に重大だ。"},
+{en:"famine",ph:"/ˈfæmɪn/",ja:"飢饉",pos:"名詞",cat:"noun",exEn:"The famine caused widespread suffering.",exJa:"飢饉は広範な苦しみをもたらした。"},
+{en:"sophisticated",ph:"/səˈfɪstɪkeɪtɪd/",ja:"洗練された",pos:"形容詞",cat:"adjective",exEn:"She has a sophisticated sense of style.",exJa:"彼女は洗練されたスタイルの感覚を持っている。"},
+{en:"radical",ph:"/ˈrædɪkəl/",ja:"過激な",pos:"形容詞",cat:"adjective",exEn:"The group proposed radical changes to the system.",exJa:"そのグループはシステムへの過激な変更を提案した。"},
+{en:"prevail",ph:"/prɪˈveɪl/",ja:"行き渡っている",pos:"動詞",cat:"verb",exEn:"Justice will eventually prevail.",exJa:"正義はいずれ行き渡るだろう。"},
+{en:"voyage",ph:"/ˈvɔɪɪdʒ/",ja:"航海",pos:"名詞",cat:"noun",exEn:"The voyage across the ocean took three weeks.",exJa:"海を渡る航海には3週間かかった。"},
+{en:"subtle",ph:"/ˈsʌtl/",ja:"微妙な",pos:"形容詞",cat:"adjective",exEn:"There was a subtle difference between the two.",exJa:"二つの間には微妙な違いがあった。"},
+{en:"poll",ph:"/pəʊl/",ja:"世論調査",pos:"名詞",cat:"noun",exEn:"The latest poll shows a close race.",exJa:"最新の世論調査は接戦を示している。"},
+{en:"artistic",ph:"/ɑːˈtɪstɪk/",ja:"芸術的な",pos:"形容詞",cat:"adjective",exEn:"She has great artistic talent.",exJa:"彼女は素晴らしい芸術的才能を持っている。"},
+{en:"poverty",ph:"/ˈpɒvəti/",ja:"貧困",pos:"名詞",cat:"noun",exEn:"Many children live in poverty.",exJa:"多くの子どもたちが貧困の中で生活している。"},
+{en:"atom",ph:"/ˈætəm/",ja:"原子",pos:"名詞",cat:"noun",exEn:"An atom is the basic unit of matter.",exJa:"原子は物質の基本単位だ。"},
+{en:"vague",ph:"/veɪɡ/",ja:"あいまいな",pos:"形容詞",cat:"adjective",exEn:"His answer was vague and unclear.",exJa:"彼の答えはあいまいで不明確だった。"},
+{en:"attain",ph:"/əˈteɪn/",ja:"獲得する",pos:"動詞",cat:"verb",exEn:"She worked hard to attain her goals.",exJa:"彼女は目標を達成するために懸命に働いた。"},
+{en:"impulse",ph:"/ˈɪmpʌls/",ja:"衝動",pos:"名詞",cat:"noun",exEn:"He bought it on impulse.",exJa:"彼は衝動的にそれを買った。"},
+{en:"mutual",ph:"/ˈmjuːtʃuəl/",ja:"相互の",pos:"形容詞",cat:"adjective",exEn:"They had a mutual respect for each other.",exJa:"彼らはお互いに対して相互の敬意を持っていた。"},
+{en:"resort",ph:"/rɪˈzɔːt/",ja:"訴える",pos:"動詞",cat:"verb",exEn:"Don't resort to violence to solve problems.",exJa:"問題を解決するために暴力に訴えてはいけない。"},
+{en:"insight",ph:"/ˈɪnsaɪt/",ja:"洞察",pos:"名詞",cat:"noun",exEn:"Her book offers deep insight into human nature.",exJa:"彼女の本は人間の本性への深い洞察を提供する。"},
+{en:"verbal",ph:"/ˈvɜːbəl/",ja:"言葉の",pos:"形容詞",cat:"adjective",exEn:"He made a verbal agreement with his partner.",exJa:"彼はパートナーと口頭による合意をした。"},
+{en:"accumulate",ph:"/əˈkjuːmjʊleɪt/",ja:"蓄積する",pos:"動詞",cat:"verb",exEn:"Dust accumulated on the old furniture.",exJa:"古い家具の上にほこりが蓄積した。"},
+{en:"overwhelm",ph:"/ˌəʊvəˈwɛlm/",ja:"圧倒する",pos:"動詞",cat:"verb",exEn:"The beauty of the landscape overwhelmed her.",exJa:"その風景の美しさが彼女を圧倒した。"},
+{en:"forbid",ph:"/fəˈbɪd/",ja:"禁止する",pos:"動詞",cat:"verb",exEn:"Smoking is forbidden in this building.",exJa:"この建物内での喫煙は禁止されている。"},
+{en:"elaborate",ph:"/ɪˈlæbərɪt/",ja:"精巧な",pos:"形容詞",cat:"adjective",exEn:"The cake had an elaborate decoration.",exJa:"そのケーキには精巧な装飾が施されていた。"},
+{en:"legend",ph:"/ˈlɛdʒənd/",ja:"伝説",pos:"名詞",cat:"noun",exEn:"The legend of King Arthur is well known.",exJa:"アーサー王の伝説はよく知られている。"},
+{en:"pedestrian",ph:"/pɪˈdɛstriən/",ja:"歩行者",pos:"名詞",cat:"noun",exEn:"Pedestrians should use the crosswalk.",exJa:"歩行者は横断歩道を使用すべきだ。"},
+{en:"regulation",ph:"/ˌrɛɡjʊˈleɪʃən/",ja:"規定",pos:"名詞",cat:"noun",exEn:"New regulations on pollution were introduced.",exJa:"汚染に関する新しい規定が導入された。"},
+{en:"bend",ph:"/bɛnd/",ja:"曲がる",pos:"動詞",cat:"verb",exEn:"The road bends sharply to the right.",exJa:"道は右に急激に曲がっている。"},
+{en:"consensus",ph:"/kənˈsɛnsəs/",ja:"同意",pos:"名詞",cat:"noun",exEn:"They reached a consensus after long discussion.",exJa:"長い議論の後、彼らは合意に達した。"},
+{en:"obstacle",ph:"/ˈɒbstəkəl/",ja:"障害",pos:"名詞",cat:"noun",exEn:"Fear is the biggest obstacle to success.",exJa:"恐怖は成功への最大の障害だ。"},
+{en:"whistle",ph:"/ˈwɪsəl/",ja:"口笛で吹く",pos:"動詞",cat:"verb",exEn:"He whistled a cheerful tune.",exJa:"彼は陽気な曲を口笛で吹いた。"},
+{en:"alien",ph:"/ˈeɪliən/",ja:"外国人の",pos:"形容詞",cat:"adjective",exEn:"The customs felt alien to her at first.",exJa:"その習慣は最初は彼女には異質に感じられた。"},
+{en:"slang",ph:"/slæŋ/",ja:"俗語",pos:"名詞",cat:"noun",exEn:"Teenagers often use slang words.",exJa:"ティーンエイジャーはよく俗語を使う。"},
+{en:"crew",ph:"/kruː/",ja:"乗組員",pos:"名詞",cat:"noun",exEn:"The crew prepared the plane for takeoff.",exJa:"乗組員は飛行機を離陸のために準備した。"},
+{en:"endure",ph:"/ɪnˈdjʊər/",ja:"耐える",pos:"動詞",cat:"verb",exEn:"They had to endure harsh winter conditions.",exJa:"彼らは厳しい冬の状況に耐えなければならなかった。"},
+{en:"fake",ph:"/feɪk/",ja:"にせの",pos:"形容詞",cat:"adjective",exEn:"The painting turned out to be a fake.",exJa:"その絵画はにせものだと判明した。"},
+{en:"platform",ph:"/ˈplætfɔːm/",ja:"壇",pos:"名詞",cat:"noun",exEn:"The speaker stood on the platform.",exJa:"演説者は壇上に立った。"},
+{en:"realm",ph:"/rɛlm/",ja:"領域",pos:"名詞",cat:"noun",exEn:"This idea belongs to the realm of science fiction.",exJa:"このアイデアはSFの領域に属する。"},
+{en:"sole",ph:"/səʊl/",ja:"ただ一つの",pos:"形容詞",cat:"adjective",exEn:"She was the sole survivor of the accident.",exJa:"彼女はその事故の唯一の生存者だった。"},
+{en:"tragedy",ph:"/ˈtrædʒɪdi/",ja:"悲劇",pos:"名詞",cat:"noun",exEn:"The earthquake was a great tragedy.",exJa:"その地震は大きな悲劇だった。"},
+{en:"diminish",ph:"/dɪˈmɪnɪʃ/",ja:"減らす",pos:"動詞",cat:"verb",exEn:"His confidence began to diminish.",exJa:"彼の自信は薄れ始めた。"},
+{en:"gaze",ph:"/ɡeɪz/",ja:"見つめる",pos:"動詞",cat:"verb",exEn:"She gazed at the stars in wonder.",exJa:"彼女は驚きながら星を見つめた。"},
+{en:"moderate",ph:"/ˈmɒdərɪt/",ja:"適度の",pos:"形容詞",cat:"adjective",exEn:"Exercise at a moderate pace is healthy.",exJa:"適度なペースでの運動は健康的だ。"},
+{en:"prehistoric",ph:"/ˌpriːhɪˈstɒrɪk/",ja:"有史以前の",pos:"形容詞",cat:"adjective",exEn:"Prehistoric humans lived in caves.",exJa:"有史以前の人類は洞窟に住んでいた。"},
+{en:"worship",ph:"/ˈwɜːʃɪp/",ja:"崇拝する",pos:"動詞",cat:"verb",exEn:"People gathered to worship at the temple.",exJa:"人々は寺院で崇拝するために集まった。"},
+{en:"originate",ph:"/əˈrɪdʒɪneɪt/",ja:"発生する",pos:"動詞",cat:"verb",exEn:"This custom originated in ancient China.",exJa:"この習慣は古代中国で発生した。"},
+{en:"currency",ph:"/ˈkʌrənsi/",ja:"通貨",pos:"名詞",cat:"noun",exEn:"The euro is the currency of many European countries.",exJa:"ユーロは多くのヨーロッパ諸国の通貨だ。"},
+{en:"envy",ph:"/ˈɛnvi/",ja:"うらやむ",pos:"動詞",cat:"verb",exEn:"She could not help but envy his success.",exJa:"彼女は彼の成功をうらやまずにはいられなかった。"},
+{en:"prey",ph:"/preɪ/",ja:"獲物",pos:"名詞",cat:"noun",exEn:"The lion hunted its prey through the grass.",exJa:"ライオンは草の中で獲物を追った。"},
+{en:"ethical",ph:"/ˈɛθɪkəl/",ja:"倫理的な",pos:"形容詞",cat:"adjective",exEn:"The doctor faced an ethical dilemma.",exJa:"医師は倫理的なジレンマに直面した。"},
+{en:"flourish",ph:"/ˈflʌrɪʃ/",ja:"繁栄する",pos:"動詞",cat:"verb",exEn:"The company began to flourish after new management.",exJa:"新しい経営陣の下で会社は繁栄し始めた。"},
+{en:"innate",ph:"/ɪˈneɪt/",ja:"生来の",pos:"形容詞",cat:"adjective",exEn:"He has an innate talent for music.",exJa:"彼は音楽の生来の才能を持っている。"},
+{en:"reform",ph:"/rɪˈfɔːm/",ja:"改革",pos:"名詞",cat:"noun",exEn:"Education reform is urgently needed.",exJa:"教育改革が緊急に必要とされている。"},
+{en:"meanwhile",ph:"/ˈmiːnwaɪl/",ja:"一方",pos:"副詞",cat:"adverb",exEn:"She studied hard; meanwhile he relaxed.",exJa:"彼女は一生懸命勉強した。一方、彼はくつろいでいた。"},
+{en:"liquid",ph:"/ˈlɪkwɪd/",ja:"液体",pos:"名詞",cat:"noun",exEn:"Water is a liquid at room temperature.",exJa:"水は室温では液体だ。"},
+{en:"conservative",ph:"/kənˈsɜːvətɪv/",ja:"保守的な",pos:"形容詞",cat:"adjective",exEn:"He holds conservative views on social issues.",exJa:"彼は社会問題について保守的な見解を持っている。"},
+{en:"overall",ph:"/ˌəʊvərˈɔːl/",ja:"全体の",pos:"形容詞",cat:"adjective",exEn:"The overall result was positive.",exJa:"全体的な結果は良好だった。"},
+{en:"prompt",ph:"/prɒmpt/",ja:"迅速な",pos:"形容詞",cat:"adjective",exEn:"A prompt response is appreciated.",exJa:"迅速な返答は感謝される。"},
+{en:"rearrange",ph:"/ˌriːəˈreɪndʒ/",ja:"配列し直す",pos:"動詞",cat:"verb",exEn:"She rearranged the furniture in her room.",exJa:"彼女は部屋の家具を配置し直した。"},
+{en:"shame",ph:"/ʃeɪm/",ja:"残念なこと",pos:"名詞",cat:"noun",exEn:"It's a shame that you can't join us.",exJa:"あなたが参加できないのは残念だ。"},
+{en:"vessel",ph:"/ˈvɛsəl/",ja:"船",pos:"名詞",cat:"noun",exEn:"The vessel sailed into the harbor.",exJa:"その船は港に入った。"},
+{en:"collapse",ph:"/kəˈlæps/",ja:"崩壊",pos:"名詞",cat:"noun",exEn:"The collapse of the bridge shocked everyone.",exJa:"橋の崩壊は皆を驚かせた。"},
+{en:"simultaneous",ph:"/ˌsɪməlˈteɪniəs/",ja:"同時の",pos:"形容詞",cat:"adjective",exEn:"There were simultaneous attacks on both cities.",exJa:"両都市への同時攻撃があった。"},
+{en:"advocate",ph:"/ˈædvəkeɪt/",ja:"擁護する",pos:"動詞",cat:"verb",exEn:"She advocates for children's rights.",exJa:"彼女は子どもの権利を擁護する。"},
+{en:"ideological",ph:"/ˌaɪdiəˈlɒdʒɪkəl/",ja:"イデオロギーの",pos:"形容詞",cat:"adjective",exEn:"The two parties have strong ideological differences.",exJa:"二つの党は強いイデオロギーの違いを持っている。"},
+{en:"anticipate",ph:"/ænˈtɪsɪpeɪt/",ja:"予期する",pos:"動詞",cat:"verb",exEn:"We didn't anticipate such a problem.",exJa:"私たちはそのような問題を予期しなかった。"},
+{en:"eccentric",ph:"/ɪkˈsɛntrɪk/",ja:"風変わりな",pos:"形容詞",cat:"adjective",exEn:"He was known for his eccentric behavior.",exJa:"彼は風変わりな行動で知られていた。"},
+{en:"dimension",ph:"/daɪˈmɛnʃən/",ja:"寸法",pos:"名詞",cat:"noun",exEn:"The dimensions of the room were measured.",exJa:"部屋の寸法が測られた。"},
+{en:"armed",ph:"/ɑːmd/",ja:"武装した",pos:"形容詞",cat:"adjective",exEn:"Armed soldiers guarded the border.",exJa:"武装した兵士が国境を守った。"},
+{en:"alert",ph:"/əˈlɜːt/",ja:"油断のない",pos:"形容詞",cat:"adjective",exEn:"The guard remained alert throughout the night.",exJa:"警備員は夜通し油断なく警戒していた。"},
+{en:"grave",ph:"/ɡreɪv/",ja:"墓",pos:"名詞",cat:"noun",exEn:"Flowers were placed on the grave.",exJa:"墓に花が供えられた。"},
+{en:"crack",ph:"/kræk/",ja:"割れる",pos:"動詞",cat:"verb",exEn:"The ice cracked under the weight.",exJa:"氷は重さで割れた。"},
+{en:"subsequent",ph:"/ˈsʌbsɪkwənt/",ja:"次の",pos:"形容詞",cat:"adjective",exEn:"Subsequent events proved him right.",exJa:"その後の出来事が彼の正しさを証明した。"},
+{en:"procedure",ph:"/prəˈsiːdʒər/",ja:"手続き",pos:"名詞",cat:"noun",exEn:"Follow the correct procedure when applying.",exJa:"申請する際は正しい手続きに従ってください。"},
+{en:"nonetheless",ph:"/ˌnʌnðəˈlɛs/",ja:"それにもかかわらず",pos:"副詞",cat:"adverb",exEn:"It was hard; nonetheless she succeeded.",exJa:"それは難しかった。それにもかかわらず、彼女は成功した。"},
+{en:"journal",ph:"/ˈdʒɜːnəl/",ja:"新聞",pos:"名詞",cat:"noun",exEn:"He published an article in a scientific journal.",exJa:"彼は科学雑誌に記事を発表した。"},
+{en:"sin",ph:"/sɪn/",ja:"罪",pos:"名詞",cat:"noun",exEn:"Lying is considered a sin in many religions.",exJa:"嘘をつくことは多くの宗教で罪とされている。"},
+{en:"presentation",ph:"/ˌprɛzənˈteɪʃən/",ja:"提示",pos:"名詞",cat:"noun",exEn:"She gave an excellent presentation to the board.",exJa:"彼女は取締役会に優れたプレゼンテーションをした。"},
+{en:"interfere",ph:"/ˌɪntəˈfɪər/",ja:"干渉する",pos:"動詞",cat:"verb",exEn:"Don't interfere in other people's business.",exJa:"他人のことに干渉しないでください。"},
+{en:"fatigue",ph:"/fəˈtiːɡ/",ja:"疲労",pos:"名詞",cat:"noun",exEn:"He felt extreme fatigue after the marathon.",exJa:"彼はマラソンの後、極度の疲労を感じた。"},
+{en:"counterpart",ph:"/ˈkaʊntəpɑːt/",ja:"相当するもの",pos:"名詞",cat:"noun",exEn:"She met her counterpart from another company.",exJa:"彼女は別の会社の担当者と会った。"},
+{en:"prominent",ph:"/ˈprɒmɪnənt/",ja:"著名な",pos:"形容詞",cat:"adjective",exEn:"He is a prominent figure in politics.",exJa:"彼は政治の著名な人物だ。"},
+{en:"offspring",ph:"/ˈɒfsprɪŋ/",ja:"子孫",pos:"名詞",cat:"noun",exEn:"The lion protected her offspring.",exJa:"ライオンは子孫を守った。"},
+{en:"meditation",ph:"/ˌmɛdɪˈteɪʃən/",ja:"瞑想",pos:"名詞",cat:"noun",exEn:"Daily meditation helps reduce stress.",exJa:"毎日の瞑想はストレスを軽減するのに役立つ。"},
+{en:"extract",ph:"/ɪkˈstrækt/",ja:"引き出す",pos:"動詞",cat:"verb",exEn:"They extracted oil from the ground.",exJa:"彼らは地中から石油を採掘した。"},
+{en:"dialect",ph:"/ˈdaɪəlɛkt/",ja:"方言",pos:"名詞",cat:"noun",exEn:"She spoke in a regional dialect.",exJa:"彼女は地方の方言で話した。"},
+{en:"condemn",ph:"/kənˈdɛm/",ja:"非難する",pos:"動詞",cat:"verb",exEn:"The judge condemned the criminal.",exJa:"裁判官は犯罪者を非難した。"},
+{en:"aesthetic",ph:"/iːsˈθɛtɪk/",ja:"美的な",pos:"形容詞",cat:"adjective",exEn:"The room had great aesthetic appeal.",exJa:"その部屋は美的な魅力があった。"},
+{en:"usage",ph:"/ˈjuːsɪdʒ/",ja:"用法",pos:"名詞",cat:"noun",exEn:"The dictionary explains the usage of each word.",exJa:"辞書は各単語の用法を説明している。"},
+{en:"tension",ph:"/ˈtɛnʃən/",ja:"緊張",pos:"名詞",cat:"noun",exEn:"There was tension between the two countries.",exJa:"二国間に緊張があった。"},
+{en:"peer",ph:"/pɪər/",ja:"じっと見る",pos:"動詞",cat:"verb",exEn:"She peered through the foggy window.",exJa:"彼女は霧のかかった窓からじっと見た。"},
+{en:"load",ph:"/ləʊd/",ja:"荷",pos:"名詞",cat:"noun",exEn:"The truck carried a heavy load.",exJa:"トラックは重い荷物を運んだ。"},
+{en:"immense",ph:"/ɪˈmɛns/",ja:"ものすごい",pos:"形容詞",cat:"adjective",exEn:"She felt an immense sense of relief.",exJa:"彼女はものすごい安堵感を感じた。"},
+{en:"enterprise",ph:"/ˈɛntəpraɪz/",ja:"事業",pos:"名詞",cat:"noun",exEn:"He started a new enterprise last year.",exJa:"彼は昨年新しい事業を始めた。"},
+{en:"cautious",ph:"/ˈkɔːʃəs/",ja:"用心深い",pos:"形容詞",cat:"adjective",exEn:"Be cautious when crossing the road.",exJa:"道を渡るときは用心深くしなさい。"},
+{en:"emergency",ph:"/ɪˈmɜːdʒənsi/",ja:"緊急時",pos:"名詞",cat:"noun",exEn:"Call this number in case of emergency.",exJa:"緊急時はこの番号に電話してください。"},
+{en:"tap",ph:"/tæp/",ja:"蛇口",pos:"名詞",cat:"noun",exEn:"Turn off the tap when not using water.",exJa:"水を使わないときは蛇口を閉めてください。"},
+{en:"inspire",ph:"/ɪnˈspaɪər/",ja:"呼び起こす",pos:"動詞",cat:"verb",exEn:"Her story inspired many young people.",exJa:"彼女の物語は多くの若者に感動を呼び起こした。"},
+{en:"fierce",ph:"/fɪəs/",ja:"どう猛な",pos:"形容詞",cat:"adjective",exEn:"A fierce storm hit the coast.",exJa:"どう猛な嵐が海岸を襲った。"},
+{en:"enhance",ph:"/ɪnˈhɑːns/",ja:"高める",pos:"動詞",cat:"verb",exEn:"Regular exercise enhances your health.",exJa:"定期的な運動は健康を高める。"},
+{en:"beg",ph:"/bɛɡ/",ja:"懇願する",pos:"動詞",cat:"verb",exEn:"She begged him not to leave.",exJa:"彼女は彼に行かないよう懇願した。"},
+{en:"thereby",ph:"/ˌðɛəˈbaɪ/",ja:"そのために",pos:"副詞",cat:"adverb",exEn:"He trained daily, thereby improving his skills.",exJa:"彼は毎日訓練し、そのために技術が向上した。"},
+{en:"rite",ph:"/raɪt/",ja:"儀式",pos:"名詞",cat:"noun",exEn:"The ceremony was an ancient rite.",exJa:"その式典は古代の儀式だった。"},
+{en:"infer",ph:"/ɪnˈfɜː/",ja:"推論する",pos:"動詞",cat:"verb",exEn:"From the evidence, we can infer the cause.",exJa:"証拠から原因を推論できる。"},
+{en:"exaggerate",ph:"/ɪɡˈzædʒəreɪt/",ja:"誇張する",pos:"動詞",cat:"verb",exEn:"Don't exaggerate the difficulties.",exJa:"困難を誇張しないでください。"},
+{en:"trigger",ph:"/ˈtrɪɡər/",ja:"引き金となる",pos:"動詞",cat:"verb",exEn:"Stress can trigger health problems.",exJa:"ストレスは健康問題の引き金となりうる。"},
+{en:"collision",ph:"/kəˈlɪʒən/",ja:"衝突",pos:"名詞",cat:"noun",exEn:"The collision caused major damage.",exJa:"衝突は大きな損害を引き起こした。"},
+{en:"vivid",ph:"/ˈvɪvɪd/",ja:"鮮やかな",pos:"形容詞",cat:"adjective",exEn:"She painted a vivid picture of her childhood.",exJa:"彼女は幼少期の鮮やかな絵を描いた。"},
+{en:"precede",ph:"/prɪˈsiːd/",ja:"先立つ",pos:"動詞",cat:"verb",exEn:"A warning sign preceded the disaster.",exJa:"警告サインが災害に先立って現れた。"},
+{en:"contradiction",ph:"/ˌkɒntrəˈdɪkʃən/",ja:"矛盾",pos:"名詞",cat:"noun",exEn:"There is a contradiction in your argument.",exJa:"あなたの議論には矛盾がある。"},
+{en:"oral",ph:"/ˈɔːrəl/",ja:"口伝えの",pos:"形容詞",cat:"adjective",exEn:"She took an oral examination.",exJa:"彼女は口頭試問を受けた。"},
+{en:"faculty",ph:"/ˈfækəlti/",ja:"機能",pos:"名詞",cat:"noun",exEn:"The faculty of memory declines with age.",exJa:"記憶機能は年齢とともに低下する。"},
+{en:"component",ph:"/kəmˈpəʊnənt/",ja:"構成要素",pos:"名詞",cat:"noun",exEn:"Trust is a key component of friendship.",exJa:"信頼は友情の重要な構成要素だ。"},
+{en:"suburb",ph:"/ˈsʌbɜːb/",ja:"郊外",pos:"名詞",cat:"noun",exEn:"They moved to a quiet suburb of the city.",exJa:"彼らは都市の静かな郊外に引っ越した。"},
+{en:"dense",ph:"/dɛns/",ja:"密集した",pos:"形容詞",cat:"adjective",exEn:"The dense forest blocked the sunlight.",exJa:"密集した森は日光を遮った。"},
+{en:"assert",ph:"/əˈsɜːt/",ja:"主張する",pos:"動詞",cat:"verb",exEn:"She asserted her right to speak.",exJa:"彼女は発言する権利を主張した。"},
+{en:"funeral",ph:"/ˈfjuːnərəl/",ja:"葬式",pos:"名詞",cat:"noun",exEn:"The funeral was attended by many friends.",exJa:"葬式には多くの友人が参列した。"},
+{en:"deadline",ph:"/ˈdɛdlaɪn/",ja:"締め切り",pos:"名詞",cat:"noun",exEn:"The deadline for submissions is Friday.",exJa:"提出の締め切りは金曜日だ。"},
+{en:"rear",ph:"/rɪər/",ja:"育てる",pos:"動詞",cat:"verb",exEn:"She reared her children with great care.",exJa:"彼女は子供たちを大切に育てた。"},
+{en:"controversy",ph:"/ˈkɒntrəvɜːsi/",ja:"論争",pos:"名詞",cat:"noun",exEn:"The new policy sparked controversy.",exJa:"新しい政策は論争を引き起こした。"},
+{en:"variable",ph:"/ˈvɛəriəbəl/",ja:"変わりやすい",pos:"形容詞",cat:"adjective",exEn:"The weather has been variable this week.",exJa:"今週は天気が変わりやすかった。"},
+{en:"amusement",ph:"/əˈmjuːzmənt/",ja:"娯楽",pos:"名詞",cat:"noun",exEn:"The park provided amusement for all ages.",exJa:"その公園はあらゆる年齢層に娯楽を提供した。"},
+{en:"expedition",ph:"/ˌɛkspɪˈdɪʃən/",ja:"探検",pos:"名詞",cat:"noun",exEn:"The expedition explored the Amazon rainforest.",exJa:"探検隊はアマゾンの熱帯雨林を探検した。"},
+{en:"obsession",ph:"/əbˈsɛʃən/",ja:"妄想",pos:"名詞",cat:"noun",exEn:"His obsession with cleanliness was extreme.",exJa:"清潔さへの彼の妄想的なこだわりは極端だった。"},
+{en:"inherent",ph:"/ɪnˈhɪərənt/",ja:"生来の",pos:"形容詞",cat:"adjective",exEn:"There are inherent risks in this project.",exJa:"このプロジェクトには固有のリスクがある。"},
+{en:"harvest",ph:"/ˈhɑːvɪst/",ja:"収穫",pos:"名詞",cat:"noun",exEn:"The harvest was plentiful this year.",exJa:"今年の収穫は豊富だった。"},
+{en:"sculpture",ph:"/ˈskʌlptʃər/",ja:"彫刻",pos:"名詞",cat:"noun",exEn:"The sculpture stood in the center of the plaza.",exJa:"彫刻は広場の中央に置かれていた。"},
+{en:"unify",ph:"/ˈjuːnɪfaɪ/",ja:"統一する",pos:"動詞",cat:"verb",exEn:"The leader tried to unify the divided nation.",exJa:"指導者は分裂した国を統一しようとした。"},
+{en:"reinforce",ph:"/ˌriːɪnˈfɔːs/",ja:"強化する",pos:"動詞",cat:"verb",exEn:"New evidence reinforced his theory.",exJa:"新しい証拠が彼の理論を強化した。"},
+{en:"mud",ph:"/mʌd/",ja:"泥",pos:"名詞",cat:"noun",exEn:"The children played in the mud after rain.",exJa:"雨の後、子供たちは泥の中で遊んだ。"},
+{en:"savage",ph:"/ˈsævɪdʒ/",ja:"野蛮な",pos:"形容詞",cat:"adjective",exEn:"The attack was described as savage.",exJa:"その攻撃は野蛮と表現された。"},
+{en:"mineral",ph:"/ˈmɪnərəl/",ja:"鉱物",pos:"名詞",cat:"noun",exEn:"The region is rich in minerals.",exJa:"その地域は鉱物が豊富だ。"},
+{en:"intimate",ph:"/ˈɪntɪmɪt/",ja:"親密な",pos:"形容詞",cat:"adjective",exEn:"They became intimate friends over time.",exJa:"彼らは時間をかけて親密な友人になった。"},
+{en:"supreme",ph:"/suːˈpriːm/",ja:"最高の",pos:"形容詞",cat:"adjective",exEn:"The supreme court made the final decision.",exJa:"最高裁判所が最終決定を下した。"},
+{en:"fraction",ph:"/ˈfrækʃən/",ja:"一部",pos:"名詞",cat:"noun",exEn:"Only a fraction of applicants were accepted.",exJa:"志願者のほんの一部だけが受け入れられた。"},
+{en:"rigid",ph:"/ˈrɪdʒɪd/",ja:"厳しい",pos:"形容詞",cat:"adjective",exEn:"The school had rigid rules of conduct.",exJa:"その学校には厳しい行動規範があった。"},
+{en:"bully",ph:"/ˈbʊli/",ja:"いじめる",pos:"動詞",cat:"verb",exEn:"No one should bully others at school.",exJa:"学校で他人をいじめてはいけない。"},
+{en:"refugee",ph:"/ˌrɛfjʊˈdʒiː/",ja:"難民",pos:"名詞",cat:"noun",exEn:"The country accepted thousands of refugees.",exJa:"その国は数千人の難民を受け入れた。"},
+{en:"renew",ph:"/rɪˈnjuː/",ja:"更新する",pos:"動詞",cat:"verb",exEn:"He needed to renew his passport.",exJa:"彼はパスポートを更新する必要があった。"},
+{en:"yawn",ph:"/jɔːn/",ja:"あくびする",pos:"動詞",cat:"verb",exEn:"She yawned during the boring lecture.",exJa:"彼女は退屈な講義中にあくびをした。"},
+{en:"aircraft",ph:"/ˈɛəkrɑːft/",ja:"航空機",pos:"名詞",cat:"noun",exEn:"The aircraft landed safely at the airport.",exJa:"航空機は空港に安全に着陸した。"},
+{en:"persist",ph:"/pəˈsɪst/",ja:"固執する",pos:"動詞",cat:"verb",exEn:"Despite difficulties, he persisted in his efforts.",exJa:"困難にもかかわらず、彼は努力を続けた。"},
+{en:"estate",ph:"/ɪˈsteɪt/",ja:"地所",pos:"名詞",cat:"noun",exEn:"He inherited a large estate from his uncle.",exJa:"彼は叔父から広大な地所を相続した。"},
+{en:"scare",ph:"/skɛər/",ja:"おびえさせる",pos:"動詞",cat:"verb",exEn:"The loud noise scared the cat.",exJa:"大きな音が猫をおびえさせた。"},
+{en:"outstanding",ph:"/aʊtˈstændɪŋ/",ja:"目立つ",pos:"形容詞",cat:"adjective",exEn:"She produced outstanding work this semester.",exJa:"彼女は今学期目立った成果を出した。"},
+{en:"phase",ph:"/feɪz/",ja:"段階",pos:"名詞",cat:"noun",exEn:"The project is in its final phase.",exJa:"プロジェクトは最終段階にある。"},
+{en:"seemingly",ph:"/ˈsiːmɪŋli/",ja:"見たところ",pos:"副詞",cat:"adverb",exEn:"The problem was seemingly impossible to solve.",exJa:"その問題は見たところ解決不可能だった。"},
+{en:"tolerate",ph:"/ˈtɒləreɪt/",ja:"我慢する",pos:"動詞",cat:"verb",exEn:"I cannot tolerate such rude behavior.",exJa:"そのような失礼な行動は我慢できない。"},
+{en:"privilege",ph:"/ˈprɪvɪlɪdʒ/",ja:"特権",pos:"名詞",cat:"noun",exEn:"Education should not be a privilege.",exJa:"教育は特権であってはならない。"},
+{en:"fertility",ph:"/fɜːˈtɪlɪti/",ja:"肥沃さ",pos:"名詞",cat:"noun",exEn:"The soil's fertility was restored through farming.",exJa:"農業を通じて土壌の肥沃さが回復した。"},
+{en:"keen",ph:"/kiːn/",ja:"鋭い",pos:"形容詞",cat:"adjective",exEn:"She has a keen eye for detail.",exJa:"彼女は細部への鋭い目を持っている。"},
+{en:"transmit",ph:"/trænsˈmɪt/",ja:"伝達する",pos:"動詞",cat:"verb",exEn:"The radio transmitted the signal clearly.",exJa:"ラジオはシグナルを明確に伝達した。"},
+{en:"patent",ph:"/ˈpeɪtənt/",ja:"特許",pos:"名詞",cat:"noun",exEn:"The inventor applied for a patent.",exJa:"発明家は特許を申請した。"},
+{en:"fuzzy",ph:"/ˈfʌzi/",ja:"ぼやけた",pos:"形容詞",cat:"adjective",exEn:"The photo came out fuzzy.",exJa:"写真はぼやけた状態で現れた。"},
+{en:"shallow",ph:"/ˈʃæləʊ/",ja:"浅い",pos:"形容詞",cat:"adjective",exEn:"The river is shallow enough to wade across.",exJa:"川は渡れるほど浅い。"},
+{en:"legitimate",ph:"/lɪˈdʒɪtɪmɪt/",ja:"正当な",pos:"形容詞",cat:"adjective",exEn:"He had a legitimate claim to the property.",exJa:"彼はその土地への正当な権利を持っていた。"},
+{en:"trivial",ph:"/ˈtrɪviəl/",ja:"ささいな",pos:"形容詞",cat:"adjective",exEn:"Don't waste time on trivial matters.",exJa:"ささいなことに時間を無駄にしないでください。"},
+{en:"craft",ph:"/krɑːft/",ja:"技術",pos:"名詞",cat:"noun",exEn:"Carpentry is a skilled craft.",exJa:"大工は熟練した技術だ。"},
+{en:"impatient",ph:"/ɪmˈpeɪʃənt/",ja:"いらいらした",pos:"形容詞",cat:"adjective",exEn:"He grew impatient waiting in line.",exJa:"彼は列に並んで待っていらいらした。"},
+{en:"sphere",ph:"/sfɪər/",ja:"範囲",pos:"名詞",cat:"noun",exEn:"Politics is outside my sphere of interest.",exJa:"政治は私の興味の範囲外だ。"},
+{en:"novelty",ph:"/ˈnɒvəlti/",ja:"目新しさ",pos:"名詞",cat:"noun",exEn:"The novelty of the gadget wore off quickly.",exJa:"そのガジェットの目新しさはすぐに薄れた。"},
+{en:"discrimination",ph:"/dɪˌskrɪmɪˈneɪʃən/",ja:"差別",pos:"名詞",cat:"noun",exEn:"Racial discrimination is illegal.",exJa:"人種差別は違法だ。"},
+{en:"suck",ph:"/sʌk/",ja:"吸う",pos:"動詞",cat:"verb",exEn:"The baby sucked on a bottle.",exJa:"赤ちゃんは哺乳瓶を吸った。"},
+{en:"resume",ph:"/rɪˈzjuːm/",ja:"再開する",pos:"動詞",cat:"verb",exEn:"Work will resume after the break.",exJa:"休憩後に作業を再開する。"},
+{en:"omit",ph:"/əʊˈmɪt/",ja:"省略する",pos:"動詞",cat:"verb",exEn:"Please don't omit any important details.",exJa:"重要な詳細を省略しないでください。"},
+{en:"mature",ph:"/məˈtjʊər/",ja:"成熟した",pos:"形容詞",cat:"adjective",exEn:"She is mature for her age.",exJa:"彼女は年齢の割に成熟している。"},
+{en:"bubble",ph:"/ˈbʌbəl/",ja:"泡",pos:"名詞",cat:"noun",exEn:"The child blew bubbles in the park.",exJa:"子供は公園で泡を吹いた。"},
+{en:"frost",ph:"/frɒst/",ja:"霜",pos:"名詞",cat:"noun",exEn:"Frost covered the fields in the morning.",exJa:"朝、霜が野原を覆った。"},
+{en:"coral",ph:"/ˈkɒrəl/",ja:"サンゴ",pos:"名詞",cat:"noun",exEn:"Coral reefs are home to many sea creatures.",exJa:"サンゴ礁は多くの海の生物の住処だ。"},
+{en:"vulnerable",ph:"/ˈvʌlnərəbəl/",ja:"傷つきやすい",pos:"形容詞",cat:"adjective",exEn:"Children are vulnerable to disease.",exJa:"子供たちは病気に傷つきやすい。"},
+{en:"cottage",ph:"/ˈkɒtɪdʒ/",ja:"田舎家",pos:"名詞",cat:"noun",exEn:"They spent the weekend in a cozy cottage.",exJa:"彼らは週末に居心地の良い田舎家で過ごした。"},
+{en:"rubber",ph:"/ˈrʌbər/",ja:"ゴム",pos:"名詞",cat:"noun",exEn:"The tires are made of rubber.",exJa:"タイヤはゴムでできている。"},
+{en:"congress",ph:"/ˈkɒŋɡrɛs/",ja:"米国議会",pos:"名詞",cat:"noun",exEn:"Congress passed the new bill.",exJa:"米国議会は新しい法案を可決した。"},
+{en:"arouse",ph:"/əˈraʊz/",ja:"喚起する",pos:"動詞",cat:"verb",exEn:"The speech aroused strong emotions.",exJa:"そのスピーチは強い感情を喚起した。"},
+{en:"ridiculous",ph:"/rɪˈdɪkjʊləs/",ja:"ばかげた",pos:"形容詞",cat:"adjective",exEn:"That idea sounds ridiculous.",exJa:"そのアイデアはばかげている。"},
+{en:"heritage",ph:"/ˈhɛrɪtɪdʒ/",ja:"遺産",pos:"名詞",cat:"noun",exEn:"The temple is a UNESCO World Heritage Site.",exJa:"その寺院はユネスコ世界遺産だ。"},
+{en:"exotic",ph:"/ɪɡˈzɒtɪk/",ja:"異国の",pos:"形容詞",cat:"adjective",exEn:"The market sold exotic fruits.",exJa:"その市場では異国の果物が売られていた。"},
+{en:"conceive",ph:"/kənˈsiːv/",ja:"考える、思いつく",pos:"動詞",cat:"verb",exEn:"It's hard to conceive of such a large number.",exJa:"そのような大きな数を思い描くのは難しい。"},
+{en:"starve",ph:"/stɑːv/",ja:"餓死する",pos:"動詞",cat:"verb",exEn:"Millions of people starve every year.",exJa:"毎年何百万人もの人が餓死している。"},
+{en:"mad",ph:"/mæd/",ja:"怒って",pos:"形容詞",cat:"adjective",exEn:"She was mad at him for being late.",exJa:"彼女は彼が遅刻したことで怒っていた。"},
+{en:"Arctic",ph:"/ˈɑːktɪk/",ja:"北極の",pos:"形容詞",cat:"adjective",exEn:"Arctic temperatures can drop very low.",exJa:"北極の気温は非常に低くなりうる。"},
+{en:"render",ph:"/ˈrɛndər/",ja:"〜にする",pos:"動詞",cat:"verb",exEn:"The accident rendered him unable to walk.",exJa:"事故は彼を歩けない状態にした。"},
+{en:"enlighten",ph:"/ɪnˈlaɪtən/",ja:"啓蒙する",pos:"動詞",cat:"verb",exEn:"The lecture enlightened the students.",exJa:"講義は学生たちを啓蒙した。"},
+{en:"pile",ph:"/paɪl/",ja:"積み重ね",pos:"名詞",cat:"noun",exEn:"There was a pile of books on the desk.",exJa:"机の上に本の山があった。"},
+{en:"startle",ph:"/ˈstɑːtəl/",ja:"驚かせる",pos:"動詞",cat:"verb",exEn:"The sudden noise startled her.",exJa:"突然の音が彼女を驚かせた。"},
+{en:"applicant",ph:"/ˈæplɪkənt/",ja:"志願者",pos:"名詞",cat:"noun",exEn:"There were over 200 applicants for the job.",exJa:"その仕事には200人以上の志願者がいた。"},
+{en:"pulse",ph:"/pʌls/",ja:"脈",pos:"名詞",cat:"noun",exEn:"The doctor checked her pulse.",exJa:"医師は彼女の脈を確認した。"},
+{en:"burden",ph:"/ˈbɜːdən/",ja:"負担",pos:"名詞",cat:"noun",exEn:"The heavy workload was a burden for the team.",exJa:"重い業務量はチームへの負担だった。"},
+{en:"signature",ph:"/ˈsɪɡnɪtʃər/",ja:"署名",pos:"名詞",cat:"noun",exEn:"Please add your signature at the bottom.",exJa:"下部に署名を追加してください。"},
+{en:"invest",ph:"/ɪnˈvɛst/",ja:"投資する",pos:"動詞",cat:"verb",exEn:"He decided to invest in real estate.",exJa:"彼は不動産に投資することにした。"},
+{en:"adolescent",ph:"/ˌædəˈlɛsənt/",ja:"青年",pos:"名詞",cat:"noun",exEn:"Adolescents need guidance from adults.",exJa:"青年は大人からの指導が必要だ。"},
+{en:"province",ph:"/ˈprɒvɪns/",ja:"地方",pos:"名詞",cat:"noun",exEn:"She grew up in a small province.",exJa:"彼女は小さな地方で育った。"},
+{en:"illustration",ph:"/ˌɪləˈstreɪʃən/",ja:"例証",pos:"名詞",cat:"noun",exEn:"The book contained colorful illustrations.",exJa:"その本にはカラフルな例証が含まれていた。"},
+{en:"pose",ph:"/pəʊz/",ja:"姿勢",pos:"名詞",cat:"noun",exEn:"She struck a confident pose for the photo.",exJa:"彼女は写真のために自信ある姿勢をとった。"},
+{en:"ecosystem",ph:"/ˈiːkəʊsɪstəm/",ja:"生態系",pos:"名詞",cat:"noun",exEn:"Pollution threatens the ocean ecosystem.",exJa:"汚染は海洋生態系を脅かしている。"},
+{en:"triumph",ph:"/ˈtraɪʌmf/",ja:"勝利",pos:"名詞",cat:"noun",exEn:"Their triumph in the final was celebrated.",exJa:"決勝での彼らの勝利は祝われた。"},
+{en:"heal",ph:"/hiːl/",ja:"いやす",pos:"動詞",cat:"verb",exEn:"Time heals most wounds.",exJa:"時間はほとんどの傷をいやす。"},
+{en:"distort",ph:"/dɪˈstɔːt/",ja:"ゆがめる",pos:"動詞",cat:"verb",exEn:"Fear can distort our perception of reality.",exJa:"恐怖は現実の認識をゆがめることがある。"},
+{en:"chew",ph:"/tʃuː/",ja:"かむ",pos:"動詞",cat:"verb",exEn:"Chew your food thoroughly before swallowing.",exJa:"飲み込む前に食べ物をよくかんでください。"},
+{en:"stroke",ph:"/strəʊk/",ja:"筆使い",pos:"名詞",cat:"noun",exEn:"The artist used bold strokes of paint.",exJa:"芸術家は大胆な筆使いで絵を描いた。"},
+{en:"glimpse",ph:"/ɡlɪmps/",ja:"ちらっと見ること",pos:"名詞",cat:"noun",exEn:"She caught a glimpse of the celebrity.",exJa:"彼女はその有名人をちらっと見た。"},
+{en:"deceive",ph:"/dɪˈsiːv/",ja:"だます",pos:"動詞",cat:"verb",exEn:"He tried to deceive the inspector.",exJa:"彼は検査官をだまそうとした。"},
+{en:"penetrate",ph:"/ˈpɛnɪtreɪt/",ja:"貫通する",pos:"動詞",cat:"verb",exEn:"The bullet penetrated the thick wall.",exJa:"弾丸は厚い壁を貫通した。"},
+{en:"stem",ph:"/stɛm/",ja:"起因する、生じる",pos:"動詞",cat:"verb",exEn:"The problem stems from poor planning.",exJa:"その問題は計画不足に起因する。"},
+{en:"gigantic",ph:"/dʒaɪˈɡæntɪk/",ja:"巨大な",pos:"形容詞",cat:"adjective",exEn:"A gigantic wave hit the shore.",exJa:"巨大な波が海岸を襲った。"},
+{en:"cue",ph:"/kjuː/",ja:"合図",pos:"名詞",cat:"noun",exEn:"The actor missed his cue.",exJa:"俳優は合図を見逃した。"},
+{en:"ashamed",ph:"/əˈʃeɪmd/",ja:"恥じて",pos:"形容詞",cat:"adjective",exEn:"He felt ashamed of his behavior.",exJa:"彼は自分の行動を恥じた。"},
+{en:"explicit",ph:"/ɪkˈsplɪsɪt/",ja:"明白な",pos:"形容詞",cat:"adjective",exEn:"Give explicit instructions to avoid confusion.",exJa:"混乱を避けるために明白な指示を出してください。"},
+{en:"confine",ph:"/kənˈfaɪn/",ja:"閉じこめる",pos:"動詞",cat:"verb",exEn:"The patient was confined to bed.",exJa:"患者はベッドに閉じこめられた。"},
+{en:"medication",ph:"/ˌmɛdɪˈkeɪʃən/",ja:"薬物",pos:"名詞",cat:"noun",exEn:"He takes medication for his condition.",exJa:"彼は症状のために薬を服用している。"},
+{en:"arbitrary",ph:"/ˈɑːbɪtrəri/",ja:"勝手な",pos:"形容詞",cat:"adjective",exEn:"The decision seemed arbitrary.",exJa:"その決定は勝手なように見えた。"},
+{en:"speculation",ph:"/ˌspɛkjʊˈleɪʃən/",ja:"熟考",pos:"名詞",cat:"noun",exEn:"There was much speculation about the outcome.",exJa:"結果についての憶測が多くあった。"},
+{en:"infinite",ph:"/ˈɪnfɪnɪt/",ja:"無限の",pos:"形容詞",cat:"adjective",exEn:"The universe is said to be infinite.",exJa:"宇宙は無限であると言われている。"},
+{en:"disgust",ph:"/dɪsˈɡʌst/",ja:"不快にさせる",pos:"動詞",cat:"verb",exEn:"The sight disgusted everyone present.",exJa:"その光景は居合わせた全員を不快にさせた。"},
+{en:"litter",ph:"/ˈlɪtər/",ja:"ごみ",pos:"名詞",cat:"noun",exEn:"Don't litter in the park.",exJa:"公園にごみを捨てないでください。"},
+{en:"sheer",ph:"/ʃɪər/",ja:"全くの",pos:"形容詞",cat:"adjective",exEn:"It was a sheer coincidence.",exJa:"それは全くの偶然だった。"},
+{en:"spontaneous",ph:"/spɒnˈteɪniəs/",ja:"自発的な",pos:"形容詞",cat:"adjective",exEn:"The party was completely spontaneous.",exJa:"そのパーティーは完全に自発的なものだった。"},
+{en:"integrate",ph:"/ˈɪntɪɡreɪt/",ja:"統合する",pos:"動詞",cat:"verb",exEn:"We need to integrate the new system.",exJa:"新しいシステムを統合する必要がある。"},
+{en:"vigorous",ph:"/ˈvɪɡərəs/",ja:"活発な",pos:"形容詞",cat:"adjective",exEn:"She takes vigorous exercise every morning.",exJa:"彼女は毎朝活発な運動をする。"},
+{en:"offend",ph:"/əˈfɛnd/",ja:"気分を害する",pos:"動詞",cat:"verb",exEn:"I didn't mean to offend you.",exJa:"あなたの気分を害するつもりはなかった。"},
+{en:"hazard",ph:"/ˈhæzəd/",ja:"危険",pos:"名詞",cat:"noun",exEn:"Smoking is a serious health hazard.",exJa:"喫煙は深刻な健康上の危険だ。"},
+{en:"temptation",ph:"/tɛmpˈteɪʃən/",ja:"誘惑",pos:"名詞",cat:"noun",exEn:"She resisted the temptation to cheat.",exJa:"彼女はカンニングの誘惑に抵抗した。"},
+{en:"emission",ph:"/ɪˈmɪʃən/",ja:"放出",pos:"名詞",cat:"noun",exEn:"Car emissions contribute to air pollution.",exJa:"自動車の排気放出は大気汚染の原因となる。"},
+{en:"tablet",ph:"/ˈtæblɪt/",ja:"錠剤",pos:"名詞",cat:"noun",exEn:"Take one tablet twice a day.",exJa:"1日2回1錠ずつ服用してください。"},
+{en:"paralyze",ph:"/ˈpærəlaɪz/",ja:"麻痺させる",pos:"動詞",cat:"verb",exEn:"The accident paralyzed his right arm.",exJa:"事故は彼の右腕を麻痺させた。"},
+{en:"mold",ph:"/məʊld/",ja:"形成する",pos:"動詞",cat:"verb",exEn:"Parents mold the character of their children.",exJa:"親は子供たちの性格を形成する。"},
+{en:"countless",ph:"/ˈkaʊntlɪs/",ja:"無数の",pos:"形容詞",cat:"adjective",exEn:"He made countless attempts to succeed.",exJa:"彼は成功するために無数の試みをした。"},
+{en:"quote",ph:"/kwəʊt/",ja:"引用する",pos:"動詞",cat:"verb",exEn:"She quoted from Shakespeare's work.",exJa:"彼女はシェイクスピアの作品から引用した。"},
+{en:"aristocracy",ph:"/ˌærɪˈstɒkrəsi/",ja:"貴族政治",pos:"名詞",cat:"noun",exEn:"The aristocracy once held great power.",exJa:"かつて貴族政治は大きな権力を持っていた。"},
+{en:"suppress",ph:"/səˈprɛs/",ja:"鎮圧する",pos:"動詞",cat:"verb",exEn:"The government suppressed the rebellion.",exJa:"政府は反乱を鎮圧した。"},
+{en:"irritate",ph:"/ˈɪrɪteɪt/",ja:"いらいらさせる",pos:"動詞",cat:"verb",exEn:"His constant complaints irritated everyone.",exJa:"彼の絶え間ない不平は皆をいらいらさせた。"},
+{en:"prescription",ph:"/prɪˈskrɪpʃən/",ja:"処方せん",pos:"名詞",cat:"noun",exEn:"You need a prescription for that medicine.",exJa:"その薬には処方せんが必要だ。"},
+{en:"superstition",ph:"/ˌsuːpəˈstɪʃən/",ja:"迷信",pos:"名詞",cat:"noun",exEn:"Breaking a mirror bringing bad luck is just a superstition.",exJa:"鏡を割ると不吉というのはただの迷信だ。"},
+{en:"coincide",ph:"/ˌkəʊɪnˈsaɪd/",ja:"一致する",pos:"動詞",cat:"verb",exEn:"Their opinions coincided on many points.",exJa:"彼らの意見は多くの点で一致した。"},
+{en:"peasant",ph:"/ˈpɛzənt/",ja:"小作農",pos:"名詞",cat:"noun",exEn:"Peasants worked long hours in the fields.",exJa:"小作農たちは畑で長時間働いた。"},
+{en:"abundance",ph:"/əˈbʌndəns/",ja:"豊富",pos:"名詞",cat:"noun",exEn:"The region has an abundance of natural resources.",exJa:"その地域は天然資源が豊富だ。"},
+{en:"summarize",ph:"/ˈsʌməraɪz/",ja:"要約する",pos:"動詞",cat:"verb",exEn:"Please summarize the main points.",exJa:"主なポイントを要約してください。"},
+{en:"jealous",ph:"/ˈdʒɛləs/",ja:"嫉妬深い",pos:"形容詞",cat:"adjective",exEn:"She felt jealous of her sister's success.",exJa:"彼女は姉の成功を嫉妬した。"},
+{en:"exploit",ph:"/ɪkˈsplɔɪt/",ja:"開発する",pos:"動詞",cat:"verb",exEn:"We should exploit solar energy more.",exJa:"太陽エネルギーをもっと開発すべきだ。"},
+{en:"voluntary",ph:"/ˈvɒləntəri/",ja:"自発的な",pos:"形容詞",cat:"adjective",exEn:"Her participation was entirely voluntary.",exJa:"彼女の参加は完全に自発的だった。"},
+{en:"competent",ph:"/ˈkɒmpɪtənt/",ja:"有能な",pos:"形容詞",cat:"adjective",exEn:"She is a competent engineer.",exJa:"彼女は有能なエンジニアだ。"},
+{en:"dignity",ph:"/ˈdɪɡnɪti/",ja:"威厳",pos:"名詞",cat:"noun",exEn:"He carried himself with great dignity.",exJa:"彼は大きな威厳を持って振る舞った。"},
+{en:"undertake",ph:"/ˌʌndəˈteɪk/",ja:"引き受ける",pos:"動詞",cat:"verb",exEn:"She undertook the difficult task willingly.",exJa:"彼女は困難な仕事を自ら引き受けた。"},
+{en:"diplomatic",ph:"/ˌdɪpləˈmætɪk/",ja:"外交の",pos:"形容詞",cat:"adjective",exEn:"Diplomatic relations between the countries improved.",exJa:"両国間の外交関係が改善された。"},
+{en:"protein",ph:"/ˈprəʊtiːn/",ja:"たんぱく質",pos:"名詞",cat:"noun",exEn:"Meat and eggs are rich in protein.",exJa:"肉と卵はたんぱく質が豊富だ。"},
+{en:"fragment",ph:"/ˈfræɡmənt/",ja:"断片",pos:"名詞",cat:"noun",exEn:"They found fragments of ancient pottery.",exJa:"彼らは古代の陶器の断片を見つけた。"},
+{en:"dedicate",ph:"/ˈdɛdɪkeɪt/",ja:"捧げる",pos:"動詞",cat:"verb",exEn:"He dedicated his life to helping others.",exJa:"彼は他人を助けることに一生を捧げた。"},
+{en:"tide",ph:"/taɪd/",ja:"潮",pos:"名詞",cat:"noun",exEn:"The tide comes in twice a day.",exJa:"潮は1日2回満ちる。"},
+{en:"intuitive",ph:"/ɪnˈtjuːɪtɪv/",ja:"直感的な",pos:"形容詞",cat:"adjective",exEn:"She had an intuitive understanding of the problem.",exJa:"彼女はその問題を直感的に理解していた。"},
+{en:"portion",ph:"/ˈpɔːʃən/",ja:"部分",pos:"名詞",cat:"noun",exEn:"A large portion of the budget was spent on research.",exJa:"予算の大きな部分が研究に費やされた。"},
+{en:"upbringing",ph:"/ˈʌpbrɪŋɪŋ/",ja:"しつけ",pos:"名詞",cat:"noun",exEn:"Her strict upbringing shaped her character.",exJa:"厳格なしつけが彼女の性格を形成した。"},
+{en:"imperial",ph:"/ɪmˈpɪəriəl/",ja:"帝国の",pos:"形容詞",cat:"adjective",exEn:"The imperial palace was open to visitors.",exJa:"帝国の宮殿は見学者に開放されていた。"},
+{en:"foster",ph:"/ˈfɒstər/",ja:"育てる",pos:"動詞",cat:"verb",exEn:"Good teachers foster a love of learning.",exJa:"良い教師は学習への愛情を育てる。"},
+{en:"telegram",ph:"/ˈtɛlɪɡræm/",ja:"電報",pos:"名詞",cat:"noun",exEn:"He sent a telegram to inform of his arrival.",exJa:"彼は到着を知らせるために電報を送った。"},
+{en:"intervention",ph:"/ˌɪntəˈvɛnʃən/",ja:"介入",pos:"名詞",cat:"noun",exEn:"Military intervention was unavoidable.",exJa:"軍事介入は避けられなかった。"},
+{en:"betray",ph:"/bɪˈtreɪ/",ja:"裏切る",pos:"動詞",cat:"verb",exEn:"He betrayed his friend's trust.",exJa:"彼は友人の信頼を裏切った。"},
+{en:"pessimistic",ph:"/ˌpɛsɪˈmɪstɪk/",ja:"悲観的な",pos:"形容詞",cat:"adjective",exEn:"She was pessimistic about the chances of success.",exJa:"彼女は成功の見込みについて悲観的だった。"},
+{en:"fancy",ph:"/ˈfænsi/",ja:"想像する",pos:"動詞",cat:"verb",exEn:"I fancy a walk in the park.",exJa:"公園を散歩したい気がする。"},
+{en:"workshop",ph:"/ˈwɜːkʃɒp/",ja:"仕事場",pos:"名詞",cat:"noun",exEn:"The carpenter worked in his workshop.",exJa:"大工は仕事場で作業した。"},
+{en:"corporate",ph:"/ˈkɔːpərɪt/",ja:"会社の",pos:"形容詞",cat:"adjective",exEn:"Corporate culture varies between countries.",exJa:"会社の文化は国によって異なる。"},
+{en:"specimen",ph:"/ˈspɛsɪmən/",ja:"見本",pos:"名詞",cat:"noun",exEn:"The scientist examined the specimen under a microscope.",exJa:"科学者は顕微鏡で標本を調べた。"},
+{en:"awaken",ph:"/əˈweɪkən/",ja:"目覚めさせる",pos:"動詞",cat:"verb",exEn:"The sound of birds awakened her.",exJa:"鳥の声が彼女を目覚めさせた。"},
+{en:"orbit",ph:"/ˈɔːbɪt/",ja:"軌道",pos:"名詞",cat:"noun",exEn:"The satellite orbited the Earth.",exJa:"衛星は地球を軌道で周回した。"},
+{en:"identical",ph:"/aɪˈdɛntɪkəl/",ja:"同一の",pos:"形容詞",cat:"adjective",exEn:"The twins wore identical outfits.",exJa:"双子は同一の服を着ていた。"},
+{en:"refine",ph:"/rɪˈfaɪn/",ja:"洗練する",pos:"動詞",cat:"verb",exEn:"She refined her writing style over the years.",exJa:"彼女は長年をかけて文体を洗練させた。"},
+{en:"gross",ph:"/ɡrəʊs/",ja:"全体の",pos:"形容詞",cat:"adjective",exEn:"What is the gross income for this quarter?",exJa:"今四半期の全体の収入はいくらですか？"},
+{en:"twist",ph:"/twɪst/",ja:"ねじる",pos:"動詞",cat:"verb",exEn:"She twisted the cap off the bottle.",exJa:"彼女はボトルのキャップをねじって開けた。"},
+{en:"endanger",ph:"/ɪnˈdeɪndʒər/",ja:"危険にさらす",pos:"動詞",cat:"verb",exEn:"Deforestation endangers many species.",exJa:"森林破壊は多くの種を危険にさらす。"},
+{en:"scramble",ph:"/ˈskræmbəl/",ja:"よじ登る",pos:"動詞",cat:"verb",exEn:"The children scrambled up the hill.",exJa:"子供たちは丘をよじ登った。"},
+{en:"register",ph:"/ˈrɛdʒɪstər/",ja:"登録する",pos:"動詞",cat:"verb",exEn:"You must register before the deadline.",exJa:"締め切り前に登録しなければならない。"},
+{en:"formulate",ph:"/ˈfɔːmjʊleɪt/",ja:"練り上げる",pos:"動詞",cat:"verb",exEn:"They formulated a plan to solve the crisis.",exJa:"彼らは危機を解決するための計画を練り上げた。"},
+{en:"thrive",ph:"/θraɪv/",ja:"繁栄する",pos:"動詞",cat:"verb",exEn:"The business thrived in the new market.",exJa:"そのビジネスは新しい市場で繁栄した。"},
+{en:"distress",ph:"/dɪˈstrɛs/",ja:"悩ます",pos:"動詞",cat:"verb",exEn:"The news distressed her greatly.",exJa:"そのニュースは彼女をひどく悩ませた。"},
+{en:"doctrine",ph:"/ˈdɒktrɪn/",ja:"教義",pos:"名詞",cat:"noun",exEn:"The church taught strict religious doctrine.",exJa:"教会は厳格な宗教的教義を教えた。"},
+{en:"scandal",ph:"/ˈskændəl/",ja:"不祥事",pos:"名詞",cat:"noun",exEn:"The politician resigned after the scandal.",exJa:"不祥事の後、政治家は辞任した。"},
+{en:"bride",ph:"/braɪd/",ja:"花嫁",pos:"名詞",cat:"noun",exEn:"The bride looked beautiful in her dress.",exJa:"花嫁はドレスを着て美しかった。"},
+{en:"racism",ph:"/ˈreɪsɪzəm/",ja:"人種差別",pos:"名詞",cat:"noun",exEn:"Racism has no place in our society.",exJa:"人種差別は私たちの社会に存在すべきでない。"},
+{en:"diameter",ph:"/daɪˈæmɪtər/",ja:"直径",pos:"名詞",cat:"noun",exEn:"The diameter of the circle is 10 cm.",exJa:"その円の直径は10センチメートルだ。"},
+{en:"rotate",ph:"/rəʊˈteɪt/",ja:"回転する",pos:"動詞",cat:"verb",exEn:"The Earth rotates on its axis.",exJa:"地球は地軸を中心に回転する。"},
+{en:"lunar",ph:"/ˈluːnər/",ja:"月の",pos:"形容詞",cat:"adjective",exEn:"A lunar eclipse occurs when the Earth casts a shadow on the moon.",exJa:"月食は地球が月に影を投じるときに起こる。"},
+{en:"presumably",ph:"/prɪˈzjuːməbli/",ja:"たぶん",pos:"副詞",cat:"adverb",exEn:"He presumably forgot about the meeting.",exJa:"彼はたぶん会議を忘れたのだろう。"},
+{en:"implement",ph:"/ˈɪmplɪmɛnt/",ja:"道具",pos:"名詞",cat:"noun",exEn:"Farming implements were found at the site.",exJa:"農具が遺跡で発見された。"},
+{en:"vaccine",ph:"/ˈvæksiːn/",ja:"ワクチン",pos:"名詞",cat:"noun",exEn:"The vaccine protects against influenza.",exJa:"そのワクチンはインフルエンザを防ぐ。"},
+{en:"feminine",ph:"/ˈfɛmɪnɪn/",ja:"女性らしい",pos:"形容詞",cat:"adjective",exEn:"The room had a soft, feminine atmosphere.",exJa:"その部屋は柔らかく女性らしい雰囲気があった。"},
+{en:"surgery",ph:"/ˈsɜːdʒəri/",ja:"外科手術",pos:"名詞",cat:"noun",exEn:"He underwent surgery to repair his knee.",exJa:"彼は膝を修復するための外科手術を受けた。"},
+{en:"compensate",ph:"/ˈkɒmpɛnseɪt/",ja:"償う",pos:"動詞",cat:"verb",exEn:"The company compensated the workers for overtime.",exJa:"会社は残業代として労働者に補償した。"},
+{en:"Orient",ph:"/ˈɔːriənt/",ja:"東洋",pos:"名詞",cat:"noun",exEn:"Silk originally came from the Orient.",exJa:"絹はもともと東洋から来た。"},
+{en:"commute",ph:"/kəˈmjuːt/",ja:"通勤する",pos:"動詞",cat:"verb",exEn:"She commutes to work by train every day.",exJa:"彼女は毎日電車で通勤する。"},
+{en:"resent",ph:"/rɪˈzɛnt/",ja:"憤慨する",pos:"動詞",cat:"verb",exEn:"He resented being treated unfairly.",exJa:"彼は不公平に扱われることに憤慨した。"},
+{en:"assure",ph:"/əˈʃʊər/",ja:"確信させる",pos:"動詞",cat:"verb",exEn:"She assured him that everything would be fine.",exJa:"彼女は全て大丈夫だと彼を確信させた。"},
+{en:"gull",ph:"/ɡʌl/",ja:"かもめ",pos:"名詞",cat:"noun",exEn:"A gull circled over the fishing boat.",exJa:"かもめが漁船の上を旋回した。"},
+{en:"reproduce",ph:"/ˌriːprəˈdjuːs/",ja:"再生する",pos:"動詞",cat:"verb",exEn:"The machine can reproduce sounds clearly.",exJa:"その機械は音を明確に再生できる。"},
+{en:"wheat",ph:"/wiːt/",ja:"小麦",pos:"名詞",cat:"noun",exEn:"Wheat is used to make bread and pasta.",exJa:"小麦はパンやパスタを作るのに使われる。"},
+{en:"administration",ph:"/ədˌmɪnɪˈstreɪʃən/",ja:"政府",pos:"名詞",cat:"noun",exEn:"The new administration announced tax cuts.",exJa:"新しい政府は減税を発表した。"},
+{en:"parliament",ph:"/ˈpɑːləmənt/",ja:"英国議会",pos:"名詞",cat:"noun",exEn:"Parliament debated the new education bill.",exJa:"議会は新しい教育法案を議論した。"},
+{en:"diagram",ph:"/ˈdaɪəɡræm/",ja:"図表",pos:"名詞",cat:"noun",exEn:"The diagram showed how the engine works.",exJa:"図表はエンジンの仕組みを示した。"},
+{en:"stake",ph:"/steɪk/",ja:"くい",pos:"名詞",cat:"noun",exEn:"The farmer drove stakes into the ground.",exJa:"農家は地面にくいを打ち込んだ。"},
+{en:"humble",ph:"/ˈhʌmbəl/",ja:"粗末な",pos:"形容詞",cat:"adjective",exEn:"He grew up in a humble home.",exJa:"彼は粗末な家で育った。"},
+{en:"syllable",ph:"/ˈsɪləbəl/",ja:"音節",pos:"名詞",cat:"noun",exEn:"The word 'beautiful' has three syllables.",exJa:"「beautiful」という単語は3つの音節がある。"},
+{en:"conform",ph:"/kənˈfɔːm/",ja:"一致する",pos:"動詞",cat:"verb",exEn:"Students are expected to conform to school rules.",exJa:"生徒たちは校則に従うことが期待されている。"},
+{en:"descend",ph:"/dɪˈsɛnd/",ja:"下りる",pos:"動詞",cat:"verb",exEn:"They descended the mountain carefully.",exJa:"彼らは慎重に山を下りた。"},
+{en:"reign",ph:"/reɪn/",ja:"統治する",pos:"動詞",cat:"verb",exEn:"The queen reigned for over 70 years.",exJa:"女王は70年以上統治した。"},
+{en:"commonplace",ph:"/ˈkɒmənpleɪs/",ja:"ありふれた",pos:"形容詞",cat:"adjective",exEn:"Smartphones have become commonplace.",exJa:"スマートフォンはありふれたものになった。"},
+{en:"republic",ph:"/rɪˈpʌblɪk/",ja:"共和国",pos:"名詞",cat:"noun",exEn:"France is a democratic republic.",exJa:"フランスは民主共和国だ。"},
+{en:"bald",ph:"/bɔːld/",ja:"はげた",pos:"形容詞",cat:"adjective",exEn:"He became bald in his forties.",exJa:"彼は40代にはげた。"},
+{en:"plague",ph:"/pleɪɡ/",ja:"苦しめる",pos:"動詞",cat:"verb",exEn:"Self-doubt has plagued him his whole life.",exJa:"自己不信が彼を生涯苦しめてきた。"},
+{en:"deficit",ph:"/ˈdɛfɪsɪt/",ja:"赤字",pos:"名詞",cat:"noun",exEn:"The government is facing a large budget deficit.",exJa:"政府は大きな財政赤字に直面している。"},
+{en:"solitude",ph:"/ˈsɒlɪtjuːd/",ja:"孤独",pos:"名詞",cat:"noun",exEn:"She enjoyed the solitude of the countryside.",exJa:"彼女は田舎の孤独を楽しんだ。"},
+{en:"hawk",ph:"/hɔːk/",ja:"タカ",pos:"名詞",cat:"noun",exEn:"A hawk swooped down to catch its prey.",exJa:"タカは獲物を捕まえるために急降下した。"},
+{en:"suspend",ph:"/səˈspɛnd/",ja:"一時停止する",pos:"動詞",cat:"verb",exEn:"The game was suspended due to rain.",exJa:"試合は雨のために一時停止された。"},
+{en:"assembly",ph:"/əˈsɛmbli/",ja:"集会",pos:"名詞",cat:"noun",exEn:"The school held a morning assembly.",exJa:"学校は朝の集会を行った。"},
+{en:"outlook",ph:"/ˈaʊtlʊk/",ja:"見解",pos:"名詞",cat:"noun",exEn:"He has a positive outlook on life.",exJa:"彼は人生に対して前向きな見解を持っている。"},
+{en:"stiff",ph:"/stɪf/",ja:"堅い",pos:"形容詞",cat:"adjective",exEn:"The old door was stiff and hard to open.",exJa:"古いドアは堅くて開けにくかった。"},
+{en:"cram",ph:"/kræm/",ja:"詰め込む",pos:"動詞",cat:"verb",exEn:"Students often cram the night before exams.",exJa:"学生はよく試験前夜に詰め込み勉強する。"},
+{en:"sightseeing",ph:"/ˈsaɪtsiːɪŋ/",ja:"観光",pos:"名詞",cat:"noun",exEn:"We spent the day sightseeing in Rome.",exJa:"私たちはローマで観光に一日を費やした。"},
+{en:"burglar",ph:"/ˈbɜːɡlər/",ja:"強盗",pos:"名詞",cat:"noun",exEn:"A burglar broke into the house last night.",exJa:"昨夜、強盗が家に侵入した。"},
+{en:"recession",ph:"/rɪˈsɛʃən/",ja:"不況",pos:"名詞",cat:"noun",exEn:"The country fell into a deep recession.",exJa:"その国は深刻な不況に陥った。"},
+{en:"gloomy",ph:"/ˈɡluːmi/",ja:"憂鬱な",pos:"形容詞",cat:"adjective",exEn:"The weather has been gloomy all week.",exJa:"今週はずっと憂鬱な天気が続いている。"},
+{en:"surpass",ph:"/səˈpɑːs/",ja:"越える",pos:"動詞",cat:"verb",exEn:"Her performance surpassed all expectations.",exJa:"彼女のパフォーマンスはすべての期待を越えた。"},
+{en:"weary",ph:"/ˈwɪəri/",ja:"疲れた",pos:"形容詞",cat:"adjective",exEn:"She was weary after the long journey.",exJa:"彼女は長旅の後に疲れていた。"},
+{en:"copper",ph:"/ˈkɒpər/",ja:"銅",pos:"名詞",cat:"noun",exEn:"Copper is used in electrical wiring.",exJa:"銅は電気配線に使われる。"},
+{en:"shed",ph:"/ʃɛd/",ja:"流す",pos:"動詞",cat:"verb",exEn:"She shed tears when she heard the news.",exJa:"彼女はその知らせを聞いて涙を流した。"},
+{en:"incentive",ph:"/ɪnˈsɛntɪv/",ja:"動機",pos:"名詞",cat:"noun",exEn:"Bonuses serve as an incentive to work harder.",exJa:"ボーナスはより努力する動機となる。"},
+{en:"trousers",ph:"/ˈtraʊzəz/",ja:"ズボン",pos:"名詞",cat:"noun",exEn:"He wore black trousers to the interview.",exJa:"彼は面接に黒いズボンを着ていった。"},
+{en:"rage",ph:"/reɪdʒ/",ja:"激怒",pos:"名詞",cat:"noun",exEn:"He flew into a rage when he heard the lie.",exJa:"嘘を聞いて彼は激怒した。"},
+{en:"absurd",ph:"/əbˈsɜːd/",ja:"愚かな",pos:"形容詞",cat:"adjective",exEn:"That is an absurd suggestion.",exJa:"それは愚かな提案だ。"},
+{en:"lottery",ph:"/ˈlɒtəri/",ja:"くじ",pos:"名詞",cat:"noun",exEn:"He won a large sum in the lottery.",exJa:"彼はくじで大金を当てた。"},
+{en:"discharge",ph:"/dɪsˈtʃɑːdʒ/",ja:"排出する",pos:"動詞",cat:"verb",exEn:"The factory discharged waste into the river.",exJa:"工場は廃棄物を川に排出した。"},
+{en:"steer",ph:"/stɪər/",ja:"操縦する",pos:"動詞",cat:"verb",exEn:"She steered the boat through the narrow passage.",exJa:"彼女は狭い通路を通ってボートを操縦した。"},
+{en:"illuminate",ph:"/ɪˈluːmɪneɪt/",ja:"照らす",pos:"動詞",cat:"verb",exEn:"Candles illuminated the dark room.",exJa:"ろうそくが暗い部屋を照らした。"},
+{en:"tissue",ph:"/ˈtɪʃuː/",ja:"組織",pos:"名詞",cat:"noun",exEn:"The damaged tissue slowly healed.",exJa:"傷ついた組織はゆっくりと回復した。"},
+{en:"provoke",ph:"/prəˈvəʊk/",ja:"引き起こす",pos:"動詞",cat:"verb",exEn:"His words provoked a strong reaction.",exJa:"彼の言葉は強い反応を引き起こした。"},
+{en:"drift",ph:"/drɪft/",ja:"漂う",pos:"動詞",cat:"verb",exEn:"The boat drifted slowly downstream.",exJa:"ボートはゆっくりと川下へ漂った。"},
+{en:"submit",ph:"/səbˈmɪt/",ja:"服従する",pos:"動詞",cat:"verb",exEn:"He refused to submit to their demands.",exJa:"彼は彼らの要求に服従することを拒否した。"},
+{en:"abolish",ph:"/əˈbɒlɪʃ/",ja:"廃止する",pos:"動詞",cat:"verb",exEn:"The law was finally abolished.",exJa:"その法律はついに廃止された。"},
+{en:"liable",ph:"/ˈlaɪəbəl/",ja:"〜しがちな",pos:"形容詞",cat:"adjective",exEn:"He is liable to make mistakes when tired.",exJa:"疲れているとき、彼はミスをしがちだ。"},
+{en:"tune",ph:"/tjuːn/",ja:"曲",pos:"名詞",cat:"noun",exEn:"She hummed a cheerful tune.",exJa:"彼女は陽気な曲を鼻歌で歌った。"},
+{en:"abrupt",ph:"/əˈbrʌpt/",ja:"突然の",pos:"形容詞",cat:"adjective",exEn:"His abrupt departure surprised everyone.",exJa:"彼の突然の出発は皆を驚かせた。"},
+{en:"drain",ph:"/dreɪn/",ja:"消耗させる",pos:"動詞",cat:"verb",exEn:"The long meeting drained her energy.",exJa:"長い会議は彼女のエネルギーを消耗させた。"},
+{en:"plunge",ph:"/plʌndʒ/",ja:"突っ込む",pos:"動詞",cat:"verb",exEn:"He plunged into the cold water.",exJa:"彼は冷たい水に突っ込んだ。"},
+{en:"fluent",ph:"/ˈfluːənt/",ja:"流暢な",pos:"形容詞",cat:"adjective",exEn:"She is fluent in three languages.",exJa:"彼女は3つの言語が流暢だ。"},
+{en:"segment",ph:"/ˈsɛɡmənt/",ja:"部分",pos:"名詞",cat:"noun",exEn:"This segment of the market is growing rapidly.",exJa:"市場のこの部分は急速に成長している。"},
+{en:"bearing",ph:"/ˈbɛərɪŋ/",ja:"関係、関連",pos:"名詞",cat:"noun",exEn:"His age had no bearing on the decision.",exJa:"彼の年齢は決定に何の関係もなかった。"},
+{en:"humane",ph:"/hjuːˈmeɪn/",ja:"思いやりのある",pos:"形容詞",cat:"adjective",exEn:"We must ensure humane treatment of animals.",exJa:"動物への思いやりのある扱いを確保しなければならない。"},
+{en:"throat",ph:"/θrəʊt/",ja:"のど",pos:"名詞",cat:"noun",exEn:"He cleared his throat before speaking.",exJa:"彼は話す前にのどをクリアした。"},
+{en:"disregard",ph:"/ˌdɪsrɪˈɡɑːd/",ja:"無視する",pos:"動詞",cat:"verb",exEn:"She disregarded his warnings.",exJa:"彼女は彼の警告を無視した。"},
+{en:"courtesy",ph:"/ˈkɜːtɪsi/",ja:"礼儀作法",pos:"名詞",cat:"noun",exEn:"She treated everyone with courtesy.",exJa:"彼女は皆を礼儀正しく扱った。"},
+{en:"creep",ph:"/kriːp/",ja:"這う",pos:"動詞",cat:"verb",exEn:"The cat crept silently across the floor.",exJa:"猫は床を静かに這った。"},
+{en:"hostility",ph:"/hɒˈstɪlɪti/",ja:"敵意",pos:"名詞",cat:"noun",exEn:"There was open hostility between the two sides.",exJa:"両者の間に公然とした敵意があった。"},
+{en:"tease",ph:"/tiːz/",ja:"いじめる",pos:"動詞",cat:"verb",exEn:"Don't tease your younger sibling.",exJa:"弟や妹をいじめてはいけない。"},
+{en:"pillar",ph:"/ˈpɪlər/",ja:"柱",pos:"名詞",cat:"noun",exEn:"Massive stone pillars supported the roof.",exJa:"巨大な石柱が屋根を支えていた。"},
+{en:"magnify",ph:"/ˈmæɡnɪfaɪ/",ja:"拡大する",pos:"動詞",cat:"verb",exEn:"The microscope magnified the cells clearly.",exJa:"顕微鏡は細胞を明確に拡大した。"},
+{en:"underneath",ph:"/ˌʌndəˈniːθ/",ja:"〜の下に",pos:"前置詞",cat:"preposition",exEn:"The keys were underneath the mat.",exJa:"鍵はマットの下にあった。"},
+{en:"roar",ph:"/rɔː/",ja:"大声",pos:"名詞",cat:"noun",exEn:"The crowd let out a roar of excitement.",exJa:"群衆は興奮の大声を上げた。"},
+{en:"arithmetic",ph:"/əˈrɪθmətɪk/",ja:"算数",pos:"名詞",cat:"noun",exEn:"Children learn arithmetic at an early age.",exJa:"子供は幼い頃に算数を学ぶ。"},
+{en:"swift",ph:"/swɪft/",ja:"素早い",pos:"形容詞",cat:"adjective",exEn:"The cheetah is known for its swift movements.",exJa:"チーターは素早い動きで知られている。"},
+{en:"erect",ph:"/ɪˈrɛkt/",ja:"直立した",pos:"形容詞",cat:"adjective",exEn:"He stood erect and confident.",exJa:"彼は直立して自信を持って立った。"},
+{en:"prolong",ph:"/prəˈlɒŋ/",ja:"延長する",pos:"動詞",cat:"verb",exEn:"There was no reason to prolong the meeting.",exJa:"会議を延長する理由はなかった。"},
+{en:"dictate",ph:"/dɪkˈteɪt/",ja:"口述する",pos:"動詞",cat:"verb",exEn:"The manager dictated a letter to his assistant.",exJa:"マネージャーはアシスタントに手紙を口述した。"},
+{en:"comet",ph:"/ˈkɒmɪt/",ja:"彗星",pos:"名詞",cat:"noun",exEn:"The comet was visible with the naked eye.",exJa:"彗星は肉眼で見えた。"},
+{en:"troop",ph:"/truːp/",ja:"軍隊",pos:"名詞",cat:"noun",exEn:"Troops were deployed along the border.",exJa:"軍隊が国境沿いに配備された。"},
+{en:"fabric",ph:"/ˈfæbrɪk/",ja:"織物",pos:"名詞",cat:"noun",exEn:"The fabric was soft and comfortable.",exJa:"その織物は柔らかく快適だった。"},
+{en:"retreat",ph:"/rɪˈtriːt/",ja:"退却",pos:"名詞",cat:"noun",exEn:"The army began a hasty retreat.",exJa:"軍は急いで退却を始めた。"},
+{en:"applause",ph:"/əˈplɔːz/",ja:"拍手喝采",pos:"名詞",cat:"noun",exEn:"The audience gave a round of applause.",exJa:"観客は拍手喝采を送った。"},
+{en:"harsh",ph:"/hɑːʃ/",ja:"厳しい",pos:"形容詞",cat:"adjective",exEn:"The harsh weather made travel impossible.",exJa:"厳しい天気は移動を不可能にした。"},
+{en:"statesman",ph:"/ˈsteɪtsmən/",ja:"政治家",pos:"名詞",cat:"noun",exEn:"He was respected as a wise statesman.",exJa:"彼は賢明な政治家として尊敬されていた。"},
+{en:"diagnose",ph:"/ˈdaɪəɡnəʊz/",ja:"診断する",pos:"動詞",cat:"verb",exEn:"The doctor diagnosed him with pneumonia.",exJa:"医師は彼を肺炎と診断した。"},
+{en:"nitrogen",ph:"/ˈnaɪtrədʒən/",ja:"窒素",pos:"名詞",cat:"noun",exEn:"The air we breathe is mostly nitrogen.",exJa:"私たちが吸う空気の大部分は窒素だ。"},
+{en:"fragile",ph:"/ˈfrædʒaɪl/",ja:"もろい",pos:"形容詞",cat:"adjective",exEn:"Handle the fragile glassware carefully.",exJa:"もろいガラス製品は丁寧に扱ってください。"},
+{en:"simulate",ph:"/ˈsɪmjʊleɪt/",ja:"模擬演習する",pos:"動詞",cat:"verb",exEn:"The training simulated real battle conditions.",exJa:"訓練は実際の戦闘状況を模擬演習した。"},
+{en:"charcoal",ph:"/ˈtʃɑːkəʊl/",ja:"木炭",pos:"名詞",cat:"noun",exEn:"He drew a sketch using charcoal.",exJa:"彼は木炭でスケッチを描いた。"},
+{en:"transition",ph:"/trænˈzɪʃən/",ja:"移行",pos:"名詞",cat:"noun",exEn:"The transition to democracy was peaceful.",exJa:"民主主義への移行は平和的だった。"},
+{en:"exceedingly",ph:"/ɪkˈsiːdɪŋli/",ja:"非常に",pos:"副詞",cat:"adverb",exEn:"The exam was exceedingly difficult.",exJa:"試験は非常に難しかった。"},
+{en:"grin",ph:"/ɡrɪn/",ja:"にやりと笑う",pos:"動詞",cat:"verb",exEn:"He grinned when he heard the joke.",exJa:"冗談を聞いて彼はにやりと笑った。"},
+{en:"stalk",ph:"/stɔːk/",ja:"茎",pos:"名詞",cat:"noun",exEn:"The flower had a long green stalk.",exJa:"その花には長い緑の茎があった。"},
+{en:"posture",ph:"/ˈpɒstʃər/",ja:"姿勢",pos:"名詞",cat:"noun",exEn:"Good posture is important for your health.",exJa:"良い姿勢は健康に重要だ。"},
+{en:"fountain",ph:"/ˈfaʊntɪn/",ja:"泉",pos:"名詞",cat:"noun",exEn:"Children played around the fountain.",exJa:"子供たちは泉の周りで遊んだ。"},
+{en:"shatter",ph:"/ˈʃætər/",ja:"粉砕する",pos:"動詞",cat:"verb",exEn:"The vase shattered when it hit the floor.",exJa:"花瓶は床に落ちて粉砕した。"},
+{en:"token",ph:"/ˈtəʊkən/",ja:"印",pos:"名詞",cat:"noun",exEn:"He gave her a flower as a token of affection.",exJa:"彼は愛情の印として花を贈った。"},
+{en:"evoke",ph:"/ɪˈvəʊk/",ja:"喚起する",pos:"動詞",cat:"verb",exEn:"The music evoked memories of childhood.",exJa:"その音楽は幼少期の記憶を喚起した。"},
+{en:"quake",ph:"/kweɪk/",ja:"震える",pos:"動詞",cat:"verb",exEn:"She quaked with fear in the dark.",exJa:"彼女は暗闇の中で恐怖で震えた。"},
+{en:"grace",ph:"/ɡreɪs/",ja:"優雅",pos:"名詞",cat:"noun",exEn:"She moved with natural grace.",exJa:"彼女は自然な優雅さで動いた。"},
+{en:"splendid",ph:"/ˈsplɛndɪd/",ja:"輝かしい",pos:"形容詞",cat:"adjective",exEn:"The sunset was simply splendid.",exJa:"夕日は実に輝かしかった。"},
+{en:"fitness",ph:"/ˈfɪtnɪs/",ja:"健康",pos:"名詞",cat:"noun",exEn:"Regular exercise improves physical fitness.",exJa:"定期的な運動は体の健康を改善する。"},
+{en:"prestige",ph:"/prɛˈstiːʒ/",ja:"威信",pos:"名詞",cat:"noun",exEn:"Winning the award brought her great prestige.",exJa:"賞を受賞することで彼女は大きな威信を得た。"},
+{en:"hydrogen",ph:"/ˈhaɪdrədʒən/",ja:"水素",pos:"名詞",cat:"noun",exEn:"Hydrogen is the lightest element.",exJa:"水素は最も軽い元素だ。"},
+{en:"semester",ph:"/sɪˈmɛstər/",ja:"学期",pos:"名詞",cat:"noun",exEn:"The spring semester starts in April.",exJa:"春学期は4月に始まる。"},
+{en:"disprove",ph:"/ˌdɪsˈpruːv/",ja:"反証する",pos:"動詞",cat:"verb",exEn:"Scientists worked to disprove the old theory.",exJa:"科学者たちは古い理論を反証しようとした。"},
+{en:"patron",ph:"/ˈpeɪtrən/",ja:"後援者",pos:"名詞",cat:"noun",exEn:"The wealthy patron funded the arts program.",exJa:"裕福な後援者が芸術プログラムに資金提供した。"},
+{en:"biography",ph:"/baɪˈɒɡrəfi/",ja:"伝記",pos:"名詞",cat:"noun",exEn:"She wrote a biography of the famous scientist.",exJa:"彼女は有名な科学者の伝記を書いた。"},
+{en:"upright",ph:"/ˈʌpraɪt/",ja:"垂直の",pos:"形容詞",cat:"adjective",exEn:"Keep the bottle upright to prevent leaking.",exJa:"漏れを防ぐためにボトルを垂直に保ってください。"},
+{en:"fiber",ph:"/ˈfaɪbər/",ja:"繊維",pos:"名詞",cat:"noun",exEn:"Dietary fiber is essential for digestion.",exJa:"食物繊維は消化に不可欠だ。"},
+{en:"porch",ph:"/pɔːtʃ/",ja:"玄関",pos:"名詞",cat:"noun",exEn:"She sat on the porch watching the sunset.",exJa:"彼女は玄関に座って夕日を眺めた。"},
+{en:"decay",ph:"/dɪˈkeɪ/",ja:"腐食",pos:"名詞",cat:"noun",exEn:"The old building showed signs of decay.",exJa:"古い建物は腐食の兆候を示していた。"},
+{en:"beforehand",ph:"/bɪˈfɔːhænd/",ja:"前もって",pos:"副詞",cat:"adverb",exEn:"Please prepare your documents beforehand.",exJa:"前もって書類を準備してください。"},
+{en:"magnificent",ph:"/mæɡˈnɪfɪsənt/",ja:"壮麗な",pos:"形容詞",cat:"adjective",exEn:"The cathedral was truly magnificent.",exJa:"大聖堂は本当に壮麗だった。"},
+{en:"trail",ph:"/treɪl/",ja:"跡",pos:"名詞",cat:"noun",exEn:"They followed the trail through the forest.",exJa:"彼らは森の中の跡をたどった。"},
+{en:"enforce",ph:"/ɪnˈfɔːs/",ja:"施行する",pos:"動詞",cat:"verb",exEn:"The police enforce the law.",exJa:"警察は法律を施行する。"},
+{en:"pierce",ph:"/pɪəs/",ja:"貫く",pos:"動詞",cat:"verb",exEn:"The arrow pierced the target cleanly.",exJa:"矢は的をきれいに貫いた。"},
+{en:"crush",ph:"/krʌʃ/",ja:"押しつぶす",pos:"動詞",cat:"verb",exEn:"The heavy rock crushed the small plant.",exJa:"重い岩が小さな植物を押しつぶした。"},
+{en:"notorious",ph:"/nəʊˈtɔːriəs/",ja:"悪名高い",pos:"形容詞",cat:"adjective",exEn:"He was notorious for his dishonest dealings.",exJa:"彼は不正直な取引で悪名高かった。"},
+{en:"particle",ph:"/ˈpɑːtɪkəl/",ja:"粒子",pos:"名詞",cat:"noun",exEn:"Dust particles floated in the sunlight.",exJa:"ほこりの粒子が日差しの中を漂った。"},
+{en:"disguise",ph:"/dɪsˈɡaɪz/",ja:"変装させる",pos:"動詞",cat:"verb",exEn:"He disguised himself as a security guard.",exJa:"彼は警備員に変装した。"},
+{en:"herd",ph:"/hɜːd/",ja:"群れ",pos:"名詞",cat:"noun",exEn:"A herd of elephants crossed the plain.",exJa:"ゾウの群れが平原を横断した。"},
+{en:"patch",ph:"/pætʃ/",ja:"継ぎはぎ",pos:"名詞",cat:"noun",exEn:"He wore jeans with a patch on the knee.",exJa:"彼は膝に継ぎはぎのあるジーンズを着ていた。"},
+{en:"lodge",ph:"/lɒdʒ/",ja:"小屋",pos:"名詞",cat:"noun",exEn:"They stayed at a mountain lodge.",exJa:"彼らは山の小屋に泊まった。"},
+{en:"timber",ph:"/ˈtɪmbər/",ja:"材木",pos:"名詞",cat:"noun",exEn:"The house was built from local timber.",exJa:"その家は地元の材木で建てられた。"},
+{en:"geological",ph:"/ˌdʒiːəˈlɒdʒɪkəl/",ja:"地質学の",pos:"形容詞",cat:"adjective",exEn:"Geological surveys revealed oil deposits.",exJa:"地質学的調査で石油の埋蔵量が明らかになった。"},
+{en:"recreation",ph:"/ˌrɛkriˈeɪʃən/",ja:"娯楽",pos:"名詞",cat:"noun",exEn:"Hiking is his main form of recreation.",exJa:"ハイキングは彼の主な娯楽だ。"},
+{en:"personnel",ph:"/ˌpɜːsəˈnɛl/",ja:"職員",pos:"名詞",cat:"noun",exEn:"All personnel must wear ID badges.",exJa:"すべての職員はIDバッジを着用しなければならない。"},
+{en:"composer",ph:"/kəmˈpəʊzər/",ja:"作曲家",pos:"名詞",cat:"noun",exEn:"Beethoven was a brilliant composer.",exJa:"ベートーヴェンは素晴らしい作曲家だった。"},
+{en:"neutral",ph:"/ˈnjuːtrəl/",ja:"中立の",pos:"形容詞",cat:"adjective",exEn:"Switzerland is known for being neutral.",exJa:"スイスは中立であることで知られている。"},
+{en:"script",ph:"/skrɪpt/",ja:"台本",pos:"名詞",cat:"noun",exEn:"The actors memorized their scripts.",exJa:"俳優たちは台本を暗記した。"},
+{en:"anecdote",ph:"/ˈænɪkdəʊt/",ja:"逸話",pos:"名詞",cat:"noun",exEn:"He told a funny anecdote about his travels.",exJa:"彼は旅行についての面白い逸話を語った。"},
+{en:"thermometer",ph:"/θəˈmɒmɪtər/",ja:"温度計",pos:"名詞",cat:"noun",exEn:"The thermometer showed 38 degrees.",exJa:"温度計は38度を示した。"},
+{en:"perish",ph:"/ˈpɛrɪʃ/",ja:"死ぬ",pos:"動詞",cat:"verb",exEn:"Many animals perished in the drought.",exJa:"多くの動物が干ばつで死んだ。"},
+{en:"soak",ph:"/səʊk/",ja:"濡らす",pos:"動詞",cat:"verb",exEn:"The rain soaked his clothes completely.",exJa:"雨は彼の服を完全に濡らした。"},
+{en:"cliff",ph:"/klɪf/",ja:"がけ",pos:"名詞",cat:"noun",exEn:"They stood on the edge of the cliff.",exJa:"彼らはがけの端に立った。"},
+{en:"naked",ph:"/ˈneɪkɪd/",ja:"裸の",pos:"形容詞",cat:"adjective",exEn:"The bacteria are invisible to the naked eye.",exJa:"細菌は肉眼では見えない。"},
+{en:"glow",ph:"/ɡləʊ/",ja:"燃えるように輝く",pos:"動詞",cat:"verb",exEn:"The coals glowed in the fireplace.",exJa:"炭が暖炉の中で燃えるように輝いた。"},
+{en:"scent",ph:"/sɛnt/",ja:"香り",pos:"名詞",cat:"noun",exEn:"The scent of roses filled the garden.",exJa:"バラの香りが庭に満ちた。"},
+{en:"ambulance",ph:"/ˈæmbjʊləns/",ja:"救急車",pos:"名詞",cat:"noun",exEn:"The ambulance arrived within minutes.",exJa:"救急車は数分以内に到着した。"},
+{en:"intrigue",ph:"/ˈɪntriːɡ/",ja:"陰謀",pos:"名詞",cat:"noun",exEn:"The novel was full of political intrigue.",exJa:"その小説は政治的な陰謀に満ちていた。"},
+{en:"fraud",ph:"/frɔːd/",ja:"詐欺",pos:"名詞",cat:"noun",exEn:"He was arrested for bank fraud.",exJa:"彼は銀行詐欺で逮捕された。"},
+{en:"rebel",ph:"/ˈrɛbəl/",ja:"反抗する",pos:"動詞",cat:"verb",exEn:"Teenagers often rebel against authority.",exJa:"ティーンエイジャーはよく権威に反抗する。"},
+{en:"germ",ph:"/dʒɜːm/",ja:"病原菌",pos:"名詞",cat:"noun",exEn:"Wash your hands to kill germs.",exJa:"病原菌を殺すために手を洗ってください。"},
+{en:"rubbish",ph:"/ˈrʌbɪʃ/",ja:"ごみ",pos:"名詞",cat:"noun",exEn:"Put the rubbish in the bin.",exJa:"ごみをごみ箱に入れてください。"},
+{en:"ally",ph:"/ˈælaɪ/",ja:"同盟を結ぶ",pos:"動詞",cat:"verb",exEn:"The two countries allied against a common enemy.",exJa:"二国は共通の敵に対して同盟を結んだ。"},
+{en:"intricate",ph:"/ˈɪntrɪkɪt/",ja:"複雑な",pos:"形容詞",cat:"adjective",exEn:"The intricate pattern required great skill.",exJa:"複雑な模様には高い技術が必要だった。"},
+{en:"spray",ph:"/spreɪ/",ja:"振りかける",pos:"動詞",cat:"verb",exEn:"She sprayed perfume on her wrist.",exJa:"彼女は手首に香水を振りかけた。"},
+{en:"hedge",ph:"/hɛdʒ/",ja:"防衛手段",pos:"名詞",cat:"noun",exEn:"Saving money is a hedge against uncertainty.",exJa:"貯金は不確実性への防衛手段だ。"},
+{en:"nourish",ph:"/ˈnʌrɪʃ/",ja:"育成する",pos:"動詞",cat:"verb",exEn:"Good food nourishes both body and mind.",exJa:"良い食事は体と心の両方を育成する。"},
+{en:"embody",ph:"/ɪmˈbɒdi/",ja:"具体化する",pos:"動詞",cat:"verb",exEn:"Her actions embody the spirit of generosity.",exJa:"彼女の行動は寛大さの精神を具体化している。"},
+{en:"utmost",ph:"/ˈʌtməʊst/",ja:"最大の",pos:"形容詞",cat:"adjective",exEn:"She did her utmost to finish on time.",exJa:"彼女は時間内に終えるために最大限の努力をした。"},
+{en:"comparatively",ph:"/kəmˈpærətɪvli/",ja:"比較的",pos:"副詞",cat:"adverb",exEn:"The exam was comparatively easy this year.",exJa:"今年の試験は比較的簡単だった。"},
+{en:"stain",ph:"/steɪn/",ja:"しみ",pos:"名詞",cat:"noun",exEn:"There was a coffee stain on the tablecloth.",exJa:"テーブルクロスにコーヒーのしみがあった。"},
+{en:"crawl",ph:"/krɔːl/",ja:"這う",pos:"動詞",cat:"verb",exEn:"The baby crawled across the floor.",exJa:"赤ちゃんは床を這った。"},
+{en:"earnest",ph:"/ˈɜːnɪst/",ja:"まじめな",pos:"形容詞",cat:"adjective",exEn:"He made an earnest effort to improve.",exJa:"彼は改善のためにまじめな努力をした。"},
+{en:"thrust",ph:"/θrʌst/",ja:"押す",pos:"動詞",cat:"verb",exEn:"She thrust the door open with force.",exJa:"彼女は力でドアを押し開けた。"},
+{en:"charity",ph:"/ˈtʃærɪti/",ja:"慈善行為",pos:"名詞",cat:"noun",exEn:"He donated to charity every month.",exJa:"彼は毎月慈善行為に寄付した。"},
+{en:"glory",ph:"/ˈɡlɔːri/",ja:"栄光",pos:"名詞",cat:"noun",exEn:"The team basked in their moment of glory.",exJa:"チームは栄光の瞬間に浸った。"},
+{en:"sword",ph:"/sɔːd/",ja:"剣",pos:"名詞",cat:"noun",exEn:"The knight raised his sword in battle.",exJa:"騎士は戦闘で剣を掲げた。"},
+{en:"bulk",ph:"/bʌlk/",ja:"容積",pos:"名詞",cat:"noun",exEn:"The bulk of the work was done by noon.",exJa:"仕事の大部分は正午までに終わった。"},
+{en:"sniff",ph:"/snɪf/",ja:"かぐ",pos:"動詞",cat:"verb",exEn:"The dog sniffed the ground curiously.",exJa:"犬は好奇心旺盛に地面をかいだ。"},
+{en:"markedly",ph:"/ˈmɑːkɪdli/",ja:"著しく",pos:"副詞",cat:"adverb",exEn:"His health improved markedly after treatment.",exJa:"治療後、彼の健康は著しく改善した。"},
+{en:"conscience",ph:"/ˈkɒnʃəns/",ja:"良心",pos:"名詞",cat:"noun",exEn:"His conscience prevented him from lying.",exJa:"良心が彼を嘘から遠ざけた。"},
+{en:"sway",ph:"/sweɪ/",ja:"揺れる",pos:"動詞",cat:"verb",exEn:"The trees swayed in the strong wind.",exJa:"木々は強風の中で揺れた。"},
+{en:"merchandise",ph:"/ˈmɜːtʃəndaɪs/",ja:"商品",pos:"名詞",cat:"noun",exEn:"The store displayed its merchandise attractively.",exJa:"店は商品を魅力的に陳列した。"},
+{en:"revive",ph:"/rɪˈvaɪv/",ja:"生き返らせる",pos:"動詞",cat:"verb",exEn:"The doctor tried to revive the patient.",exJa:"医師は患者を生き返らせようとした。"},
+{en:"evaporation",ph:"/ɪˌvæpəˈreɪʃən/",ja:"蒸発",pos:"名詞",cat:"noun",exEn:"Evaporation causes water to disappear from puddles.",exJa:"蒸発によって水たまりの水が消える。"},
+{en:"withdraw",ph:"/wɪðˈdrɔː/",ja:"退く",pos:"動詞",cat:"verb",exEn:"He withdrew from the competition due to injury.",exJa:"彼は怪我のために競技から退いた。"},
+{en:"parcel",ph:"/ˈpɑːsəl/",ja:"小包",pos:"名詞",cat:"noun",exEn:"A parcel arrived in the mail for her.",exJa:"彼女宛に郵便で小包が届いた。"},
+{en:"confess",ph:"/kənˈfɛs/",ja:"告白する",pos:"動詞",cat:"verb",exEn:"He confessed to making a serious mistake.",exJa:"彼は深刻なミスを犯したことを告白した。"},
+{en:"strive",ph:"/straɪv/",ja:"奮闘する",pos:"動詞",cat:"verb",exEn:"We should always strive to improve ourselves.",exJa:"常に自己改善のために奮闘すべきだ。"},
+{en:"melancholy",ph:"/ˈmɛləŋkɒli/",ja:"憂鬱",pos:"名詞",cat:"noun",exEn:"A sense of melancholy filled the room.",exJa:"憂鬱な感覚が部屋に満ちた。"},
+{en:"appliance",ph:"/əˈplaɪəns/",ja:"器具",pos:"名詞",cat:"noun",exEn:"The kitchen was equipped with modern appliances.",exJa:"キッチンは現代的な器具が備わっていた。"},
+{en:"regain",ph:"/rɪˈɡeɪn/",ja:"取り戻す",pos:"動詞",cat:"verb",exEn:"She worked hard to regain her confidence.",exJa:"彼女は自信を取り戻すために努力した。"},
+{en:"limb",ph:"/lɪm/",ja:"手足",pos:"名詞",cat:"noun",exEn:"He lost a limb in the accident.",exJa:"彼は事故で手足を失った。"},
+{en:"compliment",ph:"/ˈkɒmplɪmənt/",ja:"お世辞",pos:"名詞",cat:"noun",exEn:"She accepted the compliment graciously.",exJa:"彼女はお世辞を優雅に受け入れた。"},
+{en:"sting",ph:"/stɪŋ/",ja:"刺す",pos:"動詞",cat:"verb",exEn:"A bee stung him on the arm.",exJa:"ハチが彼の腕を刺した。"},
+{en:"masculine",ph:"/ˈmæskjʊlɪn/",ja:"男らしい",pos:"形容詞",cat:"adjective",exEn:"His deep voice sounded masculine.",exJa:"彼の低い声は男らしく聞こえた。"},
+{en:"acute",ph:"/əˈkjuːt/",ja:"鋭い",pos:"形容詞",cat:"adjective",exEn:"She has an acute sense of hearing.",exJa:"彼女は鋭い聴覚を持っている。"},
+{en:"plausible",ph:"/ˈplɔːzɪbəl/",ja:"もっともらしい",pos:"形容詞",cat:"adjective",exEn:"His excuse sounded plausible.",exJa:"彼の言い訳はもっともらしく聞こえた。"},
+{en:"nutrition",ph:"/njuːˈtrɪʃən/",ja:"栄養",pos:"名詞",cat:"noun",exEn:"Good nutrition is essential for children.",exJa:"子供たちには良い栄養が不可欠だ。"},
+{en:"revise",ph:"/rɪˈvaɪz/",ja:"修正する",pos:"動詞",cat:"verb",exEn:"She revised her essay before submitting it.",exJa:"彼女は提出前にエッセイを修正した。"},
+{en:"widow",ph:"/ˈwɪdəʊ/",ja:"未亡人",pos:"名詞",cat:"noun",exEn:"She became a widow at the age of fifty.",exJa:"彼女は50歳で未亡人になった。"},
+{en:"restrain",ph:"/rɪˈstreɪn/",ja:"抑える",pos:"動詞",cat:"verb",exEn:"He struggled to restrain his anger.",exJa:"彼は怒りを抑えるために苦労した。"},
+{en:"loyal",ph:"/ˈlɔɪəl/",ja:"忠実な",pos:"形容詞",cat:"adjective",exEn:"She remained loyal to her friend.",exJa:"彼女は友人に忠実であり続けた。"},
+{en:"profile",ph:"/ˈprəʊfaɪl/",ja:"横顔",pos:"名詞",cat:"noun",exEn:"He photographed her profile.",exJa:"彼は彼女の横顔を撮影した。"},
+{en:"cabinet",ph:"/ˈkæbɪnɪt/",ja:"棚",pos:"名詞",cat:"noun",exEn:"The medicine cabinet was in the bathroom.",exJa:"薬棚はバスルームにあった。"},
+{en:"pregnant",ph:"/ˈprɛɡnənt/",ja:"妊娠して",pos:"形容詞",cat:"adjective",exEn:"She was pregnant with her first child.",exJa:"彼女は第一子を妊娠していた。"},
+{en:"apparatus",ph:"/ˌæpəˈreɪtəs/",ja:"装置",pos:"名詞",cat:"noun",exEn:"The laboratory had complex scientific apparatus.",exJa:"実験室には複雑な科学装置があった。"},
+{en:"surrender",ph:"/səˈrɛndər/",ja:"降伏",pos:"名詞",cat:"noun",exEn:"The enemy's surrender ended the war.",exJa:"敵の降伏が戦争を終わらせた。"},
+{en:"lace",ph:"/leɪs/",ja:"ひも",pos:"名詞",cat:"noun",exEn:"He tied the lace of his shoe.",exJa:"彼は靴のひもを結んだ。"},
+{en:"comedy",ph:"/ˈkɒmɪdi/",ja:"喜劇",pos:"名詞",cat:"noun",exEn:"The comedy made everyone laugh.",exJa:"その喜劇は皆を笑わせた。"},
+{en:"forgive",ph:"/fəˈɡɪv/",ja:"許す",pos:"動詞",cat:"verb",exEn:"She found it hard to forgive him.",exJa:"彼女は彼を許すことが難しいと感じた。"},
+{en:"heel",ph:"/hiːl/",ja:"かかと",pos:"名詞",cat:"noun",exEn:"She wore shoes with high heels.",exJa:"彼女はかかとの高い靴を履いていた。"},
+{en:"lid",ph:"/lɪd/",ja:"ふた",pos:"名詞",cat:"noun",exEn:"Put the lid on the pot to keep it warm.",exJa:"温かさを保つために鍋にふたをしてください。"},
+{en:"forehead",ph:"/ˈfɔːhɛd/",ja:"ひたい",pos:"名詞",cat:"noun",exEn:"She touched his forehead to check his temperature.",exJa:"彼女は体温を確認するため彼のひたいに触れた。"},
+{en:"surplus",ph:"/ˈsɜːpləs/",ja:"黒字",pos:"名詞",cat:"noun",exEn:"The country had a trade surplus last year.",exJa:"その国は昨年貿易黒字だった。"},
+{en:"charter",ph:"/ˈtʃɑːtər/",ja:"借り切る",pos:"動詞",cat:"verb",exEn:"They chartered a boat for the trip.",exJa:"彼らは旅行のためにボートを借り切った。"},
+{en:"legislation",ph:"/ˌlɛdʒɪˈsleɪʃən/",ja:"法律",pos:"名詞",cat:"noun",exEn:"New legislation was passed to protect workers.",exJa:"労働者を保護するための新しい法律が可決された。"},
+{en:"fluid",ph:"/ˈfluːɪd/",ja:"流動体",pos:"名詞",cat:"noun",exEn:"Drink plenty of fluids when you are ill.",exJa:"病気のときはたくさんの流動体を飲んでください。"},
+{en:"superb",ph:"/suːˈpɜːb/",ja:"見事な",pos:"形容詞",cat:"adjective",exEn:"The chef prepared a superb meal.",exJa:"シェフは見事な料理を用意した。"},
+{en:"pill",ph:"/pɪl/",ja:"錠剤",pos:"名詞",cat:"noun",exEn:"Take this pill with water after eating.",exJa:"食後に水でこの錠剤を飲んでください。"},
+{en:"contempt",ph:"/kənˈtɛmpt/",ja:"軽べつ",pos:"名詞",cat:"noun",exEn:"He showed contempt for the rules.",exJa:"彼はルールを軽べつする態度を見せた。"},
+{en:"resolution",ph:"/ˌrɛzəˈluːʃən/",ja:"決意",pos:"名詞",cat:"noun",exEn:"She made a New Year's resolution to exercise more.",exJa:"彼女はもっと運動するという新年の決意をした。"},
+{en:"verse",ph:"/vɜːs/",ja:"詩歌",pos:"名詞",cat:"noun",exEn:"He recited a verse from the poem.",exJa:"彼は詩から一節を朗読した。"},
+{en:"undermine",ph:"/ˌʌndəˈmaɪn/",ja:"土台を壊す",pos:"動詞",cat:"verb",exEn:"Constant criticism undermines confidence.",exJa:"絶え間ない批判は自信の土台を壊す。"},
+{en:"disclose",ph:"/dɪsˈkləʊz/",ja:"公表する",pos:"動詞",cat:"verb",exEn:"The company disclosed its financial results.",exJa:"会社は財務結果を公表した。"},
+{en:"sincere",ph:"/sɪnˈsɪər/",ja:"本心からの",pos:"形容詞",cat:"adjective",exEn:"Please accept my sincere apologies.",exJa:"本心からの謝罪を受け入れてください。"},
+{en:"damp",ph:"/dæmp/",ja:"湿っている",pos:"形容詞",cat:"adjective",exEn:"The clothes were still damp after washing.",exJa:"洗濯後も服はまだ湿っていた。"},
+{en:"convict",ph:"/kənˈvɪkt/",ja:"有罪の判決を下す",pos:"動詞",cat:"verb",exEn:"He was convicted of theft.",exJa:"彼は窃盗罪で有罪の判決を受けた。"},
+{en:"worsen",ph:"/ˈwɜːsən/",ja:"悪化する",pos:"動詞",cat:"verb",exEn:"The situation worsened overnight.",exJa:"状況は一夜にして悪化した。"},
+{en:"jail",ph:"/dʒeɪl/",ja:"刑務所",pos:"名詞",cat:"noun",exEn:"He was sent to jail for three years.",exJa:"彼は3年間刑務所に送られた。"},
+{en:"insert",ph:"/ɪnˈsɜːt/",ja:"挿入する",pos:"動詞",cat:"verb",exEn:"Insert the card into the slot.",exJa:"カードをスロットに挿入してください。"},
+{en:"anniversary",ph:"/ˌænɪˈvɜːsəri/",ja:"記念日",pos:"名詞",cat:"noun",exEn:"They celebrated their wedding anniversary.",exJa:"彼らは結婚記念日を祝った。"},
+{en:"tin",ph:"/tɪn/",ja:"缶詰",pos:"名詞",cat:"noun",exEn:"She opened a tin of soup for lunch.",exJa:"彼女はランチにスープの缶詰を開けた。"},
+{en:"nail",ph:"/neɪl/",ja:"釘",pos:"名詞",cat:"noun",exEn:"He hammered a nail into the wall.",exJa:"彼は壁に釘を打ち込んだ。"},
+{en:"chop",ph:"/tʃɒp/",ja:"切り刻む",pos:"動詞",cat:"verb",exEn:"She chopped the vegetables for the salad.",exJa:"彼女はサラダ用に野菜を切り刻んだ。"},
+{en:"sleeve",ph:"/sliːv/",ja:"袖",pos:"名詞",cat:"noun",exEn:"He rolled up his sleeves before washing.",exJa:"彼は洗う前に袖をまくり上げた。"},
+{en:"breast",ph:"/brɛst/",ja:"胸",pos:"名詞",cat:"noun",exEn:"He felt a sharp pain in his breast.",exJa:"彼は胸に鋭い痛みを感じた。"},
+{en:"mill",ph:"/mɪl/",ja:"製粉所",pos:"名詞",cat:"noun",exEn:"Grain was ground at the old mill.",exJa:"穀物は古い製粉所で挽かれた。"},
+{en:"preliminary",ph:"/prɪˈlɪmɪnəri/",ja:"予備の",pos:"形容詞",cat:"adjective",exEn:"A preliminary investigation was launched.",exJa:"予備調査が開始された。"},
+{en:"dissolve",ph:"/dɪˈzɒlv/",ja:"溶ける",pos:"動詞",cat:"verb",exEn:"Sugar dissolves quickly in hot water.",exJa:"砂糖は熱いお湯に素早く溶ける。"},
+{en:"violate",ph:"/ˈvaɪəleɪt/",ja:"侵害する",pos:"動詞",cat:"verb",exEn:"The action violated international law.",exJa:"その行為は国際法を侵害した。"},
+{en:"petrol",ph:"/ˈpɛtrəl/",ja:"石油",pos:"名詞",cat:"noun",exEn:"The price of petrol has risen sharply.",exJa:"石油の価格が急騰した。"},
+{en:"freight",ph:"/freɪt/",ja:"貨物",pos:"名詞",cat:"noun",exEn:"The freight was delivered by ship.",exJa:"貨物は船で届けられた。"},
+{en:"supervise",ph:"/ˈsuːpəvaɪz/",ja:"監督する",pos:"動詞",cat:"verb",exEn:"She supervised the construction project.",exJa:"彼女は建設プロジェクトを監督した。"},
+{en:"fasten",ph:"/ˈfɑːsən/",ja:"締める",pos:"動詞",cat:"verb",exEn:"Fasten your seatbelt before the car moves.",exJa:"車が動く前にシートベルトを締めてください。"},
+{en:"rot",ph:"/rɒt/",ja:"腐る",pos:"動詞",cat:"verb",exEn:"The old wood began to rot.",exJa:"古い木が腐り始めた。"},
+{en:"curl",ph:"/kɜːl/",ja:"巻きつける",pos:"動詞",cat:"verb",exEn:"The smoke curled up from the chimney.",exJa:"煙が煙突から巻き上がった。"},
+{en:"rod",ph:"/rɒd/",ja:"竿",pos:"名詞",cat:"noun",exEn:"He cast his fishing rod into the lake.",exJa:"彼は湖に釣り竿を投げた。"},
+{en:"swell",ph:"/swɛl/",ja:"ふくらむ",pos:"動詞",cat:"verb",exEn:"Her ankle swelled after the fall.",exJa:"転んだ後、彼女の足首がふくらんだ。"},
+{en:"compulsory",ph:"/kəmˈpʌlsəri/",ja:"義務的な",pos:"形容詞",cat:"adjective",exEn:"Education is compulsory up to age 16.",exJa:"16歳までの教育は義務的だ。"},
+{en:"vein",ph:"/veɪn/",ja:"静脈",pos:"名詞",cat:"noun",exEn:"Blood flows through veins back to the heart.",exJa:"血液は静脈を通って心臓に戻る。"},
+{en:"pledge",ph:"/plɛdʒ/",ja:"誓約",pos:"名詞",cat:"noun",exEn:"She made a pledge to help the community.",exJa:"彼女はコミュニティを助けるという誓約をした。"},
+{en:"blade",ph:"/bleɪd/",ja:"刃",pos:"名詞",cat:"noun",exEn:"The blade of the knife was very sharp.",exJa:"ナイフの刃は非常に鋭かった。"},
+{en:"nominate",ph:"/ˈnɒmɪneɪt/",ja:"指名する",pos:"動詞",cat:"verb",exEn:"She was nominated for the award.",exJa:"彼女は賞に指名された。"},
+{en:"assault",ph:"/əˈsɔːlt/",ja:"暴行",pos:"名詞",cat:"noun",exEn:"He was charged with assault.",exJa:"彼は暴行の罪で起訴された。"},
+{en:"chaos",ph:"/ˈkeɪɒs/",ja:"大混乱",pos:"名詞",cat:"noun",exEn:"The storm caused chaos in the city.",exJa:"嵐は市内に大混乱を引き起こした。"},
+{en:"grind",ph:"/ɡraɪnd/",ja:"ひいて粉にする",pos:"動詞",cat:"verb",exEn:"She ground the coffee beans fresh each morning.",exJa:"彼女は毎朝コーヒー豆を新鮮にひいた。"},
+{en:"concede",ph:"/kənˈsiːd/",ja:"認める",pos:"動詞",cat:"verb",exEn:"He conceded that he had made an error.",exJa:"彼は誤りを犯したことを認めた。"},
+{en:"certificate",ph:"/səˈtɪfɪkɪt/",ja:"証明書",pos:"名詞",cat:"noun",exEn:"She received a certificate of completion.",exJa:"彼女は修了証明書を受け取った。"},
+{en:"boast",ph:"/bəʊst/",ja:"自慢する",pos:"動詞",cat:"verb",exEn:"He always boasts about his achievements.",exJa:"彼はいつも自分の業績を自慢する。"},
+{en:"retail",ph:"/ˈriːteɪl/",ja:"小売り",pos:"名詞",cat:"noun",exEn:"The retail price is higher than the wholesale price.",exJa:"小売り価格は卸売り価格より高い。"},
+{en:"delegate",ph:"/ˈdɛlɪɡɪt/",ja:"代表",pos:"名詞",cat:"noun",exEn:"Each country sent a delegate to the conference.",exJa:"各国が会議に代表を送った。"},
+{en:"inspect",ph:"/ɪnˈspɛkt/",ja:"検査する",pos:"動詞",cat:"verb",exEn:"The officer inspected the goods carefully.",exJa:"役員は商品を丁寧に検査した。"},
+{en:"collar",ph:"/ˈkɒlər/",ja:"えり",pos:"名詞",cat:"noun",exEn:"He adjusted the collar of his shirt.",exJa:"彼はシャツのえりを整えた。"},
+{en:"prosecute",ph:"/ˈprɒsɪkjuːt/",ja:"起訴する",pos:"動詞",cat:"verb",exEn:"The state decided to prosecute the suspect.",exJa:"州は容疑者を起訴することにした。"},
+{en:"corruption",ph:"/kəˈrʌpʃən/",ja:"汚職",pos:"名詞",cat:"noun",exEn:"Corruption is a serious threat to democracy.",exJa:"汚職は民主主義への深刻な脅威だ。"},
+{en:"asset",ph:"/ˈæsɛt/",ja:"資産",pos:"名詞",cat:"noun",exEn:"Her experience is a great asset to the team.",exJa:"彼女の経験はチームへの大きな資産だ。"},
+{en:"riot",ph:"/ˈraɪət/",ja:"暴動",pos:"名詞",cat:"noun",exEn:"A riot broke out after the match.",exJa:"試合後に暴動が勃発した。"},
+{en:"bid",ph:"/bɪd/",ja:"命ずる",pos:"動詞",cat:"verb",exEn:"He bid his guest to sit down.",exJa:"彼は客に座るよう命じた。"},
+{en:"moist",ph:"/mɔɪst/",ja:"湿った",pos:"形容詞",cat:"adjective",exEn:"The soil was moist after the rain.",exJa:"雨の後、土壌は湿っていた。"},
+{en:"navy",ph:"/ˈneɪvi/",ja:"海軍",pos:"名詞",cat:"noun",exEn:"He served in the navy for ten years.",exJa:"彼は10年間海軍に勤めた。"},
+
+];
 
 // ── STATE ──
-let currentDeck='basic', currentMode='flash';
-let cards=[], currentIndex=0, cardState=0; // 0=EN, 1=JA, 2=例文
-let scoreKnow=0, scoreUnknown=0, scoreMaster=0;
+let currentMode='flash';
+let cards=[],currentIndex=0,cardState=0;
+let scoreKnow=0,scoreUnknown=0,scoreMaster=0;
 let wordStats={};
 let history=[];
-try{ history=JSON.parse(localStorage.getItem('lex_history')||'[]'); }catch(e){}
+try{history=JSON.parse(localStorage.getItem('lex_history')||'[]');}catch(e){}
 let historyFilter='all';
 let didInteract=false;
 
-// ── SPEECH ──
-if(window.speechSynthesis) window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
+if(window.speechSynthesis)window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
 function speak(word){
-  if(!window.speechSynthesis) return;
+  if(!window.speechSynthesis)return;
   window.speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(word);
-  u.lang='en-US'; u.rate=0.85;
+  u.lang='en-US';u.rate=0.85;
   const vs=window.speechSynthesis.getVoices();
   const v=vs.find(x=>x.lang==='en-US')||vs.find(x=>x.lang.startsWith('en'));
-  if(v) u.voice=v;
+  if(v)u.voice=v;
   window.speechSynthesis.speak(u);
 }
 
-// ── DECK ──
 function initDeck(){
-  let pool=[...DECKS[currentDeck]];
+  let pool=[...WORDS];
   if(currentMode==='review'){
     const nm=pool.filter(c=>!wordStats[c.en]?.mastered);
-    pool=nm.length?nm:[...DECKS[currentDeck]];
+    pool=nm.length?nm:[...WORDS];
   }
   for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
-  cards=pool; currentIndex=0; cardState=0;
+  cards=pool;currentIndex=0;cardState=0;
   scoreKnow=scoreUnknown=scoreMaster=0;
   Object.keys(wordStats).forEach(k=>{wordStats[k].firstAttemptInSession=true;});
   document.getElementById('complete-screen').classList.remove('visible');
   document.getElementById('card-wrap').classList.remove('hidden');
   document.getElementById('action-row').classList.remove('hidden');
-  updateUI(); renderCard();
+  updateUI();renderCard();
 }
 
-// ── RENDER CARD ──
 function renderCard(){
   if(currentIndex>=cards.length){showComplete();return;}
   const c=cards[currentIndex];
   const stat=wordStats[c.en];
   document.getElementById('card-num').textContent=`${currentIndex+1} / ${cards.length}`;
   document.getElementById('master-badge').classList.toggle('show',!!(stat?.mastered));
-  // dots
-  for(let i=0;i<3;i++) document.getElementById('dot'+i).classList.toggle('active',i===cardState);
-  // content
+  for(let i=0;i<3;i++)document.getElementById('dot'+i).classList.toggle('active',i===cardState);
   const content=document.getElementById('card-content');
   let html='';
   if(cardState===0){
-    html=`
-      <div class="s-cat">${c.cat}</div>
-      <div class="s-word">${c.en}</div>
-      <div class="s-ph">${c.ph}</div>
-      <button class="speak-btn" id="speak-btn">🔊</button>
-      <div class="hint-text">タップして意味を確認</div>`;
-  } else if(cardState===1){
-    html=`
-      <div class="s-label">意味</div>
-      <div class="s-ja">${c.ja}</div>
-      <div class="s-pos">${c.cat} — ${c.pos}</div>
-      <div class="hint-text">タップして例文を確認</div>`;
-  } else {
-    html=`
-      <div class="s-ex-label">例文</div>
-      <div class="s-ex-en">"${c.exEn}"</div>
-      <div class="s-ex-ja">「${c.exJa}」</div>`;
+    html=`<div class="s-cat">${c.cat}</div><div class="s-word">${c.en}</div><div class="s-ph">${c.ph}</div><button class="speak-btn" id="speak-btn">🔊</button><div class="hint-text">タップして意味を確認</div>`;
+  }else if(cardState===1){
+    html=`<div class="s-label">意味</div><div class="s-ja">${c.ja}</div><div class="s-pos">${c.cat} — ${c.pos}</div><div class="hint-text">タップして例文を確認</div>`;
+  }else{
+    html=`<div class="s-ex-label">例文</div><div class="s-ex-en">"${c.exEn}"</div><div class="s-ex-ja">「${c.exJa}」</div>`;
   }
   content.innerHTML=html;
-  // speak btn listener
   const sb=document.getElementById('speak-btn');
   if(sb){
     sb.addEventListener('click',e=>{e.stopPropagation();speak(c.en);});
     sb.addEventListener('touchend',e=>{e.stopPropagation();speak(c.en);},{passive:true});
   }
-  if(cardState===0 && didInteract) setTimeout(()=>speak(c.en),150);
-  if(cardState===2 && didInteract) setTimeout(()=>speak(c.exEn),150);
+  if(cardState===2&&didInteract)setTimeout(()=>speak(c.exEn),150);
 }
 
-// ── ADVANCE STATE (tap) ──
 function advanceState(){
-  const c=cards[currentIndex];
   cardState=(cardState+1)%3;
-  // re-render with animation
   const content=document.getElementById('card-content');
-  content.style.animation='none';
-  void content.offsetWidth;
-  content.style.animation='fadeSlideIn 0.22s ease';
+  content.style.animation='none';void content.offsetWidth;content.style.animation='fadeSlideIn 0.22s ease';
   renderCard();
 }
 
-// ── GRADE ──
-function grade(known, fromSwipe=false){
+function grade(known,fromSwipe=false){
   const c=cards[currentIndex];
-  if(!wordStats[c.en]) wordStats[c.en]={consecutiveCorrect:0,mastered:false,firstAttemptInSession:true};
+  if(!wordStats[c.en])wordStats[c.en]={consecutiveCorrect:0,mastered:false,firstAttemptInSession:true};
   const stat=wordStats[c.en];
   let result;
   if(known){
     const isFirst=stat.firstAttemptInSession;
-    stat.consecutiveCorrect++;
-    stat.firstAttemptInSession=false;
+    stat.consecutiveCorrect++;stat.firstAttemptInSession=false;
     const nowMasters=isFirst||stat.consecutiveCorrect>=2;
     if(nowMasters&&!stat.mastered){stat.mastered=true;scoreMaster++;}
-    result=stat.mastered?'master':'know';
-    scoreKnow++;
-  } else {
-    stat.consecutiveCorrect=0;
-    stat.firstAttemptInSession=false;
-    result='unknown';
-    scoreUnknown++;
+    result=stat.mastered?'master':'know';scoreKnow++;
+  }else{
+    stat.consecutiveCorrect=0;stat.firstAttemptInSession=false;
+    result='unknown';scoreUnknown++;
   }
   history.unshift({en:c.en,ja:c.ja,pos:c.pos,result,time:Date.now()});
   try{localStorage.setItem('lex_history',JSON.stringify(history.slice(0,2500)));}catch(e){}
   history=history.slice(0,2500);
-  currentIndex++; cardState=0; updateUI(); renderCard();
+  currentIndex++;cardState=0;updateUI();renderCard();
 }
 
 function nextCard(){
   const c=cards[currentIndex];
-  if(c&&!wordStats[c.en]) wordStats[c.en]={consecutiveCorrect:0,mastered:false,firstAttemptInSession:false};
-  currentIndex++; cardState=0; updateUI(); renderCard();
+  if(c&&!wordStats[c.en])wordStats[c.en]={consecutiveCorrect:0,mastered:false,firstAttemptInSession:false};
+  currentIndex++;cardState=0;updateUI();renderCard();
 }
 
-// ── UI ──
 function updateUI(){
   const total=cards.length,done=currentIndex,pct=total?Math.round(done/total*100):0;
   document.getElementById('progress-label').textContent=`${done} / ${total}`;
@@ -505,6 +863,7 @@ function updateUI(){
   document.getElementById('score-unknown').textContent=scoreUnknown;
   document.getElementById('score-master').textContent=scoreMaster;
 }
+
 function showComplete(){
   document.getElementById('complete-screen').classList.add('visible');
   document.getElementById('card-wrap').classList.add('hidden');
@@ -513,23 +872,21 @@ function showComplete(){
   document.getElementById('final-unknown').textContent=scoreUnknown;
   document.getElementById('final-master').textContent=scoreMaster;
 }
+
 function restart(){initDeck();}
-function changeDeck(v){currentDeck=v;initDeck();}
 function setMode(mode){
   currentMode=mode;
   document.querySelectorAll('.mode-tab').forEach((t,i)=>t.classList.toggle('active',['flash','review'][i]===mode));
   initDeck();
 }
 
-// ── HISTORY ──
 function openHistory(){renderHistory();document.getElementById('history-panel').classList.add('open');}
 function closeHistory(){document.getElementById('history-panel').classList.remove('open');}
 function handlePanelBg(e){if(e.target===document.getElementById('history-panel'))closeHistory();}
 function setFilter(f,btn){
   historyFilter=f;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderHistory();
+  btn.classList.add('active');renderHistory();
 }
 function renderHistory(){
   const items=historyFilter==='all'?history:history.filter(h=>h.result===historyFilter);
@@ -545,12 +902,9 @@ function renderHistory(){
 }
 function fmtTime(ts){
   const d=Date.now()-ts,m=Math.floor(d/60000);
-  if(m<1)return'たった今';
-  if(m<60)return`${m}分前`;
-  const h=Math.floor(m/60);
-  if(h<24)return`${h}時間前`;
-  const dt=new Date(ts);
-  return`${dt.getMonth()+1}/${dt.getDate()}`;
+  if(m<1)return'たった今';if(m<60)return`${m}分前`;
+  const h=Math.floor(m/60);if(h<24)return`${h}時間前`;
+  const dt=new Date(ts);return`${dt.getMonth()+1}/${dt.getDate()}`;
 }
 function copyHistory(){
   const items=historyFilter==='all'?history:history.filter(h=>h.result===historyFilter);
@@ -562,72 +916,52 @@ function copyHistory(){
     btn.textContent='コピー完了';btn.classList.add('copied');
     setTimeout(()=>{btn.textContent='コピー';btn.classList.remove('copied');},2000);
   }).catch(()=>{
-    // fallback
-    const ta=document.createElement('textarea');
-    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();document.execCommand('copy');
-    document.body.removeChild(ta);
+    const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
     const btn=document.getElementById('copy-btn');
     btn.textContent='コピー完了';btn.classList.add('copied');
     setTimeout(()=>{btn.textContent='コピー';btn.classList.remove('copied');},2000);
   });
 }
 
-// ── TOUCH ──
 let txStart=0,tyStart=0,tMoved=false,tHandled=false;
 const cardEl=document.getElementById('card');
-
 cardEl.addEventListener('touchstart',e=>{
   txStart=e.touches[0].clientX;tyStart=e.touches[0].clientY;
   tMoved=false;tHandled=false;
 },{passive:true});
-
 cardEl.addEventListener('touchmove',e=>{
-  const dx=e.touches[0].clientX-txStart;
-  const dy=e.touches[0].clientY-tyStart;
-  if(Math.abs(dx)>7||Math.abs(dy)>7) tMoved=true;
-  // swipe direction feedback
+  const dx=e.touches[0].clientX-txStart,dy=e.touches[0].clientY-tyStart;
+  if(Math.abs(dx)>7||Math.abs(dy)>7)tMoved=true;
   if(Math.abs(dx)>20&&Math.abs(dx)>Math.abs(dy)){
-    cardEl.classList.toggle('swipe-left', dx<0);
-    cardEl.classList.toggle('swipe-right', dx>0);
-  } else {
-    cardEl.classList.remove('swipe-left','swipe-right');
-  }
+    cardEl.classList.toggle('swipe-left',dx<0);cardEl.classList.toggle('swipe-right',dx>0);
+  }else{cardEl.classList.remove('swipe-left','swipe-right');}
 },{passive:true});
-
 cardEl.addEventListener('touchend',e=>{
   tHandled=true;
   cardEl.classList.remove('swipe-left','swipe-right');
-  const dx=e.changedTouches[0].clientX-txStart;
-  const dy=e.changedTouches[0].clientY-tyStart;
-  if(e.target.closest('#speak-btn')) return;
+  const dx=e.changedTouches[0].clientX-txStart,dy=e.changedTouches[0].clientY-tyStart;
+  if(e.target.closest('#speak-btn'))return;
   if(!tMoved){
-    if(!didInteract) didInteract=true;
-    if(cardState===0){ const c=cards[currentIndex]; if(c) speak(c.en); }
+    if(!didInteract)didInteract=true;
+    if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
     advanceState();
-  } else if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
+  }else if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
     grade(dx>0,true);
   }
 },{passive:true});
-
-// desktop click
 cardEl.addEventListener('click',e=>{
   if(tHandled){tHandled=false;return;}
-  if(e.target.closest('#speak-btn')) return;
-  if(!didInteract) didInteract=true;
-  if(cardState===0){ const c=cards[currentIndex]; if(c) speak(c.en); }
+  if(e.target.closest('#speak-btn'))return;
+  if(!didInteract)didInteract=true;
+  if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
   advanceState();
 });
-
-// ── KEYBOARD ──
 document.addEventListener('keydown',e=>{
-  if(document.getElementById('history-panel').classList.contains('open')){
-    if(e.key==='Escape') closeHistory();
-    return;
-  }
+  if(document.getElementById('history-panel').classList.contains('open')){if(e.key==='Escape')closeHistory();return;}
   if(e.code==='Space'){e.preventDefault();advanceState();}
-  if(e.key==='ArrowRight') grade(true);
-  if(e.key==='ArrowLeft') grade(false);
+  if(e.key==='ArrowRight')grade(true);
+  if(e.key==='ArrowLeft')grade(false);
 });
 
 initDeck();
