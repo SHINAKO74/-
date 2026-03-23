@@ -1378,10 +1378,10 @@ function renderCard(){
     sb.addEventListener('click',e=>{e.stopPropagation();speak(c.en);});
     sb.addEventListener('touchend',e=>{e.stopPropagation();speak(c.en);},{passive:true});
   }
-  if(cardState===2&&didInteract)setTimeout(()=>speak(c.exEn),150);
 }
 
 function advanceState(){
+  window.speechSynthesis&&window.speechSynthesis.cancel();
   const c_cur=cards[currentIndex]; cardState=(cardState+1)%(ETYM[c_cur&&c_cur.en]?4:3);
   const content=document.getElementById('card-content');
   content.style.animation='none';void content.offsetWidth;content.style.animation='fadeSlideIn 0.22s ease';
@@ -1406,13 +1406,17 @@ function grade(known,fromSwipe=false){
   history.unshift({en:c.en,ja:c.ja,pos:c.pos,result,time:Date.now()});
   try{localStorage.setItem('lex_history',JSON.stringify(history.slice(0,2500)));}catch(e){}
   history=history.slice(0,2500);
+  window.speechSynthesis&&window.speechSynthesis.cancel();
   currentIndex++;cardState=0;updateUI();renderCard();
+  if(didInteract&&currentIndex<cards.length){const nc=cards[currentIndex];if(nc)speak(nc.en);}
 }
 
 function nextCard(){
   const c=cards[currentIndex];
   if(c&&!wordStats[c.en])wordStats[c.en]={consecutiveCorrect:0,mastered:false,firstAttemptInSession:false};
+  window.speechSynthesis&&window.speechSynthesis.cancel();
   currentIndex++;cardState=0;updateUI();renderCard();
+  if(didInteract&&currentIndex<cards.length){const nc=cards[currentIndex];if(nc)speak(nc.en);}
 }
 
 function updateUI(){
@@ -1505,7 +1509,7 @@ cardEl.addEventListener('touchend',e=>{
   if(e.target.closest('#speak-btn'))return;
   if(!tMoved){
     if(!didInteract)didInteract=true;
-    if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
+    if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
     advanceState();
   }else if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
     grade(dx>0,true);
@@ -1515,7 +1519,7 @@ cardEl.addEventListener('click',e=>{
   if(tHandled){tHandled=false;return;}
   if(e.target.closest('#speak-btn'))return;
   if(!didInteract)didInteract=true;
-  if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
+  if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
   advanceState();
 });
 document.addEventListener('keydown',e=>{
