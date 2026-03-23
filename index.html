@@ -1337,20 +1337,95 @@ function speak(word){
   window.speechSynthesis.speak(u);
 }
 
-function initDeck(){
-  let pool=[...WORDS];
-  if(currentMode==='review'){
-    const nm=pool.filter(c=>!wordStats[c.en]?.mastered);
-    pool=nm.length?nm:[...WORDS];
+// ── DIFFICULTY DATA ──
+// failData[word] = failCount
+let failData = {};
+try { failData = JSON.parse(localStorage.getItem('lex_fail') || '{}'); } catch(e) {}
+function saveFailData(){ try { localStorage.setItem('lex_fail', JSON.stringify(failData)); } catch(e) {} }
+
+function sortByDifficulty(pool){
+  // まずシャッフル、その後苦手順でステーブルソート
+  const shuffled = [...pool];
+  for(let i=shuffled.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];
   }
-  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
-  cards=pool;currentIndex=0;cardState=0;
+  return shuffled.sort((a,b) => {
+    const fa = failData[a.en] || 0;
+    const fb = failData[b.en] || 0;
+    return fb - fa; // 苦手順。同じ苦手度内はシャッフル済み順を維持
+  });
+}
+
+function groupByEtymology(pool){
+  // ETYM.relatedからWORDS内の単語を抽出してマップ化
+  const wordSet = new Set(WORDS.map(w => w.en));
+  const etymGroups = {}; // word -> [related words in WORDS]
+  for(const w of pool){
+    if(!ETYM[w.en]) continue;
+    const related = ETYM[w.en].related
+      .split('/')
+      .map(s => s.trim().split('（')[0].trim())
+      .filter(s => wordSet.has(s) && s !== w.en);
+    if(related.length > 0) etymGroups[w.en] = related;
+  }
+
+  const result = [];
+  const used = new Set();
+  for(const w of pool){
+    if(used.has(w.en)) continue;
+    result.push(w);
+    used.add(w.en);
+    // この単語と同語根の仲間を直後に挿入
+    const relatives = etymGroups[w.en] || [];
+    for(const rel of relatives){
+      if(used.has(rel)) continue;
+      const relCard = pool.find(c => c.en === rel);
+      if(relCard){ result.push(relCard); used.add(rel); }
+    }
+  }
+  // 残り（語源グループに属さなかったもの）を追加
+  for(const w of pool){
+    if(!used.has(w.en)){ result.push(w); used.add(w.en); }
+  }
+  return result;
+}
+
+function updateSRS(word, correct){
+  if(!srsData[word]) srsData[word] = { nextReview: 0, interval: 1, failCount: 0 };
+  const d = srsData[word];
+  if(correct){
+    d.interval = d.interval * 2; // 1→2→4→8→16...日
+    if(d.interval > 64) d.interval = 64; // 最大64日
+  } else {
+    d.failCount++;
+    d.interval = 1; // リセット
+  }
+  d.nextReview = Date.now() + d.interval * 24 * 60 * 60 * 1000;
+  saveSRS();
+}
+
+function initDeck(){
+  let pool;
+  if(currentMode==='review'){
+    // 復習モード: 未習得のみ
+    const nm = WORDS.filter(c=>!wordStats[c.en]?.mastered);
+    pool = nm.length ? nm : [...WORDS];
+    // 苦手順にソートのみ
+    pool = sortByDifficulty(pool);
+  } else {
+    // 通常モード: 苦手順 → 語源グループ
+    pool = [...WORDS];
+    pool = sortByDifficulty(pool);
+    pool = groupByEtymology(pool);
+  }
+  cards=pool; currentIndex=0; cardState=0;
   scoreKnow=scoreUnknown=scoreMaster=0;
   Object.keys(wordStats).forEach(k=>{wordStats[k].firstAttemptInSession=true;});
   document.getElementById('complete-screen').classList.remove('visible');
   document.getElementById('card-wrap').classList.remove('hidden');
   document.getElementById('action-row').classList.remove('hidden');
-  updateUI();renderCard();
+  updateUI(); renderCard();
 }
 
 function renderCard(){
@@ -1403,6 +1478,7 @@ function grade(known,fromSwipe=false){
     stat.consecutiveCorrect=0;stat.firstAttemptInSession=false;
     result='unknown';scoreUnknown++;
   }
+  if(!known){ failData[c.en] = (failData[c.en]||0) + 1; saveFailData(); }
   history.unshift({en:c.en,ja:c.ja,pos:c.pos,result,time:Date.now()});
   try{localStorage.setItem('lex_history',JSON.stringify(history.slice(0,2500)));}catch(e){}
   history=history.slice(0,2500);
@@ -1436,6 +1512,7 @@ function showComplete(){
   document.getElementById('final-know').textContent=scoreKnow;
   document.getElementById('final-unknown').textContent=scoreUnknown;
   document.getElementById('final-master').textContent=scoreMaster;
+
 }
 
 function restart(){initDeck();}
