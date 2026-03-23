@@ -55,7 +55,7 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .s-cat{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.38;margin-bottom:14px}
 .s-word{font-family:'Playfair Display',serif;font-size:56px;font-weight:700;line-height:1;color:var(--cream);margin-bottom:10px}
 .s-ph{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;opacity:0.35;margin-bottom:10px}
-.speak-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:13px;cursor:pointer;color:var(--cream);opacity:0.3;transition:opacity 0.15s}
+.speak-btn{background:transparent;border:1px solid rgba(255,255,255,0.18);border-radius:24px;padding:8px 22px;font-size:18px;cursor:pointer;color:var(--cream);opacity:0.45;transition:opacity 0.15s}
 .speak-btn:hover{opacity:0.65}
 .hint-text{position:absolute;bottom:15px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.18}
 .s-label{font-size:12px;letter-spacing:0.25em;text-transform:uppercase;color:var(--sage);opacity:0.6;margin-bottom:12px}
@@ -196,6 +196,8 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
       <div class="history-title">History</div>
       <div class="history-header-right">
         <button class="copy-btn" id="copy-btn" onclick="copyHistory()">コピー</button>
+        <button class="copy-btn" onclick="importHistory()" style="border-color:rgba(201,168,76,0.3);color:var(--gold)">インポート</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
         <button class="history-close" onclick="closeHistory()">✕</button>
       </div>
     </div>
@@ -1442,7 +1444,7 @@ function renderCard(){
   } else if(cardState===1){
     html=`<div class="s-label">意味</div><div class="s-ja">${c.ja}</div><div class="s-pos">${c.cat} — ${c.pos}</div><div class="hint-text">タップして例文を確認</div>`;
   } else if(cardState===2){
-    html=`<div class="s-ex-label">例文</div><div class="s-ex-en">"${c.exEn}"</div><div class="s-ex-ja">「${c.exJa}」</div>${ETYM[c.en]?'<div class="hint-text">タップして語源を確認</div>':''}`;
+    html=`<div class="s-ex-label">例文</div><div class="s-ex-en">"${c.exEn}"</div><div class="s-ex-ja">「${c.exJa}」</div><button class="speak-btn" id="speak-ex-btn">🔊</button>${ETYM[c.en]?'<div class="hint-text">タップして語源を確認</div>':''}`;
   } else {
     const e=ETYM[c.en];
     html=`<div class="s-etym-label">語源</div><div class="s-etym-root">${e.root}</div><div class="s-etym-divider"></div><div class="s-etym-rel-label">同じ語源</div><div class="s-etym-related">${e.related}</div>`;
@@ -1452,6 +1454,11 @@ function renderCard(){
   if(sb){
     sb.addEventListener('click',e=>{e.stopPropagation();speak(c.en);});
     sb.addEventListener('touchend',e=>{e.stopPropagation();speak(c.en);},{passive:true});
+  }
+  const sbex=document.getElementById('speak-ex-btn');
+  if(sbex){
+    sbex.addEventListener('click',e=>{e.stopPropagation();speak(c.exEn);});
+    sbex.addEventListener('touchend',e=>{e.stopPropagation();e.preventDefault();speak(c.exEn);},{passive:false});
   }
 }
 
@@ -1548,6 +1555,41 @@ function fmtTime(ts){
   const h=Math.floor(m/60);if(h<24)return`${h}時間前`;
   const dt=new Date(ts);return`${dt.getMonth()+1}/${dt.getDate()}`;
 }
+function importHistory(){
+  document.getElementById('import-file').click();
+}
+function handleImport(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      if(!Array.isArray(imported)) throw new Error('invalid');
+      // 既存履歴とマージ（重複をen+timeで除去）
+      const existingKeys = new Set(history.map(h=>h.en+'_'+h.time));
+      const newItems = imported.filter(h=>!existingKeys.has(h.en+'_'+h.time));
+      history = [...newItems, ...history]
+        .sort((a,b)=>b.time-a.time)
+        .slice(0,2500);
+      try{localStorage.setItem('lex_history',JSON.stringify(history));}catch(e){}
+      // failDataも再構築
+      for(const item of history){
+        if(item.result==='unknown'){
+          failData[item.en]=(failData[item.en]||0)+1;
+        }
+      }
+      saveFailData();
+      renderHistory();
+      alert(`${newItems.length}件をインポートしました`);
+    } catch(err) {
+      alert('インポートに失敗しました。JSON形式の履歴ファイルを選択してください。');
+    }
+    e.target.value='';
+  };
+  reader.readAsText(file);
+}
+
 function copyHistory(){
   const items=historyFilter==='all'?history:history.filter(h=>h.result===historyFilter);
   if(!items.length){alert('コピーする履歴がありません');return;}
@@ -1583,7 +1625,7 @@ cardEl.addEventListener('touchend',e=>{
   tHandled=true;
   cardEl.classList.remove('swipe-left','swipe-right');
   const dx=e.changedTouches[0].clientX-txStart,dy=e.changedTouches[0].clientY-tyStart;
-  if(e.target.closest('#speak-btn'))return;
+  if(e.target.closest('#speak-btn')||e.target.closest('#speak-ex-btn'))return;
   if(!tMoved){
     if(!didInteract)didInteract=true;
     if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
@@ -1595,7 +1637,7 @@ cardEl.addEventListener('touchend',e=>{
 },{passive:true});
 cardEl.addEventListener('click',e=>{
   if(tHandled){tHandled=false;return;}
-  if(e.target.closest('#speak-btn'))return;
+  if(e.target.closest('#speak-btn')||e.target.closest('#speak-ex-btn'))return;
   if(!didInteract)didInteract=true;
   if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
   else if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
