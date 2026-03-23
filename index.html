@@ -1586,7 +1586,8 @@ cardEl.addEventListener('touchend',e=>{
   if(e.target.closest('#speak-btn'))return;
   if(!tMoved){
     if(!didInteract)didInteract=true;
-    if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
+    if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
+    else if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
     advanceState();
   }else if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
     grade(dx>0,true);
@@ -1596,7 +1597,8 @@ cardEl.addEventListener('click',e=>{
   if(tHandled){tHandled=false;return;}
   if(e.target.closest('#speak-btn'))return;
   if(!didInteract)didInteract=true;
-  if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
+  if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
+  else if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
   advanceState();
 });
 document.addEventListener('keydown',e=>{
