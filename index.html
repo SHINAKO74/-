@@ -1560,11 +1560,12 @@ function updateSRS(word, correct){
 function initDeck(){
   let pool;
   if(currentMode==='review'){
-    // 復習モード: 未習得のみ
-    const nm = WORDS.filter(c=>!wordStats[c.en]?.mastered);
+    // 復習モード: 未習得のみ → 苦手度順（✕累積回数）
+    const nm = WORDS.filter(c=>!wordStats[c.en]?.mastered && (failData[c.en]||0) >= 1);
     pool = nm.length ? nm : [...WORDS];
-    // 苦手順にソートのみ（習得済みは除外済み）
-    pool = sortByDifficulty(pool);
+    // シャッフル後にfailData順でソート
+    for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+    pool = pool.sort((a,b)=>(failData[b.en]||0)-(failData[a.en]||0));
   } else {
     // 通常モード: 未習得のみ → 苦手順 → 語源グループ
     pool = WORDS.filter(c=>!wordStats[c.en]?.mastered);
@@ -1661,7 +1662,8 @@ function grade(known,fromSwipe=false){
     result='unknown';scoreUnknown++;
   }
   saveWordStats(); scheduleSave();
-  // failData廃止
+  if(!known){ failData[c.en] = (failData[c.en]||0) + 1; saveFailData(); }
+  else { if(failData[c.en]>0){ failData[c.en]--; saveFailData(); } }
   history.unshift({en:c.en,ja:c.ja,pos:c.pos,result,time:Date.now()});
   try{localStorage.setItem('lex_history',JSON.stringify(history.slice(0,2500)));}catch(e){}
   history=history.slice(0,2500);
