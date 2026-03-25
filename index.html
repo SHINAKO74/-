@@ -1562,7 +1562,8 @@ function initDeck(){
   if(currentMode==='review'){
     // 復習モード: 未習得のみ → 苦手度順（✕累積回数）
     const nm = WORDS.filter(c=>!wordStats[c.en]?.mastered && (failData[c.en]||0) >= 1);
-    pool = nm.length ? nm : [...WORDS];
+    const fallback = WORDS.filter(c=>!wordStats[c.en]?.mastered);
+    pool = nm.length ? nm : (fallback.length ? fallback : [...WORDS]);
     // シャッフル後にfailData順でソート
     for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
     pool = pool.sort((a,b)=>(failData[b.en]||0)-(failData[a.en]||0));
@@ -1706,7 +1707,10 @@ function restart(){initDeck();}
 function setMode(mode){
   currentMode=mode;
   document.querySelectorAll('.mode-tab').forEach((t,i)=>t.classList.toggle('active',['flash','review'][i]===mode));
-  // ── JSONBIN SYNC ──
+  initDeck();
+}
+
+// ── JSONBIN SYNC ──
 const JBIN_KEY = '$2a$10$oO5He7JXGf.YR.vTQWfLeuJYkkBMdwZDqhiY1JVTUJXWZLHu55NzS';
 const JBIN_URL_BASE = 'https://api.jsonbin.io/v3/b';
 let jbinId = localStorage.getItem('lex_jbin_id') || null;
@@ -1812,7 +1816,6 @@ function speakCurrent(){
   initDeck();
   if(synced) console.log('Cloud sync OK');
 })();
-}
 
 function openHistory(){renderHistory();document.getElementById('history-panel').classList.add('open');}
 function closeHistory(){document.getElementById('history-panel').classList.remove('open');}
@@ -2012,77 +2015,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')grade(true);
   if(e.key==='ArrowLeft')grade(false);
 });
-
-// ── JSONBIN SYNC ──
-const JBIN_KEY = '$2a$10$oO5He7JXGf.YR.vTQWfLeuJYkkBMdwZDqhiY1JVTUJXWZLHu55NzS';
-const JBIN_URL_BASE = 'https://api.jsonbin.io/v3/b';
-let jbinId = localStorage.getItem('lex_jbin_id') || null;
-let isSyncing = false;
-let syncTimer = null;
-
-async function jbinFetch(method, url, body){
-  const opts = {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': JBIN_KEY,
-      'X-Bin-Private': 'true'
-    }
-  };
-  if(body) opts.body = JSON.stringify(body);
-  const r = await fetch(url, opts);
-  if(!r.ok) throw new Error(r.status);
-  return r.json();
-}
-
-async function syncSave(){
-  if(isSyncing) return;
-  isSyncing = true;
-  const data = { history: history.slice(0,2500), failData, wordStats };
-  try {
-    if(!jbinId){
-      const res = await jbinFetch('POST', JBIN_URL_BASE, data);
-      jbinId = res.metadata.id;
-      localStorage.setItem('lex_jbin_id', jbinId);
-    } else {
-      await jbinFetch('PUT', `${JBIN_URL_BASE}/${jbinId}`, data);
-    }
-  } catch(e) { console.warn('sync save failed:', e); }
-  finally { isSyncing = false; }
-}
-
-async function syncLoad(){
-  if(!jbinId) return false;
-  try {
-    const res = await jbinFetch('GET', `${JBIN_URL_BASE}/${jbinId}/latest`);
-    const data = res.record;
-    if(data.history) history = data.history;
-    if(data.failData) Object.assign(failData, data.failData);
-    if(data.wordStats){
-      // lastResult・masteredはローカルを優先（クラウドが古い可能性があるため）
-      const localStats = JSON.parse(localStorage.getItem('lex_wordstats')||'{}');
-      Object.assign(wordStats, data.wordStats);
-      // ローカルのlastResult・mastered・consecutiveCorrectで上書き
-      for(const k of Object.keys(localStats)){
-        if(!wordStats[k]) wordStats[k] = localStats[k];
-        else {
-          if(localStats[k].lastResult !== undefined) wordStats[k].lastResult = localStats[k].lastResult;
-          if(localStats[k].mastered !== undefined) wordStats[k].mastered = localStats[k].mastered;
-          if(localStats[k].consecutiveCorrect !== undefined) wordStats[k].consecutiveCorrect = localStats[k].consecutiveCorrect;
-        }
-      }
-    }
-    try{localStorage.setItem('lex_history', JSON.stringify(history));}catch(e){}
-    saveFailData();
-    saveWordStats();
-    return true;
-  } catch(e) { console.warn('sync load failed:', e); return false; }
-}
-
-function scheduleSave(){
-  clearTimeout(syncTimer);
-  syncTimer = setTimeout(syncSave, 2000);
-}
 
 // ── SPEAK整理: 発音は必ずここを通す ──
 // cardStateに関係なくgradeや進行時に呼ぶ専用関数
