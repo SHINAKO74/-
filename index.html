@@ -233,6 +233,7 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
           <span style="font-size:12px;color:var(--muted)">全</span>
         </div>
         <div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px" id="session-label">50語</div>
+        <button onclick="applySessionSize()" style="margin-top:12px;width:100%;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:0.1em;padding:10px;border-radius:2px;cursor:pointer">このセッションに適用</button>
       </div>
 
       <div>
@@ -266,6 +267,16 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
             style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"
             onchange="setEtymEnabled(this.checked)">
           <span style="font-size:13px;color:var(--cream)">語源カードを表示する</span>
+        </label>
+      </div>
+
+      <div>
+        <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">サウンドエフェクト</div>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+          <input type="checkbox" id="se-toggle" checked
+            style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"
+            onchange="setSeEnabled(this.checked)">
+          <span style="font-size:13px;color:var(--cream)">SE（正解・不正解・習得）を鳴らす</span>
         </label>
       </div>
 
@@ -1387,6 +1398,48 @@ const WORDS = [
 
 ];
 
+// ── SOUND EFFECTS ──
+const _ac = new (window.AudioContext || window.webkitAudioContext)();
+
+function _playTone(freq, type, duration, vol, fadeOut=true){
+  const osc = _ac.createOscillator();
+  const gain = _ac.createGain();
+  osc.connect(gain);
+  gain.connect(_ac.destination);
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, _ac.currentTime);
+  gain.gain.setValueAtTime(vol, _ac.currentTime);
+  if(fadeOut) gain.gain.exponentialRampToValueAtTime(0.001, _ac.currentTime + duration);
+  osc.start(_ac.currentTime);
+  osc.stop(_ac.currentTime + duration);
+}
+
+function seFlip(){
+  // カードめくり: 短いクリック
+  _playTone(800, 'sine', 0.06, 0.08);
+}
+
+function seCorrect(){
+  // 正解: 2音上昇
+  _playTone(600, 'sine', 0.12, 0.12);
+  setTimeout(()=>_playTone(900, 'sine', 0.18, 0.12), 80);
+}
+
+function seWrong(){
+  // 要復習: 低めの1音
+  _playTone(280, 'sine', 0.18, 0.1);
+}
+
+function seMaster(){
+  // 習得済み: 3音チャイム
+  _playTone(600, 'sine', 0.15, 0.13);
+  setTimeout(()=>_playTone(750, 'sine', 0.15, 0.13), 100);
+  setTimeout(()=>_playTone(900, 'sine', 0.25, 0.13), 200);
+}
+
+// AudioContextはユーザー操作後にresumeが必要（iOS対応）
+function resumeAC(){ if(_ac.state==='suspended') _ac.resume(); }
+
 // ── STATE ──
 let currentMode='flash';
 let cards=[],currentIndex=0,cardState=0;
@@ -1402,6 +1455,7 @@ let didInteract=false;
 let speechVolume = parseFloat(localStorage.getItem('lex_vol') || '1');
 let speechRate   = parseFloat(localStorage.getItem('lex_rate') || '0.85');
 let etymEnabled  = localStorage.getItem('lex_etym') !== 'false';
+let seEnabled    = localStorage.getItem('lex_se') !== 'false';
 let sessionSize  = parseInt(localStorage.getItem('lex_session_size') || '50');
 
 if(window.speechSynthesis)window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
@@ -1558,7 +1612,7 @@ function renderCard(){
 }
 
 function advanceState(){
-  window.speechSynthesis&&window.speechSynthesis.cancel();
+    window.speechSynthesis&&window.speechSynthesis.cancel();
   const c_cur=cards[currentIndex]; cardState=(cardState+1)%(ETYM[c_cur&&c_cur.en]?4:3);
   const content=document.getElementById('card-content');
   content.style.animation='none';void content.offsetWidth;content.style.animation='fadeSlideIn 0.22s ease';
@@ -1574,11 +1628,13 @@ function grade(known,fromSwipe=false){
     const isFirst=stat.firstAttemptInSession;
     stat.consecutiveCorrect++;stat.firstAttemptInSession=false;
     const nowMasters=isFirst||stat.consecutiveCorrect>=2;
-    if(nowMasters&&!stat.mastered){stat.mastered=true;scoreMaster++;}
+    if(nowMasters&&!stat.mastered){stat.mastered=true;scoreMaster++; if(seEnabled){resumeAC();seMaster();}}
+    else { if(seEnabled){resumeAC();seCorrect();} }
     result=stat.mastered?'master':'know';scoreKnow++;
   }else{
     stat.consecutiveCorrect=0;stat.firstAttemptInSession=false;
     if(stat.mastered){stat.mastered=false;scoreMaster=Math.max(0,scoreMaster-1);}
+    if(seEnabled){resumeAC();seWrong();}
     result='unknown';scoreUnknown++;
   }
   saveWordStats(); scheduleSave();
@@ -1754,10 +1810,16 @@ function openSettings(){
   document.getElementById('rate-slider').value = speechRate;
   document.getElementById('rate-label').textContent = speechRate.toFixed(2)+'×';
   document.getElementById('etym-toggle').checked = etymEnabled;
+  document.getElementById('se-toggle').checked = seEnabled;
   document.getElementById('settings-panel').classList.add('open');
 }
 function closeSettings(){ document.getElementById('settings-panel').classList.remove('open'); }
 function handleSettingsBg(e){ if(e.target===document.getElementById('settings-panel'))closeSettings(); }
+
+function applySessionSize(){
+  closeSettings();
+  initDeck();
+}
 
 function setSessionSize(v){
   sessionSize = parseInt(v);
@@ -1778,6 +1840,11 @@ function setRate(v){
   document.getElementById('rate-label').textContent = parseFloat(v).toFixed(2)+'×';
   speak(cards[currentIndex]?.en||'hello');
 }
+function setSeEnabled(v){
+  seEnabled = v;
+  localStorage.setItem('lex_se', v);
+}
+
 function setEtymEnabled(v){
   etymEnabled = v;
   localStorage.setItem('lex_etym', v);
@@ -1884,6 +1951,7 @@ cardEl.addEventListener('touchend',e=>{
   const dx=e.changedTouches[0].clientX-txStart,dy=e.changedTouches[0].clientY-tyStart;
   if(e.target.closest('#speak-btn')||e.target.closest('#speak-ex-btn'))return;
   if(!tMoved){
+    resumeAC();
     if(!didInteract)didInteract=true;
     if(cardState===0) speakCurrent();
     else if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
