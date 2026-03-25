@@ -1560,8 +1560,9 @@ function initDeck(){
     // 苦手順にソートのみ（習得済みは除外済み）
     pool = sortByDifficulty(pool);
   } else {
-    // 通常モード: 苦手順 → 語源グループ
-    pool = [...WORDS];
+    // 通常モード: 未習得のみ → 苦手順 → 語源グループ
+    pool = WORDS.filter(c=>!wordStats[c.en]?.mastered);
+    if(pool.length === 0) pool = [...WORDS]; // 全習得済みなら全件
     pool = sortByDifficulty(pool);
     pool = groupByEtymology(pool);
   }
