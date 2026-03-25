@@ -1323,6 +1323,7 @@ let currentMode='flash';
 let cards=[],currentIndex=0,cardState=0;
 let scoreKnow=0,scoreUnknown=0,scoreMaster=0;
 let wordStats={};
+try{wordStats=JSON.parse(localStorage.getItem('lex_wordstats')||'{}');}catch(e){}
 let history=[];
 try{history=JSON.parse(localStorage.getItem('lex_history')||'[]');}catch(e){}
 let historyFilter='all';
@@ -1345,6 +1346,19 @@ function speak(word){
 let failData = {};
 try { failData = JSON.parse(localStorage.getItem('lex_fail') || '{}'); } catch(e) {}
 function saveFailData(){ try { localStorage.setItem('lex_fail', JSON.stringify(failData)); } catch(e) {} }
+function saveWordStats(){ try { localStorage.setItem('lex_wordstats', JSON.stringify(wordStats)); } catch(e) {} }
+function saveProgress(){
+  try{
+    localStorage.setItem('lex_progress', JSON.stringify({
+      mode: currentMode,
+      cardKeys: cards.map(c=>c.en),
+      currentIndex,
+      cardState,
+      scoreKnow, scoreUnknown, scoreMaster
+    }));
+  }catch(e){}
+}
+function clearProgress(){ localStorage.removeItem('lex_progress'); }
 
 function sortByDifficulty(pool){
   // まずシャッフル、その後苦手順でステーブルソート
@@ -1414,7 +1428,7 @@ function initDeck(){
     // 復習モード: 未習得のみ
     const nm = WORDS.filter(c=>!wordStats[c.en]?.mastered);
     pool = nm.length ? nm : [...WORDS];
-    // 苦手順にソートのみ
+    // 苦手順にソートのみ（習得済みは除外済み）
     pool = sortByDifficulty(pool);
   } else {
     // 通常モード: 苦手順 → 語源グループ
@@ -1425,6 +1439,7 @@ function initDeck(){
   cards=pool; currentIndex=0; cardState=0;
   scoreKnow=scoreUnknown=scoreMaster=0;
   Object.keys(wordStats).forEach(k=>{wordStats[k].firstAttemptInSession=true;});
+  clearProgress();
   document.getElementById('complete-screen').classList.remove('visible');
   document.getElementById('card-wrap').classList.remove('hidden');
   document.getElementById('action-row').classList.remove('hidden');
@@ -1451,15 +1466,18 @@ function renderCard(){
     html=`<div class="s-etym-label">語源</div><div class="s-etym-root">${e.root}</div><div class="s-etym-divider"></div><div class="s-etym-rel-label">同じ語源</div><div class="s-etym-related">${e.related}</div>`;
   }
   content.innerHTML=html;
+  // cloneNodeで古いリスナーを完全除去してから再登録
   const sb=document.getElementById('speak-btn');
   if(sb){
-    sb.addEventListener('click',e=>{e.stopPropagation();speak(c.en);});
-    sb.addEventListener('touchend',e=>{e.stopPropagation();speak(c.en);},{passive:true});
+    const sb2=sb.cloneNode(true); sb.parentNode.replaceChild(sb2,sb);
+    sb2.addEventListener('click',e=>{e.stopPropagation();speak(c.en);});
+    sb2.addEventListener('touchend',e=>{e.stopPropagation();speak(c.en);},{passive:true});
   }
   const sbex=document.getElementById('speak-ex-btn');
   if(sbex){
-    sbex.addEventListener('click',e=>{e.stopPropagation();speak(c.exEn);});
-    sbex.addEventListener('touchend',e=>{e.stopPropagation();e.preventDefault();speak(c.exEn);},{passive:false});
+    const sbex2=sbex.cloneNode(true); sbex.parentNode.replaceChild(sbex2,sbex);
+    sbex2.addEventListener('click',e=>{e.stopPropagation();speak(c.exEn);});
+    sbex2.addEventListener('touchend',e=>{e.stopPropagation();e.preventDefault();speak(c.exEn);},{passive:false});
   }
 }
 
@@ -1484,15 +1502,17 @@ function grade(known,fromSwipe=false){
     result=stat.mastered?'master':'know';scoreKnow++;
   }else{
     stat.consecutiveCorrect=0;stat.firstAttemptInSession=false;
+    if(stat.mastered){stat.mastered=false;scoreMaster=Math.max(0,scoreMaster-1);}
     result='unknown';scoreUnknown++;
   }
-  if(!known){ failData[c.en] = (failData[c.en]||0) + 1; saveFailData(); }
+  saveWordStats(); scheduleSave();
+  if(!known){ failData[c.en] = (failData[c.en]||0) + 1; saveFailData(); scheduleSave(); }
   history.unshift({en:c.en,ja:c.ja,pos:c.pos,result,time:Date.now()});
   try{localStorage.setItem('lex_history',JSON.stringify(history.slice(0,2500)));}catch(e){}
   history=history.slice(0,2500);
   window.speechSynthesis&&window.speechSynthesis.cancel();
   currentIndex++;cardState=0;updateUI();renderCard();
-  if(didInteract&&currentIndex<cards.length){const nc=cards[currentIndex];if(nc)speak(nc.en);}
+  speakCurrent();
 }
 
 function nextCard(){
@@ -1500,7 +1520,7 @@ function nextCard(){
   if(c&&!wordStats[c.en])wordStats[c.en]={consecutiveCorrect:0,mastered:false,firstAttemptInSession:false};
   window.speechSynthesis&&window.speechSynthesis.cancel();
   currentIndex++;cardState=0;updateUI();renderCard();
-  if(didInteract&&currentIndex<cards.length){const nc=cards[currentIndex];if(nc)speak(nc.en);}
+  speakCurrent();
 }
 
 function updateUI(){
@@ -1511,9 +1531,11 @@ function updateUI(){
   document.getElementById('score-know').textContent=scoreKnow;
   document.getElementById('score-unknown').textContent=scoreUnknown;
   document.getElementById('score-master').textContent=scoreMaster;
+  saveProgress();
 }
 
 function showComplete(){
+  clearProgress();
   document.getElementById('complete-screen').classList.add('visible');
   document.getElementById('card-wrap').classList.add('hidden');
   document.getElementById('action-row').classList.add('hidden');
@@ -1527,7 +1549,99 @@ function restart(){initDeck();}
 function setMode(mode){
   currentMode=mode;
   document.querySelectorAll('.mode-tab').forEach((t,i)=>t.classList.toggle('active',['flash','review'][i]===mode));
+  // ── JSONBIN SYNC ──
+const JBIN_KEY = '$2a$10$oO5He7JXGf.YR.vTQWfLeuJYkkBMdwZDqhiY1JVTUJXWZLHu55NzS';
+const JBIN_URL_BASE = 'https://api.jsonbin.io/v3/b';
+let jbinId = localStorage.getItem('lex_jbin_id') || null;
+let isSyncing = false;
+let syncTimer = null;
+
+async function jbinFetch(method, url, body){
+  const opts = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': JBIN_KEY,
+      'X-Bin-Private': 'true'
+    }
+  };
+  if(body) opts.body = JSON.stringify(body);
+  const r = await fetch(url, opts);
+  if(!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+async function syncSave(){
+  if(isSyncing) return;
+  isSyncing = true;
+  const data = { history: history.slice(0,2500), failData, wordStats };
+  try {
+    if(!jbinId){
+      const res = await jbinFetch('POST', JBIN_URL_BASE, data);
+      jbinId = res.metadata.id;
+      localStorage.setItem('lex_jbin_id', jbinId);
+    } else {
+      await jbinFetch('PUT', `${JBIN_URL_BASE}/${jbinId}`, data);
+    }
+  } catch(e) { console.warn('sync save failed:', e); }
+  finally { isSyncing = false; }
+}
+
+async function syncLoad(){
+  if(!jbinId) return false;
+  try {
+    const res = await jbinFetch('GET', `${JBIN_URL_BASE}/${jbinId}/latest`);
+    const data = res.record;
+    if(data.history) history = data.history;
+    if(data.failData) Object.assign(failData, data.failData);
+    if(data.wordStats) Object.assign(wordStats, data.wordStats);
+    try{localStorage.setItem('lex_history', JSON.stringify(history));}catch(e){}
+    saveFailData();
+    saveWordStats();
+    return true;
+  } catch(e) { console.warn('sync load failed:', e); return false; }
+}
+
+function scheduleSave(){
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(syncSave, 2000);
+}
+
+// ── SPEAK整理: 発音は必ずここを通す ──
+// cardStateに関係なくgradeや進行時に呼ぶ専用関数
+function speakCurrent(){
+  const c = cards[currentIndex];
+  if(c && didInteract) speak(c.en);
+}
+
+// ── 起動 ──
+(async()=>{
+  const synced = await syncLoad();
+  const prog = JSON.parse(localStorage.getItem('lex_progress')||'null');
+  if(prog && prog.cardKeys && prog.currentIndex < prog.cardKeys.length){
+    const wordMap = Object.fromEntries(WORDS.map(w=>[w.en,w]));
+    const restored = prog.cardKeys.map(k=>wordMap[k]).filter(Boolean);
+    if(restored.length > 0){
+      currentMode = prog.mode || 'flash';
+      document.querySelectorAll('.mode-tab').forEach((t,i)=>t.classList.toggle('active',['flash','review'][i]===currentMode));
+      cards = restored;
+      currentIndex = prog.currentIndex;
+      cardState = prog.cardState || 0;
+      scoreKnow = prog.scoreKnow || 0;
+      scoreUnknown = prog.scoreUnknown || 0;
+      scoreMaster = prog.scoreMaster || 0;
+      Object.keys(wordStats).forEach(k=>{wordStats[k].firstAttemptInSession=false;});
+      document.getElementById('complete-screen').classList.remove('visible');
+      document.getElementById('card-wrap').classList.remove('hidden');
+      document.getElementById('action-row').classList.remove('hidden');
+      updateUI(); renderCard();
+      if(synced) console.log('Cloud sync OK');
+      return;
+    }
+  }
   initDeck();
+  if(synced) console.log('Cloud sync OK');
+})();
 }
 
 function openHistory(){renderHistory();document.getElementById('history-panel').classList.add('open');}
@@ -1594,6 +1708,7 @@ function handleImport(e){
       }
       saveFailData();
       renderHistory();
+      scheduleSave();
       alert(`${newItems.length}件をインポートしました`);
     } catch(err) {
       alert('インポートに失敗しました。JSON形式の履歴ファイルを選択してください。');
@@ -1641,7 +1756,7 @@ cardEl.addEventListener('touchend',e=>{
   if(e.target.closest('#speak-btn')||e.target.closest('#speak-ex-btn'))return;
   if(!tMoved){
     if(!didInteract)didInteract=true;
-    if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
+    if(cardState===0) speakCurrent();
     else if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
     advanceState();
   }else if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
@@ -1652,7 +1767,7 @@ cardEl.addEventListener('click',e=>{
   if(tHandled){tHandled=false;return;}
   if(e.target.closest('#speak-btn')||e.target.closest('#speak-ex-btn'))return;
   if(!didInteract)didInteract=true;
-  if(cardState===0){const c=cards[currentIndex];if(c)speak(c.en);}
+  if(cardState===0) speakCurrent();
   else if(cardState===1){const c=cards[currentIndex];if(c)speak(c.exEn);}
   advanceState();
 });
@@ -1663,7 +1778,99 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')grade(false);
 });
 
-initDeck();
+// ── JSONBIN SYNC ──
+const JBIN_KEY = '$2a$10$oO5He7JXGf.YR.vTQWfLeuJYkkBMdwZDqhiY1JVTUJXWZLHu55NzS';
+const JBIN_URL_BASE = 'https://api.jsonbin.io/v3/b';
+let jbinId = localStorage.getItem('lex_jbin_id') || null;
+let isSyncing = false;
+let syncTimer = null;
+
+async function jbinFetch(method, url, body){
+  const opts = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': JBIN_KEY,
+      'X-Bin-Private': 'true'
+    }
+  };
+  if(body) opts.body = JSON.stringify(body);
+  const r = await fetch(url, opts);
+  if(!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+async function syncSave(){
+  if(isSyncing) return;
+  isSyncing = true;
+  const data = { history: history.slice(0,2500), failData, wordStats };
+  try {
+    if(!jbinId){
+      const res = await jbinFetch('POST', JBIN_URL_BASE, data);
+      jbinId = res.metadata.id;
+      localStorage.setItem('lex_jbin_id', jbinId);
+    } else {
+      await jbinFetch('PUT', `${JBIN_URL_BASE}/${jbinId}`, data);
+    }
+  } catch(e) { console.warn('sync save failed:', e); }
+  finally { isSyncing = false; }
+}
+
+async function syncLoad(){
+  if(!jbinId) return false;
+  try {
+    const res = await jbinFetch('GET', `${JBIN_URL_BASE}/${jbinId}/latest`);
+    const data = res.record;
+    if(data.history) history = data.history;
+    if(data.failData) Object.assign(failData, data.failData);
+    if(data.wordStats) Object.assign(wordStats, data.wordStats);
+    try{localStorage.setItem('lex_history', JSON.stringify(history));}catch(e){}
+    saveFailData();
+    saveWordStats();
+    return true;
+  } catch(e) { console.warn('sync load failed:', e); return false; }
+}
+
+function scheduleSave(){
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(syncSave, 2000);
+}
+
+// ── SPEAK整理: 発音は必ずここを通す ──
+// cardStateに関係なくgradeや進行時に呼ぶ専用関数
+function speakCurrent(){
+  const c = cards[currentIndex];
+  if(c && didInteract) speak(c.en);
+}
+
+// ── 起動 ──
+(async()=>{
+  const synced = await syncLoad();
+  const prog = JSON.parse(localStorage.getItem('lex_progress')||'null');
+  if(prog && prog.cardKeys && prog.currentIndex < prog.cardKeys.length){
+    const wordMap = Object.fromEntries(WORDS.map(w=>[w.en,w]));
+    const restored = prog.cardKeys.map(k=>wordMap[k]).filter(Boolean);
+    if(restored.length > 0){
+      currentMode = prog.mode || 'flash';
+      document.querySelectorAll('.mode-tab').forEach((t,i)=>t.classList.toggle('active',['flash','review'][i]===currentMode));
+      cards = restored;
+      currentIndex = prog.currentIndex;
+      cardState = prog.cardState || 0;
+      scoreKnow = prog.scoreKnow || 0;
+      scoreUnknown = prog.scoreUnknown || 0;
+      scoreMaster = prog.scoreMaster || 0;
+      Object.keys(wordStats).forEach(k=>{wordStats[k].firstAttemptInSession=false;});
+      document.getElementById('complete-screen').classList.remove('visible');
+      document.getElementById('card-wrap').classList.remove('hidden');
+      document.getElementById('action-row').classList.remove('hidden');
+      updateUI(); renderCard();
+      if(synced) console.log('Cloud sync OK');
+      return;
+    }
+  }
+  initDeck();
+  if(synced) console.log('Cloud sync OK');
+})();
 </script>
 </body>
 </html>
