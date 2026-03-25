@@ -1490,17 +1490,19 @@ function saveProgress(){
 function clearProgress(){ localStorage.removeItem('lex_progress'); }
 
 function sortByDifficulty(pool){
-  // まずシャッフル、その後苦手順でステーブルソート
-  const shuffled = [...pool];
-  for(let i=shuffled.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];
-  }
-  return shuffled.sort((a,b) => {
-    const fa = failData[a.en] || 0;
-    const fb = failData[b.en] || 0;
-    return fb - fa; // 苦手順。同じ苦手度内はシャッフル済み順を維持
-  });
+  // 前回結果で3グループに分けてシャッフル後に結合
+  // 優先度: 前回不正解 > 未出題 > 前回正解
+  const shuffle = arr => {
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  };
+  const wrong   = shuffle(pool.filter(c=> wordStats[c.en]?.lastResult==='unknown'));
+  const unseen  = shuffle(pool.filter(c=>!wordStats[c.en]?.lastResult));
+  const correct = shuffle(pool.filter(c=> wordStats[c.en]?.lastResult==='known' || wordStats[c.en]?.lastResult==='master'));
+  return [...wrong, ...unseen, ...correct];
 }
 
 function groupByEtymology(pool){
@@ -1628,7 +1630,9 @@ function grade(known,fromSwipe=false){
   if(known){
     const isFirst=stat.firstAttemptInSession;
     stat.consecutiveCorrect++;stat.firstAttemptInSession=false;
-    const nowMasters=isFirst||stat.consecutiveCorrect>=2;
+    // 初回正解で習得は「前回不正解でない」場合のみ
+    const prevWrong = stat.lastResult==='unknown';
+    const nowMasters=(isFirst&&!prevWrong)||stat.consecutiveCorrect>=2;
     if(nowMasters&&!stat.mastered){stat.mastered=true;scoreMaster++; if(seEnabled){resumeAC();seMaster();}}
     else { if(seEnabled){resumeAC();seCorrect();} }
     result=stat.mastered?'master':'know';scoreKnow++;
@@ -1639,7 +1643,7 @@ function grade(known,fromSwipe=false){
     result='unknown';scoreUnknown++;
   }
   saveWordStats(); scheduleSave();
-  if(!known){ failData[c.en] = (failData[c.en]||0) + 1; saveFailData(); scheduleSave(); }
+  // failData廃止
   history.unshift({en:c.en,ja:c.ja,pos:c.pos,result,time:Date.now()});
   try{localStorage.setItem('lex_history',JSON.stringify(history.slice(0,2500)));}catch(e){}
   history=history.slice(0,2500);
