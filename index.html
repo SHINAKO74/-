@@ -45,8 +45,12 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .card.swipe-left .swipe-label-left{opacity:1}
 .card.swipe-right .swipe-label-right{opacity:1}
 .card-number{position:absolute;top:13px;right:17px;font-size:12px;letter-spacing:0.2em;opacity:0.3}
-.master-badge{position:absolute;top:13px;left:15px;font-size:12px;letter-spacing:0.15em;color:var(--gold);opacity:0;transition:opacity 0.3s;text-transform:uppercase}
-.master-badge.show{opacity:0.7}
+.status-badge{position:absolute;top:13px;left:15px;font-size:10px;letter-spacing:0.12em;padding:3px 8px;border-radius:3px;opacity:0;transition:opacity 0.3s;text-transform:uppercase;font-weight:600}
+.status-badge.show{opacity:1}
+.status-badge.mastered{color:var(--gold);border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1)}
+.status-badge.prev-correct{color:var(--sage);border:1px solid rgba(122,170,122,0.35);background:rgba(122,170,122,0.08)}
+.status-badge.prev-wrong{color:var(--red);border:1px solid rgba(201,100,80,0.35);background:rgba(201,100,80,0.08)}
+.status-badge.unseen{color:var(--muted);border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04)}
 .state-dots{display:flex;gap:6px;position:absolute;bottom:14px;left:50%;transform:translateX(-50%)}
 .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.15);transition:background 0.2s}
 .dot.active{background:var(--gold)}
@@ -159,7 +163,7 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
     <div class="card" id="card">
       <div class="swipe-label swipe-label-left">✕ 要復習</div>
       <div class="swipe-label swipe-label-right">○ 正解</div>
-      <div class="master-badge" id="master-badge">★ 習得済み</div>
+      <div class="status-badge" id="status-badge"></div>
       <div class="card-number" id="card-num">1 / 549</div>
       <div class="card-content" id="card-content"></div>
       <div class="state-dots" id="state-dots">
@@ -1584,7 +1588,22 @@ function renderCard(){
   const c=cards[currentIndex];
   const stat=wordStats[c.en];
   document.getElementById('card-num').textContent=`${currentIndex+1} / ${cards.length}`;
-  document.getElementById('master-badge').classList.toggle('show',!!(stat?.mastered));
+  // ステータスバッジ更新
+  const badge = document.getElementById('status-badge');
+  badge.className = 'status-badge';
+  if(stat?.mastered){
+    badge.textContent = '★ 習得済み';
+    badge.classList.add('show','mastered');
+  } else if(stat?.lastResult==='unknown'){
+    badge.textContent = '✕ 前回不正解';
+    badge.classList.add('show','prev-wrong');
+  } else if(stat?.lastResult==='known'||stat?.lastResult==='master'){
+    badge.textContent = '○ 前回正解';
+    badge.classList.add('show','prev-correct');
+  } else {
+    badge.textContent = '初出題';
+    badge.classList.add('show','unseen');
+  }
   const totalSt=(ETYM[c.en]&&etymEnabled)?4:3; document.getElementById('state-dots').innerHTML=Array.from({length:totalSt},(_,i)=>`<div class="dot${i===cardState?' active':''}" id="dot${i}"></div>`).join('');
   const content=document.getElementById('card-content');
   let html='';
@@ -1628,18 +1647,17 @@ function grade(known,fromSwipe=false){
   const stat=wordStats[c.en];
   let result;
   if(known){
-    const isFirst=stat.firstAttemptInSession;
     stat.consecutiveCorrect++;stat.firstAttemptInSession=false;
-    // 初回正解で習得は「前回不正解でない」場合のみ
-    const prevWrong = stat.lastResult==='unknown';
-    const nowMasters=(isFirst&&!prevWrong)||stat.consecutiveCorrect>=2;
+    const nowMasters=stat.consecutiveCorrect>=2;
     if(nowMasters&&!stat.mastered){stat.mastered=true;scoreMaster++; if(seEnabled){resumeAC();seMaster();}}
     else { if(seEnabled){resumeAC();seCorrect();} }
+    stat.lastResult='known';
     result=stat.mastered?'master':'know';scoreKnow++;
   }else{
     stat.consecutiveCorrect=0;stat.firstAttemptInSession=false;
     if(stat.mastered){stat.mastered=false;scoreMaster=Math.max(0,scoreMaster-1);}
     if(seEnabled){resumeAC();seWrong();}
+    stat.lastResult='unknown';
     result='unknown';scoreUnknown++;
   }
   saveWordStats(); scheduleSave();
@@ -1731,7 +1749,20 @@ async function syncLoad(){
     const data = res.record;
     if(data.history) history = data.history;
     if(data.failData) Object.assign(failData, data.failData);
-    if(data.wordStats) Object.assign(wordStats, data.wordStats);
+    if(data.wordStats){
+      // lastResult・masteredはローカルを優先（クラウドが古い可能性があるため）
+      const localStats = JSON.parse(localStorage.getItem('lex_wordstats')||'{}');
+      Object.assign(wordStats, data.wordStats);
+      // ローカルのlastResult・mastered・consecutiveCorrectで上書き
+      for(const k of Object.keys(localStats)){
+        if(!wordStats[k]) wordStats[k] = localStats[k];
+        else {
+          if(localStats[k].lastResult !== undefined) wordStats[k].lastResult = localStats[k].lastResult;
+          if(localStats[k].mastered !== undefined) wordStats[k].mastered = localStats[k].mastered;
+          if(localStats[k].consecutiveCorrect !== undefined) wordStats[k].consecutiveCorrect = localStats[k].consecutiveCorrect;
+        }
+      }
+    }
     try{localStorage.setItem('lex_history', JSON.stringify(history));}catch(e){}
     saveFailData();
     saveWordStats();
@@ -2025,7 +2056,20 @@ async function syncLoad(){
     const data = res.record;
     if(data.history) history = data.history;
     if(data.failData) Object.assign(failData, data.failData);
-    if(data.wordStats) Object.assign(wordStats, data.wordStats);
+    if(data.wordStats){
+      // lastResult・masteredはローカルを優先（クラウドが古い可能性があるため）
+      const localStats = JSON.parse(localStorage.getItem('lex_wordstats')||'{}');
+      Object.assign(wordStats, data.wordStats);
+      // ローカルのlastResult・mastered・consecutiveCorrectで上書き
+      for(const k of Object.keys(localStats)){
+        if(!wordStats[k]) wordStats[k] = localStats[k];
+        else {
+          if(localStats[k].lastResult !== undefined) wordStats[k].lastResult = localStats[k].lastResult;
+          if(localStats[k].mastered !== undefined) wordStats[k].mastered = localStats[k].mastered;
+          if(localStats[k].consecutiveCorrect !== undefined) wordStats[k].consecutiveCorrect = localStats[k].consecutiveCorrect;
+        }
+      }
+    }
     try{localStorage.setItem('lex_history', JSON.stringify(history));}catch(e){}
     saveFailData();
     saveWordStats();
