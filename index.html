@@ -1506,37 +1506,44 @@ function sortByDifficulty(pool){
   const wrong   = shuffle(pool.filter(c=> wordStats[c.en]?.lastResult==='unknown'));
   const unseen  = shuffle(pool.filter(c=>!wordStats[c.en]?.lastResult));
   const correct = shuffle(pool.filter(c=> wordStats[c.en]?.lastResult==='known' || wordStats[c.en]?.lastResult==='master'));
-  return [...wrong, ...unseen, ...correct];
+  // wrong・unseenのみ語源グループ、correctはシャッフルのまま
+  const grouped = groupByEtymology([...wrong, ...unseen]);
+  return [...grouped, ...correct];
 }
 
 function groupByEtymology(pool){
-  // ETYM.relatedからWORDS内の単語を抽出してマップ化
-  const wordSet = new Set(WORDS.map(w => w.en));
-  const etymGroups = {}; // word -> [related words in WORDS]
+  // poolをそのままの順番で維持しつつ、同じ優先グループ内の語源仲間を隣接させる
+  // ※異なる優先グループ（前回✕/初出題/前回○）をまたいで引き寄せない
+  const poolSet = new Set(pool.map(w => w.en));
+  const etymGroups = {};
   for(const w of pool){
     if(!ETYM[w.en]) continue;
     const related = ETYM[w.en].related
       .split('/')
       .map(s => s.trim().split('（')[0].trim())
-      .filter(s => wordSet.has(s) && s !== w.en);
+      .filter(s => poolSet.has(s) && s !== w.en);
     if(related.length > 0) etymGroups[w.en] = related;
   }
 
+  // 優先グループを維持するため、poolの順番を変えずに仲間を直後に移動
   const result = [];
   const used = new Set();
   for(const w of pool){
     if(used.has(w.en)) continue;
     result.push(w);
     used.add(w.en);
-    // この単語と同語根の仲間を直後に挿入
+    // 同語根の仲間がpoolの中で後ろにある場合のみ直後に移動
     const relatives = etymGroups[w.en] || [];
     for(const rel of relatives){
       if(used.has(rel)) continue;
       const relCard = pool.find(c => c.en === rel);
-      if(relCard){ result.push(relCard); used.add(rel); }
+      if(!relCard) continue;
+      const relIdx = pool.indexOf(relCard);
+      const wIdx = pool.indexOf(w);
+      // 仲間が後ろにある場合のみ移動（前にある場合は触らない）
+      if(relIdx > wIdx){ result.push(relCard); used.add(rel); }
     }
   }
-  // 残り（語源グループに属さなかったもの）を追加
   for(const w of pool){
     if(!used.has(w.en)){ result.push(w); used.add(w.en); }
   }
@@ -1572,7 +1579,6 @@ function initDeck(){
     pool = WORDS.filter(c=>!wordStats[c.en]?.mastered);
     if(pool.length === 0) pool = [...WORDS]; // 全習得済みなら全件
     pool = sortByDifficulty(pool);
-    pool = groupByEtymology(pool);
   }
   if(pool.length > sessionSize) pool = pool.slice(0, sessionSize);
   cards=pool; currentIndex=0; cardState=0;
