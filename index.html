@@ -333,6 +333,18 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 
 
 <script>
+function setSessionSize(v){
+  sessionSize = parseInt(v);
+  localStorage.setItem('lex_session_size', v);
+  const label = sessionSize >= 549 ? '全語' : sessionSize+'語';
+  document.getElementById('session-label').textContent = label;
+}
+
+function applySessionSize(){
+  closeSettings();
+  initDeck();
+}
+
 function openSettings(){
   document.getElementById('session-slider').value = sessionSize;
   document.getElementById('session-label').textContent = sessionSize >= 549 ? '全語' : sessionSize+'語';
