@@ -5405,14 +5405,7 @@ function escapeHtml(s) {
 
 // =============== RELATED ===============
 function relatedHtml(w) {
-  if (!w.related || w.related.length === 0) return '';
-  const chips = w.related.map(r => {
-    const target = WORDS.find(x => x.id === r.id);
-    if (!target) return '';
-    const cls = r.type === '対' ? 'tai' : r.type === '参' ? 'san' : '';
-    return `<button class="chip" onclick="event.stopPropagation();openWordModal(${r.id})"><span class="chip-type ${cls}">${r.type}</span>${target.word}</button>`;
-  }).join('');
-  return `<div class="related-block"><span class="related-label">関連語</span>${chips}</div>`;
+  return ''; // ETYMのrelatedはrelatedWordsHtmlで表示
 }
 
 // --- Shared HTML builders ---
@@ -5486,9 +5479,7 @@ let sortMode = 'index';
 function pickDirection() {
   // 習得済みカードは例文→単語 方式で出題
   if (currentCard && state.cards[currentCard.id].phase === 'mastered') {
-    const ex = (currentCard.example || '').split('｜')[0].trim();
-    const hl = (currentCard.highlight || '').split('｜')[0].trim();
-    if (ex && hl) return 'example2word';
+    if (currentCard.exEn) return 'example2word';
   }
   if (settings.direction === 'random') {
     return Math.random() < 0.5 ? 'word2meaning' : 'meaning2word';
@@ -5569,7 +5560,7 @@ function openEaseModal(thresh) {
         onclick="closeModal();setTimeout(()=>openWordModal(${w.id}),120)"
         onkeydown="if(event.key==='Enter'){closeModal();setTimeout(()=>openWordModal(${w.id}),120)}"
         aria-label="${w.en} ease ${c.ease.toFixed(2)}">
-        <div class="ease-row-word" lang="ja">${w.en}</div>
+        <div class="ease-row-word" lang="en">${w.en}</div>
         <div class="ease-row-meaning">${meaning}</div>
         <div class="ease-row-stat">ease <b>${c.ease.toFixed(2)}</b><br>失敗 ${lapseRate}%</div>
       </div>`;
@@ -5763,7 +5754,7 @@ function setSetting(key, val) {
 function openWordModal(id) {
   const w = WORDS.find(x => x.id === id);
   if (!w) return;
-  const c = state.cards[id];
+  const c = state.cards[id] || { phase:'new', interval:0, ease:2.5, reps:0, lapses:0, due:Date.now() };
   lastFocused = document.activeElement;
   const root = document.getElementById('modal-root');
   root.innerHTML = `
@@ -6172,7 +6163,7 @@ function renderList() {
       return ca.due - cb.due;
     });
   } else if (sortMode === 'aiueo') {
-    words.sort((a,b) => a.word.localeCompare(b.word, 'ja'));
+    words.sort((a,b) => a.en.localeCompare(b.en, 'en'));
   } else if (sortMode === 'difficulty') {
     words.sort((a,b) => {
       const ca = state.cards[a.id], cb = state.cards[b.id];
@@ -6334,14 +6325,14 @@ function render() {
     const s = getStats();
     const d = state.daily;
     const msg = (d.newDone >= settings.newLimit && s.newC > 0)
-      ? '本日の新出上限に到達しました。'
-      : '本日の学習は終はりぬ。';
+      ? 'Daily new word limit reached.'
+      : 'All done for today.';
     area.innerHTML = `
       <div class="card">
         <div class="empty">
           <div class="empty-icon">✦</div>
           <div class="empty-title">${msg}</div>
-          <div>また後ほど、お戻りくださいませ。</div>
+          <div>Check back later for more reviews.</div>
         </div>
       </div>`;
     return;
@@ -6361,7 +6352,9 @@ function render() {
 function renderSkipCheckFace() {
   const area = document.getElementById('card-area');
   const w = currentCard;
+  if (!w) { render(); return; }
   const c = state.cards[w.id];
+  if (!c) { render(); return; }
   const fullyOpen = cardStage >= 1;
 
   const dots = Array.from({length: 2}, (_, i) =>
@@ -6523,7 +6516,9 @@ function shuffle(arr) {
 function renderQuizFace() {
   const area = document.getElementById('card-area');
   const w = currentCard;
+  if (!w) { render(); return; }
   const c = state.cards[w.id];
+  if (!c) { render(); return; }
 
   if (!quizState || quizState.wordId !== w.id) {
     const built = buildQuizOptions(w);
@@ -6631,7 +6626,9 @@ function renderQuizDetail() {
   showingDetail = true;
   const area = document.getElementById('card-area');
   const w = currentCard;
+  if (!w) { render(); return; }
   const c = state.cards[w.id];
+  if (!c) { render(); return; }
 
   area.innerHTML = `
     <div class="stage-card" id="quiz-detail">
@@ -6666,7 +6663,9 @@ const STAGE_COUNT = 2;
 function renderCardFace() {
   const area = document.getElementById('card-area');
   const w = currentCard;
+  if (!w) { render(); return; }
   const c = state.cards[w.id];
+  if (!c) { render(); return; }
 
   // Skip-mode confirmation test: new card, not yet skip-tested
   if (settings.skipMode && c.phase === 'new' && !c.skipTested) {
