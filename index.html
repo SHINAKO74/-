@@ -248,15 +248,16 @@
   .card-phase.mastered { background: var(--gold); }
 
   .word-jp {
-    font-size: clamp(22px, 7vw, 52px);
+    font-size: 48px;
     font-weight: 600;
     text-align: center;
     letter-spacing: 0.04em;
     line-height: 1.3;
     margin: 12px 0;
     word-break: break-word;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     max-width: 100%;
+    hyphens: auto;
   }
   .word-pos {
     text-align: center;
@@ -1337,6 +1338,7 @@
     -webkit-user-select: none;
     touch-action: pan-y;
     transition: transform 0.25s ease, opacity 0.25s ease;
+    overflow: hidden;
   }
   .stage-card.swipe-left {
     transform: translateX(-120%) rotate(-8deg);
@@ -5361,6 +5363,15 @@ function speakWord(word) {
   window.speechSynthesis.speak(utter);
 }
 
+function wordFontSize(en) {
+  const len = (en || '').length;
+  if (len <= 8)  return '48px';
+  if (len <= 14) return '38px';
+  if (len <= 20) return '30px';
+  if (len <= 28) return '24px';
+  return '20px';
+}
+
 function speakSentence(sentence) {
   if (!settings.ttsEnabled) return;
   if (!sentence || !window.speechSynthesis) return;
@@ -6369,7 +6380,7 @@ function renderSkipCheckFace() {
   const stage0 = `
     <div class="stage-section">
       <div class="word-pos">${w.pos}</div>
-      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer" title="クリックで読み上げ">${w.en}</div>
+      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${w.en}</div>
       ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
     </div>
   `;
@@ -6572,7 +6583,7 @@ function renderQuizFace() {
     <div class="card">
       ${cardHeaderHtml(c, wordIdx(w), {badge: c.phase === 'new' ? '初出 4択' : '再確認 4択', mb8: true})}
       <div class="word-pos">${w.pos}</div>
-      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer" title="クリックで読み上げ">${w.en}</div>
+      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${w.en}</div>
       ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
       <div class="quiz-prompt">意 味 は ど れ か</div>
       <div class="quiz-options">
@@ -6672,8 +6683,8 @@ function renderCardFace() {
   const c = state.cards[w.id];
   if (!c) { render(); return; }
 
-  // Skip-mode confirmation test: new card, not yet skip-tested
-  if (settings.skipMode && c.phase === 'new' && !c.skipTested) {
+  // Skip-mode confirmation test: new card, not yet skip-tested (上限チェック付き)
+  if (settings.skipMode && c.phase === 'new' && !c.skipTested && state.daily.newDone < settings.newLimit) {
     renderSkipCheckFace();
     return;
   }
@@ -6710,7 +6721,7 @@ function renderCardFace() {
     stage0 = `
       <div class="stage-section">
         <div class="word-pos">${w.pos}</div>
-        <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer" title="クリックで読み上げ">${w.en}</div>
+        <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${w.en}</div>
         ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
       </div>
     `;
