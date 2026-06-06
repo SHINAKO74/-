@@ -5142,6 +5142,7 @@ function applyRating(c, q) {
       c.step = 0;
       c.interval = 0;
       c.due = now + LEARN_STEPS[0] * MIN;
+      c.quizPassed = true; // lapse後はフラッシュカードとして再出題
     } else {
       let mult;
       if (q === 1) { mult = 1.2; c.ease = Math.max(1.3, c.ease - 0.15); }
@@ -5174,9 +5175,21 @@ function pickNextCard() {
   const now = Date.now();
   const d = state.daily;
 
-  // 0) skip-mode: untested new cards come first (no daily limit consumed yet)
+  // 1) learning cards (no daily limit, always show if due) — 最優先
+  const learning = WORDS
+    .filter(w => state.cards[w.id].phase === 'learning' && state.cards[w.id].due <= now)
+    .sort((a,b) => state.cards[a.id].due - state.cards[b.id].due);
+
+  // learning が due になっているなら即返す（anti-repeat は1枚のときのみスキップ不可）
+  if (learning.length > 0) {
+    // 直前と同じカードで他に選択肢がある場合のみずらす
+    if (learning[0].id === state.lastShownId && learning.length > 1) return learning[1];
+    return learning[0];
+  }
+
+  // 0) skip-mode: untested new cards（learningがない場合のみ）
   if (settings.skipMode) {
-    // 0a) bad済み（skipTested=true）でdueが来たnewカードを最優先
+    // 0a) skipTested=true でdueが来たnewカード
     const skipBadDue = WORDS.filter(w => {
       const c = state.cards[w.id];
       return c.phase === 'new' && c.skipTested && c.due <= now;
@@ -5187,7 +5200,7 @@ function pickNextCard() {
       return next;
     }
 
-    // 0b) 未テストのnewカードを次に優先（新規上限チェックあり）
+    // 0b) 未テストのnewカード（新規上限チェックあり）
     if (d.newDone < settings.newLimit) {
       const skipUntested = WORDS.filter(w => {
         const c = state.cards[w.id];
@@ -5201,12 +5214,7 @@ function pickNextCard() {
     }
   }
 
-  // 1) learning cards (no daily limit, always show if due)
-  const learning = WORDS
-    .filter(w => state.cards[w.id].phase === 'learning' && state.cards[w.id].due <= now)
-    .sort((a,b) => state.cards[a.id].due - state.cards[b.id].due);
-
-  // 2) review cards (subject to limit) — randomised order
+  // 2) review cards (subject to limit)
   const canReview = d.reviewDone < settings.reviewLimit;
   const reviews = canReview ? WORDS
     .filter(w => (state.cards[w.id].phase === 'review' || state.cards[w.id].phase === 'mastered') && state.cards[w.id].due <= now)
@@ -5219,14 +5227,10 @@ function pickNextCard() {
     return c.phase === 'new' && (!settings.skipMode || c.skipTested);
   }) : [];
 
-  // Merge with priority: learning > review > new, but avoid immediate repeat
-  const queue = [...learning, ...reviews, ...news];
+  // Merge: review > new, avoid immediate repeat
+  const queue = [...reviews, ...news];
   if (queue.length === 0) return null;
-
-  // anti-repeat: if first is same as last shown and there's an alternative, skip to next
-  if (queue.length > 1 && queue[0].id === state.lastShownId) {
-    return queue[1];
-  }
+  if (queue.length > 1 && queue[0].id === state.lastShownId) return queue[1];
   return queue[0];
 }
 
@@ -6617,9 +6621,10 @@ function finishQuiz() {
   const wasNew = c.phase === 'new';
   const wasReview = c.phase === 'review' || c.phase === 'mastered';
   const wasCorrect = !!quizState.isCorrect;
-  c.quizPassed = wasCorrect;
   const q = wasCorrect ? 2 : 0;
   applyRating(c, q);
+  // learning/review降格後は次回フラッシュカードで出す（クイズループ防止）
+  c.quizPassed = true;
   c.lastReviewedAt = Date.now();
   state.lastShownId = currentCard.id;
   if (wasNew) state.daily.newDone += 1;
@@ -6921,7 +6926,7 @@ function rate(q) {
   else if (q === 3) sfxEasy();
 
   applyRating(c, q);
-  if (q === 0) c.quizPassed = false;
+  // quizPassed はクイズ(finishQuiz)でのみ管理。フラッシュカード評価では変更しない
   c.lastReviewedAt = Date.now();
   state.lastShownId = currentCard.id;
 
@@ -6977,6 +6982,23 @@ document.addEventListener('keydown', (e) => {
 loadTheme();
 document.getElementById('footer-word-count').textContent = WORDS.length;
 render();
+
+// ── 学習カードの自動ポーリング ──
+// learningフェーズのカードがdueになったら自動でrenderを呼ぶ
+setInterval(() => {
+  // currentCardがない（all done / waiting）状態のときだけ
+  if (currentCard) return;
+  // studyタブが表示中かどうか確認
+  const tab = document.getElementById('tab-study');
+  if (tab && !tab.classList.contains('active')) return;
+  // learning中のdueカードがあれば再描画
+  const now = Date.now();
+  const hasDue = WORDS.some(w => {
+    const c = state.cards[w.id];
+    return c.phase === 'learning' && c.due <= now;
+  });
+  if (hasDue) render();
+}, 5000); // 5秒ごとにチェック
 </script>
 </body>
 </html>
