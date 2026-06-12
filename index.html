@@ -330,6 +330,21 @@
     color: var(--sumi-soft);
     margin-bottom: 14px;
   }
+  .etym-fav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 0 0 6px;
+    line-height: 1;
+    opacity: 0.35;
+    transition: opacity 0.15s, transform 0.15s;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .etym-fav-btn:hover { opacity: 0.7; }
+  .etym-fav-btn.faved { opacity: 1; transform: scale(1.15); }
+
   .detail-label {
     display: inline-block;
     font-family: 'Shippori Mincho', serif;
@@ -4810,6 +4825,28 @@ const WORDS = [
 <script>
 // =============== SRS CORE ===============
 const STORAGE_KEY = 'lex_english_v01';
+const ETYM_FAV_KEY = 'lex_english_etym_favs_v01';
+
+function loadEtymFavs() {
+  try { return new Set(JSON.parse(localStorage.getItem(ETYM_FAV_KEY) || '[]')); }
+  catch(e) { return new Set(); }
+}
+function saveEtymFavs() {
+  try { localStorage.setItem(ETYM_FAV_KEY, JSON.stringify([...etymFavs])); }
+  catch(e) {}
+}
+function toggleEtymFav(en) {
+  if (etymFavs.has(en)) etymFavs.delete(en);
+  else etymFavs.add(en);
+  saveEtymFavs();
+  // ボタンの見た目を即時更新
+  const btn = document.getElementById('etym-fav-' + en.replace(/[^a-zA-Z0-9]/g, '_'));
+  if (btn) {
+    btn.classList.toggle('faved', etymFavs.has(en));
+    btn.textContent = etymFavs.has(en) ? '★' : '☆';
+    btn.title = etymFavs.has(en) ? 'お気に入り解除' : 'お気に入りに追加';
+  }
+}
 
 // WORDSにidを付与（データ側に含まれていないため）
 WORDS.forEach((w, i) => { w.id = i + 1; });
@@ -5100,6 +5137,7 @@ function _refreshMemoBlock(id) {
   block.replaceWith(tmp.firstElementChild);
 }
 
+let etymFavs = loadEtymFavs();
 let state = loadState();
 
 // Apply rating. q: 0=again 1=hard 2=good 3=easy
@@ -5133,7 +5171,22 @@ function applyRating(c, q) {
       c.due = now + c.interval * DAY;
       c.reps += 1;
     }
-  } else if (c.phase === 'review' || c.phase === 'mastered') {
+  } else if (c.phase === 'mastered') {
+    if (q === 0) {
+      // 習得済み不正解: mastered維持、15日後に再出題、ease低下
+      c.lapses += 1;
+      c.ease = Math.max(1.3, c.ease - 0.2);
+      c.interval = 15;
+      c.due = now + 15 * DAY;
+      // phase は mastered のまま
+    } else {
+      // 習得済み正解: retired（永久除外）
+      c.phase = 'retired';
+      c.interval = 9999;
+      c.due = now + 9999 * DAY;
+      c.reps += 1;
+    }
+  } else if (c.phase === 'review') {
     if (q === 0) {
       // lapse
       c.lapses += 1;
@@ -5214,10 +5267,10 @@ function pickNextCard() {
     }
   }
 
-  // 2) review cards (subject to limit)
+  // 2) review cards (subject to limit, random order)
   const canReview = d.reviewDone < settings.reviewLimit;
   const reviews = canReview ? WORDS
-    .filter(w => (state.cards[w.id].phase === 'review' || state.cards[w.id].phase === 'mastered') && state.cards[w.id].due <= now)
+    .filter(w => state.cards[w.id].phase === 'review' && state.cards[w.id].due <= now)
     .sort(() => Math.random() - 0.5) : [];
 
   // 3) new cards (subject to limit) — only skipTested ones in skipMode
@@ -5227,8 +5280,13 @@ function pickNextCard() {
     return c.phase === 'new' && (!settings.skipMode || c.skipTested);
   }) : [];
 
-  // Merge: review > new, avoid immediate repeat
-  const queue = [...reviews, ...news];
+  // 4) mastered cards: 最後尾・ease昇順（苦手なものを優先）
+  const masteredDue = WORDS
+    .filter(w => state.cards[w.id].phase === 'mastered' && state.cards[w.id].due <= now)
+    .sort((a,b) => state.cards[a.id].ease - state.cards[b.id].ease);
+
+  // Merge: review > new > mastered, avoid immediate repeat
+  const queue = [...reviews, ...news, ...masteredDue];
   if (queue.length === 0) return null;
   if (queue.length > 1 && queue[0].id === state.lastShownId) return queue[1];
   return queue[0];
@@ -5241,7 +5299,7 @@ function getStats() {
     const c = state.cards[w.id];
     if (c.phase === 'new') newC++;
     else if (c.phase === 'learning') learnC++;
-    else if (c.phase === 'mastered') masteredC++;
+    else if ((c.phase === 'mastered' || c.phase === 'retired')) masteredC++;
     if ((c.phase === 'review' || c.phase === 'mastered') && c.due <= now) dueC++;
   });
   return { newC, learnC, dueC, masteredC };
@@ -5444,8 +5502,19 @@ function cardHeaderHtml(c, totalIdx, opts) {
 function etymHtml(w) {
   const e = ETYM[w.en];
   if (!e || !e.root) return '';
-  return `<div class="detail"><span class="detail-label">源</span>${escapeHtml(e.root)}</div>`;
+  const favId = 'etym-fav-' + w.en.replace(/[^a-zA-Z0-9]/g, '_');
+  const isFaved = etymFavs.has(w.en);
+  return `
+    <div class="detail" style="display:flex;align-items:flex-start;gap:4px">
+      <span class="detail-label">源</span>
+      <span style="flex:1">${escapeHtml(e.root)}</span>
+      <button class="etym-fav-btn${isFaved ? ' faved' : ''}" id="${favId}"
+        onclick="event.stopPropagation();toggleEtymFav('${w.en.replace(/'/g, "\'")}')"
+        title="${isFaved ? 'お気に入り解除' : 'お気に入りに追加'}"
+        type="button">${isFaved ? '★' : '☆'}</button>
+    </div>`;
 }
+
 
 function synonymsHtml(w) {
   const e = ETYM[w.en];
@@ -5459,6 +5528,7 @@ function relatedWordsHtml(w) {
   return `<div class="detail"><span class="detail-label">関</span>${escapeHtml(e.related)}</div>`;
 }
 
+
 function triviaHtml(w) {
   return synonymsHtml(w) + relatedWordsHtml(w);
 }
@@ -5470,16 +5540,20 @@ function wordInfoHtml(w) {
   const interval = c ? (c.interval || 0) : 0;
 
   // 語源・関連語・例文：「復習」「習得」のみ表示
-  const showDeep = (phase === 'review' || phase === 'mastered');
+  const showDeep = (phase === 'review' || phase === 'mastered' || phase === 'retired');
   // 類義語：interval 4日以上で表示
   const showSynonyms = interval >= 4;
 
 
+  // 語源お気に入り登録済みなら復習前でも語源・関連語を表示
+  const isFavEtym = etymFavs.has(w.en);
+  const showEtym = showDeep || isFavEtym;
+
   return `
     ${showDeep ? renderExamples(w) : ''}
     ${showSynonyms ? synonymsHtml(w) : ''}
-    ${showDeep ? etymHtml(w) : ''}
-    ${showDeep ? relatedWordsHtml(w) : ''}
+    ${showEtym ? etymHtml(w) : ''}
+    ${showEtym ? relatedWordsHtml(w) : ''}
   `;
 }
 
@@ -5498,7 +5572,7 @@ let sortMode = 'index';
 
 function pickDirection() {
   // 習得済みカードは例文→単語 方式で出題
-  if (currentCard && state.cards[currentCard.id].phase === 'mastered') {
+  if (currentCard && (state.cards[currentCard.id].phase === 'mastered' || state.cards[currentCard.id].phase === 'retired')) {
     if (currentCard.exEn) return 'example2word';
   }
   if (settings.direction === 'random') {
@@ -5789,7 +5863,7 @@ function openWordModal(id) {
         <div class="modal-stats" role="group" aria-label="学習データ">
           <div class="modal-stat">
             <div class="modal-stat-label">状　態</div>
-            <div class="modal-stat-val ${c.phase==='mastered'?'gold':c.phase==='learning'?'shu':''}">${phaseLabel(c.phase)}</div>
+            <div class="modal-stat-val ${(c.phase==='mastered'||c.phase==='retired')?'gold':c.phase==='learning'?'shu':''}">${phaseLabel(c.phase)}</div>
           </div>
           <div class="modal-stat">
             <div class="modal-stat-label">次回復習</div>
@@ -5876,7 +5950,7 @@ function fmtDue(c) {
 }
 
 function phaseLabel(p) {
-  return { new:'新出', learning:'学習中', review:'復習', mastered:'習得' }[p];
+  return { new:'新出', learning:'学習中', review:'復習', mastered:'習得', retired:'永久習得' }[p];
 }
 
 function timeAgo(ts) {
@@ -6161,6 +6235,8 @@ function renderList() {
   // phase / memo / keigo filter
   if (listFilter === 'memo') {
     words = words.filter(w => !!getMemo(w.id));
+  } else if (listFilter === 'etym_fav') {
+    words = words.filter(w => etymFavs.has(w.en));
   } else if (listFilter === 'keigo') {
     words = words.filter(w => isKeigo(w));
   } else if (listFilter === 'kyo') {
@@ -6206,8 +6282,9 @@ function renderList() {
     new: WORDS.filter(w => state.cards[w.id].phase === 'new').length,
     learning: WORDS.filter(w => state.cards[w.id].phase === 'learning').length,
     review: WORDS.filter(w => state.cards[w.id].phase === 'review').length,
-    mastered: WORDS.filter(w => state.cards[w.id].phase === 'mastered').length,
+    mastered: WORDS.filter(w => state.cards[w.id].phase === 'mastered' || state.cards[w.id].phase === 'retired').length,
     memo: WORDS.filter(w => !!getMemo(w.id)).length,
+    etym_fav: WORDS.filter(w => etymFavs.has(w.en)).length,
     keigo: WORDS.filter(w => isKeigo(w)).length,
     kyo:   WORDS.filter(w => isKyo(w)).length,
     kango: WORDS.filter(w => isKango(w)).length,
@@ -6250,7 +6327,7 @@ function renderList() {
     const filterBtns = area.querySelectorAll('.list-filter button');
     const countVals = [counts.all, counts.new, counts.learning, counts.review, counts.mastered, counts.memo, counts.keigo, counts.kyo, counts.kango];
     const countKeys = ['all', 'new', 'learning', 'review', 'mastered', 'memo', 'keigo', 'kyo', 'kango'];
-    const countLabels = ['すべて','新出','学習中','復習','習得','✏ メモあり','名詞','動詞','形容詞'];
+    const countLabels = ['すべて','新出','学習中','復習','習得','✏ メモあり','★ 語源お気に入り','名詞','動詞','形容詞'];
     filterBtns.forEach((btn, i) => {
       btn.textContent = countLabels[i] + ' ' + countVals[i];
       btn.className = listFilter === countKeys[i] ? 'active' : '';
@@ -6281,6 +6358,7 @@ function renderList() {
         <button class="${listFilter==='review'?'active':''}" onclick="setFilter('review')" aria-pressed="${listFilter==='review'}" type="button">復習 ${counts.review}</button>
         <button class="${listFilter==='mastered'?'active':''}" onclick="setFilter('mastered')" aria-pressed="${listFilter==='mastered'}" type="button">習得 ${counts.mastered}</button>
         <button class="${listFilter==='memo'?'active':''}" onclick="setFilter('memo')" aria-pressed="${listFilter==='memo'}" type="button">✏ メモあり ${counts.memo}</button>
+        <button class="${listFilter==='etym_fav'?'active':''}" onclick="setFilter('etym_fav')" aria-pressed="${listFilter==='etym_fav'}" type="button">★ 語源お気に入り ${counts.etym_fav}</button>
         <button class="${listFilter==='keigo'?'active':''}" onclick="setFilter('keigo')" aria-pressed="${listFilter==='keigo'}" type="button">名詞 ${counts.keigo}</button>
         <button class="${listFilter==='kyo'?'active':''}" onclick="setFilter('kyo')" aria-pressed="${listFilter==='kyo'}" type="button">動詞 ${counts.kyo}</button>
         <button class="${listFilter==='kango'?'active':''}" onclick="setFilter('kango')" aria-pressed="${listFilter==='kango'}" type="button">形容詞 ${counts.kango}</button>
@@ -6477,8 +6555,15 @@ function rateSkipCheck(good) {
 // =============== FIRST-ENCOUNTER QUIZ ===============
 let quizState = null; // { word, options, correctIdx, answeredIdx, isCorrect }
 
-function shortenMeaning(m) {
-  let s = m.replace(/・.*$/, '');
+function shortenMeaning(m, random) {
+  // 多義語（・区切り）のとき、random=trueならランダムに1つ選ぶ
+  const parts = m.split('・').map(p => p.trim()).filter(Boolean);
+  let s;
+  if (random && parts.length > 1) {
+    s = parts[Math.floor(Math.random() * parts.length)];
+  } else {
+    s = parts[0];
+  }
   if (s.length > 38) s = s.slice(0, 36) + '…';
   return s;
 }
@@ -6503,7 +6588,7 @@ function meaningOverlaps(a, b) {
 }
 
 function buildQuizOptions(targetWord) {
-  const correctMeaning = shortenMeaning(targetWord.ja);
+  const correctMeaning = shortenMeaning(targetWord.ja, true); // 多義語はランダム選択
   // Pick 3 distractors: prefer same pos, but exclude words with overlapping meanings
   const samePos = WORDS.filter(w => w.id !== targetWord.id && w.pos === targetWord.pos);
   const others  = WORDS.filter(w => w.id !== targetWord.id && w.pos !== targetWord.pos);
@@ -6511,7 +6596,7 @@ function buildQuizOptions(targetWord) {
   const seenMeanings = new Set([correctMeaning]);
   const distractors = [];
   for (const w of pool) {
-    const m = shortenMeaning(w.ja);
+    const m = shortenMeaning(w.ja, true);
     if (seenMeanings.has(m)) continue;
     // 短縮後と元meaning両方でオーバーラップチェック
     if (meaningOverlaps(correctMeaning, m)) continue;
@@ -6926,7 +7011,8 @@ function rate(q) {
   else if (q === 3) sfxEasy();
 
   applyRating(c, q);
-  // quizPassed はクイズ(finishQuiz)でのみ管理。フラッシュカード評価では変更しない
+  // 不正解時は次回クイズを要求
+  if (q === 0) c.quizPassed = false;
   c.lastReviewedAt = Date.now();
   state.lastShownId = currentCard.id;
 
