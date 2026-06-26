@@ -337,13 +337,14 @@
     font-size: 16px;
     padding: 0 0 0 6px;
     line-height: 1;
-    opacity: 0.35;
-    transition: opacity 0.15s, transform 0.15s;
+    color: var(--muted);
+    opacity: 0.5;
+    transition: opacity 0.15s, color 0.15s, transform 0.15s;
     vertical-align: middle;
     flex-shrink: 0;
   }
-  .etym-fav-btn:hover { opacity: 0.7; }
-  .etym-fav-btn.faved { opacity: 1; transform: scale(1.15); }
+  .etym-fav-btn:hover { opacity: 0.85; color: var(--gold); }
+  .etym-fav-btn.faved { opacity: 1; color: var(--gold); transform: scale(1.15); }
 
   .detail-label {
     display: inline-block;
@@ -3232,7 +3233,7 @@ const WORDS = [
 {en:"prevail",ph:"/prɪˈveɪl/",ja:"普及する・勝る・行き渡る",pos:"動詞",cat:"verb",exEn:"The custom of bowing has prevailed in Japan for centuries.",exJa:"お辞儀の習慣は何世紀にもわたって日本で広まっている。"},
 {en:"voyage",ph:"/ˈvɔɪɪdʒ/",ja:"航海",pos:"名詞",cat:"noun",exEn:"The voyage across the ocean took three weeks.",exJa:"海を渡る航海には3週間かかった。"},
 {en:"subtle",ph:"/ˈsʌtl/",ja:"微妙な・かすかな・巧みな",pos:"形容詞",cat:"adjective",exEn:"There was a subtle difference between the two.",exJa:"二つの間には微妙な違いがあった。"},
-{en:"poll",ph:"/pəʊl/",ja:"投票する・世論調査",pos:"名詞",cat:"noun",exEn:"The latest poll shows a close race.",exJa:"最新の世論調査は接戦を示している。"},
+{en:"poll",ph:"/pəʊl/",ja:"世論調査・投票する",pos:"名詞",cat:"noun",exEn:"The latest poll shows a close race.",exJa:"最新の世論調査は接戦を示している。"},
 {en:"artistic",ph:"/ɑːˈtɪstɪk/",ja:"芸術的な",pos:"形容詞",cat:"adjective",exEn:"She has great artistic talent and spends hours painting every day.",exJa:"彼女は素晴らしい芸術的才能を持っており、何時間も絵を描いて過ごす。"},
 {en:"poverty",ph:"/ˈpɒvəti/",ja:"貧困",pos:"名詞",cat:"noun",exEn:"Many children around the world live in extreme poverty.",exJa:"世界中の多くの子どもたちが極度の貧困の中で生活している。"},
 {en:"atom",ph:"/ˈætəm/",ja:"原子",pos:"名詞",cat:"noun",exEn:"An atom is the basic unit of matter.",exJa:"原子は物質の基本単位だ。"},
@@ -3246,7 +3247,7 @@ const WORDS = [
 {en:"accumulate",ph:"/əˈkjuːmjʊleɪt/",ja:"蓄積する",pos:"動詞",cat:"verb",exEn:"Dust accumulated on the old furniture.",exJa:"古い家具の上にほこりが蓄積した。"},
 {en:"overwhelm",ph:"/ˌəʊvəˈwɛlm/",ja:"圧倒する",pos:"動詞",cat:"verb",exEn:"The beauty of the landscape overwhelmed her.",exJa:"その風景の美しさが彼女を圧倒した。"},
 {en:"forbid",ph:"/fəˈbɪd/",ja:"禁止する",pos:"動詞",cat:"verb",exEn:"Smoking is forbidden in this building.",exJa:"この建物内での喫煙は禁止されている。"},
-{en:"elaborate",ph:"/ɪˈlæbərɪt/",ja:"詳しく述べる・精巧な",pos:"形容詞/動詞",cat:"adjective",exEn:"The cake had an elaborate decoration.",exJa:"そのケーキには精巧な装飾が施されていた。"},
+{en:"elaborate",ph:"/ɪˈlæbərɪt/",ja:"精巧な・詳しく述べる",pos:"形容詞/動詞",cat:"adjective",exEn:"The cake had an elaborate decoration.",exJa:"そのケーキには精巧な装飾が施されていた。"},
 {en:"legend",ph:"/ˈlɛdʒənd/",ja:"伝説",pos:"名詞",cat:"noun",exEn:"The legend of King Arthur is well known.",exJa:"アーサー王の伝説はよく知られている。"},
 {en:"pedestrian",ph:"/pɪˈdɛstriən/",ja:"歩行者",pos:"名詞",cat:"noun",exEn:"Pedestrians should always use the crosswalk when crossing the road.",exJa:"歩行者は道路を渡る際には常に横断歩道を使用すべきだ。"},
 {en:"regulation",ph:"/ˌrɛɡjʊˈleɪʃən/",ja:"規則・規制",pos:"名詞",cat:"noun",exEn:"New regulations on pollution were introduced.",exJa:"汚染に関する新しい規定が導入された。"},
@@ -3275,7 +3276,7 @@ const WORDS = [
 {en:"ethical",ph:"/ˈɛθɪkəl/",ja:"倫理的な",pos:"形容詞",cat:"adjective",exEn:"The doctor faced an ethical dilemma.",exJa:"医師は倫理的なジレンマに直面した。"},
 {en:"flourish",ph:"/ˈflʌrɪʃ/",ja:"繁栄する・盛んになる",pos:"動詞",cat:"verb",exEn:"The company began to flourish after new management.",exJa:"新しい経営陣の下で会社は繁栄し始めた。"},
 {en:"innate",ph:"/ɪˈneɪt/",ja:"生来の",pos:"形容詞",cat:"adjective",exEn:"He has an innate talent for music.",exJa:"彼は音楽の生来の才能を持っている。"},
-{en:"reform",ph:"/rɪˈfɔːm/",ja:"改革する・改善する・改革",pos:"名詞",cat:"noun",exEn:"The government agreed that education reform is urgently needed.",exJa:"すべての子どもに高品質な学習を確保するために教育改革が緊急に必要だ。"},
+{en:"reform",ph:"/rɪˈfɔːm/",ja:"改革・改革する・改善する",pos:"名詞",cat:"noun",exEn:"The government agreed that education reform is urgently needed.",exJa:"すべての子どもに高品質な学習を確保するために教育改革が緊急に必要だ。"},
 {en:"meanwhile",ph:"/ˈmiːnwaɪl/",ja:"一方",pos:"副詞",cat:"adverb",exEn:"She studied hard; meanwhile he relaxed.",exJa:"彼女は一生懸命勉強した。一方、彼はくつろいでいた。"},
 {en:"liquid",ph:"/ˈlɪkwɪd/",ja:"液体",pos:"名詞",cat:"noun",exEn:"Water is a liquid at room temperature.",exJa:"水は室温では液体だ。"},
 {en:"conservative",ph:"/kənˈsɜːvətɪv/",ja:"保守的な",pos:"形容詞",cat:"adjective",exEn:"He holds conservative views on social issues.",exJa:"彼は社会問題について保守的な見解を持っている。"},
@@ -3284,7 +3285,7 @@ const WORDS = [
 {en:"rearrange",ph:"/ˌriːəˈreɪndʒ/",ja:"並べ直す・再配置する",pos:"動詞",cat:"verb",exEn:"She rearranged the furniture in her room.",exJa:"彼女は部屋の家具を配置し直した。"},
 {en:"shame",ph:"/ʃeɪm/",ja:"恥・羞恥心・残念なこと",pos:"名詞",cat:"noun",exEn:"It's a shame that you can't join us.",exJa:"あなたが参加できないのは残念だ。"},
 {en:"vessel",ph:"/ˈvɛsəl/",ja:"船・容器・血管",pos:"名詞",cat:"noun",exEn:"The vessel sailed into the harbor.",exJa:"その船は港に入った。"},
-{en:"collapse",ph:"/kəˈlæps/",ja:"崩壊する・崩れる・倒れる",pos:"名詞",cat:"noun",exEn:"The collapse of the bridge shocked everyone.",exJa:"橋の崩壊は皆を驚かせた。"},
+{en:"collapse",ph:"/kəˈlæps/",ja:"崩壊・崩れる・倒れる",pos:"名詞",cat:"noun",exEn:"The collapse of the bridge shocked everyone.",exJa:"橋の崩壊は皆を驚かせた。"},
 {en:"simultaneous",ph:"/ˌsɪməlˈteɪniəs/",ja:"同時の・同時に起こる",pos:"形容詞",cat:"adjective",exEn:"There were simultaneous attacks on both cities.",exJa:"両都市への同時攻撃があった。"},
 {en:"advocate",ph:"/ˈædvəkeɪt/",ja:"主張する・擁護する・支持者",pos:"動詞/名詞",cat:"verb",exEn:"She actively advocates for children's rights in developing countries.",exJa:"彼女は恵まれない背景の子どもたちの権利を積極的に擁護する。"},
 {en:"ideological",ph:"/ˌaɪdiəˈlɒdʒɪkəl/",ja:"イデオロギーの",pos:"形容詞",cat:"adjective",exEn:"The two parties have strong ideological differences.",exJa:"二つの党は強いイデオロギーの違いを持っている。"},
@@ -3341,14 +3342,14 @@ const WORDS = [
 {en:"assert",ph:"/əˈsɜːt/",ja:"主張する・断言する",pos:"動詞",cat:"verb",exEn:"She asserted her right to speak.",exJa:"彼女は発言する権利を主張した。"},
 {en:"funeral",ph:"/ˈfjuːnərəl/",ja:"葬式",pos:"名詞",cat:"noun",exEn:"The funeral was attended by many friends.",exJa:"葬式には多くの友人が参列した。"},
 {en:"deadline",ph:"/ˈdɛdlaɪn/",ja:"締め切り",pos:"名詞",cat:"noun",exEn:"The deadline for submissions is Friday.",exJa:"提出の締め切りは金曜日だ。"},
-{en:"rear",ph:"/rɪər/",ja:"後部・後ろの・育てる",pos:"動詞/名詞",cat:"verb",exEn:"She reared her children with great care.",exJa:"彼女は子供たちを大切に育てた。"},
+{en:"rear",ph:"/rɪər/",ja:"育てる・後部・後ろの",pos:"動詞/名詞",cat:"verb",exEn:"She reared her children with great care.",exJa:"彼女は子供たちを大切に育てた。"},
 {en:"controversy",ph:"/ˈkɒntrəvɜːsi/",ja:"論争・議論・物議",pos:"名詞",cat:"noun",exEn:"The new immigration policy sparked considerable controversy nationwide.",exJa:"新しい移民政策は政治家と国民の間で論争を引き起こした。"},
 {en:"variable",ph:"/ˈvɛəriəbəl/",ja:"変わりやすい・変数・可変の",pos:"形容詞",cat:"adjective",exEn:"The weather has been variable this week.",exJa:"今週は天気が変わりやすかった。"},
 {en:"amusement",ph:"/əˈmjuːzmənt/",ja:"娯楽",pos:"名詞",cat:"noun",exEn:"The park provided amusement for all ages.",exJa:"その公園はあらゆる年齢層に娯楽を提供した。"},
 {en:"expedition",ph:"/ˌɛkspɪˈdɪʃən/",ja:"探検・遠征",pos:"名詞",cat:"noun",exEn:"The expedition explored the Amazon rainforest.",exJa:"探検隊はアマゾンの熱帯雨林を探検した。"},
 {en:"obsession",ph:"/əbˈsɛʃən/",ja:"強迫観念・執着",pos:"名詞",cat:"noun",exEn:"His obsession with cleanliness was extreme.",exJa:"清潔さへの彼の強迫的なこだわりは極端だった。"},
 {en:"inherent",ph:"/ɪnˈhɪərənt/",ja:"本来備わった・固有の",pos:"形容詞",cat:"adjective",exEn:"There are inherent risks in this project.",exJa:"このプロジェクトには固有のリスクがある。"},
-{en:"harvest",ph:"/ˈhɑːvɪst/",ja:"収穫する・収穫",pos:"名詞",cat:"noun",exEn:"The harvest was plentiful this year.",exJa:"今年の収穫は豊富だった。"},
+{en:"harvest",ph:"/ˈhɑːvɪst/",ja:"収穫・収穫する",pos:"名詞",cat:"noun",exEn:"The harvest was plentiful this year.",exJa:"今年の収穫は豊富だった。"},
 {en:"sculpture",ph:"/ˈskʌlptʃər/",ja:"彫刻・彫像",pos:"名詞",cat:"noun",exEn:"The sculpture stood in the center of the plaza.",exJa:"彫刻は広場の中央に置かれていた。"},
 {en:"unify",ph:"/ˈjuːnɪfaɪ/",ja:"統一する",pos:"動詞",cat:"verb",exEn:"The leader tried to unify the divided nation.",exJa:"指導者は分裂した国を統一しようとした。"},
 {en:"reinforce",ph:"/ˌriːɪnˈfɔːs/",ja:"強化する",pos:"動詞",cat:"verb",exEn:"The latest research findings reinforced his original theory significantly.",exJa:"研究から得た新しい証拠が気候変動に関する理論を強化した。"},
@@ -3426,7 +3427,7 @@ const WORDS = [
 {en:"glimpse",ph:"/ɡlɪmps/",ja:"ちらっと見ること",pos:"名詞",cat:"noun",exEn:"She caught a glimpse of the celebrity.",exJa:"彼女はその有名人をちらっと見た。"},
 {en:"deceive",ph:"/dɪˈsiːv/",ja:"だます",pos:"動詞",cat:"verb",exEn:"He tried to deceive the inspector.",exJa:"彼は検査官をだまそうとした。"},
 {en:"penetrate",ph:"/ˈpɛnɪtreɪt/",ja:"貫通する・侵入する",pos:"動詞",cat:"verb",exEn:"The bullet penetrated the thick wall.",exJa:"弾丸は厚い壁を貫通した。"},
-{en:"stem",ph:"/stɛm/",ja:"茎・幹・〜から生じる・食い止める",pos:"動詞/名詞",cat:"verb",exEn:"The problem stems from poor planning.",exJa:"その問題は計画不足に起因する。"},
+{en:"stem",ph:"/stɛm/",ja:"〜から生じる・食い止める・茎・幹",pos:"動詞/名詞",cat:"verb",exEn:"The problem stems from poor planning.",exJa:"その問題は計画不足に起因する。"},
 {en:"gigantic",ph:"/dʒaɪˈɡæntɪk/",ja:"巨大な",pos:"形容詞",cat:"adjective",exEn:"A gigantic wave hit the shore.",exJa:"巨大な波が海岸を襲った。"},
 {en:"cue",ph:"/kjuː/",ja:"合図・きっかけ",pos:"名詞",cat:"noun",exEn:"The nervous actor missed his cue and forgot to enter the stage.",exJa:"俳優は合図を見逃した。"},
 {en:"ashamed",ph:"/əˈʃeɪmd/",ja:"恥じて",pos:"形容詞",cat:"adjective",exEn:"He felt ashamed of his behavior.",exJa:"彼は自分の行動を恥じた。"},
@@ -3504,7 +3505,7 @@ const WORDS = [
 {en:"rotate",ph:"/rəʊˈteɪt/",ja:"回転する・交代する",pos:"動詞",cat:"verb",exEn:"The Earth rotates on its axis.",exJa:"地球は地軸を中心に回転する。"},
 {en:"lunar",ph:"/ˈluːnər/",ja:"月の",pos:"形容詞",cat:"adjective",exEn:"A lunar eclipse occurs when the Earth casts a shadow on the moon.",exJa:"月食は地球が月に影を投じるときに起こる。"},
 {en:"presumably",ph:"/prɪˈzjuːməbli/",ja:"おそらく・推定では",pos:"副詞",cat:"adverb",exEn:"He presumably forgot about the meeting.",exJa:"彼はおそらく会議を忘れたのだろう。"},
-{en:"implement",ph:"/ˈɪmplɪmɛnt/",ja:"実施する・実行する・道具",pos:"名詞",cat:"noun",exEn:"The government implemented a new policy to reduce unemployment.",exJa:"政府は失業を減らすための新しい政策を実施した。"},
+{en:"implement",ph:"/ˈɪmplɪmɛnt/",ja:"道具・実施する・実行する",pos:"名詞",cat:"noun",exEn:"The government implemented a new policy to reduce unemployment.",exJa:"政府は失業を減らすための新しい政策を実施した。"},
 {en:"vaccine",ph:"/ˈvæksiːn/",ja:"ワクチン",pos:"名詞",cat:"noun",exEn:"The new vaccine protects against multiple strains of influenza.",exJa:"インフルエンザワクチンは重篤な疾患を防ぎ、入院を減らす。"},
 {en:"feminine",ph:"/ˈfɛmɪnɪn/",ja:"女性らしい",pos:"形容詞",cat:"adjective",exEn:"The room had a soft, feminine atmosphere.",exJa:"その部屋は柔らかく女性らしい雰囲気があった。"},
 {en:"surgery",ph:"/ˈsɜːdʒəri/",ja:"外科手術",pos:"名詞",cat:"noun",exEn:"He underwent surgery to repair his knee.",exJa:"彼は膝を修復するための外科手術を受けた。"},
@@ -3585,7 +3586,7 @@ const WORDS = [
 {en:"comet",ph:"/ˈkɒmɪt/",ja:"彗星",pos:"名詞",cat:"noun",exEn:"The comet was visible with the naked eye.",exJa:"彗星は肉眼で見えた。"},
 {en:"troop",ph:"/truːp/",ja:"軍隊・部隊・大勢",pos:"名詞",cat:"noun",exEn:"Troops were deployed along the border.",exJa:"軍隊が国境沿いに配備された。"},
 {en:"fabric",ph:"/ˈfæbrɪk/",ja:"布地・生地・構造",pos:"名詞",cat:"noun",exEn:"The fabric was soft and comfortable.",exJa:"その織物は柔らかく快適だった。"},
-{en:"retreat",ph:"/rɪˈtriːt/",ja:"退却する・退避する・隠れ家",pos:"名詞",cat:"noun",exEn:"The army began a hasty retreat.",exJa:"軍は急いで退却を始めた。"},
+{en:"retreat",ph:"/rɪˈtriːt/",ja:"隠れ家・退却する・退避する",pos:"名詞",cat:"noun",exEn:"The army began a hasty retreat.",exJa:"軍は急いで退却を始めた。"},
 {en:"applause",ph:"/əˈplɔːz/",ja:"拍手・喝采",pos:"名詞",cat:"noun",exEn:"The audience gave a round of applause.",exJa:"観客は拍手喝采を送った。"},
 {en:"harsh",ph:"/hɑːʃ/",ja:"厳しい",pos:"形容詞",cat:"adjective",exEn:"The harsh weather made travel impossible.",exJa:"厳しい天気は移動を不可能にした。"},
 {en:"statesman",ph:"/ˈsteɪtsmən/",ja:"政治家・国務官",pos:"名詞",cat:"noun",exEn:"He was respected as a wise statesman.",exJa:"彼は賢明な政治家として尊敬されていた。"},
@@ -3616,7 +3617,7 @@ const WORDS = [
 {en:"upright",ph:"/ˈʌpraɪt/",ja:"直立した・正直な",pos:"形容詞",cat:"adjective",exEn:"Keep the bottle upright to prevent leaking.",exJa:"漏れを防ぐためにボトルを垂直に保ってください。"},
 {en:"fiber",ph:"/ˈfaɪbər/",ja:"繊維",pos:"名詞",cat:"noun",exEn:"Dietary fiber is essential for digestion.",exJa:"食物繊維は消化に不可欠だ。"},
 {en:"porch",ph:"/pɔːtʃ/",ja:"玄関",pos:"名詞",cat:"noun",exEn:"She sat on the porch watching the sunset.",exJa:"彼女はポーチに座って夕日を眺めた。"},
-{en:"decay",ph:"/dɪˈkeɪ/",ja:"腐敗する・崩壊する・腐敗・虫歯",pos:"名詞",cat:"noun",exEn:"The old building showed signs of decay.",exJa:"古い建物は腐食の兆候を示していた。"},
+{en:"decay",ph:"/dɪˈkeɪ/",ja:"腐敗・虫歯・腐敗する・崩壊する",pos:"名詞",cat:"noun",exEn:"The old building showed signs of decay.",exJa:"古い建物は腐食の兆候を示していた。"},
 {en:"beforehand",ph:"/bɪˈfɔːhænd/",ja:"前もって",pos:"副詞",cat:"adverb",exEn:"Please prepare all your documents beforehand to speed up the process.",exJa:"事務所での遅延を避けるために、すべての必要書類を前もって準備してください。"},
 {en:"magnificent",ph:"/mæɡˈnɪfɪsənt/",ja:"壮大な・素晴らしい",pos:"形容詞",cat:"adjective",exEn:"The ancient cathedral was truly magnificent with its soaring stone arches.",exJa:"大聖堂の建築は実に壮麗で、何世紀もの職人技を反映していた。"},
 {en:"trail",ph:"/treɪl/",ja:"跡・小道・尾行する",pos:"名詞",cat:"noun",exEn:"They followed the trail through the forest.",exJa:"彼らは森の中の跡をたどった。"},
@@ -3645,7 +3646,7 @@ const WORDS = [
 {en:"glow",ph:"/ɡləʊ/",ja:"燃えるように輝く",pos:"動詞",cat:"verb",exEn:"The coals glowed in the fireplace.",exJa:"炭が暖炉の中で燃えるように輝いた。"},
 {en:"scent",ph:"/sɛnt/",ja:"香り",pos:"名詞",cat:"noun",exEn:"The scent of roses filled the garden.",exJa:"バラの香りが庭に満ちた。"},
 {en:"ambulance",ph:"/ˈæmbjʊləns/",ja:"救急車",pos:"名詞",cat:"noun",exEn:"Fortunately, the ambulance arrived within minutes of the emergency call.",exJa:"救急車は緊急の連絡を受けて数分以内に到着し、患者を治療した。"},
-{en:"intrigue",ph:"/ˈɪntriːɡ/",ja:"陰謀する・興味をそそる・陰謀",pos:"名詞",cat:"noun",exEn:"The novel was full of political intrigue.",exJa:"その小説は政治的な陰謀に満ちていた。"},
+{en:"intrigue",ph:"/ˈɪntriːɡ/",ja:"陰謀・興味をそそる・陰謀する",pos:"名詞",cat:"noun",exEn:"The novel was full of political intrigue.",exJa:"その小説は政治的な陰謀に満ちていた。"},
 {en:"fraud",ph:"/frɔːd/",ja:"詐欺・不正行為",pos:"名詞",cat:"noun",exEn:"He was arrested for bank fraud.",exJa:"彼は銀行詐欺で逮捕された。"},
 {en:"rebel",ph:"/ˈrɛbəl/",ja:"反抗する・反逆者",pos:"動詞",cat:"verb",exEn:"Teenagers often rebel against authority as they seek independence.",exJa:"ティーンエイジャーは自分のアイデンティティを見つける一環として権威に反抗しがちだ。"},
 {en:"germ",ph:"/dʒɜːm/",ja:"細菌・病原菌",pos:"名詞",cat:"noun",exEn:"Wash your hands to kill germs.",exJa:"病原菌を殺すために手を洗ってください。"},
@@ -3681,7 +3682,7 @@ const WORDS = [
 {en:"appliance",ph:"/əˈplaɪəns/",ja:"家電製品・電気器具",pos:"名詞",cat:"noun",exEn:"The kitchen was equipped with modern appliances.",exJa:"キッチンは現代的な器具が備わっていた。"},
 {en:"regain",ph:"/rɪˈɡeɪn/",ja:"取り戻す",pos:"動詞",cat:"verb",exEn:"She worked hard to regain her confidence.",exJa:"彼女は自信を取り戻すために努力した。"},
 {en:"limb",ph:"/lɪm/",ja:"手足",pos:"名詞",cat:"noun",exEn:"He lost a limb in the accident.",exJa:"彼は事故で手足を失った。"},
-{en:"compliment",ph:"/ˈkɒmplɪmənt/",ja:"称賛する・お世辞を言う・称賛",pos:"名詞",cat:"noun",exEn:"She accepted the compliment about her speech graciously and with humility.",exJa:"彼女はスピーチへの称賛を謙虚に、しかし優雅に受け入れた。"},
+{en:"compliment",ph:"/ˈkɒmplɪmənt/",ja:"称賛・称賛する・お世辞を言う",pos:"名詞",cat:"noun",exEn:"She accepted the compliment about her speech graciously and with humility.",exJa:"彼女はスピーチへの称賛を謙虚に、しかし優雅に受け入れた。"},
 {en:"sting",ph:"/stɪŋ/",ja:"刺す",pos:"動詞",cat:"verb",exEn:"A bee stung him on the arm.",exJa:"ハチが彼の腕を刺した。"},
 {en:"masculine",ph:"/ˈmæskjʊlɪn/",ja:"男らしい",pos:"形容詞",cat:"adjective",exEn:"His deep, confident voice sounded naturally masculine and authoritative.",exJa:"低い声と強靭な体格が彼に非常に男らしい外見を与えた。"},
 {en:"acute",ph:"/əˈkjuːt/",ja:"鋭い・急性の",pos:"形容詞",cat:"adjective",exEn:"She has an acute sense of hearing.",exJa:"彼女は鋭い聴覚を持っている。"},
@@ -4110,7 +4111,7 @@ const WORDS = [
 {en:"peculiar",ph:"/pɪˈkjuːliər/",ja:"特有の・風変わりな",pos:"形容詞",cat:"adjective",exEn:"There was a peculiar smell coming from the kitchen.",exJa:"台所から風変わりなにおいがしていた。"},
 {en:"perceive",ph:"/pəˈsiːv/",ja:"知覚する・認識する",pos:"動詞",cat:"verb",exEn:"People perceive the same situation differently.",exJa:"人々は同じ状況を異なるように認識する。"},
 {en:"perform",ph:"/pəˈfɔːm/",ja:"実行する・演じる",pos:"動詞",cat:"verb",exEn:"The orchestra performed brilliantly last night.",exJa:"オーケストラは昨夜素晴らしい演奏をした。"},
-{en:"permanent",ph:"/ˈpɜːmənənt/",ja:"永続する・不変の",pos:"形容詞",cat:"adjective",exEn:"The injury left a permanent scar on his arm.",exJa:"その怪我は彼の腕に永続的な傷跡を残した。"},
+{en:"permanent",ph:"/ˈpɜːmənənt/",ja:"不変の・永続する",pos:"形容詞",cat:"adjective",exEn:"The injury left a permanent scar on his arm.",exJa:"その怪我は彼の腕に永続的な傷跡を残した。"},
 {en:"permit",ph:"/pəˈmɪt/",ja:"許可する・可能にする・許可証",pos:"動詞/名詞",cat:"verb",exEn:"Smoking is not permitted inside the building.",exJa:"建物内での喫煙は許可されていない。"},
 {en:"perspective",ph:"/pəˈspektɪv/",ja:"視点・展望・見方・遠近法",pos:"名詞",cat:"noun",exEn:"Try to see the issue from a different perspective.",exJa:"その問題を別の視点から見るようにしなさい。"},
 {en:"philosophy",ph:"/fɪˈlɒsəfi/",ja:"哲学・考え方",pos:"名詞",cat:"noun",exEn:"Her philosophy of life is to stay positive always.",exJa:"彼女の人生哲学は常にポジティブでいることだ。"},
@@ -4177,7 +4178,7 @@ const WORDS = [
 {en:"satisfy",ph:"/ˈsætɪsfaɪ/",ja:"満足させる",pos:"動詞",cat:"verb",exEn:"Nothing could satisfy his enormous appetite.",exJa:"彼の巨大な食欲を満たすものは何もなかった。"},
 {en:"scarce",ph:"/skeəs/",ja:"不十分な・乏しい",pos:"形容詞",cat:"adjective",exEn:"Clean water is scarce in many parts of the world.",exJa:"世界の多くの地域で清潔な水が乏しい。"},
 {en:"scatter",ph:"/ˈskætər/",ja:"まき散らす・散らす・散る",pos:"動詞",cat:"verb",exEn:"Strong winds scattered the leaves across the garden.",exJa:"強風が葉を庭中に散らした。"},
-{en:"scheme",ph:"/skiːm/",ja:"計画する・たくらむ・計画・制度",pos:"名詞",cat:"noun",exEn:"The government launched a new housing scheme.",exJa:"政府は新しい住宅制度を開始した。"},
+{en:"scheme",ph:"/skiːm/",ja:"計画・制度・計画する・たくらむ",pos:"名詞",cat:"noun",exEn:"The government launched a new housing scheme.",exJa:"政府は新しい住宅制度を開始した。"},
 {en:"seek",ph:"/siːk/",ja:"探し求める・追い求める",pos:"動詞",cat:"verb",exEn:"Young people seek better opportunities abroad.",exJa:"若者たちは海外でより良い機会を求める。"},
 {en:"seize",ph:"/siːz/",ja:"掴む・押収する・占領する",pos:"動詞",cat:"verb",exEn:"Police seized a large amount of illegal drugs.",exJa:"警察は大量の違法薬物を押収した。"},
 {en:"sensitive",ph:"/ˈsensɪtɪv/",ja:"敏感な・感受性の強い",pos:"形容詞",cat:"adjective",exEn:"She is sensitive to criticism and gets upset easily.",exJa:"彼女は批判に敏感ですぐに動揺する。"},
@@ -5550,8 +5551,8 @@ function wordInfoHtml(w) {
   const showEtym = showDeep || isFavEtym;
 
   return `
-    ${showDeep ? renderExamples(w) : ''}
     ${showSynonyms ? synonymsHtml(w) : ''}
+    ${showDeep ? renderExamples(w) : ''}
     ${showEtym ? etymHtml(w) : ''}
     ${showEtym ? relatedWordsHtml(w) : ''}
   `;
@@ -6524,7 +6525,8 @@ function rateSkipCheck(good) {
   if (good) {
     // スキップ成功：review フェーズへ、interval=12日、0.2カウント
     c.phase = 'review';
-    c.interval = fuzzInterval(12);
+    // 確認テスト正解：8〜16日のランダム間隔（中央12日、±4日）
+    c.interval = 10 + Math.floor(Math.random() * 5);
     c.due = now + c.interval * DAY;
     c.reps += 1;
     c.skipTested = true;
