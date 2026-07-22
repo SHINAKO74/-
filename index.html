@@ -6052,7 +6052,6 @@ const DAY = 24 * 60 * 60 * 1000;
 const LEARN_STEPS = [1, 10];
 const GRADUATING_INTERVAL = 1;   // days, after last learning step with "good"
 const EASY_INTERVAL = 4;          // days, "easy" from learning graduates here
-const MASTERED_THRESHOLD = 21;    // days
 
 // Fuzz: add a small random offset to review intervals so cards
 // studied on the same day gradually spread across different days.
@@ -6399,7 +6398,7 @@ function applyRating(c, q) {
       c.interval = fuzzInterval(Math.max(1, Math.round(c.interval * mult)));
       c.due = now + c.interval * DAY;
       c.reps += 1;
-      c.phase = c.interval >= MASTERED_THRESHOLD ? 'mastered' : 'review';
+      c.phase = c.interval >= settings.masteredThreshold ? 'mastered' : 'review';
     }
   }
 
@@ -6413,6 +6412,7 @@ function applyRating(c, q) {
 function previewInterval(card, q) {
   const c = JSON.parse(JSON.stringify(card));
   applyRating(c, q);
+  if (c.phase === 'retired') return '卒業';
   const diff = c.due - Date.now();
   if (diff < 60*1000) return '<1分';
   if (diff < 60*MIN) return Math.round(diff/MIN) + '分';
@@ -6566,6 +6566,7 @@ function parseDateKey(k) {
 const SETTINGS_KEY = 'lex_english_settings_v01';
 const DEFAULT_NEW_LIMIT = 20;
 const DEFAULT_REVIEW_LIMIT = 100;
+const DEFAULT_MASTERED_THRESHOLD = 21;
 function loadSettings() {
   try {
     const s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
@@ -6576,12 +6577,13 @@ function loadSettings() {
       showDetailOnWrong: s.showDetailOnWrong === true,
       newLimit: typeof s.newLimit === 'number' ? s.newLimit : DEFAULT_NEW_LIMIT,
       reviewLimit: typeof s.reviewLimit === 'number' ? s.reviewLimit : DEFAULT_REVIEW_LIMIT,
+      masteredThreshold: typeof s.masteredThreshold === 'number' ? s.masteredThreshold : DEFAULT_MASTERED_THRESHOLD,
       skipMode: s.skipMode !== false,
       ttsEnabled: s.ttsEnabled !== false,
       ttsRate: s.ttsRate ?? 0.85,
     };
   } catch(e) {
-    return { direction:'word2meaning', sound:true, showTranslation:true, showDetailOnWrong:false, newLimit:DEFAULT_NEW_LIMIT, reviewLimit:DEFAULT_REVIEW_LIMIT, skipMode:true, ttsEnabled:true, ttsRate:0.85 };
+    return { direction:'word2meaning', sound:true, showTranslation:true, showDetailOnWrong:false, newLimit:DEFAULT_NEW_LIMIT, reviewLimit:DEFAULT_REVIEW_LIMIT, masteredThreshold:DEFAULT_MASTERED_THRESHOLD, skipMode:true, ttsEnabled:true, ttsRate:0.85 };
   }
 }
 function saveSettings() {
@@ -7015,6 +7017,15 @@ function openSettingsModal() {
           </div>
         </fieldset>
 
+        <fieldset class="setting-group">
+          <legend class="setting-label">習得済みとみなす間隔（日数）</legend>
+          <div class="setting-options" role="radiogroup" aria-label="習得済み間隔">
+            ${[7, 14, 21, 30, 60].map(n => `
+              <button class="${settings.masteredThreshold===n?'active':''}" onclick="setSetting('masteredThreshold',${n})" role="radio" aria-checked="${settings.masteredThreshold===n}" type="button">${n}日</button>
+            `).join('')}
+          </div>
+        </fieldset>
+
         <div class="modal-actions modal-actions-single">
           <button class="modal-btn" onclick="closeModal()" type="button">閉じる</button>
         </div>
@@ -7037,9 +7048,28 @@ function refreshStudyView() {
   else renderCardFace();
 }
 
+function reclassifyMasteredThreshold() {
+  // 既存の review / mastered カードを新しい閾値で再判定する
+  let changed = 0;
+  for (const w of WORDS) {
+    const c = state.cards[w.id];
+    if (!c || (c.phase !== 'review' && c.phase !== 'mastered')) continue;
+    const shouldBe = c.interval >= settings.masteredThreshold ? 'mastered' : 'review';
+    if (c.phase !== shouldBe) { c.phase = shouldBe; changed += 1; }
+  }
+  if (changed > 0) saveState();
+  return changed;
+}
+
 function setSetting(key, val) {
   settings[key] = val;
   saveSettings();
+
+  if (key === 'masteredThreshold') {
+    const n = reclassifyMasteredThreshold();
+    updateStats();
+  }
+
   openSettingsModal(); // re-render
 
   // Update daily counters display immediately
@@ -7049,7 +7079,7 @@ function setSetting(key, val) {
     if (key === 'direction' && currentCard) {
       currentDirection = pickDirection();
       refreshStudyView();
-    } else if (key === 'newLimit' || key === 'reviewLimit') {
+    } else if (key === 'newLimit' || key === 'reviewLimit' || key === 'masteredThreshold') {
       // If the empty screen was showing because we hit the limit, picking a new card may now succeed
       if (!currentCard) render();
     } else if (currentCard) {
