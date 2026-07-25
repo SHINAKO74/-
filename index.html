@@ -1576,7 +1576,6 @@
   <section class="daily" aria-label="本日の進捗">
     <div class="daily-row"><span>本日の新出</span><span class="daily-val" id="d-new">0 / 10</span></h2>
     <div class="daily-row"><span>本日の復習</span><span class="daily-val" id="d-rev">0 / 100</span></h2>
-    <div class="daily-row"><span>出題可能</span><span class="daily-val" id="d-active">0 / ∞</span></h2>
   </section>
 
   <div class="view-toggle" role="tablist" aria-label="表示切替">
@@ -7393,12 +7392,6 @@ function updateStats() {
   document.getElementById('stat-mastered').textContent = s.masteredC;
   document.getElementById('d-new').textContent = `${Math.floor(state.daily.newDone)} / ${settings.newLimit >= 999 ? '∞' : settings.newLimit}`;
   document.getElementById('d-rev').textContent = `${state.daily.reviewDone} / ${settings.reviewLimit >= 9999 ? '∞' : settings.reviewLimit}`;
-  const now = Date.now();
-  const activeCount = WORDS.filter(w => {
-    const c = state.cards[w.id];
-    return (c.phase === 'learning' || c.phase === 'review') && c.due <= now;
-  }).length;
-  document.getElementById('d-active').textContent = `${activeCount} / ${settings.activeCap >= 999 ? '∞' : settings.activeCap}`;
 }
 
 // =============== HISTORY / STREAK ===============
