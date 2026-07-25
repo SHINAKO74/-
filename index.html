@@ -1576,6 +1576,7 @@
   <section class="daily" aria-label="本日の進捗">
     <div class="daily-row"><span>本日の新出</span><span class="daily-val" id="d-new">0 / 10</span></h2>
     <div class="daily-row"><span>本日の復習</span><span class="daily-val" id="d-rev">0 / 100</span></h2>
+    <div class="daily-row"><span>今出題可能（未習得）</span><span class="daily-val" id="d-active">0 / ∞</span></h2>
   </section>
 
   <div class="view-toggle" role="tablist" aria-label="表示切替">
@@ -7306,10 +7307,10 @@ function pickNextCard() {
     return learning[0];
   }
 
-  // 出題可能（未習得）な単語数が上限を超えていたら新規カードを止める
+  // 出題可能（今dueになっている未習得）な単語数が上限を超えていたら新規カードを止める
   const activeCount = WORDS.filter(w => {
-    const p = state.cards[w.id].phase;
-    return p === 'learning' || p === 'review';
+    const c = state.cards[w.id];
+    return (c.phase === 'learning' || c.phase === 'review') && c.due <= now;
   }).length;
   const belowActiveCap = activeCount < settings.activeCap;
 
@@ -7392,6 +7393,12 @@ function updateStats() {
   document.getElementById('stat-mastered').textContent = s.masteredC;
   document.getElementById('d-new').textContent = `${Math.floor(state.daily.newDone)} / ${settings.newLimit >= 999 ? '∞' : settings.newLimit}`;
   document.getElementById('d-rev').textContent = `${state.daily.reviewDone} / ${settings.reviewLimit >= 9999 ? '∞' : settings.reviewLimit}`;
+  const now = Date.now();
+  const activeCount = WORDS.filter(w => {
+    const c = state.cards[w.id];
+    return (c.phase === 'learning' || c.phase === 'review') && c.due <= now;
+  }).length;
+  document.getElementById('d-active').textContent = `${activeCount} / ${settings.activeCap >= 999 ? '∞' : settings.activeCap}`;
 }
 
 // =============== HISTORY / STREAK ===============
@@ -7902,7 +7909,7 @@ function openSettingsModal() {
         </fieldset>
 
         <fieldset class="setting-group">
-          <legend class="setting-label">未習得（学習中+復習）の上限を超えたら新出停止</legend>
+          <legend class="setting-label">今出題可能（due）な未習得数の上限を超えたら新出停止</legend>
           <div class="setting-options" role="radiogroup" aria-label="出題可能単語の上限">
             ${[50, 100, 200, 300, 999].map(n => `
               <button class="${settings.activeCap===n?'active':''}" onclick="setSetting('activeCap',${n})" role="radio" aria-checked="${settings.activeCap===n}" type="button">${n===999?'∞':n}</button>
@@ -8559,8 +8566,8 @@ function render() {
     const s = getStats();
     const d = state.daily;
     const activeCount = WORDS.filter(w => {
-      const p = state.cards[w.id].phase;
-      return p === 'learning' || p === 'review';
+      const c = state.cards[w.id];
+      return (c.phase === 'learning' || c.phase === 'review') && c.due <= Date.now();
     }).length;
     const msg = (activeCount >= settings.activeCap && s.newC > 0)
       ? 'Active word cap reached — finish some reviews to unlock new words.'
