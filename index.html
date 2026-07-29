@@ -857,6 +857,15 @@
     margin-top: 6px;
     letter-spacing: 0.04em;
   }
+  .example-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: var(--card-alt, rgba(0,0,0,0.03));
+    border-radius: 6px;
+  }
   .setting-note {
     font-size: 11px;
     color: var(--muted);
@@ -6212,21 +6221,21 @@ const WORDS = [
 {en:"to say nothing of",ja:"〜は言うまでもなく",pos:"熟語",cat:"phrase",level:"standard",exEn:"He can speak Spanish, to say nothing of English.",exJa:"英語は言うまでもなく、彼はスペイン語も話せる。"},
 {en:"in spite of oneself",ja:"思わず・知らず知らずのうちに",pos:"熟語",cat:"phrase",level:"standard",exEn:"She laughed in spite of herself.",exJa:"彼女は思わず笑ってしまった。",exMore:[{en:"He smiled in spite of himself when he heard the joke.",ja:"その冗談を聞いて彼は知らず知らずのうちに笑ってしまった。"}]},
 {en:"in view of",ja:"〜を考慮して",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In view of the circumstances, we postponed the plan.",exJa:"状況を考慮して、計画を延期した。"},
-{en:"in the wake of",ja:"〜の後に・〜を受けて",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In the wake of the financial crisis, new regulations were introduced.",exJa:"金融危機を受けて、新たな規制が導入された。",exMore:[{en:"New safety rules were introduced in the wake of the accident.",ja:"その事故を受けて新しい安全規則が導入された。"}]},
+{en:"in the wake of",ja:"〜の後に・〜を受けて",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In the wake of the financial crisis, new regulations were introduced.",exJa:"金融危機を受けて、新たな規制が導入された。",note:"wake: 余波、航跡",exMore:[{en:"New safety rules were introduced in the wake of the accident.",ja:"その事故を受けて新しい安全規則が導入された。"}]},
 {en:"on the grounds that",ja:"〜という理由で",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The application was rejected on the grounds that it was incomplete.",exJa:"申請は不完全であるという理由で却下された。"},
 {en:"to the extent that",ja:"〜の程度まで",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Technology has changed our lives to the extent that we can't imagine living without it.",exJa:"技術は私たちの生活をそれなしでは生きられないほど変えた。"},
 {en:"in light of",ja:"〜を考慮して",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In light of recent findings, the policy was revised.",exJa:"最近の調査結果を考慮して、政策が改訂された。"},
 {en:"be at a loss",ja:"途方に暮れている",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I was at a loss for what to say in that situation.",exJa:"その状況で何を言えばよいか途方に暮れた。"},
-{en:"be at stake",ja:"危機にさらされている",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The company's reputation is at stake.",exJa:"会社の評判が危機にさらされている。"},
+{en:"be at stake",ja:"危機にさらされている",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The company's reputation is at stake.",exJa:"会社の評判が危機にさらされている。",note:"stake: 危険にさらされているもの、賭け金"},
 {en:"bring about",ja:"〜を引き起こす",pos:"熟語",cat:"phrase",level:"advanced",exEn:"New technology can bring about significant social change.",exJa:"新技術は大きな社会変化をもたらすことができる。"},
 {en:"call for",ja:"〜を必要とする・〜を要求する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The crisis calls for immediate action.",exJa:"その危機は即座の行動を必要としている。",exMore:[{en:"The protesters called for the resignation of the mayor.",ja:"抗議者たちは市長の辞任を要求した。"}]},
 {en:"fall short of",ja:"〜に届かない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The project fell short of the expected goals.",exJa:"そのプロジェクトは期待された目標に届かなかった。"},
 {en:"take into account",ja:"〜を考慮する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The judge took all the evidence into account.",exJa:"裁判官はすべての証拠を考慮した。"},
 {en:"bear in mind",ja:"〜を心に留める",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Bear in mind that the deadline is strict.",exJa:"締め切りは厳守であることを心に留めておきなさい。"},
 {en:"keep track of",ja:"〜を把握し続ける",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It is hard to keep track of all the changes.",exJa:"すべての変化を把握し続けることは難しい。"},
-{en:"in retrospect",ja:"振り返ってみると",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In retrospect, the decision was the right one.",exJa:"振り返ってみると、その決断は正しいものだった。"},
-{en:"to no avail",ja:"効果なく",pos:"熟語",cat:"phrase",level:"advanced",exEn:"They tried to revive the engine but to no avail.",exJa:"彼らはエンジンを復活させようとしたが効果なかった。"},
-{en:"by the same token",ja:"同様の理由で",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We must respect others' opinions; by the same token, they should respect ours.",exJa:"私たちは他者の意見を尊重しなければならない。同様に、彼らも私たちの意見を尊重すべきだ。"},
+{en:"in retrospect",ja:"振り返ってみると",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In retrospect, the decision was the right one.",exJa:"振り返ってみると、その決断は正しいものだった。",note:"retrospect: 回顧、追想"},
+{en:"to no avail",ja:"効果なく",pos:"熟語",cat:"phrase",level:"advanced",exEn:"They tried to revive the engine but to no avail.",exJa:"彼らはエンジンを復活させようとしたが効果なかった。",note:"avail: 役に立つこと"},
+{en:"by the same token",ja:"同様の理由で",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We must respect others' opinions; by the same token, they should respect ours.",exJa:"私たちは他者の意見を尊重しなければならない。同様に、彼らも私たちの意見を尊重すべきだ。",note:"token: しるし、象徴"},
 {en:"come to terms with",ja:"〜を受け入れる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It took years to come to terms with his loss.",exJa:"彼の死を受け入れるのに何年もかかった。"},
 {en:"run the risk of",ja:"〜の危険を冒す",pos:"熟語",cat:"phrase",level:"advanced",exEn:"By investing in that stock, you run the risk of losing everything.",exJa:"その株に投資することで、すべてを失う危険を冒している。"},
 {en:"in proportion to",ja:"〜に比例して",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Income tends to increase in proportion to experience.",exJa:"収入は経験に比例して増える傾向がある。"},
@@ -6236,18 +6245,18 @@ const WORDS = [
 {en:"anything but",ja:"決して〜でない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The job was anything but easy.",exJa:"その仕事は決して簡単ではなかった。"},
 {en:"none other than",ja:"ほかならぬ〜",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The winner was none other than the youngest competitor.",exJa:"優勝者はほかならぬ最年少の競技者だった。"},
 {en:"so much so that",ja:"それほど〜なので",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He was exhausted, so much so that he slept for 12 hours.",exJa:"彼は疲れ果てていた。それほどまでに、12時間も眠った。"},
-{en:"take precedence over",ja:"〜に優先する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Safety must take precedence over speed.",exJa:"安全は速度に優先しなければならない。"},
+{en:"take precedence over",ja:"〜に優先する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Safety must take precedence over speed.",exJa:"安全は速度に優先しなければならない。",note:"precedence: 優先"},
 {en:"draw on",ja:"〜を活用する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She drew on her years of experience to solve the problem.",exJa:"彼女は問題を解くために長年の経験を活用した。"},
 {en:"stand to reason",ja:"〜は当然だ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It stands to reason that practice makes perfect.",exJa:"練習が完璧につながるのは当然のことだ。"},
-{en:"be indicative of",ja:"〜を示している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This trend is indicative of a deeper social change.",exJa:"この傾向はより深い社会変化を示している。"},
+{en:"be indicative of",ja:"〜を示している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This trend is indicative of a deeper social change.",exJa:"この傾向はより深い社会変化を示している。",note:"indicative: 〜を示す"},
 {en:"lend itself to",ja:"〜に向いている",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This material lends itself to recycling.",exJa:"この材料はリサイクルに向いている。"},
 {en:"call into question",ja:"〜に疑問を呈する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The new evidence calls the previous findings into question.",exJa:"新たな証拠が以前の発見に疑問を呈している。"},
 {en:"put forward",ja:"〜を提案する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She put forward a new theory at the conference.",exJa:"彼女は会議で新しい理論を提案した。"},
 {en:"give way to",ja:"〜に道を譲る・〜に取って代わられる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Steam engines gave way to electric ones.",exJa:"蒸気機関は電気機関に取って代わられた。",exMore:[{en:"The old system gave way to a newer, faster one.",ja:"旧システムはより新しく速いものに取って代わられた。"}]},
-{en:"make allowance for",ja:"〜を考慮に入れる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The plan should make allowance for unexpected delays.",exJa:"その計画は予期せぬ遅れを考慮に入れるべきだ。"},
+{en:"make allowance for",ja:"〜を考慮に入れる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The plan should make allowance for unexpected delays.",exJa:"その計画は予期せぬ遅れを考慮に入れるべきだ。",note:"allowance: 考慮、許容"},
 {en:"leave much to be desired",ja:"不満が残る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The quality of the work leaves much to be desired.",exJa:"その作業の品質は不満が残る。"},
 {en:"hold true",ja:"当てはまる・真実である",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This principle holds true in most cases.",exJa:"この原則はほとんどの場合に当てはまる。",exMore:[{en:"That advice still holds true today.",ja:"そのアドバイスは今日でも真実である。"}]},
-{en:"be at odds with",ja:"〜と対立している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"His statement is at odds with the facts.",exJa:"彼の発言は事実と矛盾している。"},
+{en:"be at odds with",ja:"〜と対立している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"His statement is at odds with the facts.",exJa:"彼の発言は事実と矛盾している。",note:"odds: 不一致、見込み"},
 {en:"with the aim of",ja:"〜することを目的として",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She studied abroad with the aim of mastering French.",exJa:"彼女はフランス語をマスターすることを目的として留学した。"},
 {en:"make light of",ja:"〜を軽視する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Don't make light of the risks involved.",exJa:"関連するリスクを軽視してはいけない。"},
 {en:"make much of",ja:"〜を重視する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Japanese culture makes much of politeness.",exJa:"日本の文化は礼儀を重視する。"},
@@ -6258,13 +6267,13 @@ const WORDS = [
 {en:"take issue with",ja:"〜に異議を唱える",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I would take issue with that interpretation.",exJa:"その解釈には異議を唱えたい。"},
 {en:"be hard pressed to",ja:"〜するのに苦労する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I would be hard pressed to find a better solution.",exJa:"それより良い解決策を見つけるのに苦労するだろう。"},
 {en:"bear on",ja:"〜に関係する・〜に影響を及ぼす",pos:"熟語",cat:"phrase",level:"advanced",exEn:"His testimony bears directly on the verdict.",exJa:"彼の証言は評決に直接関係する。",exMore:[{en:"This new evidence has a direct bearing on the case.",ja:"この新しい証拠はその事件に直接影響を及ぼす。"}]},
-{en:"attribute A to B",ja:"AをBのせいにする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She attributed her success to hard work and determination.",exJa:"彼女は自分の成功を努力と意志の強さのおかげだとした。"},
-{en:"deprive A of B",ja:"AからBを奪う",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The illness deprived him of the ability to walk.",exJa:"病気が彼から歩く能力を奪った。"},
+{en:"attribute A to B",ja:"AをBのせいにする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She attributed her success to hard work and determination.",exJa:"彼女は自分の成功を努力と意志の強さのおかげだとした。",note:"attribute: 〜のせいにする、〜に帰する"},
+{en:"deprive A of B",ja:"AからBを奪う",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The illness deprived him of the ability to walk.",exJa:"病気が彼から歩く能力を奪った。",note:"deprive: 奪う"},
 {en:"provide A with B",ja:"AにBを提供する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The government should provide citizens with basic healthcare.",exJa:"政府は市民に基本的な医療を提供すべきだ。"},
 {en:"prevent A from doing",ja:"Aが〜するのを防ぐ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The rain prevented us from going outside.",exJa:"雨が私たちの外出を防いだ。"},
 {en:"remind A of B",ja:"AにBを思い出させる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The smell reminds me of my grandmother's kitchen.",exJa:"そのにおいは祖母の台所を思い出させる。"},
 {en:"accuse A of B",ja:"AをBのことで非難する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He was accused of stealing company funds.",exJa:"彼は会社の資金を横領したとして告訴された。"},
-{en:"distinguish A from B",ja:"AをBと区別する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It is important to distinguish fact from opinion.",exJa:"事実と意見を区別することが重要だ。"},
+{en:"distinguish A from B",ja:"AをBと区別する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It is important to distinguish fact from opinion.",exJa:"事実と意見を区別することが重要だ。",note:"distinguish: 見分ける、区別する"},
 {en:"associate A with B",ja:"AをBと関連付ける",pos:"熟語",cat:"phrase",level:"advanced",exEn:"People tend to associate success with hard work.",exJa:"人は成功を努力と関連付ける傾向がある。"},
 {en:"identify A with B",ja:"AをBと同一視する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Many people identify wealth with happiness.",exJa:"多くの人が富を幸福と同一視する。"},
 {en:"expose A to B",ja:"AをBにさらす",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Children should be exposed to different cultures.",exJa:"子供たちはさまざまな文化にさらされるべきだ。"},
@@ -6272,16 +6281,16 @@ const WORDS = [
 {en:"inform A of B",ja:"AにBを知らせる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Please inform us of any changes to your schedule.",exJa:"スケジュールの変更があればお知らせください。"},
 {en:"convince A of B",ja:"AにBを確信させる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She convinced the committee of the project's value.",exJa:"彼女はそのプロジェクトの価値を委員会に確信させた。"},
 {en:"warn A of B",ja:"AにBを警告する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The doctor warned him of the dangers of smoking.",exJa:"医師は彼に喫煙の危険性を警告した。"},
-{en:"be prone to",ja:"〜しがちだ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is prone to exaggerating when he is excited.",exJa:"彼は興奮すると誇張しがちだ。"},
-{en:"be liable to",ja:"〜しがちだ・〜する可能性がある",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Wooden structures are liable to catch fire.",exJa:"木造建築は火事になりやすい。",exMore:[{en:"Prices are liable to rise sharply during the holiday season.",ja:"物価は休暇シーズン中に急上昇する可能性がある。"}]},
-{en:"be conducive to",ja:"〜に有益な・〜を促進する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"A quiet environment is conducive to studying.",exJa:"静かな環境は勉強を促進する。",exMore:[{en:"Regular exercise is conducive to a healthy lifestyle.",ja:"定期的な運動は健康的な生活に有益だ。"}]},
-{en:"be detrimental to",ja:"〜に有害な",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Lack of sleep is detrimental to one's health.",exJa:"睡眠不足は健康に有害だ。"},
-{en:"be inherent in",ja:"〜に固有の",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Risk is inherent in any business venture.",exJa:"リスクはいかなるビジネスの試みにも固有のものだ。"},
-{en:"be attributable to",ja:"〜に起因する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The decline is attributable to several factors.",exJa:"その衰退はいくつかの要因に起因する。"},
-{en:"be tantamount to",ja:"〜に等しい",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Silence in this context is tantamount to consent.",exJa:"この文脈での沈黙は同意に等しい。"},
-{en:"be pertinent to",ja:"〜に関係がある",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Please make sure your comments are pertinent to the topic.",exJa:"コメントがトピックに関係あることを確認してください。"},
-{en:"be commensurate with",ja:"〜に見合った",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The reward should be commensurate with the effort.",exJa:"報酬は努力に見合ったものであるべきだ。"},
-{en:"be contingent on",ja:"〜次第である",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The project's success is contingent on adequate funding.",exJa:"そのプロジェクトの成功は十分な資金調達次第だ。"},
+{en:"be prone to",ja:"〜しがちだ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is prone to exaggerating when he is excited.",exJa:"彼は興奮すると誇張しがちだ。",note:"prone: 〜しがちな、傾向がある"},
+{en:"be liable to",ja:"〜しがちだ・〜する可能性がある",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Wooden structures are liable to catch fire.",exJa:"木造建築は火事になりやすい。",note:"liable: 〜しがちな、責任がある",exMore:[{en:"Prices are liable to rise sharply during the holiday season.",ja:"物価は休暇シーズン中に急上昇する可能性がある。"}]},
+{en:"be conducive to",ja:"〜に有益な・〜を促進する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"A quiet environment is conducive to studying.",exJa:"静かな環境は勉強を促進する。",note:"conducive: 助けとなる、促進する",exMore:[{en:"Regular exercise is conducive to a healthy lifestyle.",ja:"定期的な運動は健康的な生活に有益だ。"}]},
+{en:"be detrimental to",ja:"〜に有害な",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Lack of sleep is detrimental to one's health.",exJa:"睡眠不足は健康に有害だ。",note:"detrimental: 有害な"},
+{en:"be inherent in",ja:"〜に固有の",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Risk is inherent in any business venture.",exJa:"リスクはいかなるビジネスの試みにも固有のものだ。",note:"inherent: 固有の、本来備わっている"},
+{en:"be attributable to",ja:"〜に起因する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The decline is attributable to several factors.",exJa:"その衰退はいくつかの要因に起因する。",note:"attributable: 〜に起因する"},
+{en:"be tantamount to",ja:"〜に等しい",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Silence in this context is tantamount to consent.",exJa:"この文脈での沈黙は同意に等しい。",note:"tantamount: 同然の、等しい"},
+{en:"be pertinent to",ja:"〜に関係がある",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Please make sure your comments are pertinent to the topic.",exJa:"コメントがトピックに関係あることを確認してください。",note:"pertinent: 関連した、適切な"},
+{en:"be commensurate with",ja:"〜に見合った",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The reward should be commensurate with the effort.",exJa:"報酬は努力に見合ったものであるべきだ。",note:"commensurate: 釣り合った、相応の"},
+{en:"be contingent on",ja:"〜次第である",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The project's success is contingent on adequate funding.",exJa:"そのプロジェクトの成功は十分な資金調達次第だ。",note:"contingent: 〜次第の、〜を条件とする"},
 {en:"not so much A as B",ja:"AというよりもむしろB",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is not so much a genius as a very hard worker.",exJa:"彼は天才というよりもむしろ非常に勤勉な人だ。"},
 {en:"It is not until A that B",ja:"AになってはじめてB",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It is not until you lose your health that you realize its value.",exJa:"健康を失ってはじめてその価値がわかる。"},
 {en:"the comparative, the comparative",ja:"〜すればするほど〜",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The more you practice, the better you become.",exJa:"練習すればするほど上達する。"},
@@ -6289,7 +6298,7 @@ const WORDS = [
 {en:"such ... that",ja:"とても〜な〜なので〜",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It was such a difficult problem that nobody could solve it.",exJa:"それはとても難しい問題だったので誰も解けなかった。"},
 {en:"never do A without doing B",ja:"〜するときは必ず〜する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He never watches that movie without crying.",exJa:"彼はその映画を見るときは必ず泣く。"},
 {en:"cannot ... too",ja:"いくら〜しても〜しすぎることはない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"You cannot be too careful when driving.",exJa:"運転中はいくら注意してもしすぎることはない。"},
-{en:"shed light on",ja:"〜を明らかにする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The new research sheds light on the causes of the disease.",exJa:"新しい研究がその病気の原因を明らかにした。"},
+{en:"shed light on",ja:"〜を明らかにする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The new research sheds light on the causes of the disease.",exJa:"新しい研究がその病気の原因を明らかにした。",note:"shed: （光などを）放つ"},
 {en:"cast doubt on",ja:"〜に疑問を投げかける",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The new evidence casts doubt on the official account.",exJa:"新しい証拠が公式の説明に疑問を投げかける。"},
 {en:"lay emphasis on",ja:"〜を強調する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The teacher laid emphasis on the importance of reading.",exJa:"教師は読書の重要性を強調した。"},
 {en:"attach importance to",ja:"〜を重視する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Japanese society attaches great importance to harmony.",exJa:"日本社会は調和をとても重視する。"},
@@ -6298,22 +6307,22 @@ const WORDS = [
 {en:"set about",ja:"〜に取りかかる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He set about repairing the damage immediately.",exJa:"彼はすぐに損害を修復することに取りかかった。"},
 {en:"set aside",ja:"〜を脇に置く・確保する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Let's set aside our differences and work together.",exJa:"違いを脇に置いて一緒に取り組もう。",exMore:[{en:"We set aside some money for emergencies.",ja:"私たちは緊急時のためにいくらかのお金を確保しておいた。"}]},
 {en:"set forth",ja:"〜を述べる・提示する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The document sets forth the terms of the agreement.",exJa:"その文書は合意の条件を述べている。",exMore:[{en:"The committee set forth a new proposal for the budget.",ja:"委員会は予算案について新しい提案を提示した。"}]},
-{en:"embark on",ja:"〜に乗り出す",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The country embarked on a major economic reform.",exJa:"その国は大規模な経済改革に乗り出した。"},
-{en:"dwell on",ja:"〜にこだわる・詳しく述べる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"There is no point in dwelling on past mistakes.",exJa:"過去の失敗にこだわっても意味がない。",exMore:[{en:"The article dwells on the causes of the economic crisis.",ja:"その記事は経済危機の原因について詳しく述べている。"}]},
-{en:"elaborate on",ja:"〜を詳しく説明する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Could you elaborate on your proposal?",exJa:"提案について詳しく説明してもらえますか？"},
-{en:"capitalize on",ja:"〜を最大限に利用する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The company capitalized on the growing demand for electric vehicles.",exJa:"会社は電気自動車への高まる需要を最大限に利用した。"},
-{en:"grapple with",ja:"〜と格闘する・取り組む",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Scientists are grappling with this complex problem.",exJa:"科学者たちはこの複雑な問題と格闘している。",exMore:[{en:"The team is grappling with a difficult technical problem.",ja:"チームは難しい技術的問題に取り組んでいる。"}]},
-{en:"prevail over",ja:"〜に打ち勝つ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Justice will eventually prevail over injustice.",exJa:"正義はいずれ不正義に打ち勝つ。"},
-{en:"come to grips with",ja:"〜に真剣に取り組む",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We need to come to grips with the reality of climate change.",exJa:"気候変動の現実に真剣に取り組む必要がある。"},
+{en:"embark on",ja:"〜に乗り出す",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The country embarked on a major economic reform.",exJa:"その国は大規模な経済改革に乗り出した。",note:"embark: 乗り出す、着手する"},
+{en:"dwell on",ja:"〜にこだわる・詳しく述べる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"There is no point in dwelling on past mistakes.",exJa:"過去の失敗にこだわっても意味がない。",note:"dwell: （心を）とどめる、くよくよ考える",exMore:[{en:"The article dwells on the causes of the economic crisis.",ja:"その記事は経済危機の原因について詳しく述べている。"}]},
+{en:"elaborate on",ja:"〜を詳しく説明する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Could you elaborate on your proposal?",exJa:"提案について詳しく説明してもらえますか？",note:"elaborate: 詳しく述べる"},
+{en:"capitalize on",ja:"〜を最大限に利用する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The company capitalized on the growing demand for electric vehicles.",exJa:"会社は電気自動車への高まる需要を最大限に利用した。",note:"capitalize (on): 〜を利用する"},
+{en:"grapple with",ja:"〜と格闘する・取り組む",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Scientists are grappling with this complex problem.",exJa:"科学者たちはこの複雑な問題と格闘している。",note:"grapple: 取り組む、つかむ",exMore:[{en:"The team is grappling with a difficult technical problem.",ja:"チームは難しい技術的問題に取り組んでいる。"}]},
+{en:"prevail over",ja:"〜に打ち勝つ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Justice will eventually prevail over injustice.",exJa:"正義はいずれ不正義に打ち勝つ。",note:"prevail: 勝る、普及する"},
+{en:"come to grips with",ja:"〜に真剣に取り組む",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We need to come to grips with the reality of climate change.",exJa:"気候変動の現実に真剣に取り組む必要がある。",note:"grip(s): 把握、理解"},
 {en:"make room for",ja:"〜のために余地を作る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We should make room for diverse opinions.",exJa:"多様な意見のための余地を作るべきだ。"},
 {en:"make way for",ja:"〜に取って代わられる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Old industries must make way for new technologies.",exJa:"旧来の産業は新技術に取って代わられなければならない。"},
-{en:"subscribe to",ja:"〜に同意する・支持する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Not everyone subscribes to this view.",exJa:"この見解を支持する人がすべてではない。",exMore:[{en:"Many voters subscribe to this political view.",ja:"多くの有権者がこの政治的見解を支持している。"}]},
+{en:"subscribe to",ja:"〜に同意する・支持する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Not everyone subscribes to this view.",exJa:"この見解を支持する人がすべてではない。",note:"subscribe (to): （意見に）同意する",exMore:[{en:"Many voters subscribe to this political view.",ja:"多くの有権者がこの政治的見解を支持している。"}]},
 {en:"lend weight to",ja:"〜の信ぴょう性を高める",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The new findings lend weight to the original hypothesis.",exJa:"新しい発見が元の仮説の信ぴょう性を高めている。"},
-{en:"give credence to",ja:"〜を信じる・信ぴょう性を与える",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It would be unwise to give credence to such rumors.",exJa:"そのような噂を信じるのは賢明でない。",exMore:[{en:"This new study gives credence to the theory.",ja:"この新しい研究はその理論に信ぴょう性を与える。"}]},
+{en:"give credence to",ja:"〜を信じる・信ぴょう性を与える",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It would be unwise to give credence to such rumors.",exJa:"そのような噂を信じるのは賢明でない。",note:"credence: 信用、信頼",exMore:[{en:"This new study gives credence to the theory.",ja:"この新しい研究はその理論に信ぴょう性を与える。"}]},
 {en:"bring to light",ja:"〜を明るみに出す",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The investigation brought to light a number of irregularities.",exJa:"調査はいくつかの不正を明るみに出した。"},
 {en:"come to light",ja:"明るみに出る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"New facts have come to light since then.",exJa:"それ以来、新しい事実が明るみに出てきた。"},
-{en:"pave the way for",ja:"〜への道を開く",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This discovery paved the way for modern medicine.",exJa:"この発見が現代医学への道を開いた。"},
-{en:"take a toll on",ja:"〜に打撃を与える",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Chronic stress takes a heavy toll on mental health.",exJa:"慢性的なストレスは精神的健康に大きな打撃を与える。"},
+{en:"pave the way for",ja:"〜への道を開く",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This discovery paved the way for modern medicine.",exJa:"この発見が現代医学への道を開いた。",note:"pave: （道を）開く、舗装する"},
+{en:"take a toll on",ja:"〜に打撃を与える",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Chronic stress takes a heavy toll on mental health.",exJa:"慢性的なストレスは精神的健康に大きな打撃を与える。",note:"toll: 損害、犠牲"},
 {en:"go so far as to",ja:"〜するほどの極端なことをする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He went so far as to sell his house to pay off his debts.",exJa:"彼は借金を返すために家を売るほどの行動をとった。"},
 {en:"be at pains to",ja:"〜しようと苦労する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She was at pains to make everyone feel welcome.",exJa:"彼女は全員に歓迎されていると感じてもらおうと苦労した。"},
 {en:"take A for B",ja:"AをBと思い違いする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I took him for his twin brother.",exJa:"私は彼を双子の兄と思い違いした。"},
@@ -6365,7 +6374,7 @@ const WORDS = [
 {en:"be on the decline",ja:"減少している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Public trust in the media is on the decline.",exJa:"メディアへの市民の信頼が減少している。"},
 {en:"to the best of one's knowledge",ja:"知る限りでは",pos:"熟語",cat:"phrase",level:"advanced",exEn:"To the best of my knowledge, no such document exists.",exJa:"私の知る限りでは、そのような文書は存在しない。"},
 {en:"out of one's depth",ja:"手に負えない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Without a background in physics, I felt completely out of my depth.",exJa:"物理学の知識がなく、完全に手に負えない気がした。"},
-{en:"at one's disposal",ja:"〜の自由になる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"All resources are at your disposal.",exJa:"あらゆるリソースがあなたの自由になる。"},
+{en:"at one's disposal",ja:"〜の自由になる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"All resources are at your disposal.",exJa:"あらゆるリソースがあなたの自由になる。",note:"disposal: 自由に使えること、処分"},
 {en:"beyond one's reach",ja:"〜の手の届かないところに",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The goal seemed beyond their reach at the time.",exJa:"当時、その目標は彼らの手の届かないところにあるように見えた。"},
 {en:"in the making",ja:"製作中・発展中の",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Historians believe a major crisis is in the making.",exJa:"歴史家たちは大きな危機が形成されつつあると信じている。",exMore:[{en:"Some critics say this film is a classic in the making.",ja:"この映画は将来の名作として発展中だと言う批評家もいる。"}]},
 {en:"in this respect",ja:"この点において",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The two proposals differ significantly in this respect.",exJa:"この点において、二つの提案は大きく異なる。"},
@@ -6876,6 +6885,254 @@ const WORDS = [
 {en:"help with",ja:"〜を手伝う",pos:"熟語",cat:"phrase",level:"basic",exEn:"Could you help me with this report?",exJa:"このレポートを手伝ってもらえますか？"},
 {en:"invest in",ja:"〜に投資する",pos:"熟語",cat:"phrase",level:"basic",exEn:"We must invest in education for the future.",exJa:"未来のために教育に投資しなければならない。"},
 {en:"in the first place",ja:"そもそも・最初から",pos:"熟語",cat:"phrase",level:"standard",exEn:"Why did you agree to it in the first place?",exJa:"そもそも、なぜそれに同意したのですか？",exMore:[{en:"He had no experience in cooking in the first place.",ja:"彼は最初から料理の経験が全くなかった。"}]},
+{en:"mind doing",ja:"〜するのを気にする",pos:"熟語",cat:"phrase",level:"basic",exEn:"Would you mind opening the window?",exJa:"窓を開けていただけますか？"},
+{en:"miss doing",ja:"〜しそこなう",pos:"熟語",cat:"phrase",level:"basic",exEn:"I missed seeing her at the party.",exJa:"パーティーで彼女に会いそこなった。"},
+{en:"enjoy doing",ja:"〜するのを楽しむ",pos:"熟語",cat:"phrase",level:"basic",exEn:"They enjoyed talking about their travels.",exJa:"彼らは旅行について話すのを楽しんだ。"},
+{en:"escape doing",ja:"〜するのを逃れる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He narrowly escaped being fired.",exJa:"彼はかろうじて解雇されるのを免れた。"},
+{en:"give up doing",ja:"〜するのをあきらめる",pos:"熟語",cat:"phrase",level:"basic",exEn:"She gave up smoking last year.",exJa:"彼女は去年喫煙をやめた。"},
+{en:"admit doing",ja:"〜するのを認める",pos:"熟語",cat:"phrase",level:"standard",exEn:"He admitted taking the money.",exJa:"彼はそのお金を取ったことを認めた。"},
+{en:"avoid doing",ja:"〜するのを避ける",pos:"熟語",cat:"phrase",level:"basic",exEn:"We avoided discussing the topic.",exJa:"私たちはその話題について話すのを避けた。"},
+{en:"finish doing",ja:"〜するのを終える",pos:"熟語",cat:"phrase",level:"basic",exEn:"She finished writing the report by noon.",exJa:"彼女は正午までにレポートを書き終えた。"},
+{en:"practice doing",ja:"〜する練習をする",pos:"熟語",cat:"phrase",level:"basic",exEn:"He practices speaking English every day.",exJa:"彼は毎日英語を話す練習をしている。"},
+{en:"put off doing",ja:"〜するのを延期する",pos:"熟語",cat:"phrase",level:"standard",exEn:"They put off making a decision.",exJa:"彼らは決定を下すのを延期した。"},
+{en:"postpone doing",ja:"〜するのを延期する",pos:"熟語",cat:"phrase",level:"standard",exEn:"We postponed leaving until the storm passed.",exJa:"私たちは嵐が過ぎるまで出発を延期した。"},
+{en:"consider doing",ja:"〜するのを考慮する",pos:"熟語",cat:"phrase",level:"basic",exEn:"She is considering moving to Tokyo.",exJa:"彼女は東京に引っ越すことを考えている。"},
+{en:"deny doing",ja:"〜するのを拒否する",pos:"熟語",cat:"phrase",level:"standard",exEn:"He denied breaking the window.",exJa:"彼は窓を割ったことを否定した。"},
+{en:"afford to do",ja:"〜する余裕がある",pos:"熟語",cat:"phrase",level:"standard",exEn:"We can't afford to buy a new car right now.",exJa:"私たちは今、新しい車を買う余裕がない。"},
+{en:"manage to do",ja:"どうにか…する",pos:"熟語",cat:"phrase",level:"standard",exEn:"She managed to finish the project on time.",exJa:"彼女はどうにかそのプロジェクトを期限内に終えた。"},
+{en:"attempt to do",ja:"〜しようと試みる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He attempted to solve the puzzle alone.",exJa:"彼は一人でそのパズルを解こうと試みた。"},
+{en:"wish to do",ja:"〜することを願う",pos:"熟語",cat:"phrase",level:"basic",exEn:"I wish to speak with the manager.",exJa:"私はマネージャーと話すことを願っています。"},
+{en:"decide to do",ja:"〜することに決める",pos:"熟語",cat:"phrase",level:"basic",exEn:"They decided to move to the countryside.",exJa:"彼らは田舎に引っ越すことに決めた。"},
+{en:"fail to do",ja:"〜することを怠る／〜しない",pos:"熟語",cat:"phrase",level:"standard",exEn:"He failed to notice the mistake.",exJa:"彼はその間違いに気づかなかった。"},
+{en:"hesitate to do",ja:"〜するのをためらう",pos:"熟語",cat:"phrase",level:"standard",exEn:"Don't hesitate to ask if you have questions.",exJa:"質問があれば遠慮なく聞いてください。"},
+{en:"intend to do",ja:"〜するつもりである",pos:"熟語",cat:"phrase",level:"standard",exEn:"She intends to study abroad next year.",exJa:"彼女は来年留学するつもりだ。"},
+{en:"pretend to do",ja:"〜するふりをする",pos:"熟語",cat:"phrase",level:"basic",exEn:"He pretended to be asleep.",exJa:"彼は眠っているふりをした。"},
+{en:"offer to do",ja:"〜することを申し出る",pos:"熟語",cat:"phrase",level:"basic",exEn:"She offered to help with the cleaning.",exJa:"彼女は掃除を手伝うことを申し出た。"},
+{en:"refuse to do",ja:"〜するのを断る",pos:"熟語",cat:"phrase",level:"basic",exEn:"He refused to answer the question.",exJa:"彼はその質問に答えることを拒否した。"},
+{en:"promise to do",ja:"〜することを約束する",pos:"熟語",cat:"phrase",level:"basic",exEn:"She promised to call me tonight.",exJa:"彼女は今夜私に電話すると約束した。"},
+{en:"remember to do",ja:"〜することを覚えておく",pos:"熟語",cat:"phrase",level:"basic",exEn:"Remember to lock the door before you leave.",exJa:"出かける前にドアの鍵をかけることを忘れないで。"},
+{en:"remember doing",ja:"〜したことを覚えている",pos:"熟語",cat:"phrase",level:"basic",exEn:"I remember meeting him at the conference.",exJa:"私は会議で彼に会ったことを覚えている。"},
+{en:"forget to do",ja:"〜することを忘れる",pos:"熟語",cat:"phrase",level:"basic",exEn:"Don't forget to bring your umbrella.",exJa:"傘を持ってくるのを忘れないで。"},
+{en:"forget doing",ja:"〜したことを忘れる",pos:"熟語",cat:"phrase",level:"basic",exEn:"I'll never forget visiting Kyoto for the first time.",exJa:"初めて京都を訪れたことを決して忘れないだろう。"},
+{en:"regret to do",ja:"残念ながら〜する",pos:"熟語",cat:"phrase",level:"standard",exEn:"We regret to inform you that the flight is cancelled.",exJa:"残念ながらそのフライトは欠航になったことをお知らせします。"},
+{en:"regret doing",ja:"〜したことを後悔する",pos:"熟語",cat:"phrase",level:"standard",exEn:"She regrets quitting her job so suddenly.",exJa:"彼女はあんなに突然仕事を辞めたことを後悔している。"},
+{en:"mean to do",ja:"〜するつもりである",pos:"熟語",cat:"phrase",level:"standard",exEn:"I didn't mean to hurt your feelings.",exJa:"あなたの気持ちを傷つけるつもりはなかった。"},
+{en:"mean doing",ja:"〜することを意味する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Living abroad means adapting to a new culture.",exJa:"海外に住むということは新しい文化に適応することを意味する。"},
+{en:"need to do",ja:"〜する必要がある",pos:"熟語",cat:"phrase",level:"basic",exEn:"We need to leave early to catch the train.",exJa:"電車に乗るために早く出発する必要がある。"},
+{en:"need doing",ja:"〜される必要がある",pos:"熟語",cat:"phrase",level:"standard",exEn:"This room needs cleaning.",exJa:"この部屋は掃除される必要がある。"},
+{en:"go on to do",ja:"（異なることを）さらに続けて〜する",pos:"熟語",cat:"phrase",level:"standard",exEn:"She finished her speech and went on to answer questions.",exJa:"彼女はスピーチを終えると、続けて質問に答えた。"},
+{en:"go on doing",ja:"（同じことを）〜し続ける",pos:"熟語",cat:"phrase",level:"standard",exEn:"He went on talking for another hour.",exJa:"彼はさらに1時間話し続けた。"},
+{en:"try to do",ja:"〜しようとする",pos:"熟語",cat:"phrase",level:"basic",exEn:"She tried to open the jar but couldn't.",exJa:"彼女はその瓶を開けようとしたが、できなかった。"},
+{en:"try doing",ja:"試しに〜してみる",pos:"熟語",cat:"phrase",level:"basic",exEn:"Try turning the device off and on again.",exJa:"試しにその機器の電源を切って入れ直してみてください。"},
+{en:"stop to do",ja:"〜するために立ち止まる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He stopped to tie his shoelaces.",exJa:"彼は靴ひもを結ぶために立ち止まった。"},
+{en:"stop doing",ja:"〜することをやめる",pos:"熟語",cat:"phrase",level:"basic",exEn:"She stopped smoking two years ago.",exJa:"彼女は2年前に喫煙をやめた。"},
+{en:"get A done",ja:"Aを…してもらう（させる／される／してしまう）",pos:"熟語",cat:"phrase",level:"standard",exEn:"I'm going to get this bicycle repaired.",exJa:"私はこの自転車を修理してもらうつもりです。"},
+{en:"have A done",ja:"Aを…してもらう（させる／される／してしまう）",pos:"熟語",cat:"phrase",level:"standard",exEn:"She had her wallet stolen on the train.",exJa:"彼女は電車の中で財布を盗まれた。"},
+{en:"make A do",ja:"Aに…させる",pos:"熟語",cat:"phrase",level:"basic",exEn:"Her joke made everyone laugh.",exJa:"彼女の冗談はみんなを笑わせた。"},
+{en:"let A do",ja:"Aに…させてやる",pos:"熟語",cat:"phrase",level:"basic",exEn:"My parents let me stay out late on weekends.",exJa:"両親は週末は私が遅くまで外にいることを許してくれる。"},
+{en:"see A do",ja:"Aが…するのを見る",pos:"熟語",cat:"phrase",level:"basic",exEn:"I saw him leave the building around noon.",exJa:"私は正午頃、彼がその建物を出るのを見た。"},
+{en:"look at A do",ja:"Aが…するのを見る",pos:"熟語",cat:"phrase",level:"basic",exEn:"We looked at the children play in the park.",exJa:"私たちは子供たちが公園で遊ぶのを見た。"},
+{en:"watch A do",ja:"Aが…するのを見守る",pos:"熟語",cat:"phrase",level:"basic",exEn:"She watched the sun rise over the mountains.",exJa:"彼女は山の上に太陽が昇るのを見守った。"},
+{en:"hear A do",ja:"Aが…するのが聞こえる",pos:"熟語",cat:"phrase",level:"basic",exEn:"I heard someone knock on the door.",exJa:"誰かがドアをノックするのが聞こえた。"},
+{en:"listen to A do",ja:"Aが…するのを聞く",pos:"熟語",cat:"phrase",level:"basic",exEn:"We listened to the birds sing outside.",exJa:"私たちは外で鳥がさえずるのを聞いた。"},
+{en:"feel A do",ja:"Aが…するのを感じる",pos:"熟語",cat:"phrase",level:"standard",exEn:"She felt her heart beat faster.",exJa:"彼女は自分の心臓がより速く鼓動するのを感じた。"},
+{en:"help A to do",ja:"Aが…するのを手伝う",pos:"熟語",cat:"phrase",level:"basic",exEn:"He helped me change the tires.",exJa:"彼は私がタイヤの交換をするのを手伝ってくれた。"},
+{en:"help to do",ja:"…するのに役立つ",pos:"熟語",cat:"phrase",level:"standard",exEn:"I helped clear the table after dinner.",exJa:"私は食後の片づけを手伝った。"},
+{en:"allow A to do",ja:"Aが…するのを許す",pos:"熟語",cat:"phrase",level:"basic",exEn:"The teacher allowed the students to leave early.",exJa:"先生は生徒たちが早く帰ることを許した。"},
+{en:"advise A to do",ja:"Aに…するように忠告する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The doctor advised him to rest for a week.",exJa:"医者は彼に1週間休むように忠告した。"},
+{en:"ask A to do",ja:"Aに…するように頼む",pos:"熟語",cat:"phrase",level:"basic",exEn:"She asked her brother to pick her up.",exJa:"彼女は兄に迎えに来てくれるよう頼んだ。"},
+{en:"cause A to do",ja:"Aが…する原因となる",pos:"熟語",cat:"phrase",level:"standard",exEn:"The heavy rain caused the river to overflow.",exJa:"大雨がその川を氾濫させる原因となった。"},
+{en:"compel A to do",ja:"Aに…することを強制する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The heavy debt compelled him to sell his house.",exJa:"多額の借金が彼に家を売ることを強いた。",note:"compel: 強制する"},
+{en:"drive A to do",ja:"Aを…するように追いやる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Desperation drove her to take the risk.",exJa:"絶望が彼女にそのリスクを取らせた。"},
+{en:"enable A to do",ja:"Aが…するのを可能にする",pos:"熟語",cat:"phrase",level:"standard",exEn:"This device enables users to track their sleep.",exJa:"この機器はユーザーが睡眠を記録することを可能にする。"},
+{en:"encourage A to do",ja:"Aが…するように励ます",pos:"熟語",cat:"phrase",level:"basic",exEn:"Her teacher encouraged her to keep writing.",exJa:"彼女の先生は彼女に書き続けるよう励ました。"},
+{en:"expect A to do",ja:"Aが…すると予期する",pos:"熟語",cat:"phrase",level:"basic",exEn:"We expect the plane to arrive on time.",exJa:"私たちはその飛行機が定刻に到着すると予期している。"},
+{en:"force A to do",ja:"Aに…することを強制する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The storm forced them to cancel the trip.",exJa:"嵐が彼らに旅行の中止を強いた。"},
+{en:"invite A to do",ja:"Aに…するよう勧める",pos:"熟語",cat:"phrase",level:"basic",exEn:"They invited us to join their celebration.",exJa:"彼らは私たちにお祝いに参加するよう誘った。"},
+{en:"leave A to do",ja:"Aに…することを任せる",pos:"熟語",cat:"phrase",level:"standard",exEn:"I'll leave you to decide what's best.",exJa:"何が一番良いかはあなたに任せます。"},
+{en:"lead A to do",ja:"Aが…するようにし向ける",pos:"熟語",cat:"phrase",level:"standard",exEn:"His curiosity led him to explore new fields.",exJa:"彼の好奇心は彼を新しい分野の探求へと導いた。"},
+{en:"permit A to do",ja:"Aが…するのを許す",pos:"熟語",cat:"phrase",level:"standard",exEn:"The rules permit visitors to take photos here.",exJa:"規則では訪問者がここで写真を撮ることが許可されている。"},
+{en:"persuade A to do",ja:"Aを説得して…させる",pos:"熟語",cat:"phrase",level:"standard",exEn:"She persuaded her friend to join the club.",exJa:"彼女は友人を説得してそのクラブに入らせた。"},
+{en:"remind A to do",ja:"Aに…することを気づかせる",pos:"熟語",cat:"phrase",level:"basic",exEn:"Please remind me to call him tomorrow.",exJa:"明日彼に電話することを私に思い出させてください。"},
+{en:"require A to do",ja:"Aに…するように要求する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The law requires drivers to wear seat belts.",exJa:"法律は運転手にシートベルトの着用を義務付けている。"},
+{en:"tell A to do",ja:"Aに…するように言う",pos:"熟語",cat:"phrase",level:"basic",exEn:"She told the children to be quiet.",exJa:"彼女は子供たちに静かにするように言った。"},
+{en:"urge A to do",ja:"Aが…することを強く迫る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Officials urged residents to evacuate immediately.",exJa:"当局は住民たちに直ちに避難するよう強く求めた。"},
+{en:"want A to do",ja:"Aに…してほしい",pos:"熟語",cat:"phrase",level:"basic",exEn:"I want you to meet my family.",exJa:"あなたに私の家族に会ってほしい。"},
+{en:"warn A to do",ja:"Aに…するよう警告する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The sign warns visitors to stay away from the edge.",exJa:"その看板は訪問者に端に近づかないよう警告している。"},
+{en:"go bad",ja:"（食べ物が）腐る",pos:"熟語",cat:"phrase",level:"basic",exEn:"The milk has gone bad; throw it away.",exJa:"その牛乳は腐っている。捨ててください。"},
+{en:"go sour",ja:"すっぱくなる",pos:"熟語",cat:"phrase",level:"standard",exEn:"The cream went sour after being left out overnight.",exJa:"そのクリームは一晩放置されてすっぱくなった。"},
+{en:"go mad",ja:"正気でなくなる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He nearly went mad from the stress of the trial.",exJa:"彼は裁判のストレスでほとんど正気を失いそうになった。"},
+{en:"go astray",ja:"迷子になる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The letter seems to have gone astray in the mail.",exJa:"その手紙は郵送中に行方不明になったようだ。"},
+{en:"go bankrupt",ja:"破産する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The company went bankrupt after years of losses.",exJa:"その会社は何年もの損失の末、破産した。"},
+{en:"go bald",ja:"はげる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He started going bald in his thirties.",exJa:"彼は30代ではげ始めた。"},
+{en:"go blind",ja:"目が見えなくなる",pos:"熟語",cat:"phrase",level:"standard",exEn:"She gradually went blind due to the disease.",exJa:"彼女はその病気のため次第に目が見えなくなった。"},
+{en:"go blank",ja:"うつろになる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"My mind went blank during the exam.",exJa:"試験中、私の頭は真っ白になった。"},
+{en:"go flat",ja:"パンクする",pos:"熟語",cat:"phrase",level:"standard",exEn:"One of the tires went flat on the highway.",exJa:"高速道路でタイヤの一つがパンクした。"},
+{en:"get near to",ja:"〜に近づく",pos:"熟語",cat:"phrase",level:"standard",exEn:"Be careful not to get too near to the edge.",exJa:"端にあまり近づきすぎないよう気をつけて。"},
+{en:"arrive at",ja:"〜に着く",pos:"熟語",cat:"phrase",level:"basic",exEn:"We arrived at the airport two hours early.",exJa:"私たちは2時間早く空港に着いた。"},
+{en:"make contact with",ja:"〜と連絡をとる",pos:"熟語",cat:"phrase",level:"standard",exEn:"Rescuers finally made contact with the missing hikers.",exJa:"救助隊はついに行方不明の登山者たちと連絡をとった。"},
+{en:"go into",ja:"〜の中に入る",pos:"熟語",cat:"phrase",level:"basic",exEn:"She went into the room and closed the door.",exJa:"彼女は部屋に入りドアを閉めた。"},
+{en:"talk about",ja:"〜について議論する",pos:"熟語",cat:"phrase",level:"basic",exEn:"Let's talk about the plan for next week.",exJa:"来週の計画について話し合いましょう。"},
+{en:"reply to",ja:"〜に答える",pos:"熟語",cat:"phrase",level:"basic",exEn:"He hasn't replied to my email yet.",exJa:"彼はまだ私のメールに返信していない。"},
+{en:"get married to",ja:"〜と結婚する",pos:"熟語",cat:"phrase",level:"basic",exEn:"She got married to her college sweetheart.",exJa:"彼女は大学時代の恋人と結婚した。"},
+{en:"live in",ja:"〜に住む",pos:"熟語",cat:"phrase",level:"basic",exEn:"My grandparents live in a small village.",exJa:"私の祖父母は小さな村に住んでいる。"},
+{en:"look like",ja:"〜と似ている",pos:"熟語",cat:"phrase",level:"basic",exEn:"She looks like her mother when she smiles.",exJa:"彼女は笑うと母親に似ている。"},
+{en:"complain about",ja:"〜について不満を言う",pos:"熟語",cat:"phrase",level:"basic",exEn:"Customers complained about the slow service.",exJa:"客たちは対応の遅さについて不満を言った。"},
+{en:"argue with",ja:"〜と口論する",pos:"熟語",cat:"phrase",level:"basic",exEn:"He often argues with his brother about politics.",exJa:"彼は政治についてよく兄と口論する。"},
+{en:"graduate from",ja:"〜を卒業する",pos:"熟語",cat:"phrase",level:"basic",exEn:"She graduated from a university in Osaka.",exJa:"彼女は大阪の大学を卒業した。"},
+{en:"enter into",ja:"〜（議論など）を始める",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The two companies entered into a partnership.",exJa:"その2社は提携関係を結んだ。"},
+{en:"search for",ja:"〜を捜す",pos:"熟語",cat:"phrase",level:"basic",exEn:"Volunteers searched for the missing child all night.",exJa:"ボランティアたちは一晩中、行方不明の子供を捜した。"},
+{en:"do A good",ja:"Aのためになる",pos:"熟語",cat:"phrase",level:"standard",exEn:"A little exercise will do you good.",exJa:"少し運動することはあなたのためになるだろう。"},
+{en:"do A harm",ja:"Aの害になる",pos:"熟語",cat:"phrase",level:"standard",exEn:"Too much sugar can do harm to your health.",exJa:"糖分の摂りすぎは健康に害を及ぼすことがある。"},
+{en:"do A damage",ja:"Aに損害を与える",pos:"熟語",cat:"phrase",level:"standard",exEn:"The storm did serious damage to the coastal town.",exJa:"その嵐は沿岸の町に深刻な被害を与えた。"},
+{en:"do A a favor",ja:"Aの頼みを聞き入れる",pos:"熟語",cat:"phrase",level:"basic",exEn:"Could you do me a favor and mail this letter?",exJa:"この手紙を投函してくれるという頼みを聞いてもらえますか？"},
+{en:"cost A B",ja:"Aに B（費用）がかかる",pos:"熟語",cat:"phrase",level:"basic",exEn:"The repairs cost him nearly a thousand dollars.",exJa:"その修理は彼に千ドル近くかかった。"},
+{en:"take A B",ja:"Aが（…するのに）Bを必要とする",pos:"熟語",cat:"phrase",level:"basic",exEn:"It took her three years to master the piano.",exJa:"彼女がピアノを習得するのに3年かかった。"},
+{en:"save A B",ja:"AのBを省く",pos:"熟語",cat:"phrase",level:"standard",exEn:"Taking the highway will save us an hour.",exJa:"高速道路を使えば1時間節約できる。"},
+{en:"spare A B",ja:"AにBを割く／AのBを省く",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Could you spare me a few minutes?",exJa:"少し時間を割いてもらえますか？"},
+{en:"offer A B",ja:"AにBを提供する",pos:"熟語",cat:"phrase",level:"basic",exEn:"The hotel offers guests free breakfast.",exJa:"そのホテルは宿泊客に無料の朝食を提供する。"},
+{en:"leave A B",ja:"AにBを残して死ぬ／AにBを残す",pos:"熟語",cat:"phrase",level:"standard",exEn:"Her grandmother left her a small fortune.",exJa:"彼女の祖母は彼女にわずかな財産を残した。"},
+{en:"deny A B",ja:"AにBを与えない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The company denied him a promotion.",exJa:"その会社は彼に昇進を与えなかった。"},
+{en:"charge A B",ja:"AにBを請求する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The mechanic charged us fifty dollars for the repair.",exJa:"整備士は私たちにその修理代として50ドルを請求した。"},
+{en:"lend A B",ja:"AにBを貸す",pos:"熟語",cat:"phrase",level:"basic",exEn:"Could you lend me your umbrella?",exJa:"傘を貸してもらえますか？"},
+{en:"loan A B",ja:"（利子をとって）AにBを貸す",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The bank loaned the company a large sum of money.",exJa:"銀行はその会社に多額のお金を貸し付けた。"},
+{en:"wish A B",ja:"AにBを祈る",pos:"熟語",cat:"phrase",level:"standard",exEn:"We wish you a happy new year.",exJa:"私たちはあなたに幸せな新年をお祈りします。"},
+{en:"envy A B",ja:"AのBをうらやましく思う",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I envy you your talent for painting.",exJa:"私はあなたの絵の才能をうらやましく思う。"},
+{en:"tell A B",ja:"AにBを話す",pos:"熟語",cat:"phrase",level:"basic",exEn:"He told me an interesting story.",exJa:"彼は私に面白い話をしてくれた。"},
+{en:"tell A about B",ja:"BについてAに話す",pos:"熟語",cat:"phrase",level:"basic",exEn:"She told us about her trip to Italy.",exJa:"彼女は私たちにイタリア旅行について話した。"},
+{en:"say to A that",ja:"（Aに）…だと言う",pos:"熟語",cat:"phrase",level:"basic",exEn:"She said to me that she was tired.",exJa:"彼女は私に疲れていると言った。"},
+{en:"talk to",ja:"〜と話し合う",pos:"熟語",cat:"phrase",level:"basic",exEn:"I need to talk to you about something important.",exJa:"大事なことについてあなたと話す必要がある。"},
+{en:"talk A into doing",ja:"Aを説得して…させる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She talked her parents into letting her travel alone.",exJa:"彼女は両親を説得して一人旅を許してもらった。"},
+{en:"talk A out of doing",ja:"Aを説得して…するのをやめさせる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He talked his friend out of quitting the team.",exJa:"彼は友人を説得してチームを辞めるのを思いとどまらせた。"},
+{en:"persuade A of B",ja:"AにBのことを納得させる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It took a while to persuade him of the plan's benefits.",exJa:"彼にその計画の利点を納得させるのに時間がかかった。"},
+{en:"suspect A of B",ja:"AにBの嫌疑をかける",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Police suspect him of the robbery.",exJa:"警察は彼にその強盗の嫌疑をかけている。"},
+{en:"strip A of B",ja:"AからBをはぎ取る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The scandal stripped him of his title.",exJa:"そのスキャンダルは彼から称号を剥奪した。",note:"strip: 剥ぎ取る"},
+{en:"clear A of B",ja:"AからBを取り除いて片づける",pos:"熟語",cat:"phrase",level:"standard",exEn:"Workers cleared the street of debris after the storm.",exJa:"作業員たちは嵐の後、通りから瓦礫を取り除いた。"},
+{en:"cure A of B",ja:"AからBを取り除いて治す",pos:"熟語",cat:"phrase",level:"standard",exEn:"The treatment cured her of the illness completely.",exJa:"その治療は彼女の病気を完全に治した。"},
+{en:"rid A of B",ja:"AからBを取り除く",pos:"熟語",cat:"phrase",level:"standard",exEn:"We need to rid the garden of weeds.",exJa:"私たちは庭から雑草を取り除く必要がある。"},
+{en:"relieve A of B",ja:"AからBを取り除いて楽にする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The medicine relieved him of the pain.",exJa:"その薬は彼の痛みを和らげた。"},
+{en:"empty A of B",ja:"AからBを取り出して空にする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"They emptied the room of all its furniture.",exJa:"彼らはその部屋からすべての家具を取り出して空にした。"},
+{en:"keep A from doing",ja:"Aが…するのを妨げる",pos:"熟語",cat:"phrase",level:"standard",exEn:"Noise from the street kept me from sleeping.",exJa:"通りからの騒音のせいで私は眠れなかった。"},
+{en:"prohibit A from doing",ja:"Aが…するのを禁じる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The law prohibits minors from buying alcohol.",exJa:"法律は未成年者が酒を買うことを禁じている。"},
+{en:"forbid A from doing",ja:"Aが…するのを禁じる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Her parents forbade her from going out at night.",exJa:"彼女の両親は彼女が夜に外出することを禁じた。"},
+{en:"ban A from doing",ja:"Aが…するのを禁じる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The city banned cars from entering the old town.",exJa:"市は旧市街への車の乗り入れを禁じた。"},
+{en:"discourage A from doing",ja:"Aが…するのを思いとどまらせる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"High prices discouraged tourists from visiting.",exJa:"高い物価が観光客の訪問を思いとどまらせた。"},
+{en:"dissuade A from doing",ja:"Aが…するのを思いとどまらせる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She tried to dissuade him from resigning.",exJa:"彼女は彼が辞職するのを思いとどまらせようとした。",note:"dissuade: 思いとどまらせる"},
+{en:"supply A with B",ja:"AにBを供給する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The farm supplies the town with fresh vegetables.",exJa:"その農場は町に新鮮な野菜を供給している。"},
+{en:"present A with B",ja:"AにBを贈る",pos:"熟語",cat:"phrase",level:"standard",exEn:"They presented her with a bouquet of flowers.",exJa:"彼らは彼女に花束を贈った。"},
+{en:"equip A with B",ja:"AにBを備えつける",pos:"熟語",cat:"phrase",level:"standard",exEn:"The classroom is equipped with modern computers.",exJa:"その教室には最新のコンピューターが備えつけられている。"},
+{en:"share A with B",ja:"AをBと分かち合う",pos:"熟語",cat:"phrase",level:"basic",exEn:"She shared her lunch with a classmate.",exJa:"彼女はクラスメートと昼食を分け合った。"},
+{en:"compare A with B",ja:"AをBと比較する",pos:"熟語",cat:"phrase",level:"basic",exEn:"Scientists compared the new data with earlier results.",exJa:"科学者たちは新しいデータを以前の結果と比較した。"},
+{en:"blame A for B",ja:"BのことでAを非難する",pos:"熟語",cat:"phrase",level:"standard",exEn:"They blamed the manager for the project's failure.",exJa:"彼らはそのプロジェクトの失敗についてマネージャーを非難した。"},
+{en:"criticize A for B",ja:"BのことでAを非難する",pos:"熟語",cat:"phrase",level:"standard",exEn:"Critics criticized the film for its slow pacing.",exJa:"評論家たちはその映画をテンポの遅さで批判した。"},
+{en:"punish A for B",ja:"BのことでAを罰する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The teacher punished the student for cheating.",exJa:"先生はカンニングをしたことで生徒を罰した。"},
+{en:"scold A for B",ja:"BのことでAを叱る",pos:"熟語",cat:"phrase",level:"standard",exEn:"His mother scolded him for being late.",exJa:"彼の母親は遅刻したことで彼を叱った。"},
+{en:"excuse A for B",ja:"BについてAを許す",pos:"熟語",cat:"phrase",level:"standard",exEn:"Please excuse me for the delay.",exJa:"遅れたことをどうかお許しください。"},
+{en:"forgive A for B",ja:"BについてAを許す",pos:"熟語",cat:"phrase",level:"basic",exEn:"She forgave him for forgetting her birthday.",exJa:"彼女は誕生日を忘れたことで彼を許した。"},
+{en:"admire A for B",ja:"BのことでAを称賛する",pos:"熟語",cat:"phrase",level:"standard",exEn:"We admire her for her honesty.",exJa:"私たちは彼女の正直さを称賛している。"},
+{en:"praise A for B",ja:"BのことでAをほめる",pos:"熟語",cat:"phrase",level:"standard",exEn:"The coach praised the team for their effort.",exJa:"コーチはその努力についてチームをほめた。"},
+{en:"reward A for B",ja:"BのことでAに賞を与える",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The company rewarded him for his hard work.",exJa:"会社は彼の努力に報いて彼に賞を与えた。"},
+{en:"thank A for B",ja:"BのことでAに感謝する",pos:"熟語",cat:"phrase",level:"basic",exEn:"I want to thank you for your help.",exJa:"あなたの助けに感謝したい。"},
+{en:"respect A for B",ja:"BのことでAを尊敬する",pos:"熟語",cat:"phrase",level:"standard",exEn:"Everyone respects her for her patience.",exJa:"誰もが彼女の忍耐強さを尊敬している。"},
+{en:"blame B on A",ja:"BのことでAに責任を負わせる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He blamed the delay on the weather.",exJa:"彼はその遅れを天候のせいにした。"},
+{en:"regard A as B",ja:"AをBとみなす",pos:"熟語",cat:"phrase",level:"standard",exEn:"People regard him as an expert in the field.",exJa:"人々は彼をその分野の専門家とみなしている。"},
+{en:"see A as B",ja:"AをBとみなす",pos:"熟語",cat:"phrase",level:"standard",exEn:"She sees the challenge as an opportunity to grow.",exJa:"彼女はその困難を成長の機会とみなしている。"},
+{en:"view A as B",ja:"AをBとみなす",pos:"熟語",cat:"phrase",level:"standard",exEn:"Many economists view the policy as risky.",exJa:"多くの経済学者はその政策を危険だとみなしている。"},
+{en:"think of A as B",ja:"AをBとみなす",pos:"熟語",cat:"phrase",level:"standard",exEn:"I think of her as a close friend.",exJa:"私は彼女を親しい友人だと思っている。"},
+{en:"look on A as B",ja:"AをBとみなす",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He looks on failure as a chance to learn.",exJa:"彼は失敗を学ぶ機会とみなしている。"},
+{en:"owe A to B",ja:"AについてはBのおかげである",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She owes her success to years of hard work.",exJa:"彼女は自分の成功を何年もの努力のおかげだと考えている。"},
+{en:"take A to B",ja:"AをBに持っていく",pos:"熟語",cat:"phrase",level:"basic",exEn:"Please take these documents to the office.",exJa:"この書類を事務所に持っていってください。"},
+{en:"bring A to B",ja:"AをBに持ってくる",pos:"熟語",cat:"phrase",level:"basic",exEn:"He brought his laptop to the meeting.",exJa:"彼はノートパソコンを会議に持ってきた。"},
+{en:"transfer A to B",ja:"AをBへ移す",pos:"熟語",cat:"phrase",level:"standard",exEn:"The company transferred him to the Osaka office.",exJa:"会社は彼を大阪支社に転勤させた。"},
+{en:"assign A to B",ja:"A（仕事など）をBに割り当てる",pos:"熟語",cat:"phrase",level:"standard",exEn:"The manager assigned the task to a new employee.",exJa:"マネージャーはその仕事を新入社員に割り当てた。"},
+{en:"contribute A to B",ja:"AをBに寄付する",pos:"熟語",cat:"phrase",level:"standard",exEn:"He contributed a large sum to the charity.",exJa:"彼はその慈善団体に多額の寄付をした。"},
+{en:"add A to B",ja:"AをBに加える",pos:"熟語",cat:"phrase",level:"basic",exEn:"Add a pinch of salt to the soup.",exJa:"スープにひとつまみの塩を加えてください。"},
+{en:"drive A to B",ja:"AをBの状態に追いやる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Financial stress drove the company to bankruptcy.",exJa:"財政難がその会社を破産に追いやった。"},
+{en:"borrow A from B",ja:"（Bから）Aを無料で借りる",pos:"熟語",cat:"phrase",level:"basic",exEn:"I borrowed this book from the library.",exJa:"私はこの本を図書館から借りた。"},
+{en:"suspect that",ja:"…ではないかと思う",pos:"熟語",cat:"phrase",level:"standard",exEn:"I suspect that he already knows the answer.",exJa:"彼はすでに答えを知っているのではないかと思う。"},
+{en:"doubt that",ja:"…であることを疑う",pos:"熟語",cat:"phrase",level:"standard",exEn:"I doubt that he will finish it on time.",exJa:"彼がそれを時間通りに終わらせるとは思えない。"},
+{en:"be caught in",ja:"A（雨や交通渋滞など）にあう",pos:"熟語",cat:"phrase",level:"standard",exEn:"We were caught in a heavy rain on our way home.",exJa:"私たちは帰り道でひどい雨にあった。"},
+{en:"be known by",ja:"Aで見分けられる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"A tree is known by its fruit.",exJa:"果実を見れば木の良し悪しがわかる。"},
+{en:"cannot but do",ja:"〜せざるをえない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I cannot but admire her courage.",exJa:"彼女の勇気に感嘆せざるをえない。"},
+{en:"may as well do",ja:"〜してもいいだろう",pos:"熟語",cat:"phrase",level:"standard",exEn:"We may as well leave now since it's getting late.",exJa:"もう遅くなってきたから、そろそろ出発してもいいだろう。"},
+{en:"to be frank with you",ja:"率直に言えば",pos:"熟語",cat:"phrase",level:"standard",exEn:"To be frank with you, I don't think the plan will work.",exJa:"率直に言うと、その計画はうまくいかないと思う。"},
+{en:"to be sure",ja:"確かに",pos:"熟語",cat:"phrase",level:"standard",exEn:"To be sure, the plan has some risks.",exJa:"確かに、その計画にはいくつかリスクがある。"},
+{en:"to do A justice",ja:"Aを公平に評価すると",pos:"熟語",cat:"phrase",level:"advanced",exEn:"To do him justice, he did try his best.",exJa:"彼を公平に評価すると、彼は最善を尽くそうとはした。"},
+{en:"to make matters worse",ja:"さらに悪いことには",pos:"熟語",cat:"phrase",level:"standard",exEn:"It started to rain, and to make matters worse, we lost our way.",exJa:"雨が降り出し、さらに悪いことに、道に迷ってしまった。"},
+{en:"strange to say",ja:"奇妙な話だが",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Strange to say, nobody noticed the mistake.",exJa:"奇妙な話だが、誰もその間違いに気づかなかった。"},
+{en:"not to speak of A",ja:"Aは言うまでもなく",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She speaks French and German, not to speak of English.",exJa:"彼女は英語は言うまでもなく、フランス語とドイツ語も話す。"},
+{en:"come near to doing",ja:"もう少しで〜するところだ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He came near to losing his temper.",exJa:"彼はもう少しで腹を立てるところだった。"},
+{en:"what do you say to doing",ja:"〜はいかがですか",pos:"熟語",cat:"phrase",level:"standard",exEn:"What do you say to going for a walk?",exJa:"散歩に行くのはどうですか？"},
+{en:"be busy doing",ja:"〜することに忙しい",pos:"熟語",cat:"phrase",level:"basic",exEn:"She was busy preparing for the exam all weekend.",exJa:"彼女は週末じゅう試験の準備で忙しかった。"},
+{en:"have no trouble doing",ja:"〜することが容易だ",pos:"熟語",cat:"phrase",level:"standard",exEn:"He had no trouble finding the address.",exJa:"彼はその住所を難なく見つけた。"},
+{en:"there is no point in doing",ja:"〜しても無駄だ",pos:"熟語",cat:"phrase",level:"standard",exEn:"There is no point in arguing about it any further.",exJa:"これ以上それについて議論しても無駄だ。"},
+{en:"roughly speaking",ja:"大ざっぱに言えば",pos:"熟語",cat:"phrase",level:"standard",exEn:"Roughly speaking, the project will take about a year.",exJa:"大ざっぱに言えば、そのプロジェクトには約1年かかるだろう。"},
+{en:"talking of A",ja:"Aと言えば",pos:"熟語",cat:"phrase",level:"standard",exEn:"Talking of movies, have you seen the new one yet?",exJa:"映画と言えば、新作はもう見ましたか？"},
+{en:"judging from A",ja:"Aから判断すると",pos:"熟語",cat:"phrase",level:"standard",exEn:"Judging from his accent, he must be from the south.",exJa:"彼のアクセントから判断すると、南部出身に違いない。"},
+{en:"depending on A",ja:"Aに応じて／A次第で",pos:"熟語",cat:"phrase",level:"standard",exEn:"The price varies depending on the season.",exJa:"価格は季節に応じて変動する。"},
+{en:"weather permitting",ja:"天気がよければ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We'll have the picnic outdoors, weather permitting.",exJa:"天気がよければ、屋外でピクニックをします。"},
+{en:"such being the case",ja:"そのような事情なので",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Such being the case, we had to cancel the event.",exJa:"そのような事情なので、私たちはそのイベントを中止せざるをえなかった。"},
+{en:"considering A",ja:"Aを考慮に入れると",pos:"熟語",cat:"phrase",level:"standard",exEn:"Considering the weather, the trip went well.",exJa:"天候を考慮に入れると、その旅行はうまくいった。"},
+{en:"granting that",ja:"仮に…だとしても",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Granting that he made a mistake, he shouldn't be blamed alone.",exJa:"仮に彼が間違いを犯したとしても、彼だけが責められるべきではない。"},
+{en:"providing that",ja:"もし…なら",pos:"熟語",cat:"phrase",level:"standard",exEn:"You can join us, providing that you finish your homework first.",exJa:"先に宿題を終わらせるなら、私たちに加わってもいいですよ。"},
+{en:"supposing that",ja:"もし…なら",pos:"熟語",cat:"phrase",level:"standard",exEn:"Supposing that it rains tomorrow, what will we do?",exJa:"もし明日雨が降ったら、私たちはどうしますか？"},
+{en:"all things considered",ja:"あらゆることを考慮に入れると",pos:"熟語",cat:"phrase",level:"advanced",exEn:"All things considered, the trip was a success.",exJa:"あらゆることを考慮に入れると、その旅行は成功だった。"},
+{en:"be senior to A",ja:"Aより先輩だ／Aより年上だ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is senior to me by two years.",exJa:"彼は私より2年先輩だ。"},
+{en:"be junior to A",ja:"Aより後輩だ／Aより年下だ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She is junior to him by three years.",exJa:"彼女は彼より3歳年下だ。"},
+{en:"be preferable to A",ja:"Aより好ましい",pos:"熟語",cat:"phrase",level:"advanced",exEn:"A quiet job is preferable to a stressful one for her.",exJa:"彼女にとって静かな仕事はストレスの多い仕事より好ましい。"},
+{en:"depend on it that",ja:"…するのをあてにする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"You may depend on it that he will keep his promise.",exJa:"彼が約束を守ると当てにしてよい。"},
+{en:"see to it that",ja:"…するように気をつける",pos:"熟語",cat:"phrase",level:"standard",exEn:"Please see to it that the door is locked before you leave.",exJa:"出かける前にドアの鍵がかかっているように気をつけてください。"},
+{en:"it happens that",ja:"たまたま…である",pos:"熟語",cat:"phrase",level:"standard",exEn:"It happened that I was there when the accident occurred.",exJa:"その事故が起きたとき、たまたま私はそこにいた。"},
+{en:"it seems that",ja:"…のように思われる",pos:"熟語",cat:"phrase",level:"basic",exEn:"It seems that she has already left.",exJa:"彼女はすでに帰ったようだ。"},
+{en:"it follows that",ja:"（したがって）…ということになる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"From this evidence, it follows that he is innocent.",exJa:"この証拠から、彼は無実だということになる。"},
+{en:"there is something wrong with A",ja:"Aはどこか調子が悪い",pos:"熟語",cat:"phrase",level:"basic",exEn:"There is something wrong with my computer.",exJa:"私のパソコンはどこか調子が悪い。"},
+{en:"there is nothing like A",ja:"Aほどよいものはない",pos:"熟語",cat:"phrase",level:"standard",exEn:"There is nothing like a hot bath after a long day.",exJa:"長い一日の後には熱いお風呂ほどよいものはない。"},
+{en:"for oneself",ja:"独力で／自分のために",pos:"熟語",cat:"phrase",level:"standard",exEn:"If you don't believe me, go and see for yourself.",exJa:"私の言うことを信じないなら、自分で見に行きなさい。"},
+{en:"between ourselves",ja:"ここだけの話だが",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Between ourselves, I don't trust him very much.",exJa:"ここだけの話だが、私は彼をあまり信用していない。"},
+{en:"beside oneself",ja:"（Aで）我を忘れて",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She was beside herself with joy when she heard the news.",exJa:"その知らせを聞いて彼女は喜びで我を忘れた。"},
+{en:"that is why",ja:"そういうわけで…",pos:"熟語",cat:"phrase",level:"basic",exEn:"The train was delayed. That's why I was late.",exJa:"電車が遅れていた。そういうわけで私は遅刻した。"},
+{en:"that is because",ja:"それは…だからです",pos:"熟語",cat:"phrase",level:"basic",exEn:"I was late for school. That's because the train was delayed.",exJa:"私は学校に遅刻した。それは電車が遅れていたからだ。"},
+{en:"as is usual with A",ja:"Aにはいつものことだが",pos:"熟語",cat:"phrase",level:"advanced",exEn:"As is usual with him, he arrived late.",exJa:"彼にはいつものことだが、彼は遅れてやって来た。"},
+{en:"as is often the case with A",ja:"Aにはよくあることだが",pos:"熟語",cat:"phrase",level:"advanced",exEn:"As is often the case with beginners, he made a few mistakes.",exJa:"初心者にはよくあることだが、彼はいくつか間違いをした。"},
+{en:"as is evident from A",ja:"Aから明らかなように",pos:"熟語",cat:"phrase",level:"advanced",exEn:"As is evident from the data, sales have increased.",exJa:"データから明らかなように、売上は増加した。"},
+{en:"as so often happens",ja:"よくあることだが",pos:"熟語",cat:"phrase",level:"advanced",exEn:"As so often happens, the plan changed at the last minute.",exJa:"よくあることだが、その計画は土壇場で変更された。"},
+{en:"as might have been expected",ja:"期待されたように",pos:"熟語",cat:"phrase",level:"advanced",exEn:"As might have been expected, the team won easily.",exJa:"期待されたように、そのチームは楽々と勝利した。"},
+{en:"next time",ja:"次に…するときに",pos:"熟語",cat:"phrase",level:"basic",exEn:"Next time you visit, bring your family.",exJa:"次に訪れるときは、家族を連れてきてください。"},
+{en:"the last time",ja:"最後に…するときに",pos:"熟語",cat:"phrase",level:"basic",exEn:"The last time I saw him, he looked very tired.",exJa:"最後に彼に会ったとき、彼はとても疲れて見えた。"},
+{en:"any time",ja:"…するときはいつでも",pos:"熟語",cat:"phrase",level:"basic",exEn:"Come and see me any time you want to.",exJa:"来たいときにはいつでも会いに来てください。"},
+{en:"every time",ja:"…するときはいつも／…するたびに",pos:"熟語",cat:"phrase",level:"basic",exEn:"Every time we go on a picnic, it rains.",exJa:"私たちがピクニックに行くたびに雨が降る。"},
+{en:"the minute",ja:"…するとすぐに",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Call me the minute you arrive.",exJa:"到着したらすぐに電話してください。"},
+{en:"the instant",ja:"…するとすぐに",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She recognized him the instant he walked in.",exJa:"彼が入ってきた瞬間、彼女は彼だとわかった。"},
+{en:"hardly when",ja:"…するとすぐに〜する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I had hardly sat down when the phone rang.",exJa:"座るとすぐに電話が鳴った。"},
+{en:"in no sense",ja:"決してどんな意味でも…ない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This is in no sense a final decision.",exJa:"これは決してどんな意味でも最終決定ではない。"},
+{en:"remain to be done",ja:"まだ…されていない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Much work remains to be done before the deadline.",exJa:"締め切りまでにまだ多くの作業が残っている。"},
+{en:"have yet to do",ja:"まだ…していない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We have yet to receive a reply from them.",exJa:"私たちはまだ彼らから返事を受け取っていない。"},
+{en:"go abroad",ja:"外国に行く",pos:"熟語",cat:"phrase",level:"basic",exEn:"She plans to go abroad to study next year.",exJa:"彼女は来年、留学のために外国に行く予定だ。"},
+{en:"go downstairs",ja:"下の階へ行く",pos:"熟語",cat:"phrase",level:"basic",exEn:"He went downstairs to answer the door.",exJa:"彼はドアに応対するために下の階へ行った。"},
+{en:"go downtown",ja:"町へ行く",pos:"熟語",cat:"phrase",level:"basic",exEn:"Let's go downtown to do some shopping.",exJa:"買い物をしに町へ行きましょう。"},
+{en:"go outdoors",ja:"屋外に行く",pos:"熟語",cat:"phrase",level:"basic",exEn:"The children love to go outdoors and play.",exJa:"子供たちは屋外に出て遊ぶのが大好きだ。"},
+{en:"come home",ja:"帰宅する",pos:"熟語",cat:"phrase",level:"basic",exEn:"He usually comes home around seven.",exJa:"彼はたいてい7時頃に帰宅する。"},
+{en:"get home",ja:"家に（帰り）着く",pos:"熟語",cat:"phrase",level:"basic",exEn:"I was exhausted by the time I got home.",exJa:"家に着く頃には私はへとへとだった。"},
+{en:"live next door to A",ja:"Aの隣に住む",pos:"熟語",cat:"phrase",level:"standard",exEn:"We live next door to a friendly elderly couple.",exJa:"私たちは親切な老夫婦の隣に住んでいる。"},
+{en:"stay indoors",ja:"家（室内）にいる",pos:"熟語",cat:"phrase",level:"basic",exEn:"It's raining, so we should stay indoors today.",exJa:"雨が降っているので、今日は室内にいるべきだ。"},
+{en:"change trains",ja:"列車を乗り換える",pos:"熟語",cat:"phrase",level:"basic",exEn:"You need to change trains at the next station.",exJa:"次の駅で列車を乗り換える必要がある。"},
+{en:"exchange business cards",ja:"名刺を交換する",pos:"熟語",cat:"phrase",level:"standard",exEn:"They exchanged business cards after the meeting.",exJa:"彼らは会議の後、名刺を交換した。"},
+{en:"shake hands",ja:"握手をする",pos:"熟語",cat:"phrase",level:"basic",exEn:"The two leaders shook hands before the talks began.",exJa:"二人の指導者は会談が始まる前に握手をした。"},
+{en:"take pains",ja:"苦労する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She took great pains to make the party perfect.",exJa:"彼女はそのパーティーを完璧にするために大変苦労した。"},
+{en:"put on airs",ja:"気取る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He never puts on airs, even after his success.",exJa:"彼は成功した後でも決して気取らない。"},
+{en:"a man of letters",ja:"文学者",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He was known as a man of letters in his time.",exJa:"彼は当時、文学者として知られていた。"},
+{en:"give one's regards to A",ja:"Aによろしく伝える",pos:"熟語",cat:"phrase",level:"standard",exEn:"Please give my regards to your parents.",exJa:"ご両親によろしくお伝えください。"},
+{en:"be in high spirits",ja:"上機嫌である",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The whole team was in high spirits after the win.",exJa:"勝利の後、チーム全員が上機嫌だった。"},
+{en:"hold A by the arm",ja:"Aの腕をつかむ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She held him by the arm to stop him from falling.",exJa:"彼女は彼が転ばないように腕をつかんだ。"},
+{en:"touch A on the head",ja:"Aの頭をさわる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He gently touched the child on the head.",exJa:"彼はその子の頭をやさしくなでた。"},
+{en:"hit A on the head",ja:"Aの頭をたたく",pos:"熟語",cat:"phrase",level:"standard",exEn:"A branch hit him on the head as he walked by.",exJa:"通り過ぎるとき枝が彼の頭に当たった。"},
+{en:"slap A in the face",ja:"Aの顔を平手打ちする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She slapped him in the face out of anger.",exJa:"彼女は怒りのあまり彼の顔を平手打ちした。"},
+{en:"kiss A on the cheek",ja:"Aのほおにキスをする",pos:"熟語",cat:"phrase",level:"standard",exEn:"She kissed her grandmother on the cheek.",exJa:"彼女は祖母のほおにキスをした。"},
+{en:"tap A on the shoulder",ja:"Aの肩を軽くたたく",pos:"熟語",cat:"phrase",level:"standard",exEn:"Someone tapped me on the shoulder from behind.",exJa:"誰かが後ろから私の肩を軽くたたいた。"},
+{en:"look A in the eye",ja:"Aの目を見る",pos:"熟語",cat:"phrase",level:"standard",exEn:"He looked me in the eye and told the truth.",exJa:"彼は私の目を見て本当のことを話した。"},
+{en:"stare A in the face",ja:"Aの顔をじっと見る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The danger stared him in the face, but he stayed calm.",exJa:"危険が彼の目前に迫っていたが、彼は冷静さを保った。"},
+{en:"be capable of doing",ja:"〜することができる",pos:"熟語",cat:"phrase",level:"standard",exEn:"She is capable of solving even the hardest problems.",exJa:"彼女は最も難しい問題でさえ解くことができる。"},
+{en:"not exactly",ja:"必ずしも…というわけではない",pos:"熟語",cat:"phrase",level:"standard",exEn:"The result was not exactly what we had hoped for.",exJa:"その結果は必ずしも私たちが望んでいた通りではなかった。"},
 ];
 
 
@@ -7540,20 +7797,126 @@ function sfxEasy()  {
 }
 
 // =============== HIGHLIGHT ===============
+// 不規則動詞の活用形（ハイライト用）
+const IRREGULAR_VERBS = {
+  be:['is','am','are','was','were','being','been'],
+  go:['went','gone','goes','going'], do:['did','done','does','doing'], have:['had','has','having'],
+  make:['made','makes','making'], take:['took','taken','takes','taking'], get:['got','gotten','gets','getting'],
+  give:['gave','given','gives','giving'], come:['came','comes','coming'], see:['saw','seen','sees','seeing'],
+  know:['knew','known','knows','knowing'], break:['broke','broken','breaks','breaking'],
+  bring:['brought','brings','bringing'], buy:['bought','buys','buying'], catch:['caught','catches','catching'],
+  choose:['chose','chosen','chooses','choosing'], feel:['felt','feels','feeling'], find:['found','finds','finding'],
+  keep:['kept','keeps','keeping'], leave:['left','leaves','leaving'], lose:['lost','loses','losing'],
+  meet:['met','meets','meeting'], pay:['paid','pays','paying'], run:['ran','runs','running'],
+  say:['said','says','saying'], sell:['sold','sells','selling'], send:['sent','sends','sending'],
+  sit:['sat','sits','sitting'], speak:['spoke','spoken','speaks','speaking'], spend:['spent','spends','spending'],
+  stand:['stood','stands','standing'], teach:['taught','teaches','teaching'], tell:['told','tells','telling'],
+  think:['thought','thinks','thinking'], understand:['understood','understands','understanding'],
+  wear:['wore','worn','wears','wearing'], win:['won','wins','winning'], write:['wrote','written','writes','writing'],
+  hold:['held','holds','holding'], hear:['heard','hears','hearing'], read:['reads','reading'],
+  drive:['drove','driven','drives','driving'], rise:['rose','risen','rises','rising'],
+  fall:['fell','fallen','falls','falling'], grow:['grew','grown','grows','growing'],
+  throw:['threw','thrown','throws','throwing'], draw:['drew','drawn','draws','drawing'],
+  fly:['flew','flown','flies','flying'], forget:['forgot','forgotten','forgets','forgetting'],
+  hide:['hid','hidden','hides','hiding'], ride:['rode','ridden','rides','riding'],
+  shake:['shook','shaken','shakes','shaking'], sing:['sang','sung','sings','singing'],
+  steal:['stole','stolen','steals','stealing'], swim:['swam','swum','swims','swimming'],
+  wake:['woke','woken','wakes','waking'], bear:['bore','born','bears','bearing'],
+  bite:['bit','bitten','bites','biting'], deal:['dealt','deals','dealing'],
+  feed:['fed','feeds','feeding'], fight:['fought','fights','fighting'],
+  lay:['laid','lays','laying'], lead:['led','leads','leading'], lend:['lent','lends','lending'],
+  lie:['lay','lain','lies','lying'], light:['lit','lights','lighting'], mean:['meant','means','meaning'],
+  shoot:['shot','shoots','shooting'], sleep:['slept','sleeps','sleeping'],
+  strike:['struck','strikes','striking'], sweep:['swept','sweeps','sweeping'],
+  swing:['swung','swings','swinging'], bend:['bent','bends','bending'],
+  build:['built','builds','building'], burn:['burnt','burns','burning'],
+  begin:['began','begun','begins','beginning'], drink:['drank','drunk','drinks','drinking'],
+  eat:['ate','eaten','eats','eating'], cut:['cuts','cutting'], put:['puts','putting'],
+  set:['sets','setting'], let:['lets','letting'], shut:['shuts','shutting'],
+  undertake:['undertook','undertaken','undertakes','undertaking'], creep:['crept','creeps','creeping'],
+  withdraw:['withdrew','withdrawn','withdraws','withdrawing'], sting:['stung','stings','stinging'],
+  grind:['ground','grinds','grinding'], arise:['arose','arisen','arises','arising'],
+  overcome:['overcame','overcomes','overcoming'], shrink:['shrank','shrunk','shrinks','shrinking'],
+  swear:['swore','sworn','swears','swearing'], tear:['tore','torn','tears','tearing'],
+  cling:['clung','clings','clinging'], flee:['fled','flees','fleeing'],
+  overtake:['overtook','overtaken','overtakes','overtaking'], undergo:['underwent','undergone','undergoes','undergoing'],
+  bleed:['bled','bleeds','bleeding'], stride:['strode','stridden','strides','striding'],
+  wind:['wound','winds','winding'], mistake:['mistook','mistaken','mistakes','mistaking'],
+  die:['died','dies','dying'], lie:['lay','lain','lies','lying'], tie:['tied','ties','tying'], vie:['vied','vies','vying'],
+};
+// 不規則な複数形（ハイライト用）
+const IRREGULAR_PLURALS = { life:'lives', knife:'knives', leaf:'leaves', wife:'wives', wolf:'wolves', child:'children', man:'men', woman:'women', foot:'feet', tooth:'teeth', mouse:'mice' };
+// 熟語のプレースホルダー（フレーズ全体にマッチさせる）
+const HIGHLIGHT_PLACEHOLDERS = new Set(['do','doing','done',"one's",'oneself','a','b','...']);
+
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function buildHighlightRegex(hl) {
+  const words = hl.split(/\s+/).filter(Boolean);
+  const parts = words.map(w => {
+    const lw = w.toLowerCase().replace(/[.,]/g, '');
+    if (HIGHLIGHT_PLACEHOLDERS.has(lw) || lw === '') return '.+?';
+    let variants = [lw];
+    if (IRREGULAR_VERBS[lw]) variants = variants.concat(IRREGULAR_VERBS[lw]);
+    if (IRREGULAR_PLURALS[lw]) variants.push(IRREGULAR_PLURALS[lw]);
+    if (/e$/.test(lw)) {
+      variants.push(lw + 'd');
+      variants.push(lw.slice(0, -1) + 'ing');
+    } else {
+      variants.push(lw + 'ed');
+      variants.push(lw + 'ing');
+    }
+    if (/[^aeiou]y$/.test(lw)) {
+      variants.push(lw.slice(0, -1) + 'ied');
+      variants.push(lw.slice(0, -1) + 'ies');
+    } else {
+      variants.push(lw + 's');
+      variants.push(lw + 'es');
+    }
+    if (/^[a-z]*[^aeiou][aeiou][^aeiouwxy]$/.test(lw) && lw.length <= 5) {
+      const doubled = lw + lw[lw.length - 1];
+      variants.push(doubled + 'ed');
+      variants.push(doubled + 'ing');
+    }
+    const uniq = [...new Set(variants)];
+    return '(?:' + uniq.map(escapeRegex).join('|') + ')';
+  });
+  // 語順の間に他の語（挿入された副詞・目的語・主語など）が最大2語入るのを許容する
+  const gap = '\\s+(?:\\S+\\s+){0,2}';
+  return new RegExp('\\b' + parts.join(gap) + '\\b', 'i');
+}
+
 function highlightExample(text, hl) {
   if (!hl) return escapeHtml(text);
-  const idx = text.toLowerCase().indexOf(hl.toLowerCase());
-  if (idx === -1) return escapeHtml(text);
-  return escapeHtml(text.slice(0, idx)) +
-    `<mark>${escapeHtml(text.slice(idx, idx + hl.length))}</mark>` +
-    escapeHtml(text.slice(idx + hl.length));
+  // 1) 完全一致（従来通り、最速）
+  const idxExact = text.toLowerCase().indexOf(hl.toLowerCase());
+  if (idxExact !== -1) {
+    return escapeHtml(text.slice(0, idxExact)) +
+      `<mark>${escapeHtml(text.slice(idxExact, idxExact + hl.length))}</mark>` +
+      escapeHtml(text.slice(idxExact + hl.length));
+  }
+  // 2) 活用形・プレースホルダー対応の柔軟マッチ（過去形/-ing/複数形/不規則動詞など）
+  try {
+    const re = buildHighlightRegex(hl);
+    const m = text.match(re);
+    if (m) {
+      const idx = m.index;
+      const len = m[0].length;
+      return escapeHtml(text.slice(0, idx)) +
+        `<mark>${escapeHtml(text.slice(idx, idx + len))}</mark>` +
+        escapeHtml(text.slice(idx + len));
+    }
+  } catch (e) { /* ignore malformed pattern, fall through */ }
+  return escapeHtml(text);
 }
 
 // Render example(s) — 複数の意味がある熟語は exMore の分もすべて表示
 function renderExamples(w) {
   if (!w.exEn) return '';
   const all = [{en: w.exEn, ja: w.exJa}, ...(w.exMore || [])];
-  return all.map(x => {
+  return all.map((x, i) => {
     const exEn = (x.en || '').trim();
     const exJa = (x.ja || '').trim();
     const safeEx = exEn.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
@@ -7646,6 +8009,7 @@ function wordInfoHtml(w) {
     ${showDeep ? renderExamples(w) : ''}
     ${showEtym ? etymHtml(w) : ''}
     ${showRelated ? relatedWordsHtml(w) : ''}
+    ${showDeep && w.note ? `<div class="example-note">補足: ${escapeHtml(w.note)}</div>` : ''}
   `;
 }
 
