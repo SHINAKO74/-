@@ -159,7 +159,8 @@
     border: 1px solid var(--line);
     margin-bottom: 18px;
   }
-  .stat { background: var(--washi); padding: 11px 4px; text-align: center; }
+  .stat { background: var(--washi); padding: 11px 4px; text-align: center; border: none; font: inherit; color: inherit; cursor: pointer; width: 100%; display: block; }
+  .stat:hover, .stat:focus-visible { background: var(--washi-dark, #ece5d8); outline: 2px solid var(--gold); outline-offset: -2px; }
   .stat-num {
     font-family: 'Cormorant Garamond', serif;
     font-size: 24px;
@@ -448,6 +449,25 @@
     border-bottom: 1px dashed var(--line);
     cursor: pointer;
   }
+  .row.row-selectable { grid-template-columns: 22px 28px 1fr auto; }
+  .row-checkbox { display: flex; align-items: center; justify-content: center; }
+  .row-checkbox input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--gold); cursor: pointer; }
+  .row.row-selected { background: rgba(168,137,74,0.1); }
+  .bulk-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    background: var(--sumi);
+    color: var(--washi);
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .bulk-count { font-family: 'Shippori Mincho', serif; font-size: 12px; letter-spacing: 0.05em; white-space: nowrap; }
+  .bulk-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+  .bulk-actions .memo-action-btn { border-color: rgba(245,241,232,0.4); color: var(--washi); }
+  .bulk-actions .memo-action-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .bulk-actions .memo-action-btn:disabled { opacity: 0.35; cursor: not-allowed; }
   .row:hover { background: rgba(168,137,74,0.06); }
   .row:last-child { border-bottom: none; }
   .row-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 11px; color: var(--muted); text-align: right; }
@@ -529,11 +549,27 @@
 
   /* Search & sort */
   .controls {
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 12px;
+    align-items: center;
   }
+  .controls .search-input { flex: 1 1 160px; }
+  .controls .sort-select { flex: 0 1 auto; }
+  #select-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 8px 12px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  #select-toggle-btn:hover { border-color: var(--gold); color: var(--gold); }
+  #select-toggle-btn.active { background: var(--sumi); color: var(--washi); border-color: var(--sumi); }
   .search-input {
     background: var(--washi);
     border: 1px solid var(--line);
@@ -698,6 +734,15 @@
     color: var(--muted);
     font-family: 'Klee One', serif;
     font-size: 13px;
+  }
+
+  .list-sentinel {
+    text-align: center;
+    padding: 16px 8px;
+    color: var(--muted);
+    font-family: 'Klee One', serif;
+    font-size: 11px;
+    letter-spacing: 0.05em;
   }
 
   /* ── ハイライト共通 ─────────────────────────────────── */
@@ -1090,7 +1135,8 @@
     flex-wrap: wrap;
     gap: 6px;
   }
-  .phase-legend-item { display: flex; align-items: center; gap: 4px; }
+  .phase-legend-item { display: flex; align-items: center; gap: 4px; border: none; background: none; font: inherit; color: inherit; cursor: pointer; padding: 2px 4px; border-radius: 4px; }
+  .phase-legend-item:hover, .phase-legend-item:focus-visible { background: var(--washi-dark, #ece5d8); outline: 1px solid var(--gold); }
 
   /* Heatmap */
   .heatmap {
@@ -1430,7 +1476,19 @@
   }
 
   /* Utility classes (replacing inline styles) */
-  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
+  .practice-end-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--shu);
+    color: var(--shu);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 10px;
+    padding: 3px 8px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+  }
+  .practice-end-btn:hover { background: var(--shu); color: var(--washi); }
   .card-header.mb-8 { margin-bottom: 8px; }
   .mt-auto { margin-top: auto; }
   .mt-8 { margin-top: 8px; }
@@ -1479,6 +1537,116 @@
     margin-top: 14px;
     padding-top: 12px;
     border-top: 1px dashed var(--line);
+  }
+  .tag-block {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+  .tag-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .tag-label {
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 600;
+  }
+  .tag-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(168,137,74,0.1);
+    border: 1px solid var(--gold);
+    color: var(--sumi-soft);
+    font-family: 'Klee One', serif;
+    font-size: 12px;
+    padding: 3px 6px 3px 10px;
+    border-radius: 999px;
+  }
+  .tag-chip-x {
+    background: none;
+    border: none;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    padding: 2px;
+  }
+  .tag-chip-x:hover { color: var(--shu); }
+  .tag-add-row {
+    display: flex;
+    gap: 6px;
+  }
+  .tag-input {
+    flex: 1;
+    background: var(--washi);
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    font-family: 'Klee One', serif;
+    font-size: 13px;
+    color: var(--sumi);
+    outline: none;
+  }
+  .tag-input:focus { border-color: var(--gold); }
+  .relation-chip {
+    cursor: pointer;
+    background: rgba(58,90,120,0.08);
+    border-color: var(--ai, #3a5a78);
+  }
+  .relation-chip:hover { background: rgba(58,90,120,0.18); }
+  .relation-empty {
+    font-family: 'Klee One', serif;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .relation-suggest {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 70px;
+    margin-top: 4px;
+    background: var(--washi);
+    border: 1px solid var(--gold);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    z-index: 20;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .relation-suggest-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    padding: 8px 10px;
+    text-align: left;
+    font-family: 'Klee One', serif;
+    font-size: 13px;
+    color: var(--sumi);
+    cursor: pointer;
+  }
+  .relation-suggest-item:last-child { border-bottom: none; }
+  .relation-suggest-item:hover { background: rgba(168,137,74,0.1); }
+  .relation-suggest-ja { color: var(--muted); font-size: 11px; margin-left: 8px; }
+  .relation-suggest-empty {
+    padding: 10px;
+    text-align: center;
+    font-family: 'Klee One', serif;
+    font-size: 12px;
+    color: var(--muted);
   }
   .memo-header {
     display: flex;
@@ -1576,10 +1744,10 @@
   </header>
 
   <section class="stats" aria-label="学習状況サマリー">
-    <div class="stat"><div class="stat-num" id="stat-new" aria-live="polite">0</div><div class="stat-label">新出</div></div>
-    <div class="stat"><div class="stat-num shu" id="stat-learn" aria-live="polite">0</div><div class="stat-label">学習中</div></div>
-    <div class="stat"><div class="stat-num" id="stat-due" aria-live="polite">0</div><div class="stat-label">復習</div></div>
-    <div class="stat"><div class="stat-num gold" id="stat-mastered" aria-live="polite">0</div><div class="stat-label">習得</div></div>
+    <button class="stat" onclick="goToListFiltered('new')" type="button" aria-label="新出の一覧を見る"><div class="stat-num" id="stat-new" aria-live="polite">0</div><div class="stat-label">新出</div></button>
+    <button class="stat" onclick="goToListFiltered('learning')" type="button" aria-label="学習中の一覧を見る"><div class="stat-num shu" id="stat-learn" aria-live="polite">0</div><div class="stat-label">学習中</div></button>
+    <button class="stat" onclick="goToListFiltered('review')" type="button" aria-label="復習の一覧を見る"><div class="stat-num" id="stat-due" aria-live="polite">0</div><div class="stat-label">復習</div></button>
+    <button class="stat" onclick="goToListFiltered('mastered')" type="button" aria-label="習得済みの一覧を見る"><div class="stat-num gold" id="stat-mastered" aria-live="polite">0</div><div class="stat-label">習得</div></button>
   </section>
 
   <section class="daily" aria-label="本日の進捗">
@@ -3828,7 +3996,7 @@ const WORDS = [
 {en:"agency",ph:"/ˈeɪdʒənsi/",ja:"機関・代理店・作用",pos:"名詞",cat:"noun",exEn:"The government agency released a new report.",exJa:"政府機関が新しい報告書を発表した。"},
 {en:"attribute",ph:"/ˈætrɪbjuːt/",ja:"〜のせいにする・属性・特質",pos:"動詞/名詞",cat:"verb",exEn:"She attributed her success to hard work.",exJa:"彼女は自分の成功を努力のおかげだと考えた。"},
 {en:"trait",ph:"/treɪt/",ja:"特徴",pos:"名詞",cat:"noun",exEn:"Honesty and patience are her most admirable traits.",exJa:"誠実さと忍耐強さは称賛に値する特徴だ。"},
-{en:"hence",ph:"/hɛns/",ja:"それゆえ",pos:"<副詞>",cat:"adverb",exEn:"He was ill; hence he could not attend.",exJa:"彼は病気だった。それゆえ出席できなかった。"},
+{en:"hence",ph:"/hɛns/",ja:"それゆえ",pos:"副詞",cat:"adverb",exEn:"He was ill; hence he could not attend.",exJa:"彼は病気だった。それゆえ出席できなかった。"},
 {en:"prosperity",ph:"/prɑːˈspɛrɪti/",ja:"繁栄",pos:"名詞",cat:"noun",exEn:"The nation enjoyed a period of great prosperity.",exJa:"その国は大きな繁栄の時代を享受した。"},
 {en:"inherit",ph:"/ɪnˈhɛrɪt/",ja:"相続する",pos:"動詞",cat:"verb",exEn:"She inherited the house from her grandmother.",exJa:"彼女は祖母から家を相続した。"},
 {en:"Bible",ph:"/ˈbaɪbəl/",ja:"聖書",pos:"名詞",cat:"noun",exEn:"The Bible is one of the world's most read books.",exJa:"聖書は世界で最も読まれている本の一つだ。"},
@@ -3883,10 +4051,10 @@ const WORDS = [
 {en:"flourish",ph:"/ˈflʌrɪʃ/",ja:"繁栄する・盛んになる",pos:"動詞",cat:"verb",exEn:"The company began to flourish after new management.",exJa:"新しい経営陣の下で会社は繁栄し始めた。"},
 {en:"innate",ph:"/ɪˈneɪt/",ja:"生来の",pos:"形容詞",cat:"adjective",exEn:"He has an innate talent for music.",exJa:"彼は音楽の生来の才能を持っている。"},
 {en:"reform",ph:"/rɪˈfɔːm/",ja:"改革・改革する・改善する",pos:"名詞",cat:"noun",exEn:"The government agreed that education reform is urgently needed.",exJa:"政府は教育改革が緊急に必要であることに同意した。"},
-{en:"meanwhile",ph:"/ˈmiːnwaɪl/",ja:"一方",pos:"<副詞>",cat:"adverb",exEn:"She studied hard; meanwhile he relaxed.",exJa:"彼女は一生懸命勉強した。一方、彼はくつろいでいた。"},
+{en:"meanwhile",ph:"/ˈmiːnwaɪl/",ja:"一方",pos:"副詞",cat:"adverb",exEn:"She studied hard; meanwhile he relaxed.",exJa:"彼女は一生懸命勉強した。一方、彼はくつろいでいた。"},
 {en:"liquid",ph:"/ˈlɪkwɪd/",ja:"液体",pos:"名詞",cat:"noun",exEn:"Water is a liquid at room temperature.",exJa:"水は室温では液体だ。"},
 {en:"conservative",ph:"/kənˈsɜːrvətɪv/",ja:"保守的な",pos:"形容詞",cat:"adjective",exEn:"He holds conservative views on social issues.",exJa:"彼は社会問題について保守的な見解を持っている。"},
-{en:"overall",ph:"/ˌoʊvərˈɔːl/",ja:"全体の・全般的な・概して",pos:"形容詞/<副詞>",cat:"adjective",exEn:"Despite a few problems, the overall result of the project was positive.",exJa:"いくつかの挫折はあったものの、プロジェクト全体の結果は良好だった。"},
+{en:"overall",ph:"/ˌoʊvərˈɔːl/",ja:"全体の・全般的な・概して",pos:"形容詞/副詞",cat:"adjective",exEn:"Despite a few problems, the overall result of the project was positive.",exJa:"いくつかの挫折はあったものの、プロジェクト全体の結果は良好だった。"},
 {en:"prompt",ph:"/prɑːmpt/",ja:"迅速な・即座の・促す",pos:"形容詞/動詞",cat:"adjective",exEn:"A prompt response to customer complaints is greatly appreciated.",exJa:"顧客からの苦情への迅速な対応は大変ありがたいことだ。"},
 {en:"rearrange",ph:"/ˌriːəˈreɪndʒ/",ja:"並べ直す・再配置する",pos:"動詞",cat:"verb",exEn:"She rearranged the furniture in her room.",exJa:"彼女は部屋の家具を配置し直した。"},
 {en:"shame",ph:"/ʃeɪm/",ja:"恥・羞恥心・残念なこと",pos:"名詞",cat:"noun",exEn:"It's a shame that you can't join us.",exJa:"あなたが参加できないのは残念だ。"},
@@ -3904,7 +4072,7 @@ const WORDS = [
 {en:"crack",ph:"/kræk/",ja:"割れる・ひび・亀裂・解読する",pos:"動詞/名詞",cat:"verb",exEn:"The ice cracked under the weight.",exJa:"氷は重さで割れた。"},
 {en:"subsequent",ph:"/ˈsʌbsɪkwənt/",ja:"その後の・次の",pos:"形容詞",cat:"adjective",exEn:"Subsequent events proved that his original prediction was correct.",exJa:"その後のすべての出来事が彼の最初の予測が正しかったことを確認した。"},
 {en:"procedure",ph:"/prəˈsiːdʒər/",ja:"手順・手続き・方法",pos:"名詞",cat:"noun",exEn:"Follow the correct procedure when applying.",exJa:"申請する際は正しい手続きに従ってください。"},
-{en:"nonetheless",ph:"/ˌnʌnðəˈlɛs/",ja:"それにもかかわらず",pos:"<副詞>",cat:"adverb",exEn:"It was hard; nonetheless she succeeded.",exJa:"それは難しかった。それにもかかわらず、彼女は成功した。"},
+{en:"nonetheless",ph:"/ˌnʌnðəˈlɛs/",ja:"それにもかかわらず",pos:"副詞",cat:"adverb",exEn:"It was hard; nonetheless she succeeded.",exJa:"それは難しかった。それにもかかわらず、彼女は成功した。"},
 {en:"journal",ph:"/ˈdʒɜːrnəl/",ja:"日記・学術雑誌・記録",pos:"名詞",cat:"noun",exEn:"He published an article in a scientific journal.",exJa:"彼は科学雑誌に記事を発表した。"},
 {en:"sin",ph:"/sɪn/",ja:"罪",pos:"名詞",cat:"noun",exEn:"Lying is considered a sin in many religions.",exJa:"嘘をつくことは多くの宗教で罪とされている。"},
 {en:"presentation",ph:"/ˌprɛzənˈteɪʃən/",ja:"発表・提示・見せ方",pos:"名詞",cat:"noun",exEn:"She gave an excellent presentation to the board.",exJa:"彼女は取締役会に優れたプレゼンテーションをした。"},
@@ -3931,7 +4099,7 @@ const WORDS = [
 {en:"fierce",ph:"/fɪrs/",ja:"激しい・猛烈な・どう猛な",pos:"形容詞",cat:"adjective",exEn:"A fierce storm hit the coast.",exJa:"どう猛な嵐が海岸を襲った。"},
 {en:"enhance",ph:"/ɪnˈhɑːns/",ja:"高める・強化する",pos:"動詞",cat:"verb",exEn:"Regular exercise enhances both your physical health and mental well-being.",exJa:"定期的な運動は身体的・精神的健康を大幅に高める。"},
 {en:"beg",ph:"/bɛɡ/",ja:"懇願する",pos:"動詞",cat:"verb",exEn:"She begged him not to leave.",exJa:"彼女は彼に行かないよう懇願した。"},
-{en:"thereby",ph:"/ˌðɛəˈbaɪ/",ja:"それによって",pos:"<副詞>",cat:"adverb",exEn:"He trained daily, thereby improving his skills.",exJa:"彼は毎日訓練し、それによって技術が向上した。"},
+{en:"thereby",ph:"/ˌðɛəˈbaɪ/",ja:"それによって",pos:"副詞",cat:"adverb",exEn:"He trained daily, thereby improving his skills.",exJa:"彼は毎日訓練し、それによって技術が向上した。"},
 {en:"rite",ph:"/raɪt/",ja:"儀式・典礼",pos:"名詞",cat:"noun",exEn:"The ceremony was an ancient rite.",exJa:"その式典は古代の儀式だった。"},
 {en:"infer",ph:"/ɪnˈfɜːr/",ja:"推論する",pos:"動詞",cat:"verb",exEn:"From the evidence, we can infer the cause.",exJa:"証拠から原因を推論できる。"},
 {en:"exaggerate",ph:"/ɪɡˈzædʒəreɪt/",ja:"誇張する",pos:"動詞",cat:"verb",exEn:"He tends to exaggerate his achievements to impress others.",exJa:"彼は他の人を感心させるために業績を誇張する傾向がある。"},
@@ -3976,7 +4144,7 @@ const WORDS = [
 {en:"scare",ph:"/skɛər/",ja:"怖がらせる・おびえさせる・恐怖",pos:"動詞",cat:"verb",exEn:"The loud noise scared the cat.",exJa:"大きな音が猫をおびえさせた。"},
 {en:"outstanding",ph:"/aʊtˈstændɪŋ/",ja:"目立つ・優秀な・未解決の",pos:"形容詞",cat:"adjective",exEn:"She produced outstanding work this semester.",exJa:"彼女は今学期目立った成果を出した。"},
 {en:"phase",ph:"/feɪz/",ja:"段階・局面",pos:"名詞",cat:"noun",exEn:"The project is in its final phase.",exJa:"プロジェクトは最終段階にある。"},
-{en:"seemingly",ph:"/ˈsiːmɪŋli/",ja:"見たところ",pos:"<副詞>",cat:"adverb",exEn:"The problem was seemingly impossible to solve.",exJa:"その問題は見たところ解決不可能だった。"},
+{en:"seemingly",ph:"/ˈsiːmɪŋli/",ja:"見たところ",pos:"副詞",cat:"adverb",exEn:"The problem was seemingly impossible to solve.",exJa:"その問題は見たところ解決不可能だった。"},
 {en:"tolerate",ph:"/ˈtɑːləreɪt/",ja:"容認する・我慢する・耐える",pos:"動詞",cat:"verb",exEn:"I cannot tolerate such rude behavior.",exJa:"そのような失礼な行動は我慢できない。"},
 {en:"privilege",ph:"/ˈprɪvɪlɪdʒ/",ja:"特権・恵まれた立場",pos:"名詞",cat:"noun",exEn:"Education should not be a privilege.",exJa:"教育は特権であってはならない。"},
 {en:"fertility",ph:"/fɜːrˈtɪlɪti/",ja:"肥沃さ・出生率・生産力",pos:"名詞",cat:"noun",exEn:"The soil's fertility was restored through farming.",exJa:"農業を通じて土壌の肥沃さが回復した。"},
@@ -4110,7 +4278,7 @@ const WORDS = [
 {en:"diameter",ph:"/daɪˈæmɪtər/",ja:"直径",pos:"名詞",cat:"noun",exEn:"The diameter of the circle is 10 cm.",exJa:"その円の直径は10センチメートルだ。"},
 {en:"rotate",ph:"/roʊˈteɪt/",ja:"回転する・交代する",pos:"動詞",cat:"verb",exEn:"The Earth rotates on its axis.",exJa:"地球は地軸を中心に回転する。"},
 {en:"lunar",ph:"/ˈluːnər/",ja:"月の",pos:"形容詞",cat:"adjective",exEn:"A lunar eclipse occurs when the Earth casts a shadow on the moon.",exJa:"月食は地球が月に影を投じるときに起こる。"},
-{en:"presumably",ph:"/prɪˈzjuːməbli/",ja:"おそらく・推定では",pos:"<副詞>",cat:"adverb",exEn:"He presumably forgot about the meeting.",exJa:"彼はおそらく会議を忘れたのだろう。"},
+{en:"presumably",ph:"/prɪˈzjuːməbli/",ja:"おそらく・推定では",pos:"副詞",cat:"adverb",exEn:"He presumably forgot about the meeting.",exJa:"彼はおそらく会議を忘れたのだろう。"},
 {en:"implement",ph:"/ˈɪmplɪmɛnt/",ja:"道具・実施する・実行する",pos:"名詞",cat:"noun",exEn:"The government implemented a new policy to reduce unemployment.",exJa:"政府は失業を減らすための新しい政策を実施した。"},
 {en:"vaccine",ph:"/ˈvæksiːn/",ja:"ワクチン",pos:"名詞",cat:"noun",exEn:"The new vaccine protects against multiple strains of influenza.",exJa:"インフルエンザワクチンは重篤な疾患を防ぎ、入院を減らす。"},
 {en:"feminine",ph:"/ˈfɛmɪnɪn/",ja:"女性らしい",pos:"形容詞",cat:"adjective",exEn:"The room had a soft, feminine atmosphere.",exJa:"その部屋は柔らかく女性らしい雰囲気があった。"},
@@ -4182,7 +4350,7 @@ const WORDS = [
 {en:"tease",ph:"/tiːz/",ja:"からかう・いじめる",pos:"動詞",cat:"verb",exEn:"It is unkind to tease your younger sibling about their mistakes.",exJa:"弟や妹の失敗についてからかうのは心ない行為だ。"},
 {en:"pillar",ph:"/ˈpɪlər/",ja:"柱・支柱・中心人物",pos:"名詞",cat:"noun",exEn:"Massive stone pillars supported the roof.",exJa:"巨大な石柱が屋根を支えていた。"},
 {en:"magnify",ph:"/ˈmæɡnɪfaɪ/",ja:"拡大する・誇張する",pos:"動詞",cat:"verb",exEn:"The microscope magnified the cells clearly.",exJa:"顕微鏡は細胞を明確に拡大した。"},
-{en:"underneath",ph:"/ˌʌndəˈniːθ/",ja:"〜の下に",pos:"(前置詞) 名",cat:"preposition",exEn:"The keys were underneath the mat.",exJa:"鍵はマットの下にあった。"},
+{en:"underneath",ph:"/ˌʌndəˈniːθ/",ja:"〜の下に",pos:"前置詞",cat:"preposition",exEn:"The keys were underneath the mat.",exJa:"鍵はマットの下にあった。"},
 {en:"roar",ph:"/rɔː/",ja:"轟音・うなり声・吠える",pos:"名詞/動詞",cat:"noun",exEn:"The crowd let out a roar of excitement.",exJa:"群衆は興奮の轟音を上げた。"},
 {en:"arithmetic",ph:"/əˈrɪθmətɪk/",ja:"算数・四則演算",pos:"名詞",cat:"noun",exEn:"Children learn arithmetic at an early age.",exJa:"子供は幼い頃に算数を学ぶ。"},
 {en:"swift",ph:"/swɪft/",ja:"素早い",pos:"形容詞",cat:"adjective",exEn:"The cheetah is known for its swift movements.",exJa:"チーターは素早い動きで知られている。"},
@@ -4202,7 +4370,7 @@ const WORDS = [
 {en:"simulate",ph:"/ˈsɪmjʊleɪt/",ja:"模倣する・シミュレートする",pos:"動詞",cat:"verb",exEn:"The training simulated real battle conditions.",exJa:"訓練は実際の戦闘状況を模擬演習した。"},
 {en:"charcoal",ph:"/ˈtʃɑːkoʊl/",ja:"木炭",pos:"名詞",cat:"noun",exEn:"He drew a sketch using charcoal.",exJa:"彼は木炭でスケッチを描いた。"},
 {en:"transition",ph:"/trænˈzɪʃən/",ja:"移行・転換・過渡期",pos:"名詞",cat:"noun",exEn:"The transition to democracy was peaceful.",exJa:"民主主義への移行は平和的だった。"},
-{en:"exceedingly",ph:"/ɪkˈsiːdɪŋli/",ja:"非常に・極めて",pos:"<副詞>",cat:"adverb",exEn:"The final examination was exceedingly difficult and few students passed.",exJa:"期末試験は非常に難しく、合格した学生はわずかだった。"},
+{en:"exceedingly",ph:"/ɪkˈsiːdɪŋli/",ja:"非常に・極めて",pos:"副詞",cat:"adverb",exEn:"The final examination was exceedingly difficult and few students passed.",exJa:"期末試験は非常に難しく、合格した学生はわずかだった。"},
 {en:"grin",ph:"/ɡrɪn/",ja:"にやりと笑う",pos:"動詞",cat:"verb",exEn:"He grinned when he heard the joke.",exJa:"冗談を聞いて彼はにやりと笑った。"},
 {en:"stalk",ph:"/stɔːk/",ja:"茎・忍び寄る・つきまとう",pos:"名詞",cat:"noun",exEn:"The flower had a long green stalk.",exJa:"その花には長い緑の茎があった。"},
 {en:"posture",ph:"/ˈpɑːstʃər/",ja:"姿勢・体位・態度",pos:"名詞",cat:"noun",exEn:"Good posture is important for your health.",exJa:"良い姿勢は健康に重要だ。"},
@@ -4224,7 +4392,7 @@ const WORDS = [
 {en:"fiber",ph:"/ˈfaɪbər/",ja:"繊維",pos:"名詞",cat:"noun",exEn:"Dietary fiber is essential for digestion.",exJa:"食物繊維は消化に不可欠だ。"},
 {en:"porch",ph:"/pɔːtʃ/",ja:"玄関",pos:"名詞",cat:"noun",exEn:"She sat on the porch watching the sunset.",exJa:"彼女はポーチに座って夕日を眺めた。"},
 {en:"decay",ph:"/dɪˈkeɪ/",ja:"腐敗・虫歯・腐敗する・崩壊する",pos:"名詞",cat:"noun",exEn:"The old building showed signs of decay.",exJa:"古い建物は腐食の兆候を示していた。"},
-{en:"beforehand",ph:"/bɪˈfɔːhænd/",ja:"前もって",pos:"<副詞>",cat:"adverb",exEn:"Please prepare all your documents beforehand to speed up the process.",exJa:"手続きを早めるために、すべての書類を前もって準備してください。"},
+{en:"beforehand",ph:"/bɪˈfɔːhænd/",ja:"前もって",pos:"副詞",cat:"adverb",exEn:"Please prepare all your documents beforehand to speed up the process.",exJa:"手続きを早めるために、すべての書類を前もって準備してください。"},
 {en:"magnificent",ph:"/mæɡˈnɪfɪsənt/",ja:"壮大な・素晴らしい",pos:"形容詞",cat:"adjective",exEn:"The ancient cathedral was truly magnificent with its soaring stone arches.",exJa:"その古い大聖堂はそびえ立つ石のアーチが実に壮麗だった。"},
 {en:"trail",ph:"/treɪl/",ja:"跡・小道・尾行する",pos:"名詞",cat:"noun",exEn:"They followed the trail through the forest.",exJa:"彼らは森の中の跡をたどった。"},
 {en:"enforce",ph:"/ɪnˈfɔːs/",ja:"施行する・強制する",pos:"動詞",cat:"verb",exEn:"The police have a duty to enforce the law and protect citizens.",exJa:"警察は公平かつ公正に法律を施行する義務がある。"},
@@ -4264,7 +4432,7 @@ const WORDS = [
 {en:"nourish",ph:"/ˈnʌrɪʃ/",ja:"育てる・栄養を与える",pos:"動詞",cat:"verb",exEn:"Good food nourishes both body and mind.",exJa:"良い食事は体と心の両方を育成する。"},
 {en:"embody",ph:"/ɪmˈbɑːdi/",ja:"体現する・具体化する",pos:"動詞",cat:"verb",exEn:"Her actions embody the spirit of generosity.",exJa:"彼女の行動は寛大さの精神を具体化している。"},
 {en:"utmost",ph:"/ˈʌtmoʊst/",ja:"最大の",pos:"形容詞",cat:"adjective",exEn:"She did her utmost to finish on time.",exJa:"彼女は時間内に終えるために最大限の努力をした。"},
-{en:"comparatively",ph:"/kəmˈpærətɪvli/",ja:"比較的",pos:"<副詞>",cat:"adverb",exEn:"The exam was comparatively easy this year.",exJa:"今年の試験は比較的簡単だった。"},
+{en:"comparatively",ph:"/kəmˈpærətɪvli/",ja:"比較的",pos:"副詞",cat:"adverb",exEn:"The exam was comparatively easy this year.",exJa:"今年の試験は比較的簡単だった。"},
 {en:"stain",ph:"/steɪn/",ja:"しみ",pos:"名詞",cat:"noun",exEn:"There was a coffee stain on the tablecloth.",exJa:"テーブルクロスにコーヒーのしみがあった。"},
 {en:"crawl",ph:"/krɔːl/",ja:"這う・のろのろ進む",pos:"動詞",cat:"verb",exEn:"The baby crawled across the floor.",exJa:"赤ちゃんは床を這った。"},
 {en:"earnest",ph:"/ˈɜːrnɪst/",ja:"まじめな",pos:"形容詞",cat:"adjective",exEn:"He made an earnest effort to improve.",exJa:"彼は改善のためにまじめな努力をした。"},
@@ -4274,7 +4442,7 @@ const WORDS = [
 {en:"sword",ph:"/sɔːd/",ja:"剣",pos:"名詞",cat:"noun",exEn:"The knight raised his sword in battle.",exJa:"騎士は戦闘で剣を掲げた。"},
 {en:"bulk",ph:"/bʌlk/",ja:"かさ・大部分",pos:"名詞",cat:"noun",exEn:"The bulk of the work was done by noon.",exJa:"仕事の大部分は正午までに終わった。"},
 {en:"sniff",ph:"/snɪf/",ja:"かぐ",pos:"動詞",cat:"verb",exEn:"The dog sniffed the ground curiously.",exJa:"犬は好奇心旺盛に地面をかいだ。"},
-{en:"markedly",ph:"/ˈmɑːkɪdli/",ja:"著しく",pos:"<副詞>",cat:"adverb",exEn:"His health improved markedly after treatment.",exJa:"治療後、彼の健康は著しく改善した。"},
+{en:"markedly",ph:"/ˈmɑːkɪdli/",ja:"著しく",pos:"副詞",cat:"adverb",exEn:"His health improved markedly after treatment.",exJa:"治療後、彼の健康は著しく改善した。"},
 {en:"conscience",ph:"/ˈkɑːnʃəns/",ja:"良心・道義心",pos:"名詞",cat:"noun",exEn:"His conscience prevented him from lying.",exJa:"良心が彼を嘘から遠ざけた。"},
 {en:"sway",ph:"/sweɪ/",ja:"揺れる・影響を与える・支配",pos:"動詞",cat:"verb",exEn:"The trees swayed in the strong wind.",exJa:"木々は強風の中で揺れた。"},
 {en:"merchandise",ph:"/ˈmɜːrtʃəndaɪs/",ja:"商品・商品を売る",pos:"名詞",cat:"noun",exEn:"The store displayed its merchandise attractively.",exJa:"店は商品を魅力的に陳列した。"},
@@ -4656,7 +4824,7 @@ const WORDS = [
 {en:"lean",ph:"/liːn/",ja:"寄りかかる・傾く・痩せた",pos:"動詞/形容詞",cat:"verb",exEn:"She leaned against the wall to rest.",exJa:"彼女は休むために壁に寄りかかった。"},
 {en:"legal",ph:"/ˈliːɡəl/",ja:"合法の・法律の",pos:"形容詞",cat:"adjective",exEn:"You need legal advice before signing the contract.",exJa:"契約書に署名する前に法的なアドバイスが必要だ。"},
 {en:"liberty",ph:"/ˈlɪbəti/",ja:"自由・解放",pos:"名詞",cat:"noun",exEn:"Freedom of speech is a fundamental liberty.",exJa:"言論の自由は基本的な自由だ。"},
-{en:"likely",ph:"/ˈlaɪkli/",ja:"〜しそうな・おそらく",pos:"形容詞/<副詞>",cat:"adjective",exEn:"It is likely to rain tomorrow afternoon.",exJa:"明日の午後は雨が降りそうだ。"},
+{en:"likely",ph:"/ˈlaɪkli/",ja:"〜しそうな・おそらく",pos:"形容詞/副詞",cat:"adjective",exEn:"It is likely to rain tomorrow afternoon.",exJa:"明日の午後は雨が降りそうだ。"},
 {en:"literal",ph:"/ˈlɪtərəl/",ja:"文字通りの・字義通りの",pos:"形容詞",cat:"adjective",exEn:"The literal meaning of the word is different.",exJa:"その単語の文字通りの意味は異なる。"},
 {en:"local",ph:"/ˈloʊkəl/",ja:"地域の・地元の",pos:"形容詞",cat:"adjective",exEn:"The local community opposed the new development.",exJa:"地元のコミュニティは新しい開発に反対した。"},
 {en:"logic",ph:"/ˈlɑːdʒɪk/",ja:"論理・論理学",pos:"名詞",cat:"noun",exEn:"His argument was weak and lacked even the most basic logic.",exJa:"彼の議論には基本的な論理が欠けており、聴衆を説得できなかった。"},
@@ -4680,7 +4848,7 @@ const WORDS = [
 {en:"mission",ph:"/ˈmɪʃən/",ja:"使命・任務",pos:"名詞",cat:"noun",exEn:"The organization's mission is to end world hunger.",exJa:"その組織の使命は世界の飢餓を終わらせることだ。"},
 {en:"modify",ph:"/ˈmɑːdɪfaɪ/",ja:"修正する・変更する",pos:"動詞",cat:"verb",exEn:"The engineer modified the design to improve safety.",exJa:"エンジニアは安全性を高めるために設計を修正した。"},
 {en:"moral",ph:"/ˈmɑːrəl/",ja:"道徳上の・精神的な",pos:"形容詞",cat:"adjective",exEn:"We have a moral duty to help those in need.",exJa:"私たちには困っている人を助ける道徳上の義務がある。"},
-{en:"moreover",ph:"/mɔːrˈoʊvər/",ja:"さらに・その上",pos:"<副詞>",cat:"adverb",exEn:"The hotel was cheap; moreover, it was well located.",exJa:"そのホテルは安く、さらに立地も良かった。"},
+{en:"moreover",ph:"/mɔːrˈoʊvər/",ja:"さらに・その上",pos:"副詞",cat:"adverb",exEn:"The hotel was cheap; moreover, it was well located.",exJa:"そのホテルは安く、さらに立地も良かった。"},
 {en:"motive",ph:"/ˈmoʊtɪv/",ja:"動機・理由",pos:"名詞",cat:"noun",exEn:"The police could not find a clear motive for the crime.",exJa:"警察は犯罪の明確な動機を見つけられなかった。"},
 {en:"multiply",ph:"/ˈmʌltɪplaɪ/",ja:"掛ける・増える",pos:"動詞",cat:"verb",exEn:"Bacteria can multiply rapidly in warm conditions.",exJa:"細菌は暖かい環境で急速に増殖できる。"},
 {en:"murder",ph:"/ˈmɜːrdər/",ja:"殺人・殺害する",pos:"名詞/動詞",cat:"noun",exEn:"He was convicted of murder in the first degree.",exJa:"彼は第一級殺人罪で有罪判決を受けた。"},
@@ -5035,7 +5203,7 @@ const WORDS = [
 {en:"ethnic",ph:"/ˈeθnɪk/",ja:"民族的な・民族の",pos:"形容詞",cat:"adjective",exEn:"The country has a diverse range of ethnic groups.",exJa:"その国には多様な民族集団がいる。"},
 {en:"evil",ph:"/ˈiːvəl/",ja:"邪悪な・悪",pos:"形容詞/名詞",cat:"adjective",exEn:"He believed the villain was truly evil.",exJa:"彼は悪役が本当に邪悪だと信じた。"},
 {en:"excel",ph:"/ɪkˈsel/",ja:"優れる・抜きんでる",pos:"動詞",cat:"verb",exEn:"She excels in mathematics and science subjects.",exJa:"彼女は数学と理科の科目で優れている。"},
-{en:"except",ph:"/ɪkˈsept/",ja:"〜を除いて・以外は",pos:"(前置詞) 名",cat:"preposition",exEn:"Everyone attended the meeting except Tom.",exJa:"トム以外は全員が会議に出席した。"},
+{en:"except",ph:"/ɪkˈsept/",ja:"〜を除いて・以外は",pos:"前置詞",cat:"preposition",exEn:"Everyone attended the meeting except Tom.",exJa:"トム以外は全員が会議に出席した。"},
 {en:"exclaim",ph:"/ɪkˈskleɪm/",ja:"叫ぶ・感嘆する",pos:"動詞",cat:"verb",exEn:"She exclaimed in surprise when she saw the gift.",exJa:"プレゼントを見たとき、彼女は驚いて叫んだ。"},
 {en:"exercise",ph:"/ˈeksəsaɪz/",ja:"運動・練習・権利を行使する",pos:"名詞/動詞",cat:"noun",exEn:"Regular exercise keeps both body and mind healthy.",exJa:"定期的な運動は身体と心の両方を健康に保つ。"},
 {en:"exert",ph:"/ɪɡˈzɜːrt/",ja:"行使する・働かせる",pos:"動詞",cat:"verb",exEn:"She exerted great effort to finish the project.",exJa:"彼女はプロジェクトを終えるために大きな努力を払った。"},
@@ -5427,9 +5595,9 @@ const WORDS = [
 {en:"cling",ph:"/klɪŋ/",ja:"しがみつく・執着する",pos:"動詞",cat:"verb",exEn:"The child clung to her mother's hand in the crowded station.",exJa:"子供は混雑した駅で母親の手にしがみついた。"},
 {en:"cage",ph:"/keɪdʒ/",ja:"かご・檻",pos:"名詞",cat:"noun",exEn:"The bird sang beautifully even inside the cage.",exJa:"鳥はかごの中でも美しく歌った。"},
 {en:"responsible",ph:"/rɪˈspɑːnsɪbəl/",ja:"責任がある・原因である",pos:"形容詞",cat:"adjective",exEn:"You are responsible for the consequences of your actions.",exJa:"あなたは自分の行動の結果に責任がある。"},
-{en:"abruptly",ph:"/əˈbrʌptli/",ja:"突然・唐突に",pos:"<副詞>",cat:"adverb",exEn:"The meeting ended abruptly when the fire alarm went off.",exJa:"火災報知器が鳴り、会議は突然終了した。"},
-{en:"apart",ph:"/əˈpɑːrt/",ja:"離れて・別々に",pos:"<副詞>",cat:"adverb",exEn:"The two brothers lived far apart after graduating from university.",exJa:"二人の兄弟は大学を卒業後、遠く離れて暮らした。"},
-{en:"aside",ph:"/əˈsaɪd/",ja:"脇に・わきへ",pos:"<副詞>",cat:"adverb",exEn:"She put her work aside and took a short break.",exJa:"彼女は仕事を脇に置いて短い休憩を取った。"},
+{en:"abruptly",ph:"/əˈbrʌptli/",ja:"突然・唐突に",pos:"副詞",cat:"adverb",exEn:"The meeting ended abruptly when the fire alarm went off.",exJa:"火災報知器が鳴り、会議は突然終了した。"},
+{en:"apart",ph:"/əˈpɑːrt/",ja:"離れて・別々に",pos:"副詞",cat:"adverb",exEn:"The two brothers lived far apart after graduating from university.",exJa:"二人の兄弟は大学を卒業後、遠く離れて暮らした。"},
+{en:"aside",ph:"/əˈsaɪd/",ja:"脇に・わきへ",pos:"副詞",cat:"adverb",exEn:"She put her work aside and took a short break.",exJa:"彼女は仕事を脇に置いて短い休憩を取った。"},
 {en:"bore",ph:"/bɔːr/",ja:"退屈させる・穿つ・掘る",pos:"動詞",cat:"verb",exEn:"The long lecture bored most of the students.",exJa:"長い講義はほとんどの学生を退屈させた。"},
 {en:"board",ph:"/bɔːrd/",ja:"板・委員会・乗り込む",pos:"名詞/動詞",cat:"noun",exEn:"The passengers boarded the plane thirty minutes before departure.",exJa:"乗客たちは出発の30分前に飛行機に乗り込んだ。"},
 {en:"contrary",ph:"/ˈkɑːntrəri/",ja:"反対の・逆の",pos:"形容詞/名詞",cat:"adjective",exEn:"Contrary to popular belief, bats are not blind.",exJa:"一般的な信念に反して、コウモリは目が見えないわけではない。"},
@@ -5449,8 +5617,8 @@ const WORDS = [
 {en:"accuse",ph:"/əˈkjuːz/",ja:"告発する・非難する",pos:"動詞",cat:"verb",exEn:"The witness accused the suspect of stealing the money.",exJa:"証人は容疑者がお金を盗んだと告発した。"},
 {en:"ample",ph:"/ˈæmpəl/",ja:"十分な・広い",pos:"形容詞",cat:"adjective",exEn:"There is ample evidence to support this scientific theory.",exJa:"この科学理論を支持する十分な証拠がある。"},
 {en:"affluent",ph:"/ˈæfluənt/",ja:"裕福な・豊かな",pos:"形容詞",cat:"adjective",exEn:"The affluent neighborhood had large houses and well-maintained gardens.",exJa:"その裕福な地区には大きな家々と手入れの行き届いた庭があった。"},
-{en:"altogether",ph:"/ˌɔːltəˈɡeðər/",ja:"全体として・全く",pos:"<副詞>",cat:"adverb",exEn:"Altogether, the project took three years to complete.",exJa:"全体として、そのプロジェクトは完成するのに3年かかった。"},
-{en:"approximately",ph:"/əˈprɑːksɪmətli/",ja:"およそ・約",pos:"<副詞>",cat:"adverb",exEn:"The journey takes approximately two hours by train.",exJa:"その旅は電車でおよそ2時間かかる。"},
+{en:"altogether",ph:"/ˌɔːltəˈɡeðər/",ja:"全体として・全く",pos:"副詞",cat:"adverb",exEn:"Altogether, the project took three years to complete.",exJa:"全体として、そのプロジェクトは完成するのに3年かかった。"},
+{en:"approximately",ph:"/əˈprɑːksɪmətli/",ja:"およそ・約",pos:"副詞",cat:"adverb",exEn:"The journey takes approximately two hours by train.",exJa:"その旅は電車でおよそ2時間かかる。"},
 {en:"beast",ph:"/biːst/",ja:"獣・野獣",pos:"名詞",cat:"noun",exEn:"The hunters tracked the beast through the dense forest.",exJa:"狩人たちは深い森の中で獣を追跡した。"},
 {en:"brute",ph:"/bruːt/",ja:"残忍な人・獣のような",pos:"名詞/形容詞",cat:"noun",exEn:"He solved the problem by brute force rather than clever thinking.",exJa:"彼は賢い考えではなく力任せにその問題を解いた。"},
 {en:"bright",ph:"/braɪt/",ja:"明るい・賢い",pos:"形容詞",cat:"adjective",exEn:"She was a bright student who excelled in mathematics.",exJa:"彼女は数学が得意な賢い生徒だった。"},
@@ -5548,7 +5716,7 @@ const WORDS = [
 {en:"prone",ph:"/proʊn/",ja:"～しがちな・うつ伏せの",pos:"形容詞",cat:"adjective",exEn:"Children are prone to catching colds in winter.",exJa:"子供たちは冬に風邪をひきやすい。"},
 {en:"susceptible",ph:"/səˈseptɪbəl/",ja:"影響を受けやすい・感染しやすい",pos:"形容詞",cat:"adjective",exEn:"The elderly are particularly susceptible to respiratory infections.",exJa:"高齢者は特に呼吸器感染症にかかりやすい。"},
 {en:"probable",ph:"/ˈprɑːbəbəl/",ja:"ありそうな",pos:"形容詞",cat:"adjective",exEn:"It is probable that the meeting will be postponed.",exJa:"会議は延期される可能性が高い。"},
-{en:"possibly",ph:"/ˈpɑːsɪbli/",ja:"もしかすると",pos:"<副詞>",cat:"adverb",exEn:"Could you possibly help me with this assignment?",exJa:"この課題を手伝っていただけますか？"},
+{en:"possibly",ph:"/ˈpɑːsɪbli/",ja:"もしかすると",pos:"副詞",cat:"adverb",exEn:"Could you possibly help me with this assignment?",exJa:"この課題を手伝っていただけますか？"},
 {en:"reluctant",ph:"/rɪˈlʌktənt/",ja:"気が進まない",pos:"形容詞",cat:"adjective",exEn:"He was reluctant to admit that he had made a mistake.",exJa:"彼は自分が間違いを犯したことを認めるのに気が進まなかった。"},
 {en:"enthusiastic",ph:"/ɪnˌθjuːziˈæstɪk/",ja:"熱狂的な・熱心な",pos:"形容詞",cat:"adjective",exEn:"The students were enthusiastic about the new science project.",exJa:"生徒たちは新しい科学プロジェクトに熱心だった。"},
 {en:"intent",ph:"/ɪnˈtent/",ja:"意図・熱心な",pos:"名詞/形容詞",cat:"noun",exEn:"His intent was to improve the efficiency of the system.",exJa:"彼の意図はシステムの効率を向上させることだった。"},
@@ -5592,14 +5760,14 @@ const WORDS = [
 {en:"excess",ph:"/ɪkˈses/",ja:"過剰・超過",pos:"名詞/形容詞",cat:"noun",exEn:"An excess of sugar in the diet can lead to health problems.",exJa:"食事での過剰な砂糖摂取は健康問題を招く可能性がある。"},
 {en:"extra",ph:"/ˈekstrə/",ja:"余分な・追加の",pos:"形容詞",cat:"adjective",exEn:"She brought extra copies of the report just in case.",exJa:"念のため、彼女は報告書の予備の写しを持ってきた。"},
 {en:"steady",ph:"/ˈstedi/",ja:"安定した・着実な",pos:"形容詞",cat:"adjective",exEn:"He made steady progress in learning the language over a year.",exJa:"彼は1年間で語学学習において着実な進歩を遂げた。"},
-{en:"sharply",ph:"/ˈʃɑːrpli/",ja:"急激に・鋭く",pos:"<副詞>",cat:"adverb",exEn:"The temperature fell sharply overnight.",exJa:"気温は一夜にして急激に下がった。"},
+{en:"sharply",ph:"/ˈʃɑːrpli/",ja:"急激に・鋭く",pos:"副詞",cat:"adverb",exEn:"The temperature fell sharply overnight.",exJa:"気温は一夜にして急激に下がった。"},
 {en:"steep",ph:"/stiːp/",ja:"急勾配の・急激な",pos:"形容詞",cat:"adjective",exEn:"The path up the mountain was steep and difficult.",exJa:"山への道は急勾配で困難だった。"},
 {en:"marked",ph:"/mɑːrkt/",ja:"顕著な・明らかな",pos:"形容詞",cat:"adjective",exEn:"There was a marked improvement in her performance this semester.",exJa:"今学期、彼女の成績に顕著な向上が見られた。"},
-{en:"partly",ph:"/ˈpɑːrtli/",ja:"部分的に",pos:"<副詞>",cat:"adverb",exEn:"The delay was partly due to bad weather.",exJa:"遅延は部分的に悪天候によるものだった。"},
+{en:"partly",ph:"/ˈpɑːrtli/",ja:"部分的に",pos:"副詞",cat:"adverb",exEn:"The delay was partly due to bad weather.",exJa:"遅延は部分的に悪天候によるものだった。"},
 {en:"entire",ph:"/ɪnˈtaɪr/",ja:"全体の・完全な",pos:"形容詞",cat:"adjective",exEn:"She spent the entire day working on the report.",exJa:"彼女はその日一日中報告書に取り組んだ。"},
-{en:"fully",ph:"/ˈfʊli/",ja:"十分に・完全に",pos:"<副詞>",cat:"adverb",exEn:"He was not fully prepared for the difficult exam.",exJa:"彼は難しい試験に完全には準備できていなかった。"},
+{en:"fully",ph:"/ˈfʊli/",ja:"十分に・完全に",pos:"副詞",cat:"adverb",exEn:"He was not fully prepared for the difficult exam.",exJa:"彼は難しい試験に完全には準備できていなかった。"},
 {en:"terminal",ph:"/ˈtɜːrmɪnəl/",ja:"末期の・終点・ターミナル",pos:"形容詞/名詞",cat:"adjective",exEn:"The patient was diagnosed with a terminal illness.",exJa:"その患者は末期の病気と診断された。"},
-{en:"eventually",ph:"/ɪˈventʃuəli/",ja:"最終的に・結局",pos:"<副詞>",cat:"adverb",exEn:"After years of hard work, she eventually achieved her goal.",exJa:"何年もの努力の後、彼女はついに目標を達成した。"},
+{en:"eventually",ph:"/ɪˈventʃuəli/",ja:"最終的に・結局",pos:"副詞",cat:"adverb",exEn:"After years of hard work, she eventually achieved her goal.",exJa:"何年もの努力の後、彼女はついに目標を達成した。"},
 {en:"rate",ph:"/reɪt/",ja:"率・速度・評価する",pos:"名詞/動詞",cat:"noun",exEn:"The unemployment rate dropped significantly this year.",exJa:"今年、失業率は大幅に下がった。"},
 {en:"ratio",ph:"/ˈreɪʃioʊ/",ja:"比率・割合",pos:"名詞",cat:"noun",exEn:"The ratio of students to teachers in the class is twenty to one.",exJa:"クラスの生徒と教師の比率は20対1だ。"},
 {en:"cluster",ph:"/ˈklʌstər/",ja:"集団・房・集まる",pos:"名詞/動詞",cat:"noun",exEn:"A cluster of stars formed a recognizable constellation.",exJa:"星の集まりが分かりやすい星座を形成していた。"},
@@ -5821,17 +5989,17 @@ const WORDS = [
 {en:"story",ph:"/ˈstɔːri/",ja:"話・物語・階",pos:"名詞",cat:"noun",exEn:"The building has twenty stories overlooking the bay.",exJa:"そのビルは湾を見下ろす20階建てだ。"},
 {en:"address",ph:"/ˈædrɛs/",ja:"住所・演説する",pos:"名詞/動詞",cat:"noun",exEn:"The president addressed the nation in a live broadcast.",exJa:"大統領は生放送で国民に演説した。"},
 {en:"check",ph:"/tʃek/",ja:"確認する・小切手",pos:"動詞/名詞",cat:"verb",exEn:"Please check your answers before submitting the test.",exJa:"テストを提出する前に答えを確認してください。"},
-{en:"forward",ph:"/ˈfɔːrwərd/",ja:"前方へ・転送する",pos:"<副詞>/動詞",cat:"adverb",exEn:"She looked forward to the upcoming vacation with excitement.",exJa:"彼女は迫りくる休暇を楽しみにしていた。"},
+{en:"forward",ph:"/ˈfɔːrwərd/",ja:"前方へ・転送する",pos:"副詞/動詞",cat:"adverb",exEn:"She looked forward to the upcoming vacation with excitement.",exJa:"彼女は迫りくる休暇を楽しみにしていた。"},
 {en:"chance",ph:"/tʃɑːns/",ja:"チャンス・可能性",pos:"名詞",cat:"noun",exEn:"She seized every chance to practice speaking English.",exJa:"彼女は英語を話す練習をする機会をつかんだ。"},
 {en:"air",ph:"/er/",ja:"空気・雰囲気",pos:"名詞",cat:"noun",exEn:"The mountain air was fresh and crisp in the morning.",exJa:"山の空気は朝は新鮮でさわやかだった。"},
 {en:"lot",ph:"/lɑːt/",ja:"多数・くじ・土地",pos:"名詞",cat:"noun",exEn:"There is a lot of work to be done before the deadline.",exJa:"締め切りまでにやるべき仕事がたくさんある。"},
 {en:"change",ph:"/tʃeɪndʒ/",ja:"変わる・変化",pos:"動詞/名詞",cat:"verb",exEn:"Climate change poses a serious threat to our planet.",exJa:"気候変動は私たちの星への深刻な脅威だ。"},
 {en:"second",ph:"/ˈsekənd/",ja:"2番目の・秒",pos:"形容詞/名詞",cat:"adjective",exEn:"She finished the race in second place by a narrow margin.",exJa:"彼女はわずかの差で2位でレースを終えた。"},
-{en:"still",ph:"/stɪl/",ja:"静かな・まだ・それでも",pos:"形容詞/<副詞>",cat:"adverb",exEn:"Despite the noise outside, the room was still and peaceful.",exJa:"外の騒音にもかかわらず、部屋は静かで平和だった。"},
+{en:"still",ph:"/stɪl/",ja:"静かな・まだ・それでも",pos:"形容詞/副詞",cat:"adverb",exEn:"Despite the noise outside, the room was still and peaceful.",exJa:"外の騒音にもかかわらず、部屋は静かで平和だった。"},
 {en:"cross",ph:"/krɑːs/",ja:"渡る・十字架・怒った",pos:"動詞/名詞/形容詞",cat:"verb",exEn:"Be careful when you cross the road at a busy intersection.",exJa:"混雑した交差点では道路を渡るときに気をつけなさい。"},
 {en:"will",ph:"/wɪl/",ja:"意志・遺言・〜だろう",pos:"名詞/助動詞",cat:"noun",exEn:"Where there is a will, there is a way.",exJa:"意志あるところに道は開ける。"},
 {en:"sound",ph:"/saʊnd/",ja:"音・健全な・〜のように聞こえる",pos:"名詞/形容詞/動詞",cat:"noun",exEn:"The sound of rain on the roof helped her fall asleep.",exJa:"屋根に当たる雨音が彼女を眠りにつかせた。"},
-{en:"fast",ph:"/fɑːst/",ja:"速い・断食する",pos:"形容詞/<副詞>/動詞",cat:"adjective",exEn:"She is a fast learner who picks up new skills quickly.",exJa:"彼女は新しいスキルをすぐに習得する飲み込みの早い人だ。"},
+{en:"fast",ph:"/fɑːst/",ja:"速い・断食する",pos:"形容詞/副詞/動詞",cat:"adjective",exEn:"She is a fast learner who picks up new skills quickly.",exJa:"彼女は新しいスキルをすぐに習得する飲み込みの早い人だ。"},
 {en:"life",ph:"/laɪf/",ja:"人生・生命・生活",pos:"名詞",cat:"noun",exEn:"Education has the power to transform people's lives.",exJa:"教育は人々の人生を変える力がある。"},
 {en:"art",ph:"/ɑːrt/",ja:"芸術・美術",pos:"名詞",cat:"noun",exEn:"Art reflects the culture and values of a society.",exJa:"芸術は社会の文化と価値観を反映する。"},
 {en:"service",ph:"/ˈsɜːrvɪs/",ja:"サービス・奉仕",pos:"名詞",cat:"noun",exEn:"The hotel provides excellent service to all its guests.",exJa:"そのホテルはすべての客に優れたサービスを提供する。"},
@@ -5866,26 +6034,26 @@ const WORDS = [
 {en:"rally",ph:"/ˈræli/",ja:"集会・集結する",pos:"名詞/動詞",cat:"noun",exEn:"Thousands of people attended the political rally in the capital.",exJa:"首都での政治集会に何千人もの人々が参加した。"},
 {en:"raid",ph:"/reɪd/",ja:"急襲・手入れ",pos:"名詞/動詞",cat:"noun",exEn:"Police conducted a raid on the suspected criminal hideout.",exJa:"警察は容疑者の隠れ家を急襲した。"},
 {en:"assassination",ph:"/əˌsæsɪˈneɪʃən/",ja:"暗殺",pos:"名詞",cat:"noun",exEn:"The assassination of the leader plunged the country into chaos.",exJa:"指導者の暗殺は国を混乱に陥れた。"},
-{en:"thus",ph:"/ðʌs/",ja:"したがって・このように",pos:"<副詞>",cat:"adverb",exEn:"She studied hard and thus passed the difficult exam.",exJa:"彼女は一生懸命勉強したので、難しい試験に合格した。"},
-{en:"nevertheless",ph:"/ˌnevəðəˈles/",ja:"それにもかかわらず",pos:"<副詞>",cat:"adverb",exEn:"It was raining heavily; nevertheless, they decided to go ahead.",exJa:"大雨が降っていた。それにもかかわらず、彼らは進むことにした。"},
-{en:"notwithstanding",ph:"/ˌnɑːtwɪðˈstændɪŋ/",ja:"にもかかわらず",pos:"(前置詞) 名/<副詞>",cat:"preposition",exEn:"Notwithstanding the difficulties, she completed the project on time.",exJa:"困難にもかかわらず、彼女はプロジェクトを時間通りに完成させた。"},
-{en:"despite",ph:"/dɪˈspaɪt/",ja:"～にもかかわらず",pos:"(前置詞) 名",cat:"preposition",exEn:"Despite the bad weather, the outdoor event went ahead.",exJa:"悪天候にもかかわらず、野外イベントは開催された。"},
-{en:"besides",ph:"/bɪˈsaɪdz/",ja:"その上・～のほかに",pos:"<副詞>/(前置詞) 名",cat:"adverb",exEn:"Besides being a doctor, she is also an accomplished musician.",exJa:"医師であるほかに、彼女は優れた音楽家でもある。"},
-{en:"furthermore",ph:"/ˈfɜːrðərmɔːr/",ja:"さらに・その上",pos:"<副詞>",cat:"adverb",exEn:"The plan is too expensive; furthermore, it is impractical.",exJa:"その計画はコストがかかり過ぎる。さらに、非現実的でもある。"},
-{en:"whereas",ph:"/werˈæz/",ja:"一方で",pos:"接続詞 S V",cat:"conjunction",exEn:"She prefers coffee, whereas her sister prefers tea.",exJa:"彼女はコーヒーが好きだが、一方で姉はお茶が好みだ。"},
-{en:"namely",ph:"/ˈneɪmli/",ja:"すなわち",pos:"<副詞>",cat:"adverb",exEn:"Only one student passed the exam, namely the class representative.",exJa:"たった一人の生徒だけが試験に合格した。すなわちクラス委員長だ。"},
+{en:"thus",ph:"/ðʌs/",ja:"したがって・このように",pos:"副詞",cat:"adverb",exEn:"She studied hard and thus passed the difficult exam.",exJa:"彼女は一生懸命勉強したので、難しい試験に合格した。"},
+{en:"nevertheless",ph:"/ˌnevəðəˈles/",ja:"それにもかかわらず",pos:"副詞",cat:"adverb",exEn:"It was raining heavily; nevertheless, they decided to go ahead.",exJa:"大雨が降っていた。それにもかかわらず、彼らは進むことにした。"},
+{en:"notwithstanding",ph:"/ˌnɑːtwɪðˈstændɪŋ/",ja:"にもかかわらず",pos:"前置詞/副詞",cat:"preposition",exEn:"Notwithstanding the difficulties, she completed the project on time.",exJa:"困難にもかかわらず、彼女はプロジェクトを時間通りに完成させた。"},
+{en:"despite",ph:"/dɪˈspaɪt/",ja:"～にもかかわらず",pos:"前置詞",cat:"preposition",exEn:"Despite the bad weather, the outdoor event went ahead.",exJa:"悪天候にもかかわらず、野外イベントは開催された。"},
+{en:"besides",ph:"/bɪˈsaɪdz/",ja:"その上・～のほかに",pos:"副詞/前置詞",cat:"adverb",exEn:"Besides being a doctor, she is also an accomplished musician.",exJa:"医師であるほかに、彼女は優れた音楽家でもある。"},
+{en:"furthermore",ph:"/ˈfɜːrðərmɔːr/",ja:"さらに・その上",pos:"副詞",cat:"adverb",exEn:"The plan is too expensive; furthermore, it is impractical.",exJa:"その計画はコストがかかり過ぎる。さらに、非現実的でもある。"},
+{en:"whereas",ph:"/werˈæz/",ja:"一方で",pos:"接続詞",cat:"conjunction",exEn:"She prefers coffee, whereas her sister prefers tea.",exJa:"彼女はコーヒーが好きだが、一方で姉はお茶が好みだ。"},
+{en:"namely",ph:"/ˈneɪmli/",ja:"すなわち",pos:"副詞",cat:"adverb",exEn:"Only one student passed the exam, namely the class representative.",exJa:"たった一人の生徒だけが試験に合格した。すなわちクラス委員長だ。"},
 {en:"say",ph:"/seɪ/",ja:"言う・たとえば",pos:"動詞",cat:"verb",exEn:"She said the meeting would start at nine o'clock.",exJa:"会議は9時に始まると彼女は言った。"},
-{en:"indeed",ph:"/ɪnˈdiːd/",ja:"実に・確かに",pos:"<副詞>",cat:"adverb",exEn:"It was indeed a remarkable achievement for such a young athlete.",exJa:"こんなに若いアスリートにとって、それは確かに驚くべき成果だった。"},
-{en:"somewhat",ph:"/ˈsʌmwɑːt/",ja:"いくぶん・やや",pos:"<副詞>",cat:"adverb",exEn:"The results were somewhat disappointing compared to expectations.",exJa:"結果は期待と比べていくぶん失望させるものだった。"},
-{en:"somehow",ph:"/ˈsʌmhaʊ/",ja:"どうにかして",pos:"<副詞>",cat:"adverb",exEn:"She somehow managed to finish all the work before the deadline.",exJa:"彼女はどうにかして締め切りまでに全ての仕事を終えた。"},
-{en:"otherwise",ph:"/ˈʌðərwaɪz/",ja:"さもなければ・別の点では",pos:"<副詞>",cat:"adverb",exEn:"Hurry up, otherwise we will miss the train.",exJa:"急いで、さもなければ電車に乗り遅れる。"},
-{en:"given",ph:"/ˈɡɪvən/",ja:"～を考慮すると",pos:"(前置詞) 名/形容詞",cat:"preposition",exEn:"Given the circumstances, her decision was understandable.",exJa:"状況を考慮すると、彼女の決断は理解できるものだった。"},
-{en:"rightly",ph:"/ˈraɪtli/",ja:"正しく・当然ながら",pos:"<副詞>",cat:"adverb",exEn:"She rightly pointed out the flaws in the proposal.",exJa:"彼女は提案の欠点を正しく指摘した。"},
-{en:"justly",ph:"/ˈdʒʌstli/",ja:"公正に",pos:"<副詞>",cat:"adverb",exEn:"The criminal was justly punished for his crimes.",exJa:"犯罪者は犯した罪に対して公正に罰せられた。"},
-{en:"mistakenly",ph:"/mɪˈsteɪkənli/",ja:"誤って",pos:"<副詞>",cat:"adverb",exEn:"He mistakenly sent the email to the wrong person.",exJa:"彼は誤って間違った人物にメールを送った。"},
-{en:"reportedly",ph:"/rɪˈpɔːrtɪdli/",ja:"伝えられるところによると",pos:"<副詞>",cat:"adverb",exEn:"The company is reportedly planning to expand overseas.",exJa:"伝えられるところによると、その会社は海外展開を計画している。"},
-{en:"whatsoever",ph:"/ˌwɑːtsoʊˈevər/",ja:"どんな～でも（ない）",pos:"<副詞>/形容詞",cat:"adverb",exEn:"There is no doubt whatsoever that she is the best candidate.",exJa:"彼女が最高の候補者であることに何の疑いもない。"},
-{en:"beneath",ph:"/bɪˈniːθ/",ja:"～の下に",pos:"(前置詞) 名/<副詞>",cat:"preposition",exEn:"The treasure was buried beneath the old oak tree.",exJa:"宝物は古いオークの木の下に埋められていた。"},
+{en:"indeed",ph:"/ɪnˈdiːd/",ja:"実に・確かに",pos:"副詞",cat:"adverb",exEn:"It was indeed a remarkable achievement for such a young athlete.",exJa:"こんなに若いアスリートにとって、それは確かに驚くべき成果だった。"},
+{en:"somewhat",ph:"/ˈsʌmwɑːt/",ja:"いくぶん・やや",pos:"副詞",cat:"adverb",exEn:"The results were somewhat disappointing compared to expectations.",exJa:"結果は期待と比べていくぶん失望させるものだった。"},
+{en:"somehow",ph:"/ˈsʌmhaʊ/",ja:"どうにかして",pos:"副詞",cat:"adverb",exEn:"She somehow managed to finish all the work before the deadline.",exJa:"彼女はどうにかして締め切りまでに全ての仕事を終えた。"},
+{en:"otherwise",ph:"/ˈʌðərwaɪz/",ja:"さもなければ・別の点では",pos:"副詞",cat:"adverb",exEn:"Hurry up, otherwise we will miss the train.",exJa:"急いで、さもなければ電車に乗り遅れる。"},
+{en:"given",ph:"/ˈɡɪvən/",ja:"～を考慮すると",pos:"前置詞/形容詞",cat:"preposition",exEn:"Given the circumstances, her decision was understandable.",exJa:"状況を考慮すると、彼女の決断は理解できるものだった。"},
+{en:"rightly",ph:"/ˈraɪtli/",ja:"正しく・当然ながら",pos:"副詞",cat:"adverb",exEn:"She rightly pointed out the flaws in the proposal.",exJa:"彼女は提案の欠点を正しく指摘した。"},
+{en:"justly",ph:"/ˈdʒʌstli/",ja:"公正に",pos:"副詞",cat:"adverb",exEn:"The criminal was justly punished for his crimes.",exJa:"犯罪者は犯した罪に対して公正に罰せられた。"},
+{en:"mistakenly",ph:"/mɪˈsteɪkənli/",ja:"誤って",pos:"副詞",cat:"adverb",exEn:"He mistakenly sent the email to the wrong person.",exJa:"彼は誤って間違った人物にメールを送った。"},
+{en:"reportedly",ph:"/rɪˈpɔːrtɪdli/",ja:"伝えられるところによると",pos:"副詞",cat:"adverb",exEn:"The company is reportedly planning to expand overseas.",exJa:"伝えられるところによると、その会社は海外展開を計画している。"},
+{en:"whatsoever",ph:"/ˌwɑːtsoʊˈevər/",ja:"どんな～でも（ない）",pos:"副詞/形容詞",cat:"adverb",exEn:"There is no doubt whatsoever that she is the best candidate.",exJa:"彼女が最高の候補者であることに何の疑いもない。"},
+{en:"beneath",ph:"/bɪˈniːθ/",ja:"～の下に",pos:"前置詞/副詞",cat:"preposition",exEn:"The treasure was buried beneath the old oak tree.",exJa:"宝物は古いオークの木の下に埋められていた。"},
 {en:"premise",ph:"/ˈpremɪs/",ja:"前提・根拠",pos:"名詞",cat:"noun",exEn:"The argument is based on a false premise.",exJa:"その議論は誤った前提に基づいている。"},
 {en:"entity",ph:"/ˈentɪti/",ja:"実体・存在",pos:"名詞",cat:"noun",exEn:"A corporation is a legal entity separate from its owners.",exJa:"法人は所有者とは別の法的実体だ。"},
 {en:"discourse",ph:"/ˈdɪskɔːrs/",ja:"談話・議論",pos:"名詞",cat:"noun",exEn:"Public discourse on climate change has intensified in recent years.",exJa:"気候変動に関する公の議論は近年激化している。"},
@@ -6021,20 +6189,20 @@ const WORDS = [
 {en:"mischief",ph:"/ˈmɪstʃɪf/",ja:"いたずら・悪さ",pos:"名詞",cat:"noun",exEn:"The children got into mischief while their parents were away.",exJa:"親が留守の間、子供たちはいたずらをした。"},
 {en:"take advantage of",ja:"〜を利用する",pos:"熟語",cat:"phrase",level:"basic",exEn:"We should take advantage of every opportunity.",exJa:"あらゆる機会を利用すべきだ。",exMore:[{en:"The opportunity has been taken advantage of by only a few employees so far.",ja:"その機会はこれまでのところ、ごく一部の従業員にしか活用されていない。"}]},
 {en:"make use of",ja:"〜を活用する",pos:"熟語",cat:"phrase",level:"basic",exEn:"We must make good use of our limited resources.",exJa:"限られた資源をうまく活用しなければならない。",exMore:[{en:"The abandoned warehouse has been made use of as a community center.",ja:"その廃倉庫はコミュニティセンターとして活用されてきた。"}]},
-{en:"in spite of",ja:"〜にもかかわらず",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"In spite of the rain, they continued the game.",exJa:"雨にもかかわらず、彼らは試合を続けた。",exMore:[{en:"In spite of having been warned repeatedly, he ignored the safety rules.",ja:"何度も警告されていたにもかかわらず、彼は安全規則を無視した。"}]},
-{en:"thanks to",ja:"〜のおかげで",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"Thanks to modern medicine, many lives are saved.",exJa:"現代医学のおかげで多くの命が救われている。",exMore:[{en:"Thanks to your advice, I passed the interview.",ja:"あなたのアドバイスのおかげで、私は面接に合格した。"}]},
-{en:"due to",ja:"〜のために（原因）",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"The flight was delayed due to bad weather.",exJa:"悪天候のため、フライトが遅延した。",exMore:[{en:"The event was canceled due to lack of interest.",ja:"そのイベントは関心不足のために中止された。"}]},
-{en:"because of",ja:"〜のために（原因）",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"He was absent because of illness.",exJa:"彼は病気のため欠席した。",exMore:[{en:"The flight had been delayed for hours because of the storm.",ja:"そのフライトは嵐のために何時間も遅れていた。"}]},
-{en:"as a result of",ja:"〜の結果として",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"As a result of the accident, traffic was blocked for hours.",exJa:"その事故の結果、何時間も渋滞が続いた。",exMore:[{en:"Sales increased as a result of the new campaign.",ja:"新しいキャンペーンの結果として売上が増加した。"}]},
-{en:"according to",ja:"〜によると",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"According to the report, the economy is recovering.",exJa:"報告によると、経済は回復しつつある。",exMore:[{en:"According to the data collected last year, crime has decreased.",ja:"昨年収集されたデータによると、犯罪は減少している。"}]},
-{en:"instead of",ja:"〜の代わりに",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"She decided to walk instead of taking a taxi.",exJa:"彼女はタクシーに乗る代わりに歩くことにした。",exMore:[{en:"Would you rather have tea instead of coffee?",ja:"コーヒーの代わりに紅茶にしませんか？"}]},
-{en:"in addition to",ja:"〜に加えて",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"In addition to English, she speaks French.",exJa:"英語に加えて、彼女はフランス語も話す。",exMore:[{en:"A new fee has been added in addition to the usual membership cost.",ja:"通常の会員費に加えて新しい料金が追加された。"}]},
+{en:"in spite of",ja:"〜にもかかわらず",pos:"前置詞",cat:"phrase",level:"basic",exEn:"In spite of the rain, they continued the game.",exJa:"雨にもかかわらず、彼らは試合を続けた。",exMore:[{en:"In spite of having been warned repeatedly, he ignored the safety rules.",ja:"何度も警告されていたにもかかわらず、彼は安全規則を無視した。"}]},
+{en:"thanks to",ja:"〜のおかげで",pos:"前置詞",cat:"phrase",level:"basic",exEn:"Thanks to modern medicine, many lives are saved.",exJa:"現代医学のおかげで多くの命が救われている。",exMore:[{en:"Thanks to your advice, I passed the interview.",ja:"あなたのアドバイスのおかげで、私は面接に合格した。"}]},
+{en:"due to",ja:"〜のために（原因）",pos:"前置詞",cat:"phrase",level:"basic",exEn:"The flight was delayed due to bad weather.",exJa:"悪天候のため、フライトが遅延した。",exMore:[{en:"The event was canceled due to lack of interest.",ja:"そのイベントは関心不足のために中止された。"}]},
+{en:"because of",ja:"〜のために（原因）",pos:"前置詞",cat:"phrase",level:"basic",exEn:"He was absent because of illness.",exJa:"彼は病気のため欠席した。",exMore:[{en:"The flight had been delayed for hours because of the storm.",ja:"そのフライトは嵐のために何時間も遅れていた。"}]},
+{en:"as a result of",ja:"〜の結果として",pos:"前置詞",cat:"phrase",level:"basic",exEn:"As a result of the accident, traffic was blocked for hours.",exJa:"その事故の結果、何時間も渋滞が続いた。",exMore:[{en:"Sales increased as a result of the new campaign.",ja:"新しいキャンペーンの結果として売上が増加した。"}]},
+{en:"according to",ja:"〜によると",pos:"前置詞",cat:"phrase",level:"basic",exEn:"According to the report, the economy is recovering.",exJa:"報告によると、経済は回復しつつある。",exMore:[{en:"According to the data collected last year, crime has decreased.",ja:"昨年収集されたデータによると、犯罪は減少している。"}]},
+{en:"instead of",ja:"〜の代わりに",pos:"前置詞",cat:"phrase",level:"basic",exEn:"She decided to walk instead of taking a taxi.",exJa:"彼女はタクシーに乗る代わりに歩くことにした。",exMore:[{en:"Would you rather have tea instead of coffee?",ja:"コーヒーの代わりに紅茶にしませんか？"}]},
+{en:"in addition to",ja:"〜に加えて",pos:"前置詞",cat:"phrase",level:"basic",exEn:"In addition to English, she speaks French.",exJa:"英語に加えて、彼女はフランス語も話す。",exMore:[{en:"A new fee has been added in addition to the usual membership cost.",ja:"通常の会員費に加えて新しい料金が追加された。"}]},
 {en:"compared with",ja:"〜と比べると",pos:"熟語",cat:"phrase",level:"basic",exEn:"Compared with last year, sales have increased.",exJa:"昨年と比べると、売り上げが増加した。",exMore:[{en:"Compared with last year, profits have doubled.",ja:"昨年と比べて、利益は倍増した。"}]},
-{en:"regardless of",ja:"〜にかかわらず",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"Everyone is equal regardless of race or gender.",exJa:"人種や性別にかかわらず、皆平等だ。",exMore:[{en:"Everyone was treated equally, regardless of how much they had donated.",ja:"どれだけ寄付したかにかかわらず、全員が平等に扱われた。"}]},
+{en:"regardless of",ja:"〜にかかわらず",pos:"前置詞",cat:"phrase",level:"basic",exEn:"Everyone is equal regardless of race or gender.",exJa:"人種や性別にかかわらず、皆平等だ。",exMore:[{en:"Everyone was treated equally, regardless of how much they had donated.",ja:"どれだけ寄付したかにかかわらず、全員が平等に扱われた。"}]},
 {en:"in order to",ja:"〜するために",pos:"熟語",cat:"phrase",level:"basic",exEn:"He studied hard in order to pass the exam.",exJa:"彼は試験に合格するために一生懸命勉強した。",exMore:[{en:"The rules had been rewritten in order to close a legal loophole.",ja:"その規則は法的な抜け穴をふさぐために書き直されていた。"}]},
 {en:"so as to",ja:"〜するように",pos:"熟語",cat:"phrase",level:"basic",exEn:"She left early so as not to be late.",exJa:"彼女は遅刻しないよう早めに出発した。",exMore:[{en:"The meeting time was changed so as to accommodate everyone's schedule.",ja:"全員の予定に合わせるため、会議の時間が変更された。"}]},
-{en:"as long as",ja:"〜する限り",pos:"接続詞 S V",cat:"phrase",level:"basic",exEn:"You can borrow it as long as you return it tomorrow.",exJa:"明日返す限り、借りてもいいですよ。",exMore:[{en:"As long as the invoice has been paid, the goods will be shipped immediately.",ja:"請求書の支払いが済んでいれば、商品はすぐに発送されます。"}]},
-{en:"as soon as",ja:"〜するとすぐに",pos:"接続詞 S V",cat:"phrase",level:"basic",exEn:"Call me as soon as you arrive.",exJa:"着いたらすぐに電話してください。",exMore:[{en:"The alarm is triggered as soon as the door is opened.",ja:"そのドアが開けられるとすぐに警報が作動する。"}]},
+{en:"as long as",ja:"〜する限り",pos:"接続詞",cat:"phrase",level:"basic",exEn:"You can borrow it as long as you return it tomorrow.",exJa:"明日返す限り、借りてもいいですよ。",exMore:[{en:"As long as the invoice has been paid, the goods will be shipped immediately.",ja:"請求書の支払いが済んでいれば、商品はすぐに発送されます。"}]},
+{en:"as soon as",ja:"〜するとすぐに",pos:"接続詞",cat:"phrase",level:"basic",exEn:"Call me as soon as you arrive.",exJa:"着いたらすぐに電話してください。",exMore:[{en:"The alarm is triggered as soon as the door is opened.",ja:"そのドアが開けられるとすぐに警報が作動する。"}]},
 {en:"as well as",ja:"〜と同様に・〜に加えて",pos:"熟語",cat:"phrase",level:"basic",exEn:"She plays the piano as well as the violin.",exJa:"彼女はバイオリンと同様にピアノも弾く。",exMore:[{en:"The award has been given to the director as well as the entire film crew.",ja:"その賞は監督だけでなく撮影クルー全員にも贈られた。"}]},
 {en:"had better",ja:"〜した方がよい",pos:"熟語",cat:"phrase",level:"basic",exEn:"You had better see a doctor immediately.",exJa:"すぐに医者に行った方がよい。",exMore:[{en:"He had better have finished the report before the client calls.",ja:"クライアントが電話をかけてくる前に、彼は報告書を終えておいた方がいい。"}]},
 {en:"used to do",ja:"以前は〜していた",pos:"熟語",cat:"phrase",level:"basic",exEn:"She used to live in Paris when she was young.",exJa:"彼女は若いころパリに住んでいた。",exMore:[{en:"This building used to be occupied by a famous publishing company.",ja:"この建物にはかつて有名な出版社が入っていた。"}]},
@@ -6132,8 +6300,8 @@ const WORDS = [
 {en:"no matter what",ja:"何が〜でも",pos:"熟語",cat:"phrase",level:"basic",exEn:"No matter what happens, I'll support you.",exJa:"何が起きても、あなたを支援します。",exMore:[{en:"No matter what the weather is like, the parade will go on.",ja:"天候がどうであれ、そのパレードは決行される。"}]},
 {en:"every other",ja:"一つおきに",pos:"熟語",cat:"phrase",level:"basic",exEn:"The doctor told me to take the medicine every other day.",exJa:"医師は1日おきに薬を飲むように言った。",exMore:[{en:"The magazine is published every other week.",ja:"その雑誌は一週間おきに発行される。"}]},
 {en:"would rather",ja:"むしろ〜したい",pos:"熟語",cat:"phrase",level:"basic",exEn:"I would rather stay home than go out.",exJa:"外出するよりむしろ家にいたい。",exMore:[{en:"I would rather stay home than go to the party.",ja:"私はパーティーに行くよりむしろ家にいたい。"}]},
-{en:"as if",ja:"まるで〜のように",pos:"接続詞 S V",cat:"phrase",level:"basic",exEn:"He spoke as if he knew everything.",exJa:"彼はまるですべてを知っているかのように話した。",exMore:[{en:"He talked as if he knew everything about the case.",ja:"彼はまるでその事件について何もかも知っているかのように話した。"}]},
-{en:"as though",ja:"まるで〜のように",pos:"接続詞 S V",cat:"phrase",level:"basic",exEn:"She treated me as though I were a child.",exJa:"彼女はまるで私が子供であるかのように接した。",exMore:[{en:"She looked at him as though she had seen a ghost.",ja:"彼女はまるで幽霊を見たかのように彼を見た。"}]},
+{en:"as if",ja:"まるで〜のように",pos:"接続詞",cat:"phrase",level:"basic",exEn:"He spoke as if he knew everything.",exJa:"彼はまるですべてを知っているかのように話した。",exMore:[{en:"He talked as if he knew everything about the case.",ja:"彼はまるでその事件について何もかも知っているかのように話した。"}]},
+{en:"as though",ja:"まるで〜のように",pos:"接続詞",cat:"phrase",level:"basic",exEn:"She treated me as though I were a child.",exJa:"彼女はまるで私が子供であるかのように接した。",exMore:[{en:"She looked at him as though she had seen a ghost.",ja:"彼女はまるで幽霊を見たかのように彼を見た。"}]},
 {en:"whether or not",ja:"〜かどうかにかかわらず",pos:"熟語",cat:"phrase",level:"basic",exEn:"Whether or not you agree, the decision is final.",exJa:"あなたが同意するかどうかにかかわらず、決定は最終的だ。",exMore:[{en:"Whether or not the plan succeeds, the team will have learned a great deal.",ja:"計画が成功するかどうかにかかわらず、チームは多くを学んだことになるだろう。"}]},
 {en:"now and again",ja:"ときどき",pos:"熟語",cat:"phrase",level:"basic",exEn:"I enjoy a cup of green tea every now and again.",exJa:"ときどき緑茶を一杯楽しむ。",exMore:[{en:"Doesn't everyone need to take a break now and again?",ja:"誰でもときどき休憩が必要ではないだろうか。"}]},
 {en:"make out",ja:"〜を理解する・見分ける・うまくやる",pos:"熟語",cat:"phrase",level:"basic",exEn:"I couldn't make out what she was saying.",exJa:"彼女が何を言っているか理解できなかった。",exMore:[{en:"I could barely make out his handwriting.",ja:"彼の筆跡はほとんど見分けがつかなかった。"},{en:"He made out well in his new job.",ja:"彼は新しい仕事でうまくやっている。"}]},
@@ -6148,24 +6316,24 @@ const WORDS = [
 {en:"have no choice but to",ja:"〜するしかない",pos:"熟語",cat:"phrase",level:"standard",exEn:"We had no choice but to cancel the event.",exJa:"私たちはイベントをキャンセルするしかなかった。",exMore:[{en:"With the road blocked, drivers had no choice but to take a detour.",ja:"道路が封鎖されていたため、運転手たちは迂回するしかなかった。"}]},
 {en:"let alone",ja:"〜はおろか",pos:"熟語",cat:"phrase",level:"standard",exEn:"He can't afford a car, let alone a house.",exJa:"彼は家はおろか車さえも買う余裕がない。",exMore:[{en:"He can't even boil an egg, let alone cook a full meal.",ja:"彼は卵をゆでることすらできない、まして料理を作るなんて。"}]},
 {en:"not to mention",ja:"〜はもちろん",pos:"熟語",cat:"phrase",level:"standard",exEn:"She speaks French fluently, not to mention English.",exJa:"英語はもちろん、彼女は流暢にフランス語を話す。",exMore:[{en:"Not only was the flight delayed, not to mention the lost luggage.",ja:"フライトが遅れただけでなく、荷物の紛失もあった。"}]},
-{en:"by means of",ja:"〜によって（手段）",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"The information was transmitted by means of satellites.",exJa:"情報は衛星によって伝達された。",exMore:[{en:"The message was sent by means of a secret code.",ja:"そのメッセージは暗号によって送られた。"}]},
-{en:"in terms of",ja:"〜の観点から",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"In terms of quality, this product is the best.",exJa:"品質の観点から言えば、この製品が最も優れている。",exMore:[{en:"In terms of safety, has the new design actually been tested enough?",ja:"安全性の観点から、その新しい設計は本当に十分にテストされたのだろうか。"}]},
-{en:"with regard to",ja:"〜に関して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"With regard to your application, we need more documents.",exJa:"あなたの申請に関して、さらに書類が必要です。",exMore:[{en:"I have a question with regard to the contract.",ja:"その契約に関して質問があります。"}]},
+{en:"by means of",ja:"〜によって（手段）",pos:"前置詞",cat:"phrase",level:"standard",exEn:"The information was transmitted by means of satellites.",exJa:"情報は衛星によって伝達された。",exMore:[{en:"The message was sent by means of a secret code.",ja:"そのメッセージは暗号によって送られた。"}]},
+{en:"in terms of",ja:"〜の観点から",pos:"前置詞",cat:"phrase",level:"standard",exEn:"In terms of quality, this product is the best.",exJa:"品質の観点から言えば、この製品が最も優れている。",exMore:[{en:"In terms of safety, has the new design actually been tested enough?",ja:"安全性の観点から、その新しい設計は本当に十分にテストされたのだろうか。"}]},
+{en:"with regard to",ja:"〜に関して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"With regard to your application, we need more documents.",exJa:"あなたの申請に関して、さらに書類が必要です。",exMore:[{en:"I have a question with regard to the contract.",ja:"その契約に関して質問があります。"}]},
 {en:"by no means",ja:"決して〜でない",pos:"熟語",cat:"phrase",level:"standard",exEn:"The task was by no means easy.",exJa:"その仕事は決して簡単ではなかった。",exMore:[{en:"By no means should this decision be made without consulting the team.",ja:"この決定は、チームに相談することなく決して下されるべきではない。"}]},
 {en:"more often than not",ja:"たいてい",pos:"熟語",cat:"phrase",level:"standard",exEn:"More often than not, the early bird gets the worm.",exJa:"たいてい、早起きした者が有利を得る。",exMore:[{en:"More often than not, had the reports even been read before approval?",ja:"たいてい、その報告書は承認される前にきちんと読まれてすらいなかった。"}]},
-{en:"on the verge of",ja:"〜の瀬戸際で",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"The company was on the verge of bankruptcy.",exJa:"会社は倒産の瀬戸際だった。",exMore:[{en:"So exhausted was the runner that she seemed on the verge of collapsing.",ja:"そのランナーはあまりに疲れ果てていて、今にも倒れそうに見えた。"}]},
-{en:"at the cost of",ja:"〜を犠牲にして",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"He succeeded at the cost of his health.",exJa:"彼は健康を犠牲にして成功した。",exMore:[{en:"Should convenience ever come at the cost of someone's privacy?",ja:"利便性が誰かのプライバシーを犠牲にしてまで得られるべきものだろうか。"}]},
-{en:"in favor of",ja:"〜を支持して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"The majority voted in favor of the new policy.",exJa:"多数決で新しい政策が支持された。",exMore:[{en:"Had the board voted in favor of the merger, what would have changed?",ja:"取締役会が合併に賛成票を投じていたら、何が変わっていただろうか。"}]},
+{en:"on the verge of",ja:"〜の瀬戸際で",pos:"前置詞",cat:"phrase",level:"standard",exEn:"The company was on the verge of bankruptcy.",exJa:"会社は倒産の瀬戸際だった。",exMore:[{en:"So exhausted was the runner that she seemed on the verge of collapsing.",ja:"そのランナーはあまりに疲れ果てていて、今にも倒れそうに見えた。"}]},
+{en:"at the cost of",ja:"〜を犠牲にして",pos:"前置詞",cat:"phrase",level:"standard",exEn:"He succeeded at the cost of his health.",exJa:"彼は健康を犠牲にして成功した。",exMore:[{en:"Should convenience ever come at the cost of someone's privacy?",ja:"利便性が誰かのプライバシーを犠牲にしてまで得られるべきものだろうか。"}]},
+{en:"in favor of",ja:"〜を支持して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"The majority voted in favor of the new policy.",exJa:"多数決で新しい政策が支持された。",exMore:[{en:"Had the board voted in favor of the merger, what would have changed?",ja:"取締役会が合併に賛成票を投じていたら、何が変わっていただろうか。"}]},
 {en:"apart from",ja:"〜は別として",pos:"熟語",cat:"phrase",level:"standard",exEn:"Apart from the high cost, the plan seems feasible.",exJa:"高コストは別として、その計画は実現可能に思える。",exMore:[{en:"Apart from the weather, was there anything else that ruined the trip?",ja:"天気を除いて、その旅行を台無しにした他の何かはあったのだろうか。"}]},
-{en:"contrary to",ja:"〜に反して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"Contrary to expectations, the experiment succeeded.",exJa:"予想に反して、実験は成功した。",exMore:[{en:"Contrary to what had been reported, the bridge was never actually closed.",ja:"報道されていた内容とは反対に、その橋は実際には一度も閉鎖されていなかった。"}]},
-{en:"for the sake of",ja:"〜のために",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"For the sake of argument, let's assume it is true.",exJa:"議論のために、それが真実と仮定しよう。",exMore:[{en:"Was it really necessary to sacrifice so much for the sake of the deadline?",ja:"締め切りのためにそこまで犠牲を払う必要が本当にあったのだろうか。"}]},
+{en:"contrary to",ja:"〜に反して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Contrary to expectations, the experiment succeeded.",exJa:"予想に反して、実験は成功した。",exMore:[{en:"Contrary to what had been reported, the bridge was never actually closed.",ja:"報道されていた内容とは反対に、その橋は実際には一度も閉鎖されていなかった。"}]},
+{en:"for the sake of",ja:"〜のために",pos:"前置詞",cat:"phrase",level:"standard",exEn:"For the sake of argument, let's assume it is true.",exJa:"議論のために、それが真実と仮定しよう。",exMore:[{en:"Was it really necessary to sacrifice so much for the sake of the deadline?",ja:"締め切りのためにそこまで犠牲を払う必要が本当にあったのだろうか。"}]},
 {en:"with a view to doing",ja:"〜する目的で",pos:"熟語",cat:"phrase",level:"standard",exEn:"He traveled to France with a view to improving his French.",exJa:"彼はフランス語を上達させる目的でフランスに渡った。",exMore:[{en:"The policy was revised with a view to reducing costs, though few costs were actually cut.",ja:"その方針はコスト削減を目的として改定されたが、実際に削減された費用はほとんどなかった。"}]},
-{en:"on condition that",ja:"〜という条件で",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"I'll lend you money on condition that you repay it.",exJa:"返済するという条件でお金を貸しましょう。",exMore:[{en:"She would only sign the contract on condition that the terms were rewritten.",ja:"彼女は条件が書き直されるという条件でしか、その契約に署名しようとしなかった。"}]},
-{en:"provided that",ja:"〜という条件で",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"You may attend provided that you register in advance.",exJa:"事前登録するという条件で参加できます。",exMore:[{en:"You may leave early, provided that your work is finished.",ja:"仕事が終わっているという条件であれば、早く帰ってもいい。"}]},
-{en:"now that",ja:"今や〜だから",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Now that you have graduated, what will you do?",exJa:"卒業した今、何をするつもりですか？",exMore:[{en:"Now that the exams are over, let's relax a bit.",ja:"試験が終わった今、少しリラックスしましょう。"}]},
-{en:"in case",ja:"〜の場合に備えて",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Take an umbrella in case it rains.",exJa:"雨が降る場合に備えて傘を持っていきなさい。",exMore:[{en:"Had they not packed extra food in case of delays, they would have gone hungry.",ja:"遅延に備えて余分な食料を持っていなければ、彼らは空腹に苦しんでいただろう。"}]},
-{en:"for fear that",ja:"〜を恐れて",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"She whispered for fear that she should wake the baby.",exJa:"赤ちゃんを起こすことを恐れて彼女はささやいた。",exMore:[{en:"She whispered for fear that someone might hear.",ja:"彼女は誰かに聞かれるのを恐れてささやいた。"}]},
-{en:"no sooner ... than",ja:"〜するやいなや",pos:"接続詞 S V（倒置）",cat:"phrase",level:"standard",exEn:"No sooner had he arrived than the meeting started.",exJa:"彼が到着するやいなや、会議が始まった。",exMore:[{en:"No sooner had she sat down than the phone rang.",ja:"彼女が座るやいなや電話が鳴った。"}]},
+{en:"on condition that",ja:"〜という条件で",pos:"接続詞",cat:"phrase",level:"standard",exEn:"I'll lend you money on condition that you repay it.",exJa:"返済するという条件でお金を貸しましょう。",exMore:[{en:"She would only sign the contract on condition that the terms were rewritten.",ja:"彼女は条件が書き直されるという条件でしか、その契約に署名しようとしなかった。"}]},
+{en:"provided that",ja:"〜という条件で",pos:"接続詞",cat:"phrase",level:"standard",exEn:"You may attend provided that you register in advance.",exJa:"事前登録するという条件で参加できます。",exMore:[{en:"You may leave early, provided that your work is finished.",ja:"仕事が終わっているという条件であれば、早く帰ってもいい。"}]},
+{en:"now that",ja:"今や〜だから",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Now that you have graduated, what will you do?",exJa:"卒業した今、何をするつもりですか？",exMore:[{en:"Now that the exams are over, let's relax a bit.",ja:"試験が終わった今、少しリラックスしましょう。"}]},
+{en:"in case",ja:"〜の場合に備えて",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Take an umbrella in case it rains.",exJa:"雨が降る場合に備えて傘を持っていきなさい。",exMore:[{en:"Had they not packed extra food in case of delays, they would have gone hungry.",ja:"遅延に備えて余分な食料を持っていなければ、彼らは空腹に苦しんでいただろう。"}]},
+{en:"for fear that",ja:"〜を恐れて",pos:"接続詞",cat:"phrase",level:"standard",exEn:"She whispered for fear that she should wake the baby.",exJa:"赤ちゃんを起こすことを恐れて彼女はささやいた。",exMore:[{en:"She whispered for fear that someone might hear.",ja:"彼女は誰かに聞かれるのを恐れてささやいた。"}]},
+{en:"no sooner ... than",ja:"〜するやいなや",pos:"接続詞（倒置）",cat:"phrase",level:"standard",exEn:"No sooner had he arrived than the meeting started.",exJa:"彼が到着するやいなや、会議が始まった。",exMore:[{en:"No sooner had she sat down than the phone rang.",ja:"彼女が座るやいなや電話が鳴った。"}]},
 {en:"be subject to",ja:"〜を受けやすい・〜に従う",pos:"熟語",cat:"phrase",level:"standard",exEn:"The schedule is subject to change.",exJa:"スケジュールは変更になることがある。",exMore:[{en:"How can prices be trusted if they are constantly subject to sudden change?",ja:"価格が常に突然の変更を受けるものであるなら、どうしてそれを信用できるだろうか。"}]},
 {en:"be apt to",ja:"〜しがちだ",pos:"熟語",cat:"phrase",level:"standard",exEn:"Children are apt to forget what they have learned.",exJa:"子供は学んだことを忘れがちだ。",exMore:[{en:"Children are apt to imitate their parents.",ja:"子供は親をまねる傾向がある。"}]},
 {en:"be inclined to",ja:"〜する傾向がある",pos:"熟語",cat:"phrase",level:"standard",exEn:"I am inclined to agree with your analysis.",exJa:"あなたの分析に同意する気持ちがある。",exMore:[{en:"She is inclined to trust people too easily.",ja:"彼女は人を簡単に信用しすぎる傾向がある。"}]},
@@ -6221,11 +6389,11 @@ const WORDS = [
 {en:"when it comes to",ja:"〜に関しては",pos:"熟語",cat:"phrase",level:"standard",exEn:"When it comes to cooking, she is an expert.",exJa:"料理に関しては、彼女は専門家だ。",exMore:[{en:"When it comes to punctuality, is anyone stricter than she is?",ja:"時間厳守に関して、彼女より厳しい人がいるだろうか。"}]},
 {en:"to say nothing of",ja:"〜は言うまでもなく",pos:"熟語",cat:"phrase",level:"standard",exEn:"He can speak Spanish, to say nothing of English.",exJa:"英語は言うまでもなく、彼はスペイン語も話せる。",exMore:[{en:"He speaks three languages, to say nothing of his native tongue.",ja:"彼は母語は言うまでもなく、3か国語を話す。"}]},
 {en:"in spite of oneself",ja:"思わず・知らず知らずのうちに",pos:"熟語",cat:"phrase",level:"standard",exEn:"She laughed in spite of herself.",exJa:"彼女は思わず笑ってしまった。",exMore:[{en:"So absurd was the excuse that he laughed in spite of himself.",ja:"その言い訳があまりにばかげていたので、彼は思わず笑ってしまった。"}]},
-{en:"in view of",ja:"〜を考慮して",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"In view of the circumstances, we postponed the plan.",exJa:"状況を考慮して、計画を延期した。",exMore:[{en:"In view of the heavy traffic, we should leave early.",ja:"交通渋滞を考慮して、早めに出発すべきだ。"}]},
-{en:"in the wake of",ja:"〜の後に・〜を受けて",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"In the wake of the financial crisis, new regulations were introduced.",exJa:"金融危機を受けて、新たな規制が導入された。",note:"wake: 余波、航跡",exMore:[{en:"New safety rules were introduced in the wake of the accident.",ja:"その事故を受けて新しい安全規則が導入された。"}]},
-{en:"on the grounds that",ja:"〜という理由で",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"The application was rejected on the grounds that it was incomplete.",exJa:"申請は不完全であるという理由で却下された。",exMore:[{en:"He resigned on the grounds that he needed more family time.",ja:"彼はもっと家族との時間が必要だという理由で辞任した。"}]},
-{en:"to the extent that",ja:"〜の程度まで",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"Technology has changed our lives to the extent that we can't imagine living without it.",exJa:"技術は私たちの生活をそれなしでは生きられないほど変えた。",exMore:[{en:"He changed his plans to the extent that his budget allowed.",ja:"彼は予算が許す程度まで計画を変更した。"}]},
-{en:"in light of",ja:"〜を考慮して",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"In light of recent findings, the policy was revised.",exJa:"最近の調査結果を考慮して、政策が改訂された。",exMore:[{en:"In light of recent events, the meeting was postponed.",ja:"最近の出来事を考慮して、会議は延期された。"}]},
+{en:"in view of",ja:"〜を考慮して",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"In view of the circumstances, we postponed the plan.",exJa:"状況を考慮して、計画を延期した。",exMore:[{en:"In view of the heavy traffic, we should leave early.",ja:"交通渋滞を考慮して、早めに出発すべきだ。"}]},
+{en:"in the wake of",ja:"〜の後に・〜を受けて",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"In the wake of the financial crisis, new regulations were introduced.",exJa:"金融危機を受けて、新たな規制が導入された。",note:"wake: 余波、航跡",exMore:[{en:"New safety rules were introduced in the wake of the accident.",ja:"その事故を受けて新しい安全規則が導入された。"}]},
+{en:"on the grounds that",ja:"〜という理由で",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"The application was rejected on the grounds that it was incomplete.",exJa:"申請は不完全であるという理由で却下された。",exMore:[{en:"He resigned on the grounds that he needed more family time.",ja:"彼はもっと家族との時間が必要だという理由で辞任した。"}]},
+{en:"to the extent that",ja:"〜の程度まで",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"Technology has changed our lives to the extent that we can't imagine living without it.",exJa:"技術は私たちの生活をそれなしでは生きられないほど変えた。",exMore:[{en:"He changed his plans to the extent that his budget allowed.",ja:"彼は予算が許す程度まで計画を変更した。"}]},
+{en:"in light of",ja:"〜を考慮して",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"In light of recent findings, the policy was revised.",exJa:"最近の調査結果を考慮して、政策が改訂された。",exMore:[{en:"In light of recent events, the meeting was postponed.",ja:"最近の出来事を考慮して、会議は延期された。"}]},
 {en:"be at a loss",ja:"途方に暮れている",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I was at a loss for what to say in that situation.",exJa:"その状況で何を言えばよいか途方に暮れた。",exMore:[{en:"She was at a loss when her flight was canceled.",ja:"フライトが欠航になったとき、彼女は途方に暮れた。"}]},
 {en:"be at stake",ja:"危機にさらされている",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The company's reputation is at stake.",exJa:"会社の評判が危機にさらされている。",note:"stake: 危険にさらされているもの、賭け金",exMore:[{en:"With so much money at stake, could the negotiations really fail now?",ja:"これほど多額のお金がかかっている以上、この交渉が今さら失敗することなどあり得るだろうか。"}]},
 {en:"bring about",ja:"〜を引き起こす",pos:"熟語",cat:"phrase",level:"advanced",exEn:"New technology can bring about significant social change.",exJa:"新技術は大きな社会変化をもたらすことができる。",exMore:[{en:"The invention of the internet brought about huge social change.",ja:"インターネットの発明は大きな社会変化をもたらした。"}]},
@@ -6239,13 +6407,13 @@ const WORDS = [
 {en:"by the same token",ja:"同様の理由で",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We must respect others' opinions; by the same token, they should respect ours.",exJa:"私たちは他者の意見を尊重しなければならない。同様に、彼らも私たちの意見を尊重すべきだ。",note:"token: しるし、象徴",exMore:[{en:"He respects his coworkers, and by the same token, expects respect in return.",ja:"彼は同僚を尊重しており、同様の理由で、その見返りに敬意を期待している。"}]},
 {en:"come to terms with",ja:"〜を受け入れる",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It took years to come to terms with his loss.",exJa:"彼の死を受け入れるのに何年もかかった。",exMore:[{en:"It was only years later that she truly came to terms with the loss.",ja:"彼女がその喪失を本当に受け入れられたのは、何年も後になってからだった。"}]},
 {en:"run the risk of",ja:"〜の危険を冒す",pos:"熟語",cat:"phrase",level:"advanced",exEn:"By investing in that stock, you run the risk of losing everything.",exJa:"その株に投資することで、すべてを失う危険を冒している。",exMore:[{en:"Skipping meals can run the risk of health problems.",ja:"食事を抜くことは健康問題の危険を冒すことになりかねない。"}]},
-{en:"in proportion to",ja:"〜に比例して",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"Income tends to increase in proportion to experience.",exJa:"収入は経験に比例して増える傾向がある。",exMore:[{en:"Salaries should rise in proportion to experience.",ja:"給料は経験に比例して上がるべきだ。"}]},
-{en:"with the exception of",ja:"〜を除いて",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"With the exception of John, everyone passed the test.",exJa:"ジョンを除いて、全員が試験に合格した。",exMore:[{en:"All the shops were open, with the exception of the bakery.",ja:"そのパン屋を除いて、すべての店が開いていた。"}]},
-{en:"for all",ja:"〜にもかかわらず",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"For all his wealth, he was not happy.",exJa:"豊かさにもかかわらず、彼は幸せではなかった。",exMore:[{en:"For all the criticism the plan received, hasn't it actually worked rather well?",ja:"その計画は多くの批判を受けたにもかかわらず、実際はかなりうまくいっているのではないか。"}]},
+{en:"in proportion to",ja:"〜に比例して",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"Income tends to increase in proportion to experience.",exJa:"収入は経験に比例して増える傾向がある。",exMore:[{en:"Salaries should rise in proportion to experience.",ja:"給料は経験に比例して上がるべきだ。"}]},
+{en:"with the exception of",ja:"〜を除いて",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"With the exception of John, everyone passed the test.",exJa:"ジョンを除いて、全員が試験に合格した。",exMore:[{en:"All the shops were open, with the exception of the bakery.",ja:"そのパン屋を除いて、すべての店が開いていた。"}]},
+{en:"for all",ja:"〜にもかかわらず",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"For all his wealth, he was not happy.",exJa:"豊かさにもかかわらず、彼は幸せではなかった。",exMore:[{en:"For all the criticism the plan received, hasn't it actually worked rather well?",ja:"その計画は多くの批判を受けたにもかかわらず、実際はかなりうまくいっているのではないか。"}]},
 {en:"nothing but",ja:"〜にすぎない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is nothing but a coward.",exJa:"彼は臆病者にすぎない。",exMore:[{en:"The room contained nothing but a bed and a chair.",ja:"その部屋にはベッドと椅子しかなかった。"}]},
 {en:"anything but",ja:"決して〜でない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The job was anything but easy.",exJa:"その仕事は決して簡単ではなかった。",exMore:[{en:"The test results were anything but reassuring.",ja:"そのテスト結果は決して安心できるものではなかった。"}]},
 {en:"none other than",ja:"ほかならぬ〜",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The winner was none other than the youngest competitor.",exJa:"優勝者はほかならぬ最年少の競技者だった。",exMore:[{en:"Standing at the door was none other than the man who had fired him years earlier.",ja:"ドアのところに立っていたのは、ほかならぬ何年も前に彼を解雇した男だった。"}]},
-{en:"so much so that",ja:"それほど〜なので",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"He was exhausted, so much so that he slept for 12 hours.",exJa:"彼は疲れ果てていた。それほどまでに、12時間も眠った。",exMore:[{en:"He was exhausted, so much so that he fell asleep at his desk.",ja:"彼はとても疲れていて、机で眠ってしまうほどだった。"}]},
+{en:"so much so that",ja:"それほど〜なので",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"He was exhausted, so much so that he slept for 12 hours.",exJa:"彼は疲れ果てていた。それほどまでに、12時間も眠った。",exMore:[{en:"He was exhausted, so much so that he fell asleep at his desk.",ja:"彼はとても疲れていて、机で眠ってしまうほどだった。"}]},
 {en:"take precedence over",ja:"〜に優先する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Safety must take precedence over speed.",exJa:"安全は速度に優先しなければならない。",note:"precedence: 優先",exMore:[{en:"Safety always takes precedence over speed.",ja:"安全は常に速さより優先される。"}]},
 {en:"draw on",ja:"〜を活用する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She drew on her years of experience to solve the problem.",exJa:"彼女は問題を解くために長年の経験を活用した。",exMore:[{en:"The report draws heavily on interviews that had been conducted years before.",ja:"その報告書は何年も前に行われたインタビューを大いに活用している。"}]},
 {en:"stand to reason",ja:"〜は当然だ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It stands to reason that practice makes perfect.",exJa:"練習が完璧につながるのは当然のことだ。",exMore:[{en:"If demand keeps rising, doesn't it stand to reason that prices will too?",ja:"需要が上がり続ければ、価格も上がるのは当然のことではないだろうか。"}]},
@@ -6258,12 +6426,12 @@ const WORDS = [
 {en:"leave much to be desired",ja:"不満が残る",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The quality of the work leaves much to be desired.",exJa:"その作業の品質は不満が残る。",exMore:[{en:"The service at the hotel left much to be desired.",ja:"そのホテルのサービスは不満が残るものだった。"}]},
 {en:"hold true",ja:"当てはまる・真実である",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This principle holds true in most cases.",exJa:"この原則はほとんどの場合に当てはまる。",exMore:[{en:"Does that old advice still hold true in today's digital world?",ja:"その昔からの助言は今日のデジタル社会でもまだ当てはまるのだろうか。"}]},
 {en:"be at odds with",ja:"〜と対立している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"His statement is at odds with the facts.",exJa:"彼の発言は事実と矛盾している。",note:"odds: 不一致、見込み",exMore:[{en:"How can two departments be so completely at odds with each other?",ja:"どうして二つの部署がこれほど完全に対立し合うことがあり得るのか。"}]},
-{en:"with the aim of",ja:"〜することを目的として",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"She studied abroad with the aim of mastering French.",exJa:"彼女はフランス語をマスターすることを目的として留学した。",exMore:[{en:"The program was created with the aim of reducing waste.",ja:"そのプログラムは廃棄物を減らすことを目的として作られた。"}]},
+{en:"with the aim of",ja:"〜することを目的として",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"She studied abroad with the aim of mastering French.",exJa:"彼女はフランス語をマスターすることを目的として留学した。",exMore:[{en:"The program was created with the aim of reducing waste.",ja:"そのプログラムは廃棄物を減らすことを目的として作られた。"}]},
 {en:"make light of",ja:"〜を軽視する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Don't make light of the risks involved.",exJa:"関連するリスクを軽視してはいけない。",exMore:[{en:"He tends to make light of his own achievements.",ja:"彼は自分の功績を軽視しがちだ。"}]},
 {en:"make much of",ja:"〜を重視する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Japanese culture makes much of politeness.",exJa:"日本の文化は礼儀を重視する。",exMore:[{en:"The media made much of the celebrity's small mistake.",ja:"メディアはその有名人のちょっとした失敗を重視しすぎた。"}]},
-{en:"in the face of",ja:"〜に直面して",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"She remained calm in the face of adversity.",exJa:"彼女は逆境に直面しても冷静さを保った。",exMore:[{en:"So calm did she remain in the face of danger that no one guessed her fear.",ja:"彼女は危険に直面しても実に冷静だったので、誰も彼女の恐怖に気づかなかった。"}]},
-{en:"at the expense of",ja:"〜を犠牲にして",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"Economic growth came at the expense of the environment.",exJa:"経済成長は環境を犠牲にしてもたらされた。",exMore:[{en:"Should profit ever be pursued at the expense of employee wellbeing?",ja:"利益は従業員の幸福を犠牲にしてまで追求されるべきものだろうか。"}]},
-{en:"in the event of",ja:"〜の場合に",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"In the event of an emergency, call this number.",exJa:"緊急事態の場合は、この番号に電話してください。",exMore:[{en:"In the event of a fire, would everyone actually know where the exits are?",ja:"火事が起きた場合、実際に誰もが非常口の場所を知っているだろうか。"}]},
+{en:"in the face of",ja:"〜に直面して",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"She remained calm in the face of adversity.",exJa:"彼女は逆境に直面しても冷静さを保った。",exMore:[{en:"So calm did she remain in the face of danger that no one guessed her fear.",ja:"彼女は危険に直面しても実に冷静だったので、誰も彼女の恐怖に気づかなかった。"}]},
+{en:"at the expense of",ja:"〜を犠牲にして",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"Economic growth came at the expense of the environment.",exJa:"経済成長は環境を犠牲にしてもたらされた。",exMore:[{en:"Should profit ever be pursued at the expense of employee wellbeing?",ja:"利益は従業員の幸福を犠牲にしてまで追求されるべきものだろうか。"}]},
+{en:"in the event of",ja:"〜の場合に",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"In the event of an emergency, call this number.",exJa:"緊急事態の場合は、この番号に電話してください。",exMore:[{en:"In the event of a fire, would everyone actually know where the exits are?",ja:"火事が起きた場合、実際に誰もが非常口の場所を知っているだろうか。"}]},
 {en:"fall back on",ja:"〜に頼る（代替案として）",pos:"熟語",cat:"phrase",level:"advanced",exEn:"When all else fails, fall back on your instincts.",exJa:"他のすべてが失敗したとき、本能を頼りにしなさい。",exMore:[{en:"If the plan fails, we can always fall back on our savings.",ja:"計画が失敗しても、私たちはいつでも貯金に頼ることができる。"}]},
 {en:"take issue with",ja:"〜に異議を唱える",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I would take issue with that interpretation.",exJa:"その解釈には異議を唱えたい。",exMore:[{en:"Several critics took issue with the author's conclusions.",ja:"何人かの評論家がその著者の結論に異議を唱えた。"}]},
 {en:"be hard pressed to",ja:"〜するのに苦労する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"I would be hard pressed to find a better solution.",exJa:"それより良い解決策を見つけるのに苦労するだろう。",exMore:[{en:"He would be hard pressed to explain his sudden absence.",ja:"彼は突然の欠席を説明するのに苦労するだろう。"}]},
@@ -6295,8 +6463,8 @@ const WORDS = [
 {en:"not so much A as B",ja:"AというよりもむしろB",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is not so much a genius as a very hard worker.",exJa:"彼は天才というよりもむしろ非常に勤勉な人だ。",exMore:[{en:"Isn't he not so much unlucky as simply careless?",ja:"彼は不運というよりも、単に不注意なだけなのではないか。"}]},
 {en:"It is not until A that B",ja:"AになってはじめてB",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It is not until you lose your health that you realize its value.",exJa:"健康を失ってはじめてその価値がわかる。",exMore:[{en:"It was not until she moved abroad that she appreciated her hometown.",ja:"彼女は海外に引っ越して初めて故郷のありがたみが分かった。"}]},
 {en:"the comparative, the comparative",ja:"〜すればするほど〜",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The more you practice, the better you become.",exJa:"練習すればするほど上達する。",exMore:[{en:"The more you read, the richer your vocabulary becomes.",ja:"本を読めば読むほど、語彙が豊かになる。"}]},
-{en:"so ... that",ja:"とても〜なので〜",pos:"接続詞 S V（相関）",cat:"phrase",level:"advanced",exEn:"She was so tired that she fell asleep immediately.",exJa:"彼女はとても疲れていたのですぐに眠ってしまった。",exMore:[{en:"Had the music not been so loud, would they have heard the alarm?",ja:"音楽があれほど大きくなければ、彼らは警報に気づいていただろうか。"}]},
-{en:"such ... that",ja:"とても〜な〜なので〜",pos:"接続詞 S V（相関）",cat:"phrase",level:"advanced",exEn:"It was such a difficult problem that nobody could solve it.",exJa:"それはとても難しい問題だったので誰も解けなかった。",exMore:[{en:"It was such a small kitchen that only one person could cook at a time.",ja:"あまりに小さい台所だったので、一度に一人しか料理できなかった。"}]},
+{en:"so ... that",ja:"とても〜なので〜",pos:"接続詞（相関）",cat:"phrase",level:"advanced",exEn:"She was so tired that she fell asleep immediately.",exJa:"彼女はとても疲れていたのですぐに眠ってしまった。",exMore:[{en:"Had the music not been so loud, would they have heard the alarm?",ja:"音楽があれほど大きくなければ、彼らは警報に気づいていただろうか。"}]},
+{en:"such ... that",ja:"とても〜な〜なので〜",pos:"接続詞（相関）",cat:"phrase",level:"advanced",exEn:"It was such a difficult problem that nobody could solve it.",exJa:"それはとても難しい問題だったので誰も解けなかった。",exMore:[{en:"It was such a small kitchen that only one person could cook at a time.",ja:"あまりに小さい台所だったので、一度に一人しか料理できなかった。"}]},
 {en:"never do A without doing B",ja:"〜するときは必ず〜する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He never leaves for work without checking his email.",exJa:"彼は仕事に出かけるときは必ずメールを確認する。",exMore:[{en:"Never had he driven past that intersection without being reminded of the accident.",ja:"その交差点を車で通るたびに、彼は必ずその事故を思い出さずにはいられなかった。"}]},
 {en:"cannot ... too",ja:"いくら〜しても〜しすぎることはない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"You cannot be too careful when driving.",exJa:"運転中はいくら注意してもしすぎることはない。",exMore:[{en:"However many times it is said, one cannot stress enough how important sleep is.",ja:"何度言っても、睡眠がいかに大切かはいくら強調してもしすぎることはない。"}]},
 {en:"shed light on",ja:"〜を明らかにする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The new research sheds light on the causes of the disease.",exJa:"新しい研究がその病気の原因を明らかにした。",note:"shed: （光などを）放つ",exMore:[{en:"Could this newly discovered letter shed light on the mystery at last?",ja:"この新たに発見された手紙は、ついにその謎を明らかにできるだろうか。"}]},
@@ -6354,7 +6522,7 @@ const WORDS = [
 {en:"on the spot",ja:"その場で・ただちに",pos:"熟語",cat:"phrase",level:"basic",exEn:"The journalist had to make a decision on the spot.",exJa:"そのジャーナリストはその場で決断しなければならなかった。",exMore:[{en:"He was hired on the spot after the interview.",ja:"彼は面接後すぐにその場で採用された。"}]},
 {en:"in store",ja:"待ち受けている",pos:"熟語",cat:"phrase",level:"standard",exEn:"No one knows what surprises are in store.",exJa:"どんな驚きが待ち受けているか誰にもわからない。",exMore:[{en:"Had they known what was in store for them, would they have set out at all?",ja:"自分たちに何が待ち受けているか知っていたら、そもそも出発していただろうか。"}]},
 {en:"off and on",ja:"断続的に",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It rained off and on throughout the day.",exJa:"一日中断続的に雨が降った。",exMore:[{en:"It has been raining off and on all day.",ja:"一日中断続的に雨が降っている。"}]},
-{en:"as opposed to",ja:"〜とは対照的に・〜ではなく",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"This is a practical solution, as opposed to a theoretical one.",exJa:"これは理論的なものとは対照的に、実際的な解決策だ。",exMore:[{en:"Should the committee be judged on results, as opposed to intentions alone?",ja:"その委員会は意図だけでなく、結果によって評価されるべきではないだろうか。"}]},
+{en:"as opposed to",ja:"〜とは対照的に・〜ではなく",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"This is a practical solution, as opposed to a theoretical one.",exJa:"これは理論的なものとは対照的に、実際的な解決策だ。",exMore:[{en:"Should the committee be judged on results, as opposed to intentions alone?",ja:"その委員会は意図だけでなく、結果によって評価されるべきではないだろうか。"}]},
 {en:"in this regard",ja:"この点において",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In this regard, the two approaches differ significantly.",exJa:"この点において、二つのアプローチは大きく異なる。",exMore:[{en:"In this regard, hasn't the new policy actually made things worse?",ja:"この点において、その新しい方針はむしろ事態を悪化させたのではないだろうか。"}]},
 {en:"in many respects",ja:"多くの点で",pos:"熟語",cat:"phrase",level:"advanced",exEn:"In many respects, the two systems are similar.",exJa:"多くの点で、二つのシステムは似ている。",exMore:[{en:"In many respects, wasn't the old system more efficient than the current one?",ja:"多くの点で、旧システムの方が現行のものより効率的だったのではないか。"}]},
 {en:"on balance",ja:"全体的に見ると",pos:"熟語",cat:"phrase",level:"advanced",exEn:"On balance, the benefits outweigh the costs.",exJa:"全体的に見ると、利益がコストを上回る。",exMore:[{en:"On balance, working from home has improved her productivity.",ja:"全体的に見ると、在宅勤務は彼女の生産性を向上させた。"}]},
@@ -6364,13 +6532,13 @@ const WORDS = [
 {en:"all the more",ja:"いっそう・なおさら",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The fact that she studied alone makes her achievement all the more remarkable.",exJa:"独学で勉強したという事実が彼女の業績をいっそう際立たせている。",exMore:[{en:"Because the task was difficult, it was all the more rewarding.",ja:"その作業は難しかったので、なおさらやりがいがあった。"}]},
 {en:"all the same",ja:"それでもやはり",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It was not easy; all the same, she succeeded.",exJa:"簡単ではなかった。それでもやはり、彼女は成功した。",exMore:[{en:"Unconvincing though the excuse was, she forgave him all the same.",ja:"その言い訳は説得力がなかったが、それでも彼女は彼を許した。"}]},
 {en:"for that matter",ja:"それについて言えば",pos:"熟語",cat:"phrase",level:"standard",exEn:"He rarely reads books, or for that matter, magazines.",exJa:"彼はめったに本を読まない。雑誌についても同じことが言える。",exMore:[{en:"Nobody in the office, or in the whole building for that matter, had heard the alarm.",ja:"オフィスの誰も、それを言うならビル全体の誰も、その警報に気づいていなかった。"}]},
-{en:"in the absence of",ja:"〜がない場合に",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"In the absence of clear evidence, the case was dismissed.",exJa:"明確な証拠がない場合、訴訟は却下された。",exMore:[{en:"In the absence of clear instructions, the team made its own decisions.",ja:"明確な指示がない場合、チームは自分たちで決定を下した。"}]},
-{en:"in the presence of",ja:"〜の前で・〜がいるところで",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"He remained calm in the presence of danger.",exJa:"彼は危険が迫っている状況でも冷静を保った。",exMore:[{en:"The contract was signed in the presence of two witnesses.",ja:"その契約は二人の証人の立ち会いのもとで署名された。"}]},
-{en:"on the assumption that",ja:"〜という前提で",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"We proceeded on the assumption that funding would be secured.",exJa:"資金が確保されるという前提で進めた。",exMore:[{en:"We planned the trip on the assumption that the weather would be good.",ja:"私たちは天気が良いという前提でその旅行を計画した。"}]},
-{en:"for the purpose of",ja:"〜の目的で",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"The data was collected for the purpose of academic research.",exJa:"そのデータは学術研究の目的で収集された。",exMore:[{en:"The survey was conducted for the purpose of improving customer service.",ja:"その調査は顧客サービスを改善する目的で実施された。"}]},
-{en:"in the course of",ja:"〜の過程で",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"In the course of the investigation, new facts emerged.",exJa:"調査の過程で新しい事実が浮かび上がった。",exMore:[{en:"What had changed in the course of the negotiations to make both sides agree so suddenly?",ja:"交渉の過程で何が変わって、両者があれほど急に合意したのだろうか。"}]},
-{en:"by the time",ja:"〜までには",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"By the time he realized the mistake, it was too late.",exJa:"彼が間違いに気づいたときには、すでに遅かった。",exMore:[{en:"By the time we got to the theater, the movie had already started.",ja:"私たちが劇場に着くまでには、映画はすでに始まっていた。"}]},
-{en:"at the risk of",ja:"〜の危険を冒して",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"At the risk of sounding repetitive, I must emphasize this point.",exJa:"繰り返しに聞こえる危険を冒して、この点を強調しなければならない。",exMore:[{en:"At the risk of sounding rude, I have to disagree.",ja:"失礼に聞こえる危険を冒してでも、私は反対しなければならない。"}]},
+{en:"in the absence of",ja:"〜がない場合に",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"In the absence of clear evidence, the case was dismissed.",exJa:"明確な証拠がない場合、訴訟は却下された。",exMore:[{en:"In the absence of clear instructions, the team made its own decisions.",ja:"明確な指示がない場合、チームは自分たちで決定を下した。"}]},
+{en:"in the presence of",ja:"〜の前で・〜がいるところで",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"He remained calm in the presence of danger.",exJa:"彼は危険が迫っている状況でも冷静を保った。",exMore:[{en:"The contract was signed in the presence of two witnesses.",ja:"その契約は二人の証人の立ち会いのもとで署名された。"}]},
+{en:"on the assumption that",ja:"〜という前提で",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"We proceeded on the assumption that funding would be secured.",exJa:"資金が確保されるという前提で進めた。",exMore:[{en:"We planned the trip on the assumption that the weather would be good.",ja:"私たちは天気が良いという前提でその旅行を計画した。"}]},
+{en:"for the purpose of",ja:"〜の目的で",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"The data was collected for the purpose of academic research.",exJa:"そのデータは学術研究の目的で収集された。",exMore:[{en:"The survey was conducted for the purpose of improving customer service.",ja:"その調査は顧客サービスを改善する目的で実施された。"}]},
+{en:"in the course of",ja:"〜の過程で",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"In the course of the investigation, new facts emerged.",exJa:"調査の過程で新しい事実が浮かび上がった。",exMore:[{en:"What had changed in the course of the negotiations to make both sides agree so suddenly?",ja:"交渉の過程で何が変わって、両者があれほど急に合意したのだろうか。"}]},
+{en:"by the time",ja:"〜までには",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"By the time he realized the mistake, it was too late.",exJa:"彼が間違いに気づいたときには、すでに遅かった。",exMore:[{en:"By the time we got to the theater, the movie had already started.",ja:"私たちが劇場に着くまでには、映画はすでに始まっていた。"}]},
+{en:"at the risk of",ja:"〜の危険を冒して",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"At the risk of sounding repetitive, I must emphasize this point.",exJa:"繰り返しに聞こえる危険を冒して、この点を強調しなければならない。",exMore:[{en:"At the risk of sounding rude, I have to disagree.",ja:"失礼に聞こえる危険を冒してでも、私は反対しなければならない。"}]},
 {en:"be on the rise",ja:"増加している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The number of elderly people is on the rise worldwide.",exJa:"高齢者の数が世界規模で増加している。",exMore:[{en:"Crime rates in the area have been on the rise recently.",ja:"その地域の犯罪率は最近増加している。"}]},
 {en:"be on the decline",ja:"減少している",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Public trust in the media is on the decline.",exJa:"メディアへの市民の信頼が減少している。",exMore:[{en:"Traditional newspaper sales have been on the decline for years.",ja:"従来の新聞の売上は何年も減少し続けている。"}]},
 {en:"to the best of one's knowledge",ja:"知る限りでは",pos:"熟語",cat:"phrase",level:"advanced",exEn:"To the best of my knowledge, no such document exists.",exJa:"私の知る限りでは、そのような文書は存在しない。",exMore:[{en:"To the best of anyone's knowledge, had the building ever been inspected at all?",ja:"誰の知る限りでも、その建物は一度でも点検されたことがあったのだろうか。"}]},
@@ -6469,7 +6637,7 @@ const WORDS = [
 {en:"not necessarily",ja:"必ずしも〜ではない",pos:"熟語",cat:"phrase",level:"basic",exEn:"More money does not necessarily mean more happiness.",exJa:"お金が多いことが必ずしも幸福を意味するわけではない。",exMore:[{en:"Just because it's expensive does not necessarily mean it will last longer.",ja:"高価だからといって、必ずしも長持ちするとは限らない。"}]},
 {en:"both A and B",ja:"AとBの両方とも",pos:"熟語",cat:"phrase",level:"basic",exEn:"Both the students and the teacher were surprised.",exJa:"生徒も先生も両方とも驚いた。",exMore:[{en:"Both the manager and the staff attended the meeting.",ja:"マネージャーとスタッフの両方が会議に出席した。"}]},
 {en:"not A but B",ja:"AではなくB",pos:"熟語",cat:"phrase",level:"basic",exEn:"The goal is not to win but to participate.",exJa:"目標は勝つことではなく参加することだ。",exMore:[{en:"It was not luck but hard work that led to his success.",ja:"彼の成功をもたらしたのは運ではなく努力だった。"}]},
-{en:"so that",ja:"〜するために・だから〜",pos:"接続詞 S V",cat:"phrase",level:"basic",exEn:"She studied hard so that she could pass the exam.",exJa:"試験に合格できるように彼女は一生懸命勉強した。",exMore:[{en:"He saved money so that he could travel abroad.",ja:"彼は海外旅行に行けるようにお金を貯めた。"}]},
+{en:"so that",ja:"〜するために・だから〜",pos:"接続詞",cat:"phrase",level:"basic",exEn:"She studied hard so that she could pass the exam.",exJa:"試験に合格できるように彼女は一生懸命勉強した。",exMore:[{en:"He saved money so that he could travel abroad.",ja:"彼は海外旅行に行けるようにお金を貯めた。"}]},
 {en:"as far as",ja:"〜に関する限り",pos:"熟語",cat:"phrase",level:"basic",exEn:"As far as I know, he has not arrived yet.",exJa:"私の知る限り、彼はまだ到着していない。",exMore:[{en:"As far as anyone could tell, the machine had never once broken down.",ja:"誰の目から見ても、その機械は一度も故障したことがないようだった。"}]},
 {en:"such as",ja:"〜のような・例えば",pos:"熟語",cat:"phrase",level:"basic",exEn:"Endangered animals, such as pandas and tigers, need protection.",exJa:"パンダやトラのような絶滅危惧種は保護が必要だ。",exMore:[{en:"Had allergens such as peanuts been listed on the label, would the reaction have happened?",ja:"ピーナッツのようなアレルゲンが表示に記載されていたら、そのアレルギー反応は起きていただろうか。"}]},
 {en:"up to now",ja:"今までのところ",pos:"熟語",cat:"phrase",level:"basic",exEn:"Up to now, no serious problems have occurred.",exJa:"今までのところ、深刻な問題は起きていない。",exMore:[{en:"Up to now, we haven't received any complaints.",ja:"今までのところ、私たちは何も苦情を受けていない。"}]},
@@ -6527,20 +6695,20 @@ const WORDS = [
 {en:"give credit to",ja:"〜を称える・認める",pos:"熟語",cat:"phrase",level:"standard",exEn:"We should give credit to those who made this possible.",exJa:"これを可能にした人たちを称えるべきだ。",exMore:[{en:"We should give credit to the whole team for this success.",ja:"この成功についてはチーム全体を称えるべきだ。"}]},
 {en:"lose track of",ja:"〜を見失う",pos:"熟語",cat:"phrase",level:"standard",exEn:"I lost track of time while reading.",exJa:"読書中に時間を見失ってしまった。",exMore:[{en:"So many changes had been made that even the editor lost track of the latest version.",ja:"あまりに多くの変更が加えられたので、編集者でさえ最新版がどれか分からなくなっていた。"}]},
 {en:"put emphasis on",ja:"〜を強調する",pos:"熟語",cat:"phrase",level:"standard",exEn:"The school puts emphasis on critical thinking.",exJa:"その学校は批判的思考を強調している。",exMore:[{en:"Should schools really put so much emphasis on test scores rather than creativity?",ja:"学校は創造性よりもテストの点数にこれほど重点を置くべきなのだろうか。"}]},
-{en:"owing to",ja:"〜のために（原因）",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"The match was canceled owing to bad weather.",exJa:"悪天候のため、試合はキャンセルされた。",exMore:[{en:"The flight was delayed owing to a mechanical issue.",ja:"そのフライトは機械の不具合のために遅延した。"}]},
-{en:"on account of",ja:"〜のために（原因）",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"She was absent on account of illness.",exJa:"彼女は病気のため欠席した。",exMore:[{en:"The event was postponed on account of the storm.",ja:"そのイベントは嵐のために延期された。"}]},
-{en:"in consequence of",ja:"〜の結果として",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"In consequence of the accident, several roads were closed.",exJa:"事故の結果、いくつかの道路が閉鎖された。",exMore:[{en:"In consequence of the accident, traffic was blocked for hours.",ja:"その事故の結果として、何時間も交通が遮断された。"}]},
-{en:"as a consequence of",ja:"〜の結果として",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"As a consequence of global warming, sea levels are rising.",exJa:"地球温暖化の結果として、海面が上昇している。",exMore:[{en:"As a consequence of the drought, crop yields fell sharply.",ja:"干ばつの結果として、農作物の収穫量が急激に減少した。"}]},
-{en:"on the basis of",ja:"〜に基づいて",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"Decisions should be made on the basis of evidence.",exJa:"決定は証拠に基づいて行われるべきだ。",exMore:[{en:"Candidates are selected on the basis of their experience.",ja:"候補者はその経験に基づいて選ばれる。"}]},
-{en:"with respect to",ja:"〜に関して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"With respect to your question, I have a few thoughts.",exJa:"あなたの質問に関して、いくつかの考えがある。",exMore:[{en:"The two proposals differ with respect to cost.",ja:"その二つの提案は費用に関して異なる。"}]},
-{en:"in respect of",ja:"〜に関して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"In respect of environmental impact, the plan needs revision.",exJa:"環境への影響に関して、その計画は修正が必要だ。",exMore:[{en:"The company made changes in respect of employee benefits.",ja:"その会社は従業員の福利厚生に関して変更を行った。"}]},
-{en:"with reference to",ja:"〜に関して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"With reference to your inquiry, please see the attached document.",exJa:"お問い合わせに関して、添付文書をご参照ください。",exMore:[{en:"With reference to your email, I have attached the file.",ja:"あなたのメールに関して、ファイルを添付しました。"}]},
-{en:"in relation to",ja:"〜に関して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"There are several issues in relation to safety.",exJa:"安全性に関していくつかの問題がある。",exMore:[{en:"How should this figure be interpreted in relation to last year's results?",ja:"この数字は昨年の結果との関連で、どのように解釈されるべきなのだろうか。"}]},
-{en:"in connection with",ja:"〜に関連して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"Police are questioning several people in connection with the robbery.",exJa:"警察は強盗に関連していくつかの人物を尋問している。",exMore:[{en:"He was questioned in connection with the robbery.",ja:"彼はその強盗に関連して尋問された。"}]},
-{en:"in line with",ja:"〜と一致して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"The company's policy is in line with international standards.",exJa:"その会社の方針は国際基準と一致している。",exMore:[{en:"Had the design not been kept in line with local regulations, would it have been approved?",ja:"その設計が地元の規制に沿ったものでなければ、承認されていただろうか。"}]},
-{en:"in accordance with",ja:"〜に従って",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"Please act in accordance with the rules.",exJa:"規則に従って行動してください。",exMore:[{en:"The project was completed in accordance with the schedule.",ja:"そのプロジェクトは予定に従って完了した。"}]},
-{en:"in conflict with",ja:"〜と対立して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"His actions were in conflict with company policy.",exJa:"彼の行動は会社の方針と対立していた。",exMore:[{en:"Her new schedule is often in conflict with her family time.",ja:"彼女の新しいスケジュールはしばしば家族との時間と対立する。"}]},
-{en:"in contrast to",ja:"〜とは対照的に",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"In contrast to his brother, he is very quiet.",exJa:"兄とは対照的に、彼はとても静かだ。",exMore:[{en:"In contrast to last year, sales have improved significantly.",ja:"昨年とは対照的に、売上は大幅に改善した。"}]},
+{en:"owing to",ja:"〜のために（原因）",pos:"前置詞",cat:"phrase",level:"standard",exEn:"The match was canceled owing to bad weather.",exJa:"悪天候のため、試合はキャンセルされた。",exMore:[{en:"The flight was delayed owing to a mechanical issue.",ja:"そのフライトは機械の不具合のために遅延した。"}]},
+{en:"on account of",ja:"〜のために（原因）",pos:"前置詞",cat:"phrase",level:"standard",exEn:"She was absent on account of illness.",exJa:"彼女は病気のため欠席した。",exMore:[{en:"The event was postponed on account of the storm.",ja:"そのイベントは嵐のために延期された。"}]},
+{en:"in consequence of",ja:"〜の結果として",pos:"前置詞",cat:"phrase",level:"standard",exEn:"In consequence of the accident, several roads were closed.",exJa:"事故の結果、いくつかの道路が閉鎖された。",exMore:[{en:"In consequence of the accident, traffic was blocked for hours.",ja:"その事故の結果として、何時間も交通が遮断された。"}]},
+{en:"as a consequence of",ja:"〜の結果として",pos:"前置詞",cat:"phrase",level:"standard",exEn:"As a consequence of global warming, sea levels are rising.",exJa:"地球温暖化の結果として、海面が上昇している。",exMore:[{en:"As a consequence of the drought, crop yields fell sharply.",ja:"干ばつの結果として、農作物の収穫量が急激に減少した。"}]},
+{en:"on the basis of",ja:"〜に基づいて",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Decisions should be made on the basis of evidence.",exJa:"決定は証拠に基づいて行われるべきだ。",exMore:[{en:"Candidates are selected on the basis of their experience.",ja:"候補者はその経験に基づいて選ばれる。"}]},
+{en:"with respect to",ja:"〜に関して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"With respect to your question, I have a few thoughts.",exJa:"あなたの質問に関して、いくつかの考えがある。",exMore:[{en:"The two proposals differ with respect to cost.",ja:"その二つの提案は費用に関して異なる。"}]},
+{en:"in respect of",ja:"〜に関して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"In respect of environmental impact, the plan needs revision.",exJa:"環境への影響に関して、その計画は修正が必要だ。",exMore:[{en:"The company made changes in respect of employee benefits.",ja:"その会社は従業員の福利厚生に関して変更を行った。"}]},
+{en:"with reference to",ja:"〜に関して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"With reference to your inquiry, please see the attached document.",exJa:"お問い合わせに関して、添付文書をご参照ください。",exMore:[{en:"With reference to your email, I have attached the file.",ja:"あなたのメールに関して、ファイルを添付しました。"}]},
+{en:"in relation to",ja:"〜に関して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"There are several issues in relation to safety.",exJa:"安全性に関していくつかの問題がある。",exMore:[{en:"How should this figure be interpreted in relation to last year's results?",ja:"この数字は昨年の結果との関連で、どのように解釈されるべきなのだろうか。"}]},
+{en:"in connection with",ja:"〜に関連して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Police are questioning several people in connection with the robbery.",exJa:"警察は強盗に関連していくつかの人物を尋問している。",exMore:[{en:"He was questioned in connection with the robbery.",ja:"彼はその強盗に関連して尋問された。"}]},
+{en:"in line with",ja:"〜と一致して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"The company's policy is in line with international standards.",exJa:"その会社の方針は国際基準と一致している。",exMore:[{en:"Had the design not been kept in line with local regulations, would it have been approved?",ja:"その設計が地元の規制に沿ったものでなければ、承認されていただろうか。"}]},
+{en:"in accordance with",ja:"〜に従って",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Please act in accordance with the rules.",exJa:"規則に従って行動してください。",exMore:[{en:"The project was completed in accordance with the schedule.",ja:"そのプロジェクトは予定に従って完了した。"}]},
+{en:"in conflict with",ja:"〜と対立して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"His actions were in conflict with company policy.",exJa:"彼の行動は会社の方針と対立していた。",exMore:[{en:"Her new schedule is often in conflict with her family time.",ja:"彼女の新しいスケジュールはしばしば家族との時間と対立する。"}]},
+{en:"in contrast to",ja:"〜とは対照的に",pos:"前置詞",cat:"phrase",level:"standard",exEn:"In contrast to his brother, he is very quiet.",exJa:"兄とは対照的に、彼はとても静かだ。",exMore:[{en:"In contrast to last year, sales have improved significantly.",ja:"昨年とは対照的に、売上は大幅に改善した。"}]},
 {en:"for nothing",ja:"無駄に・無料で",pos:"熟語",cat:"phrase",level:"standard",exEn:"All my hard work was for nothing.",exJa:"私の努力はすべて無駄だった。",exMore:[{en:"Children under five can enter the museum for nothing.",ja:"5歳未満の子供は無料で美術館に入れる。"}]},
 {en:"by all means",ja:"ぜひとも・もちろん",pos:"熟語",cat:"phrase",level:"standard",exEn:"Please, by all means, feel free to ask questions.",exJa:"ぜひとも、遠慮なく質問してください。",exMore:[{en:"By all means, bring a friend along if you'd like.",ja:"よろしければ、ぜひ友達を連れてきてください。"}]},
 {en:"in no way",ja:"決して〜でない",pos:"熟語",cat:"phrase",level:"standard",exEn:"In no way am I suggesting that you are wrong.",exJa:"決してあなたが間違っていると言いたいわけではない。",exMore:[{en:"Whatever caused the delay, it was in no way related to the weather.",ja:"その遅延の原因が何であれ、天候とはまったく関係がなかった。"}]},
@@ -6548,28 +6716,28 @@ const WORDS = [
 {en:"without fail",ja:"必ず・間違いなく",pos:"熟語",cat:"phrase",level:"standard",exEn:"Please attend the meeting without fail.",exJa:"必ず会議に出席してください。",exMore:[{en:"Rain or shine, the mail carrier arrives without fail at nine every morning.",ja:"雨でも晴れでも、その郵便配達員は毎朝9時に必ずやって来る。"}]},
 {en:"by all accounts",ja:"誰の話によっても",pos:"熟語",cat:"phrase",level:"standard",exEn:"By all accounts, the new restaurant is excellent.",exJa:"誰の話によっても、その新しいレストランは素晴らしいそうだ。",exMore:[{en:"Had the reviews been so glowing, wasn't the play, by all accounts, worth seeing?",ja:"レビューがあれほど絶賛だったのなら、その劇は誰の話によっても見る価値があったのではないか。"}]},
 {en:"on the grounds of",ja:"〜を理由として",pos:"熟語",cat:"phrase",level:"standard",exEn:"The case was dismissed on the grounds of insufficient evidence.",exJa:"証拠不十分を理由として、その事件は却下された。",exMore:[{en:"He was dismissed on the grounds of misconduct.",ja:"彼は不正行為を理由として解雇された。"}]},
-{en:"for fear of",ja:"〜を恐れて",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"She didn't speak up for fear of making a mistake.",exJa:"間違いをすることを恐れて、彼女は声を上げなかった。",exMore:[{en:"So carefully did he word the email, for fear of causing offense.",ja:"気分を害することを恐れて、彼はそのメールの言葉遣いを実に慎重に選んだ。"}]},
+{en:"for fear of",ja:"〜を恐れて",pos:"前置詞",cat:"phrase",level:"standard",exEn:"She didn't speak up for fear of making a mistake.",exJa:"間違いをすることを恐れて、彼女は声を上げなかった。",exMore:[{en:"So carefully did he word the email, for fear of causing offense.",ja:"気分を害することを恐れて、彼はそのメールの言葉遣いを実に慎重に選んだ。"}]},
 {en:"out of curiosity",ja:"好奇心から",pos:"熟語",cat:"phrase",level:"standard",exEn:"Out of curiosity, what made you choose this career?",exJa:"好奇心から聞きますが、なぜこのキャリアを選んだのですか？",exMore:[{en:"He opened the box out of curiosity.",ja:"彼は好奇心からその箱を開けた。"}]},
 {en:"out of habit",ja:"習慣で",pos:"熟語",cat:"phrase",level:"standard",exEn:"He checks his phone first thing every morning out of habit.",exJa:"彼は習慣で毎朝まず携帯をチェックする。",exMore:[{en:"Even years after quitting, he still reached for a cigarette out of habit.",ja:"禁煙して何年も経った後でも、彼は今でも習慣で煙草に手を伸ばしてしまう。"}]},
 {en:"in addition",ja:"さらに・加えて",pos:"熟語",cat:"phrase",level:"standard",exEn:"The hotel offers a pool; in addition, there is a gym.",exJa:"そのホテルにはプールがある。さらに、ジムもある。",exMore:[{en:"Not only was the hotel comfortable; in addition, the staff could not have been friendlier.",ja:"そのホテルは快適だっただけでなく、さらにスタッフはこれ以上ないほど親切だった。"}]},
-{en:"consequently",ph:"/ˈkɑːnsɪkwəntli/",ja:"結果として",pos:"<副詞>",cat:"phrase",level:"standard",exEn:"He didn't prepare; consequently, he failed the test.",exJa:"彼は準備しなかった。結果として、試験に失敗した。",exMore:[{en:"The bridge was closed, and consequently, traffic was heavy.",ja:"その橋は閉鎖され、結果として交通が渋滞した。"}]},
-{en:"subsequently",ph:"/ˈsʌbsɪkwəntli/",ja:"その後・後になって",pos:"<副詞>",cat:"phrase",level:"standard",exEn:"He was arrested and subsequently released.",exJa:"彼は逮捕され、その後釈放された。",exMore:[{en:"He subsequently became one of the company's top managers.",ja:"彼はその後、会社のトップマネージャーの一人になった。"}]},
-{en:"accordingly",ph:"/əˈkɔːrdɪŋli/",ja:"それに従って・したがって",pos:"<副詞>",cat:"phrase",level:"standard",exEn:"The budget was reduced; accordingly, the project was scaled back.",exJa:"予算が削減された。それに従って、プロジェクトも縮小された。",exMore:[{en:"The weather changed, and we planned our trip accordingly.",ja:"天気が変わったので、それに従って旅行を計画した。"}]},
-{en:"given that",ja:"〜を考慮すると",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Given that time is limited, we must act quickly.",exJa:"時間が限られていることを考慮すると、迅速に行動しなければならない。",exMore:[{en:"Given that it's raining, we should reschedule the picnic.",ja:"雨が降っていることを考慮すると、ピクニックの予定を変更すべきだ。"}]},
-{en:"assuming that",ja:"〜を仮定すると",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Assuming that the plan works, we will save time.",exJa:"計画がうまくいくと仮定すると、時間を節約できる。",exMore:[{en:"Assuming that the weather holds, we'll leave at dawn.",ja:"天気が持つと仮定すると、私たちは夜明けに出発する。"}]},
-{en:"in that",ja:"〜という点で",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"This method is superior in that it produces fewer errors.",exJa:"この方法はエラーが少ないという点で優れている。",exMore:[{en:"Is this new policy really better in that it saves money, or only in appearance?",ja:"この新しい方針は、経費を節約するという点で本当に優れているのか、それとも見かけだけなのか。"}]},
-{en:"even if",ja:"たとえ〜でも",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Even if it rains, the event will continue.",exJa:"たとえ雨が降っても、イベントは続くだろう。",exMore:[{en:"Even if it rains, the event will go ahead as planned.",ja:"たとえ雨が降っても、そのイベントは予定通り行われる。"}]},
-{en:"even though",ja:"〜であるにもかかわらず",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Even though he was tired, he continued working.",exJa:"疲れていたにもかかわらず、彼は働き続けた。",exMore:[{en:"Even though he was exhausted, he finished the marathon.",ja:"疲れ果てていたにもかかわらず、彼はマラソンを完走した。"}]},
+{en:"consequently",ph:"/ˈkɑːnsɪkwəntli/",ja:"結果として",pos:"副詞",cat:"phrase",level:"standard",exEn:"He didn't prepare; consequently, he failed the test.",exJa:"彼は準備しなかった。結果として、試験に失敗した。",exMore:[{en:"The bridge was closed, and consequently, traffic was heavy.",ja:"その橋は閉鎖され、結果として交通が渋滞した。"}]},
+{en:"subsequently",ph:"/ˈsʌbsɪkwəntli/",ja:"その後・後になって",pos:"副詞",cat:"phrase",level:"standard",exEn:"He was arrested and subsequently released.",exJa:"彼は逮捕され、その後釈放された。",exMore:[{en:"He subsequently became one of the company's top managers.",ja:"彼はその後、会社のトップマネージャーの一人になった。"}]},
+{en:"accordingly",ph:"/əˈkɔːrdɪŋli/",ja:"それに従って・したがって",pos:"副詞",cat:"phrase",level:"standard",exEn:"The budget was reduced; accordingly, the project was scaled back.",exJa:"予算が削減された。それに従って、プロジェクトも縮小された。",exMore:[{en:"The weather changed, and we planned our trip accordingly.",ja:"天気が変わったので、それに従って旅行を計画した。"}]},
+{en:"given that",ja:"〜を考慮すると",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Given that time is limited, we must act quickly.",exJa:"時間が限られていることを考慮すると、迅速に行動しなければならない。",exMore:[{en:"Given that it's raining, we should reschedule the picnic.",ja:"雨が降っていることを考慮すると、ピクニックの予定を変更すべきだ。"}]},
+{en:"assuming that",ja:"〜を仮定すると",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Assuming that the plan works, we will save time.",exJa:"計画がうまくいくと仮定すると、時間を節約できる。",exMore:[{en:"Assuming that the weather holds, we'll leave at dawn.",ja:"天気が持つと仮定すると、私たちは夜明けに出発する。"}]},
+{en:"in that",ja:"〜という点で",pos:"接続詞",cat:"phrase",level:"standard",exEn:"This method is superior in that it produces fewer errors.",exJa:"この方法はエラーが少ないという点で優れている。",exMore:[{en:"Is this new policy really better in that it saves money, or only in appearance?",ja:"この新しい方針は、経費を節約するという点で本当に優れているのか、それとも見かけだけなのか。"}]},
+{en:"even if",ja:"たとえ〜でも",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Even if it rains, the event will continue.",exJa:"たとえ雨が降っても、イベントは続くだろう。",exMore:[{en:"Even if it rains, the event will go ahead as planned.",ja:"たとえ雨が降っても、そのイベントは予定通り行われる。"}]},
+{en:"even though",ja:"〜であるにもかかわらず",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Even though he was tired, he continued working.",exJa:"疲れていたにもかかわらず、彼は働き続けた。",exMore:[{en:"Even though he was exhausted, he finished the marathon.",ja:"疲れ果てていたにもかかわらず、彼はマラソンを完走した。"}]},
 {en:"in so far as",ja:"〜する限り・〜という範囲で",pos:"熟語",cat:"phrase",level:"standard",exEn:"I will help you in so far as I am able.",exJa:"私にできる限り、あなたを手伝います。",exMore:[{en:"In so far as the budget allows, we will hire more staff.",ja:"予算が許す範囲で、私たちはさらに人員を雇う予定だ。"}]},
-{en:"so long as",ja:"〜する限り",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"You can stay so long as you follow the rules.",exJa:"規則に従う限り、滞在できます。",exMore:[{en:"You may borrow the book so long as you return it by Friday.",ja:"金曜日までに返却する限り、その本を借りてもいいですよ。"}]},
+{en:"so long as",ja:"〜する限り",pos:"接続詞",cat:"phrase",level:"standard",exEn:"You can stay so long as you follow the rules.",exJa:"規則に従う限り、滞在できます。",exMore:[{en:"You may borrow the book so long as you return it by Friday.",ja:"金曜日までに返却する限り、その本を借りてもいいですよ。"}]},
 {en:"only if",ja:"〜の場合にのみ",pos:"熟語",cat:"phrase",level:"standard",exEn:"Only if you study hard will you succeed.",exJa:"一生懸命勉強した場合にのみ成功するだろう。",exMore:[{en:"You can enter only if you have a valid ticket.",ja:"有効なチケットを持っている場合にのみ入場できます。"}]},
-{en:"seeing that",ja:"〜なので",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Seeing that you have experience, you should apply.",exJa:"経験があることを考えると、応募すべきだ。",exMore:[{en:"Seeing that it's already dark, we should head home.",ja:"もう暗いので、家に帰るべきだ。"}]},
+{en:"seeing that",ja:"〜なので",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Seeing that you have experience, you should apply.",exJa:"経験があることを考えると、応募すべきだ。",exMore:[{en:"Seeing that it's already dark, we should head home.",ja:"もう暗いので、家に帰るべきだ。"}]},
 {en:"suppose that",ja:"〜と仮定すると",pos:"熟語",cat:"phrase",level:"standard",exEn:"Suppose that you had a million dollars, what would you do?",exJa:"100万ドルあると仮定すると、あなたはどうしますか？",exMore:[{en:"Suppose that the price doubles next year, what would you do?",ja:"来年価格が倍になると仮定すると、あなたはどうしますか？"}]},
 {en:"to the point",ja:"的確な・要を得た",pos:"熟語",cat:"phrase",level:"standard",exEn:"His answer was brief and to the point.",exJa:"彼の答えは簡潔で的確だった。",exMore:[{en:"Had her answer been any less to the point, the interviewer might have moved on.",ja:"彼女の答えがもう少し要領を得ないものだったら、面接官は次の話題に移っていたかもしれない。"}]},
 {en:"beside the point",ja:"的外れな",pos:"熟語",cat:"phrase",level:"standard",exEn:"That argument is completely beside the point.",exJa:"その議論は完全に的外れだ。",exMore:[{en:"Whether he meant to or not is entirely beside the point; the damage was done.",ja:"彼にそのつもりがあったかどうかはまったく的外れな問題であり、被害はすでに生じていた。"}]},
 {en:"by contrast",ja:"対照的に",pos:"熟語",cat:"phrase",level:"standard",exEn:"Japan's birth rate is low. By contrast, India's is high.",exJa:"日本の出生率は低い。対照的に、インドの出生率は高い。",exMore:[{en:"Urban incomes had risen sharply; rural wages, by contrast, had barely moved.",ja:"都市部の所得は急激に上昇していた。それとは対照的に、地方の賃金はほとんど変わっていなかった。"}]},
-{en:"in spite of the fact that",ja:"〜という事実にもかかわらず",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"In spite of the fact that she worked hard, she didn't pass.",exJa:"頑張ったという事実にもかかわらず、彼女は合格しなかった。",exMore:[{en:"In spite of the fact that he was tired, he kept working.",ja:"疲れているという事実にもかかわらず、彼は働き続けた。"}]},
-{en:"due to the fact that",ja:"〜という事実のために",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"The event was postponed due to the fact that the speaker was ill.",exJa:"演者が病気だという事実のため、イベントは延期された。",exMore:[{en:"The trip was canceled due to the fact that flights were fully booked.",ja:"フライトが満席だったという事実のため、その旅行は中止された。"}]},
+{en:"in spite of the fact that",ja:"〜という事実にもかかわらず",pos:"接続詞",cat:"phrase",level:"standard",exEn:"In spite of the fact that she worked hard, she didn't pass.",exJa:"頑張ったという事実にもかかわらず、彼女は合格しなかった。",exMore:[{en:"In spite of the fact that he was tired, he kept working.",ja:"疲れているという事実にもかかわらず、彼は働き続けた。"}]},
+{en:"due to the fact that",ja:"〜という事実のために",pos:"接続詞",cat:"phrase",level:"standard",exEn:"The event was postponed due to the fact that the speaker was ill.",exJa:"演者が病気だという事実のため、イベントは延期された。",exMore:[{en:"The trip was canceled due to the fact that flights were fully booked.",ja:"フライトが満席だったという事実のため、その旅行は中止された。"}]},
 {en:"have difficulty",ja:"〜するのに苦労する",pos:"熟語",cat:"phrase",level:"basic",exEn:"Many students have difficulty understanding this concept.",exJa:"多くの生徒がこの概念を理解するのに苦労する。",exMore:[{en:"Elderly patients often have difficulty reading small print on labels.",ja:"高齢の患者はラベルの小さな文字を読むのに苦労することが多い。"}]},
 {en:"have access to",ja:"〜にアクセスできる",pos:"熟語",cat:"phrase",level:"basic",exEn:"Not everyone has access to quality education.",exJa:"質の高い教育へのアクセスは万人にあるわけではない。",exMore:[{en:"Should every student really have equal access to the same learning materials?",ja:"すべての生徒は本当に同じ教材に平等にアクセスできるべきなのだろうか。"}]},
 {en:"have something to do with",ja:"〜と何らかの関係がある",pos:"熟語",cat:"phrase",level:"basic",exEn:"Her illness may have something to do with stress.",exJa:"彼女の病気はストレスと何らかの関係があるかもしれない。",exMore:[{en:"His success probably has something to do with his discipline.",ja:"彼の成功はおそらく彼の規律と何らかの関係がある。"}]},
@@ -6693,7 +6861,7 @@ const WORDS = [
 {en:"as a rule",ja:"概して・通常は",pos:"熟語",cat:"phrase",level:"basic",exEn:"As a rule, she arrives at work before nine.",exJa:"概して、彼女は9時前に職場に着く。",exMore:[{en:"As a rule, aren't smaller classes more effective than larger ones?",ja:"概して、少人数のクラスの方が大人数のクラスより効果的ではないだろうか。"}]},
 {en:"as for",ja:"〜に関しては",pos:"熟語",cat:"phrase",level:"basic",exEn:"As for me, I prefer the second option.",exJa:"私に関しては、二番目の選択肢の方が好みだ。",exMore:[{en:"As for the missing funds, had anyone even begun to investigate?",ja:"その消えた資金に関しては、誰かが調査に着手すらしていたのだろうか。"}]},
 {en:"as regards",ja:"〜に関しては",pos:"熟語",cat:"phrase",level:"standard",exEn:"As regards the schedule, no changes have been made.",exJa:"スケジュールに関しては、変更はない。",exMore:[{en:"As regards the contract, everything looks fine.",ja:"契約に関しては、すべて問題ないようだ。"}]},
-{en:"as to",ja:"〜に関して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"There was some confusion as to who was responsible.",exJa:"誰が責任者なのかについていくらか混乱があった。",exMore:[{en:"Little was said as to how the decision had actually been reached.",ja:"その決定が実際どのように下されたかについては、ほとんど何も語られなかった。"}]},
+{en:"as to",ja:"〜に関して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"There was some confusion as to who was responsible.",exJa:"誰が責任者なのかについていくらか混乱があった。",exMore:[{en:"Little was said as to how the decision had actually been reached.",ja:"その決定が実際どのように下されたかについては、ほとんど何も語られなかった。"}]},
 {en:"at a time",ja:"一度に・同時に",pos:"熟語",cat:"phrase",level:"basic",exEn:"Please speak one at a time.",exJa:"一人ずつ話してください。",exMore:[{en:"The elevator can only carry four people at a time.",ja:"そのエレベーターは一度に4人しか運べない。"}]},
 {en:"at times",ja:"ときどき・時として",pos:"熟語",cat:"phrase",level:"basic",exEn:"At times, she feels lonely in the big city.",exJa:"時として、彼女は大都市で孤独を感じる。",exMore:[{en:"At times, it seemed like the meeting would never end.",ja:"時として、その会議は永遠に終わらないように思えた。"}]},
 {en:"be anxious about",ja:"〜を心配している",pos:"熟語",cat:"phrase",level:"basic",exEn:"She is anxious about her children's safety.",exJa:"彼女は子供たちの安全を心配している。",exMore:[{en:"Having always been anxious about flying, she was surprised how calm she felt.",ja:"彼女は飛行機に乗ることをずっと心配していたので、自分がどれほど落ち着いているかに驚いた。"}]},
@@ -6755,7 +6923,7 @@ const WORDS = [
 {en:"first of all",ja:"まず第一に",pos:"熟語",cat:"phrase",level:"basic",exEn:"First of all, let me thank everyone for coming.",exJa:"まず第一に、皆さんのご来場に感謝します。",exMore:[{en:"First of all, let's introduce ourselves.",ja:"まず第一に、自己紹介をしましょう。"}]},
 {en:"for a change",ja:"気分転換に",pos:"熟語",cat:"phrase",level:"basic",exEn:"Let's go somewhere different for a change.",exJa:"気分転換に、いつもと違うところへ行こう。",exMore:[{en:"Wouldn't it be nice to walk to work for a change, instead of always driving?",ja:"いつも車で行く代わりに、気分転換にたまには歩いて出勤するのもいいのではないだろうか。"}]},
 {en:"for ages",ja:"長い間",pos:"熟語",cat:"phrase",level:"basic",exEn:"I haven't seen you for ages!",exJa:"久しく会っていませんでした！",exMore:[{en:"This old radio has been sitting in the attic for ages.",ja:"この古いラジオは何年も屋根裏に置かれたままだ。"}]},
-{en:"for lack of",ja:"〜がないために",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"The project was abandoned for lack of funding.",exJa:"資金不足のため、プロジェクトは中断された。",exMore:[{en:"The startup folded for lack of investors.",ja:"そのスタートアップは投資家不足のため倒産した。"}]},
+{en:"for lack of",ja:"〜がないために",pos:"前置詞",cat:"phrase",level:"standard",exEn:"The project was abandoned for lack of funding.",exJa:"資金不足のため、プロジェクトは中断された。",exMore:[{en:"The startup folded for lack of investors.",ja:"そのスタートアップは投資家不足のため倒産した。"}]},
 {en:"get ahead",ja:"前進する・成功する",pos:"熟語",cat:"phrase",level:"basic",exEn:"Hard work is the key to getting ahead.",exJa:"努力が前進するための鍵だ。",exMore:[{en:"Hard work is essential if you want to get ahead in this company.",ja:"この会社で成功したいなら勤勉さが不可欠だ。"}]},
 {en:"get along",ja:"うまくやっていく",pos:"熟語",cat:"phrase",level:"basic",exEn:"How are you getting along in your new job?",exJa:"新しい仕事でどうやっていますか？",exMore:[{en:"The new colleagues seem to get along well.",ja:"新しい同僚たちはうまくやっているようだ。"}]},
 {en:"get around to",ja:"〜する余裕ができる",pos:"熟語",cat:"phrase",level:"standard",exEn:"I haven't got around to reading that book yet.",exJa:"まだその本を読む余裕ができていない。",exMore:[{en:"He never quite got around to fixing the fence, even after promising to for months.",ja:"彼は何か月も直すと約束していたにもかかわらず、結局そのフェンスを直す時間を作れなかった。"}]},
@@ -6778,22 +6946,22 @@ const WORDS = [
 {en:"identify with",ja:"〜に共感する",pos:"熟語",cat:"phrase",level:"standard",exEn:"Many readers identify with the main character.",exJa:"多くの読者が主人公に共感する。",exMore:[{en:"Not every reader could identify with a character so far removed from ordinary life.",ja:"誰もが、日常からこれほどかけ離れた人物に共感できるわけではなかった。"}]},
 {en:"in a row",ja:"連続して",pos:"熟語",cat:"phrase",level:"basic",exEn:"The team won five games in a row.",exJa:"そのチームは5試合連続で勝利した。",exMore:[{en:"It has rained for three days in a row.",ja:"3日連続で雨が降っている。"}]},
 {en:"in all",ja:"全部で",pos:"熟語",cat:"phrase",level:"basic",exEn:"There were fifty participants in all.",exJa:"参加者は全部で50人いた。",exMore:[{en:"Had every donation truly been counted, would the total in all have come to so little?",ja:"すべての寄付が本当に数えられていたら、それでも合計は全部でこれほど少なかっただろうか。"}]},
-{en:"in case of",ja:"〜の場合に備えて",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"In case of emergency, press this button.",exJa:"緊急の場合には、このボタンを押しなさい。",exMore:[{en:"In case of fire, use the stairs, not the elevator.",ja:"火事の場合に備えて、エレベーターではなく階段を使ってください。"}]},
-{en:"in common with",ja:"〜と同様に",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"In common with many others, she supports this policy.",exJa:"他の多くの人と同様に、彼女はこの政策を支持する。",exMore:[{en:"Not unlike other border towns, this city, in common with its neighbors, has always been bilingual.",ja:"他の国境の町と違わず、この街も近隣の町々と同様に、昔からずっと二言語が使われてきた。"}]},
-{en:"in comparison with",ja:"〜と比べると",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"In comparison with last year, sales have doubled.",exJa:"昨年と比べると、売り上げは倍増した。",exMore:[{en:"In comparison with last year, expenses have decreased.",ja:"昨年と比べると、経費は減少した。"}]},
+{en:"in case of",ja:"〜の場合に備えて",pos:"前置詞",cat:"phrase",level:"basic",exEn:"In case of emergency, press this button.",exJa:"緊急の場合には、このボタンを押しなさい。",exMore:[{en:"In case of fire, use the stairs, not the elevator.",ja:"火事の場合に備えて、エレベーターではなく階段を使ってください。"}]},
+{en:"in common with",ja:"〜と同様に",pos:"前置詞",cat:"phrase",level:"standard",exEn:"In common with many others, she supports this policy.",exJa:"他の多くの人と同様に、彼女はこの政策を支持する。",exMore:[{en:"Not unlike other border towns, this city, in common with its neighbors, has always been bilingual.",ja:"他の国境の町と違わず、この街も近隣の町々と同様に、昔からずっと二言語が使われてきた。"}]},
+{en:"in comparison with",ja:"〜と比べると",pos:"前置詞",cat:"phrase",level:"basic",exEn:"In comparison with last year, sales have doubled.",exJa:"昨年と比べると、売り上げは倍増した。",exMore:[{en:"In comparison with last year, expenses have decreased.",ja:"昨年と比べると、経費は減少した。"}]},
 {en:"in consequence",ja:"その結果として",pos:"熟語",cat:"phrase",level:"standard",exEn:"The river flooded; in consequence, many homes were damaged.",exJa:"川が氾濫した。その結果、多くの家が被害を受けた。",exMore:[{en:"He ignored the warning, and in consequence, lost his job.",ja:"彼はその警告を無視し、その結果、職を失った。"}]},
-{en:"in contact with",ja:"〜と連絡している",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"We try to stay in contact with former students.",exJa:"私たちは卒業生と連絡を保つよう努めている。",exMore:[{en:"She has stayed in contact with her old professor for years.",ja:"彼女は何年も昔の教授と連絡を取り続けている。"}]},
-{en:"in contrast with",ja:"〜とは対照的に",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"In contrast with his sister, he is very outgoing.",exJa:"姉とは対照的に、彼はとても社交的だ。",exMore:[{en:"Nothing about the quiet morning prepared them for the chaos that followed, in contrast with what came next.",ja:"その静かな朝の何ものも、その後に続いた混乱とは対照的に、彼らに心構えをさせていなかった。"}]},
-{en:"in control of",ja:"〜を管理している",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"Who is in control of this project?",exJa:"このプロジェクトを管理しているのは誰ですか？",exMore:[{en:"She felt completely in control of the situation.",ja:"彼女はその状況を完全に管理していると感じた。"}]},
-{en:"in excess of",ja:"〜を超えて",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"Profits were in excess of all expectations.",exJa:"利益はすべての予想を超えていた。",exMore:[{en:"Had repairs not cost in excess of the original estimate, would the owners have proceeded?",ja:"修理費が当初の見積もりを超えていなければ、所有者たちは工事を進めていただろうか。"}]},
-{en:"in harmony with",ja:"〜と調和して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"Traditional values exist in harmony with modern life.",exJa:"伝統的な価値観は現代の生活と調和して存在している。",exMore:[{en:"The new building was designed to be in harmony with nature.",ja:"その新しい建物は自然と調和するよう設計された。"}]},
-{en:"in honor of",ja:"〜を称えて",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"A ceremony was held in honor of the retiring director.",exJa:"退職する局長を称える式典が開かれた。",exMore:[{en:"The park was named in honor of the town's founder.",ja:"その公園はその町の創設者を称えて名付けられた。"}]},
-{en:"in keeping with",ja:"〜と調和して",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"The design is in keeping with the building's history.",exJa:"そのデザインは建物の歴史と調和している。",exMore:[{en:"Nothing about the new signage seemed in keeping with the historic character of the street.",ja:"その新しい看板は、その通りの歴史的な雰囲気とはまったく調和していないように思われた。"}]},
+{en:"in contact with",ja:"〜と連絡している",pos:"前置詞",cat:"phrase",level:"basic",exEn:"We try to stay in contact with former students.",exJa:"私たちは卒業生と連絡を保つよう努めている。",exMore:[{en:"She has stayed in contact with her old professor for years.",ja:"彼女は何年も昔の教授と連絡を取り続けている。"}]},
+{en:"in contrast with",ja:"〜とは対照的に",pos:"前置詞",cat:"phrase",level:"standard",exEn:"In contrast with his sister, he is very outgoing.",exJa:"姉とは対照的に、彼はとても社交的だ。",exMore:[{en:"Nothing about the quiet morning prepared them for the chaos that followed, in contrast with what came next.",ja:"その静かな朝の何ものも、その後に続いた混乱とは対照的に、彼らに心構えをさせていなかった。"}]},
+{en:"in control of",ja:"〜を管理している",pos:"前置詞",cat:"phrase",level:"basic",exEn:"Who is in control of this project?",exJa:"このプロジェクトを管理しているのは誰ですか？",exMore:[{en:"She felt completely in control of the situation.",ja:"彼女はその状況を完全に管理していると感じた。"}]},
+{en:"in excess of",ja:"〜を超えて",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Profits were in excess of all expectations.",exJa:"利益はすべての予想を超えていた。",exMore:[{en:"Had repairs not cost in excess of the original estimate, would the owners have proceeded?",ja:"修理費が当初の見積もりを超えていなければ、所有者たちは工事を進めていただろうか。"}]},
+{en:"in harmony with",ja:"〜と調和して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Traditional values exist in harmony with modern life.",exJa:"伝統的な価値観は現代の生活と調和して存在している。",exMore:[{en:"The new building was designed to be in harmony with nature.",ja:"その新しい建物は自然と調和するよう設計された。"}]},
+{en:"in honor of",ja:"〜を称えて",pos:"前置詞",cat:"phrase",level:"standard",exEn:"A ceremony was held in honor of the retiring director.",exJa:"退職する局長を称える式典が開かれた。",exMore:[{en:"The park was named in honor of the town's founder.",ja:"その公園はその町の創設者を称えて名付けられた。"}]},
+{en:"in keeping with",ja:"〜と調和して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"The design is in keeping with the building's history.",exJa:"そのデザインは建物の歴史と調和している。",exMore:[{en:"Nothing about the new signage seemed in keeping with the historic character of the street.",ja:"その新しい看板は、その通りの歴史的な雰囲気とはまったく調和していないように思われた。"}]},
 {en:"in order",ja:"正常に・整って",pos:"熟語",cat:"phrase",level:"basic",exEn:"Make sure all the documents are in order.",exJa:"すべての書類が整っていることを確認してください。",exMore:[{en:"Before the audit, make sure the accounts are in order.",ja:"監査の前に、帳簿がきちんと整っていることを確認してください。"}]},
 {en:"in place",ja:"適切な位置に・準備ができて",pos:"熟語",cat:"phrase",level:"standard",exEn:"All the safety measures are now in place.",exJa:"すべての安全対策が今や整っている。",exMore:[{en:"Had no safety measures been in place, could the accident have been so much worse?",ja:"安全対策が何も整っていなければ、その事故はもっとひどいものになっていただろうか。"}]},
 {en:"in some cases",ja:"場合によっては",pos:"熟語",cat:"phrase",level:"basic",exEn:"In some cases, surgery may be the only option.",exJa:"場合によっては、手術が唯一の選択肢となりうる。",exMore:[{en:"In some cases, symptoms may not appear for weeks.",ja:"場合によっては、症状が何週間も現れないことがある。"}]},
 {en:"in stock",ja:"在庫がある",pos:"熟語",cat:"phrase",level:"basic",exEn:"I'm afraid that item is not currently in stock.",exJa:"申し訳ありませんが、その商品は現在在庫がありません。",exMore:[{en:"The store still has a few units in stock.",ja:"その店にはまだ数台在庫がある。"}]},
-{en:"in the case of",ja:"〜の場合には",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"In the case of fire, use the stairs.",exJa:"火事の場合には、階段を使ってください。",exMore:[{en:"Not every rule applies equally; in the case of emergencies, exceptions are often made.",ja:"すべての規則が等しく適用されるわけではない。緊急時の場合には、しばしば例外が設けられる。"}]},
+{en:"in the case of",ja:"〜の場合には",pos:"前置詞",cat:"phrase",level:"basic",exEn:"In the case of fire, use the stairs.",exJa:"火事の場合には、階段を使ってください。",exMore:[{en:"Not every rule applies equally; in the case of emergencies, exceptions are often made.",ja:"すべての規則が等しく適用されるわけではない。緊急時の場合には、しばしば例外が設けられる。"}]},
 {en:"in total",ja:"合計で",pos:"熟語",cat:"phrase",level:"basic",exEn:"The project cost two million dollars in total.",exJa:"プロジェクトは合計で200万ドルかかった。",exMore:[{en:"Had every hidden fee been included, would the cost in total have shocked so many customers?",ja:"隠れた手数料がすべて含まれていたら、合計費用はこれほど多くの客を驚かせていただろうか。"}]},
 {en:"in trouble",ja:"困難な状況で",pos:"熟語",cat:"phrase",level:"basic",exEn:"Call me if you are ever in trouble.",exJa:"困難な状況になったら電話して。",exMore:[{en:"He found himself in trouble after missing the deadline.",ja:"彼は締め切りを逃して困った状況に陥った。"}]},
 {en:"interfere with",ja:"〜を妨げる",pos:"熟語",cat:"phrase",level:"standard",exEn:"Noise from the street interferes with my concentration.",exJa:"通りからの騒音が集中力を妨げる。",exMore:[{en:"Loud noise can interfere with concentration.",ja:"大きな騒音は集中力を妨げることがある。"}]},
@@ -6815,7 +6983,7 @@ const WORDS = [
 {en:"miss out on",ja:"〜を逃す",pos:"熟語",cat:"phrase",level:"basic",exEn:"Don't miss out on this once-in-a-lifetime opportunity.",exJa:"一生に一度のこの機会を逃さないでください。",exMore:[{en:"Worried about missing out on the sale, she rushed to the store the moment it opened.",ja:"セールを逃すことを心配して、彼女は開店した瞬間に店へ急いだ。"}]},
 {en:"mix up",ja:"〜を混同する",pos:"熟語",cat:"phrase",level:"basic",exEn:"I always mix up 'effect' and 'affect'.",exJa:"私はいつも「effect」と「affect」を混同する。",exMore:[{en:"Had the labels not been mixed up, would the wrong medication ever have been given?",ja:"そのラベルが取り違えられていなければ、間違った薬が渡されることなどあっただろうか。"}]},
 {en:"more than ever",ja:"今まで以上に",pos:"熟語",cat:"phrase",level:"standard",exEn:"Global cooperation is needed more than ever.",exJa:"今まで以上に国際協力が必要とされている。",exMore:[{en:"Now, more than ever, we need to work together.",ja:"今こそ、今まで以上に、私たちは協力する必要がある。"}]},
-{en:"next to",ja:"〜の隣に・ほとんど〜でない",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"It is next to impossible to finish in time.",exJa:"時間内に終えることはほとんど不可能だ。",exMore:[{en:"Nothing seemed to sit next to her on that empty bench for hours.",ja:"何時間もの間、その空いたベンチの彼女の隣には何も座っていないようだった。"}]},
+{en:"next to",ja:"〜の隣に・ほとんど〜でない",pos:"前置詞",cat:"phrase",level:"basic",exEn:"It is next to impossible to finish in time.",exJa:"時間内に終えることはほとんど不可能だ。",exMore:[{en:"Nothing seemed to sit next to her on that empty bench for hours.",ja:"何時間もの間、その空いたベンチの彼女の隣には何も座っていないようだった。"}]},
 {en:"no doubt",ja:"疑いなく",pos:"熟語",cat:"phrase",level:"basic",exEn:"No doubt she will succeed.",exJa:"疑いなく彼女は成功するだろう。",exMore:[{en:"There is no doubt that the plan will succeed.",ja:"その計画が成功することに疑いはない。"}]},
 {en:"occur to",ja:"〜の頭に浮かぶ",pos:"熟語",cat:"phrase",level:"basic",exEn:"Did it ever occur to you that she might be lying?",exJa:"彼女が嘘をついているかもしれないとあなたの頭に浮かんだことはありましたか？",exMore:[{en:"It never occurred to me that he might be lying.",ja:"彼が嘘をついているかもしれないとは思いつきもしなかった。"}]},
 {en:"of course",ja:"もちろん",pos:"熟語",cat:"phrase",level:"basic",exEn:"Of course I'll help you.",exJa:"もちろん手伝いますよ。",exMore:[{en:"Not everyone had, of course, been informed of the sudden change.",ja:"もちろん、誰もがその突然の変更を知らされていたわけではなかった。"}]},
@@ -6827,7 +6995,7 @@ const WORDS = [
 {en:"part with",ja:"〜を手放す",pos:"熟語",cat:"phrase",level:"standard",exEn:"He couldn't bear to part with his old car.",exJa:"彼は古い車を手放すことに耐えられなかった。",exMore:[{en:"Never had she been asked to part with something so precious before.",ja:"これほど大切なものを手放すよう頼まれたことは、それまで彼女には一度もなかった。"}]},
 {en:"pick on",ja:"〜をいじめる",pos:"熟語",cat:"phrase",level:"basic",exEn:"Why do you always pick on him?",exJa:"なぜいつも彼をいじめるのですか？",exMore:[{en:"Older siblings sometimes pick on their younger ones.",ja:"年上のきょうだいは時々年下をいじめることがある。"}]},
 {en:"point to",ja:"〜を指し示す・示唆する",pos:"熟語",cat:"phrase",level:"standard",exEn:"All the evidence points to him as the suspect.",exJa:"すべての証拠が彼を容疑者として指し示している。",exMore:[{en:"Had the evidence not pointed so clearly to him, would anyone else have been suspected?",ja:"その証拠がこれほど明確に彼を指し示していなければ、他の誰かが疑われていただろうか。"}]},
-{en:"prior to",ja:"〜より前に",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"Please arrive prior to the start time.",exJa:"開始時間より前に到着してください。",exMore:[{en:"Guests who had not arrived prior to the deadline were simply turned away.",ja:"締め切り前に到着していなかった客は、単に入場を断られた。"}]},
+{en:"prior to",ja:"〜より前に",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Please arrive prior to the start time.",exJa:"開始時間より前に到着してください。",exMore:[{en:"Guests who had not arrived prior to the deadline were simply turned away.",ja:"締め切り前に到着していなかった客は、単に入場を断られた。"}]},
 {en:"pull off",ja:"〜をやり遂げる",pos:"熟語",cat:"phrase",level:"standard",exEn:"Against all odds, they pulled off a remarkable victory.",exJa:"すべての困難をものともせず、彼らは見事な勝利をやり遂げた。",exMore:[{en:"Rarely does such a small team pull off a victory against so strong an opponent.",ja:"これほど小さなチームが、これほど強い相手に対して勝利をつかむことはめったにない。"}]},
 {en:"put across",ja:"〜を伝える",pos:"熟語",cat:"phrase",level:"standard",exEn:"She found it difficult to put her ideas across clearly.",exJa:"彼女はアイデアを明確に伝えることが難しいと感じた。",exMore:[{en:"So nervous was she that her carefully prepared ideas were never really put across.",ja:"彼女はあまりに緊張していたので、入念に準備した考えは結局きちんと伝わらなかった。"}]},
 {en:"put down",ja:"〜を書き留める・鎮圧する",pos:"熟語",cat:"phrase",level:"basic",exEn:"Put down your ideas while they're fresh.",exJa:"アイデアが新鮮なうちに書き留めなさい。",exMore:[{en:"Had the rebellion not been put down so swiftly, could it have spread to neighboring provinces?",ja:"その反乱があれほど迅速に鎮圧されていなければ、隣接する州に広がっていた可能性があっただろうか。"}]},
@@ -6862,7 +7030,7 @@ const WORDS = [
 {en:"without question",ja:"疑いなく",pos:"熟語",cat:"phrase",level:"standard",exEn:"He is without question the greatest player of his generation.",exJa:"彼は疑いなく彼の世代で最も偉大な選手だ。",exMore:[{en:"Not everyone in the department accepted the new rules without question.",ja:"その部署の全員が、その新しい規則を疑いなく受け入れたわけではなかった。"}]},
 {en:"work on",ja:"〜に取り組む",pos:"熟語",cat:"phrase",level:"basic",exEn:"I've been working on this project for months.",exJa:"数か月間このプロジェクトに取り組んでいる。",exMore:[{en:"The engineers have been working on the bug for days.",ja:"エンジニアたちは何日もそのバグに取り組んでいる。"}]},
 {en:"beyond doubt",ja:"疑いの余地なく",pos:"熟語",cat:"phrase",level:"standard",exEn:"She is beyond doubt the most qualified candidate.",exJa:"彼女は疑いの余地なく最も資格のある候補者だ。",exMore:[{en:"Had his talent not been beyond doubt, would the panel have accepted him so readily?",ja:"彼の才能が疑いの余地のないものでなければ、審査団はこれほどすんなりと彼を受け入れていただろうか。"}]},
-{en:"ahead of",ja:"〜の先に・〜より前に",pos:"(前置詞) 名",cat:"phrase",level:"basic",exEn:"We are ahead of schedule.",exJa:"私たちは予定より進んでいる。",exMore:[{en:"Not wanting to be late, they arrived well ahead of the scheduled time.",ja:"遅刻したくなかったので、彼らは予定時刻よりかなり早く到着した。"}]},
+{en:"ahead of",ja:"〜の先に・〜より前に",pos:"前置詞",cat:"phrase",level:"basic",exEn:"We are ahead of schedule.",exJa:"私たちは予定より進んでいる。",exMore:[{en:"Not wanting to be late, they arrived well ahead of the scheduled time.",ja:"遅刻したくなかったので、彼らは予定時刻よりかなり早く到着した。"}]},
 {en:"all along",ja:"ずっと・最初から",pos:"熟語",cat:"phrase",level:"basic",exEn:"I knew all along that she was telling the truth.",exJa:"最初から彼女が真実を話していることを知っていた。",exMore:[{en:"She knew the truth all along.",ja:"彼女は最初からずっと真実を知っていた。"}]},
 {en:"all but",ja:"ほとんど〜",pos:"熟語",cat:"phrase",level:"standard",exEn:"The project was all but complete.",exJa:"プロジェクトはほとんど完成していた。",exMore:[{en:"So quiet had the town become that the old market seemed all but forgotten.",ja:"その町はあまりに静かになってしまったので、その古い市場はほとんど忘れ去られたように見えた。"}]},
 {en:"all over",ja:"至るところに・終わって",pos:"熟語",cat:"phrase",level:"basic",exEn:"People from all over the world visited the exhibition.",exJa:"世界中から人々が展覧会を訪れた。",exMore:[{en:"Had they arrived on time, would the party still have been all over by then?",ja:"彼らが時間通りに到着していたら、それでもそのパーティーはその時までにすっかり終わっていただろうか。"}]},
@@ -6876,7 +7044,7 @@ const WORDS = [
 {en:"be cut off from",ja:"〜から孤立している",pos:"熟語",cat:"phrase",level:"standard",exEn:"The remote village was cut off from the outside world.",exJa:"その辺鄙な村は外の世界から孤立していた。",exMore:[{en:"Climbers on the peak were cut off from rescue teams for two days.",ja:"山頂にいた登山者たちは2日間、救助隊から孤立していた。"}]},
 {en:"as ever",ja:"相変わらず",pos:"熟語",cat:"phrase",level:"basic",exEn:"She's as enthusiastic as ever.",exJa:"彼女は相変わらず熱心だ。",exMore:[{en:"He was cheerful as ever despite the bad news.",ja:"悪い知らせにもかかわらず、彼は相変わらず陽気だった。"}]},
 {en:"as follows",ja:"次のとおり",pos:"熟語",cat:"phrase",level:"basic",exEn:"The instructions are as follows.",exJa:"説明は次のとおりです。",exMore:[{en:"The application process is as follows.",ja:"申請の手続きは次のとおりです。"}]},
-{en:"as of",ja:"〜現在・〜の時点で",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"As of today, the new policy is in effect.",exJa:"今日現在、新しい方針が有効だ。",exMore:[{en:"As of next Monday, the new policy will take effect.",ja:"来週の月曜日の時点で、新しい方針が発効する。"}]},
+{en:"as of",ja:"〜現在・〜の時点で",pos:"前置詞",cat:"phrase",level:"standard",exEn:"As of today, the new policy is in effect.",exJa:"今日現在、新しい方針が有効だ。",exMore:[{en:"As of next Monday, the new policy will take effect.",ja:"来週の月曜日の時点で、新しい方針が発効する。"}]},
 {en:"begin with",ja:"〜から始める",pos:"熟語",cat:"phrase",level:"basic",exEn:"Let's begin with a brief introduction.",exJa:"簡単な自己紹介から始めましょう。",exMore:[{en:"The recipe begins with chopping the vegetables.",ja:"そのレシピは野菜を切ることから始まる。"}]},
 {en:"come from",ja:"〜の出身だ・〜に由来する",pos:"熟語",cat:"phrase",level:"basic",exEn:"This tradition comes from ancient times.",exJa:"この伝統は古代に由来する。",exMore:[{en:"The word \"pizza\" comes from Italian.",ja:"「pizza」という単語はイタリア語に由来する。"}]},
 {en:"compare with",ja:"〜と比較する",pos:"熟語",cat:"phrase",level:"basic",exEn:"Compared with last year, prices have risen significantly.",exJa:"昨年と比べると、価格は大幅に上昇した。",exMore:[{en:"Nothing can compare with a home-cooked meal.",ja:"家庭料理に匹敵するものはない。"}]},
@@ -7074,9 +7242,9 @@ const WORDS = [
 {en:"weather permitting",ja:"天気がよければ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We'll have the picnic outdoors, weather permitting.",exJa:"天気がよければ、屋外でピクニックをします。",prio:1,exMore:[{en:"We'll go hiking on Saturday, weather permitting.",ja:"天気がよければ、土曜日にハイキングに行きます。"}]},
 {en:"such being the case",ja:"そのような事情なので",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Such being the case, we had to cancel the event.",exJa:"そのような事情なので、私たちはそのイベントを中止せざるをえなかった。",prio:1,exMore:[{en:"Such being the case, the meeting has been postponed.",ja:"そのような事情なので、その会議は延期された。"}]},
 {en:"considering A",ja:"Aを考慮に入れると",pos:"熟語",cat:"phrase",level:"standard",exEn:"Considering the weather, the trip went well.",exJa:"天候を考慮に入れると、その旅行はうまくいった。",prio:1,exMore:[{en:"Considering his age, he is remarkably fit.",ja:"彼の年齢を考慮に入れると、彼は驚くほど健康的だ。"}]},
-{en:"granting that",ja:"仮に…だとしても",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"Granting that he made a mistake, he shouldn't be blamed alone.",exJa:"仮に彼が間違いを犯したとしても、彼だけが責められるべきではない。",prio:1,exMore:[{en:"Granting that the plan has flaws, it's still our best option.",ja:"その計画に欠陥があるとしても、それでもそれが私たちの最善の選択肢だ。"}]},
-{en:"providing that",ja:"もし…なら",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"You can join us, providing that you finish your homework first.",exJa:"先に宿題を終わらせるなら、私たちに加わってもいいですよ。",prio:1,exMore:[{en:"You can join the trip, providing that you get permission first.",ja:"先に許可を得るなら、その旅行に参加してもいいですよ。"}]},
-{en:"supposing that",ja:"もし…なら",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Supposing that it rains tomorrow, what will we do?",exJa:"もし明日雨が降ったら、私たちはどうしますか？",prio:1,exMore:[{en:"Supposing that the offer is genuine, would you accept it?",ja:"その申し出が本物だと仮定して、あなたは受け入れますか？"}]},
+{en:"granting that",ja:"仮に…だとしても",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"Granting that he made a mistake, he shouldn't be blamed alone.",exJa:"仮に彼が間違いを犯したとしても、彼だけが責められるべきではない。",prio:1,exMore:[{en:"Granting that the plan has flaws, it's still our best option.",ja:"その計画に欠陥があるとしても、それでもそれが私たちの最善の選択肢だ。"}]},
+{en:"providing that",ja:"もし…なら",pos:"接続詞",cat:"phrase",level:"standard",exEn:"You can join us, providing that you finish your homework first.",exJa:"先に宿題を終わらせるなら、私たちに加わってもいいですよ。",prio:1,exMore:[{en:"You can join the trip, providing that you get permission first.",ja:"先に許可を得るなら、その旅行に参加してもいいですよ。"}]},
+{en:"supposing that",ja:"もし…なら",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Supposing that it rains tomorrow, what will we do?",exJa:"もし明日雨が降ったら、私たちはどうしますか？",prio:1,exMore:[{en:"Supposing that the offer is genuine, would you accept it?",ja:"その申し出が本物だと仮定して、あなたは受け入れますか？"}]},
 {en:"all things considered",ja:"あらゆることを考慮に入れると",pos:"熟語",cat:"phrase",level:"advanced",exEn:"All things considered, the trip was a success.",exJa:"あらゆることを考慮に入れると、その旅行は成功だった。",prio:1,exMore:[{en:"All things considered, moving to a new city was the right choice.",ja:"あらゆることを考慮に入れると、新しい都市への引っ越しは正しい選択だった。"}]},
 {en:"be senior to A",ja:"Aより先輩だ・Aより年上だ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is senior to me by two years.",exJa:"彼は私より2年先輩だ。",prio:1,exMore:[{en:"In terms of experience, he is senior to most of the team.",ja:"経験の点では、彼はチームのほとんどより先輩だ。"}]},
 {en:"be junior to A",ja:"Aより後輩だ・Aより年下だ",pos:"熟語",cat:"phrase",level:"advanced",exEn:"She is junior to him by three years.",exJa:"彼女は彼より3歳年下だ。",prio:1,exMore:[{en:"As a new hire, she is junior to everyone in the department.",ja:"新入社員として、彼女はその部署の誰よりも後輩だ。"}]},
@@ -7100,11 +7268,11 @@ const WORDS = [
 {en:"as might have been expected",ja:"期待されたように",pos:"熟語",cat:"phrase",level:"advanced",exEn:"As might have been expected, the team won easily.",exJa:"期待されたように、そのチームは楽々と勝利した。",prio:1,exMore:[{en:"As might have been expected, ticket prices rose sharply during the holidays.",ja:"予想された通り、チケットの価格は休暇シーズン中に急騰した。"}]},
 {en:"next time",ja:"次に…するときに",pos:"熟語",cat:"phrase",level:"basic",exEn:"Next time you visit, bring your family.",exJa:"次に訪れるときは、家族を連れてきてください。",prio:1,exMore:[{en:"Next time you're in town, let's have dinner together.",ja:"次にこの町に来るときは、一緒に夕食を食べましょう。"}]},
 {en:"the last time",ja:"最後に…するときに",pos:"熟語",cat:"phrase",level:"basic",exEn:"The last time I saw him, he looked very tired.",exJa:"最後に彼に会ったとき、彼はとても疲れて見えた。",prio:1,exMore:[{en:"The last time it snowed here was over five years ago.",ja:"ここで最後に雪が降ったのは5年以上前だ。"}]},
-{en:"any time",ja:"…するときはいつでも",pos:"接続詞 S V",cat:"phrase",level:"basic",exEn:"Come and see me any time you want to.",exJa:"来たいときにはいつでも会いに来てください。",prio:1,exMore:[{en:"Feel free to visit any time you're in the neighborhood.",ja:"この近くに来たときはいつでも遠慮なく訪ねてください。"}]},
-{en:"every time",ja:"…するときはいつも・…するたびに",pos:"接続詞 S V",cat:"phrase",level:"basic",exEn:"Every time we go on a picnic, it rains.",exJa:"私たちがピクニックに行くたびに雨が降る。",prio:1,exMore:[{en:"Every time she travels, she brings back a small souvenir.",ja:"彼女は旅行するたびに小さなお土産を持って帰る。"}]},
-{en:"the minute",ja:"…するとすぐに",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"Call me the minute you arrive.",exJa:"到着したらすぐに電話してください。",prio:1,exMore:[{en:"The minute the bell rang, the students rushed out.",ja:"ベルが鳴ったとたん、生徒たちは急いで出て行った。"}]},
-{en:"the instant",ja:"…するとすぐに",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"She recognized him the instant he walked in.",exJa:"彼が入ってきた瞬間、彼女は彼だとわかった。",prio:1,exMore:[{en:"She smiled the instant she saw the puppy.",ja:"彼女はその子犬を見た瞬間、微笑んだ。"}]},
-{en:"hardly ... when",ja:"…するとすぐに〜する",pos:"接続詞 S V（倒置）",cat:"phrase",level:"advanced",exEn:"I had hardly sat down when the phone rang.",exJa:"座るとすぐに電話が鳴った。",prio:1,exMore:[{en:"He had hardly opened the door when the dog ran out.",ja:"彼がドアを開けるやいなや犬が飛び出した。"}]},
+{en:"any time",ja:"…するときはいつでも",pos:"接続詞",cat:"phrase",level:"basic",exEn:"Come and see me any time you want to.",exJa:"来たいときにはいつでも会いに来てください。",prio:1,exMore:[{en:"Feel free to visit any time you're in the neighborhood.",ja:"この近くに来たときはいつでも遠慮なく訪ねてください。"}]},
+{en:"every time",ja:"…するときはいつも・…するたびに",pos:"接続詞",cat:"phrase",level:"basic",exEn:"Every time we go on a picnic, it rains.",exJa:"私たちがピクニックに行くたびに雨が降る。",prio:1,exMore:[{en:"Every time she travels, she brings back a small souvenir.",ja:"彼女は旅行するたびに小さなお土産を持って帰る。"}]},
+{en:"the minute",ja:"…するとすぐに",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"Call me the minute you arrive.",exJa:"到着したらすぐに電話してください。",prio:1,exMore:[{en:"The minute the bell rang, the students rushed out.",ja:"ベルが鳴ったとたん、生徒たちは急いで出て行った。"}]},
+{en:"the instant",ja:"…するとすぐに",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"She recognized him the instant he walked in.",exJa:"彼が入ってきた瞬間、彼女は彼だとわかった。",prio:1,exMore:[{en:"She smiled the instant she saw the puppy.",ja:"彼女はその子犬を見た瞬間、微笑んだ。"}]},
+{en:"hardly ... when",ja:"…するとすぐに〜する",pos:"接続詞（倒置）",cat:"phrase",level:"advanced",exEn:"I had hardly sat down when the phone rang.",exJa:"座るとすぐに電話が鳴った。",prio:1,exMore:[{en:"He had hardly opened the door when the dog ran out.",ja:"彼がドアを開けるやいなや犬が飛び出した。"}]},
 {en:"in no sense",ja:"決してどんな意味でも…ない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"This is in no sense a final decision.",exJa:"これは決してどんな意味でも最終決定ではない。",prio:1,exMore:[{en:"This is in no sense an acceptable excuse.",ja:"これは決してどんな意味でも受け入れられる言い訳ではない。"}]},
 {en:"remain to be done",ja:"まだ…されていない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"Much work remains to be done before the deadline.",exJa:"締め切りまでにまだ多くの作業が残っている。",prio:1,exMore:[{en:"A lot of paperwork still remains to be done before the launch.",ja:"発売前にまだ多くの事務手続きが残っている。"}]},
 {en:"have yet to do",ja:"まだ…していない",pos:"熟語",cat:"phrase",level:"advanced",exEn:"We have yet to receive a reply from them.",exJa:"私たちはまだ彼らから返事を受け取っていない。",prio:1,exMore:[{en:"The company has yet to announce its final decision.",ja:"その会社はまだ最終決定を発表していない。"}]},
@@ -7138,7 +7306,7 @@ const WORDS = [
 {en:"all in all",ja:"全般的に見て",pos:"熟語",cat:"phrase",level:"standard",exEn:"All in all, the trip was a great success.",exJa:"全般的に見て、その旅行は大成功だった。",exMore:[{en:"All in all, it was a productive week.",ja:"全般的に見て、それは生産的な一週間だった。"}]},
 {en:"as good as",ja:"〜も同然",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The project is as good as finished.",exJa:"そのプロジェクトは終わったも同然だ。",exMore:[{en:"With the deadline gone, the project is as good as dead.",ja:"締め切りが過ぎたので、そのプロジェクトは終わったも同然だ。"}]},
 {en:"short of",ja:"〜が不足して",pos:"熟語",cat:"phrase",level:"standard",exEn:"We are short of staff during the holiday season.",exJa:"休暇シーズン中は人手が不足している。",exMore:[{en:"The city is short of affordable housing.",ja:"その市は手頃な住宅が不足している。"}]},
-{en:"for want of",ja:"〜がないので",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"The plant died for want of water.",exJa:"その植物は水がなかったために枯れた。",exMore:[{en:"The mission failed for want of proper equipment.",ja:"その任務は適切な装備がなかったために失敗した。"}]},
+{en:"for want of",ja:"〜がないので",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"The plant died for want of water.",exJa:"その植物は水がなかったために枯れた。",exMore:[{en:"The mission failed for want of proper equipment.",ja:"その任務は適切な装備がなかったために失敗した。"}]},
 {en:"make it",ja:"やり遂げる・間に合う",pos:"熟語",cat:"phrase",level:"basic",exEn:"I don't think we'll make it to the station in time.",exJa:"駅に間に合うとは思えない。",exMore:[{en:"Thanks to the shortcut, we made it to the airport in time.",ja:"近道のおかげで、私たちは間に合って空港に着いた。"}]},
 {en:"make ends meet",ja:"やりくりする",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It's hard to make ends meet on such a low salary.",exJa:"そんなに低い給料でやりくりするのは大変だ。",exMore:[{en:"With two part-time jobs, she barely makes ends meet.",ja:"二つのアルバイトをしても、彼女はかろうじてやりくりしている。"}]},
 {en:"make believe",ja:"〜のふりをする",pos:"熟語",cat:"phrase",level:"standard",exEn:"The children made believe they were pirates.",exJa:"子供たちは海賊のふりをして遊んだ。",exMore:[{en:"They made believe the cardboard box was a spaceship.",ja:"彼らはその段ボール箱を宇宙船のふりをして遊んだ。"}]},
@@ -7188,7 +7356,7 @@ const WORDS = [
 {en:"vice versa",ja:"その逆",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He helps her with math, and vice versa with English.",exJa:"彼は彼女に数学を教え、英語ではその逆だ。",exMore:[{en:"He can translate English to Japanese, and vice versa.",ja:"彼は英語を日本語に翻訳でき、その逆もできる。"}]},
 {en:"the other way around",ja:"あべこべ",pos:"熟語",cat:"phrase",level:"standard",exEn:"I thought he called her, but it was the other way around.",exJa:"彼が彼女に電話したと思っていたが、実はあべこべだった。",exMore:[{en:"I assumed she called him first, but it was the other way around.",ja:"彼女が先に彼に電話したと思っていたが、実はあべこべだった。"}]},
 {en:"this and that",ja:"あれこれ",pos:"熟語",cat:"phrase",level:"standard",exEn:"We chatted about this and that over coffee.",exJa:"私たちはコーヒーを飲みながらあれこれと話した。",exMore:[{en:"We spent the evening talking about this and that.",ja:"私たちはその夜、あれこれと話をして過ごした。"}]},
-{en:"for the good of",ja:"〜のために",pos:"(前置詞) 名",cat:"phrase",level:"standard",exEn:"He resigned for the good of the company.",exJa:"彼は会社のために辞任した。",exMore:[{en:"The mayor made the tough decision for the good of the town.",ja:"市長はその町のためにその難しい決断を下した。"}]},
+{en:"for the good of",ja:"〜のために",pos:"前置詞",cat:"phrase",level:"standard",exEn:"He resigned for the good of the company.",exJa:"彼は会社のために辞任した。",exMore:[{en:"The mayor made the tough decision for the good of the town.",ja:"市長はその町のためにその難しい決断を下した。"}]},
 {en:"know better",ja:"もっと分別がある",pos:"熟語",cat:"phrase",level:"standard",exEn:"You should know better than to leave the door unlocked.",exJa:"ドアの鍵をかけないでおくなんて、もっと分別があってもいいはずだ。",exMore:[{en:"At his age, he should know better than to skip meals.",ja:"彼の年齢なら、食事を抜くなんてもっと分別があってもいいはずだ。"}]},
 {en:"reach for",ja:"〜に手を伸ばす",pos:"熟語",cat:"phrase",level:"basic",exEn:"She reached for the top shelf but couldn't quite reach it.",exJa:"彼女は一番上の棚に手を伸ばしたが、届かなかった。",exMore:[{en:"She reached for her phone the moment it rang.",ja:"電話が鳴った瞬間、彼女はスマートフォンに手を伸ばした。"}]},
 {en:"rest on",ja:"〜に基づく",pos:"熟語",cat:"phrase",level:"advanced",exEn:"His argument rests on a single piece of evidence.",exJa:"彼の主張はたった一つの証拠に基づいている。",exMore:[{en:"The final decision rests on the committee's approval.",ja:"最終決定は委員会の承認に基づいている。"}]},
@@ -7216,38 +7384,38 @@ const WORDS = [
 {en:"fall for",ja:"恋に落ちる、だまされる",pos:"熟語",cat:"phrase",level:"standard",exEn:"He fell for her the moment they met.",exJa:"彼は出会った瞬間に彼女に恋をした。",exMore:[{en:"He fell for the online scam and lost a lot of money.",ja:"彼はそのオンライン詐欺にだまされて多額のお金を失った。"}]},
 {en:"see off",ja:"〜を見送る",pos:"熟語",cat:"phrase",level:"standard",exEn:"We went to the airport to see her off.",exJa:"私たちは彼女を見送るために空港へ行った。",exMore:[{en:"Friends gathered at the station to see her off.",ja:"友人たちは彼女を見送るために駅に集まった。"}]},
 {en:"talk over",ja:"〜について話し合う",pos:"熟語",cat:"phrase",level:"standard",exEn:"Let's talk it over before making a decision.",exJa:"決める前にそれについて話し合いましょう。",exMore:[{en:"Before signing anything, let's talk it over with a lawyer.",ja:"何かに署名する前に、弁護士とそれについて話し合いましょう。"}]},
-{en:"when",ph:"/wɛn/",ja:"〜するとき",pos:"接続詞 S V",cat:"conjunction",exEn:"I was reading a book when the phone rang.",exJa:"電話が鳴ったとき、私は本を読んでいた。"},
-{en:"while",ph:"/waɪl/",ja:"〜する間・〜する一方で",pos:"接続詞 S V",cat:"conjunction",exEn:"While she was cooking, he set the table.",exJa:"彼女が料理をしている間、彼はテーブルを準備した。",exMore:[{en:"He is outgoing, while his brother is quite shy.",ja:"彼は社交的である一方、彼の弟はかなり内気だ。"}]},
-{en:"before",ph:"/bɪˈfɔːr/",ja:"〜する前に（接続詞）・〜の前に（前置詞）",pos:"接続詞 S V/(前置詞) 名",cat:"conjunction",exEn:"Wash your hands before you eat.",exJa:"食べる前に手を洗いなさい。",exMore:[{en:"The meeting starts before noon.",ja:"会議は正午前に始まる。"}]},
-{en:"after",ph:"/ˈæftər/",ja:"〜する後に（接続詞）・〜の後に（前置詞）",pos:"接続詞 S V/(前置詞) 名",cat:"conjunction",exEn:"We went for a walk after we had dinner.",exJa:"夕食を食べた後、私たちは散歩に行った。",exMore:[{en:"We'll meet after the concert.",ja:"コンサートの後で会いましょう。"}]},
-{en:"till",ph:"/tɪl/",ja:"〜までずっと（接続詞）・〜まで（前置詞）",pos:"接続詞 S V/(前置詞) 名",cat:"conjunction",exEn:"Stay here till I come back.",exJa:"私が戻るまでここにいなさい。",exMore:[{en:"The store is open till midnight.",ja:"その店は深夜まで開いている。"}]},
-{en:"until",ph:"/ənˈtɪl/",ja:"〜までずっと（接続詞）・〜まで（前置詞）",pos:"接続詞 S V/(前置詞) 名",cat:"conjunction",exEn:"We waited until the rain stopped.",exJa:"私たちは雨がやむまで待った。",exMore:[{en:"The library is open until 9 p.m.",ja:"図書館は午後9時まで開いている。"}]},
-{en:"since",ph:"/sɪns/",ja:"〜してから（今まで）・〜だから（接続詞）・〜以来（前置詞）",pos:"接続詞 S V/(前置詞) 名",cat:"conjunction",exEn:"He has lived in Tokyo since he graduated from college.",exJa:"彼は大学を卒業してからずっと東京に住んでいる。",exMore:[{en:"Since it was already late, we decided to go home.",ja:"もう遅かったので、私たちは帰ることにした。"},{en:"I haven't seen him since last week.",ja:"先週から彼に会っていない。"}]},
-{en:"each time",ja:"〜するときはいつでも",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"Each time I visit Kyoto, I discover something new.",exJa:"京都を訪れるたびに、何か新しい発見がある。"},
-{en:"the moment",ja:"〜するとすぐに",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"The moment she saw him, she knew something was wrong.",exJa:"彼女は彼を見た瞬間、何かがおかしいと分かった。"},
-{en:"the next time",ja:"次に〜するときは",pos:"接続詞 S V",cat:"phrase",level:"standard",exEn:"The next time you visit, bring your family.",exJa:"次にあなたが訪れるときは、家族を連れてきてください。"},
-{en:"whenever",ph:"/wɛnˈɛvər/",ja:"〜するときはいつでも",pos:"接続詞 S V",cat:"conjunction",exEn:"You can call me whenever you need help.",exJa:"助けが必要なときはいつでも電話してください。"},
-{en:"if",ph:"/ɪf/",ja:"もし〜なら",pos:"接続詞 S V",cat:"conjunction",exEn:"If it rains tomorrow, we will cancel the picnic.",exJa:"もし明日雨が降ったら、ピクニックは中止します。"},
-{en:"unless",ph:"/ənˈlɛs/",ja:"〜しない限り",pos:"接続詞 S V",cat:"conjunction",exEn:"You won't pass the exam unless you study harder.",exJa:"もっと一生懸命勉強しない限り、試験には合格しないだろう。"},
-{en:"once",ph:"/wʌns/",ja:"いったん〜すれば",pos:"接続詞 S V",cat:"conjunction",exEn:"Once you learn to ride a bike, you never forget.",exJa:"いったん自転車の乗り方を覚えれば、決して忘れない。"},
-{en:"so far as",ja:"〜する限りは",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"So far as I know, the meeting hasn't been rescheduled.",exJa:"私が知る限りでは、会議の日程は変更されていない。"},
-{en:"insofar as",ja:"〜する限りは",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"Insofar as the data is accurate, our conclusion should hold.",exJa:"データが正確である限り、私たちの結論は成り立つはずだ。"},
-{en:"supposing",ph:"/səˈpoʊzɪŋ/",ja:"もし〜なら",pos:"接続詞 S V",cat:"conjunction",exEn:"Supposing it rains, what will we do?",exJa:"もし雨が降ったら、私たちはどうしますか。"},
-{en:"provided",ph:"/prəˈvaɪdɪd/",ja:"もし〜なら",pos:"接続詞 S V",cat:"conjunction",exEn:"You may leave early, provided you finish your work.",exJa:"仕事を終わらせるなら、早退してもいいですよ。"},
-{en:"providing",ph:"/prəˈvaɪdɪŋ/",ja:"もし〜なら",pos:"接続詞 S V",cat:"conjunction",exEn:"Providing the weather is fine, we'll have the picnic outside.",exJa:"天気が良ければ、屋外でピクニックをします。"},
-{en:"assuming",ph:"/əˈsuːmɪŋ/",ja:"〜と仮定すれば",pos:"接続詞 S V",cat:"conjunction",exEn:"Assuming the train is on time, we'll arrive by noon.",exJa:"電車が定刻通りだと仮定すれば、正午までに到着するだろう。"},
-{en:"because",ph:"/bɪˈkɔːz/",ja:"〜だから",pos:"接続詞 S V",cat:"conjunction",exEn:"She was late because the train was delayed.",exJa:"電車が遅れたので、彼女は遅刻した。"},
-{en:"as",ph:"/æz/",ja:"〜のように（様態）・〜だから（理由）（接続詞）・〜として（前置詞）",pos:"接続詞 S V/(前置詞) 名",cat:"conjunction",exEn:"Do as I say, not as I do.",exJa:"私がするようにではなく、私が言うようにしなさい。",exMore:[{en:"As it was raining, we stayed indoors.",ja:"雨が降っていたので、私たちは屋内にいた。"},{en:"She works as a teacher.",ja:"彼女は教師として働いている。"}]},
-{en:"though",ph:"/ðoʊ/",ja:"〜だけれども",pos:"接続詞 S V",cat:"conjunction",exEn:"Though he was tired, he kept working.",exJa:"疲れていたけれども、彼は働き続けた。"},
-{en:"although",ph:"/ɔːlˈðoʊ/",ja:"〜だけれども",pos:"接続詞 S V",cat:"conjunction",exEn:"Although it was raining, they went for a walk.",exJa:"雨が降っていたけれども、彼らは散歩に行った。"},
-{en:"in order that",ja:"〜するために",pos:"接続詞 S V",cat:"phrase",level:"advanced",exEn:"He spoke slowly in order that everyone could understand.",exJa:"皆が理解できるように、彼はゆっくり話した。"},
-{en:"whether",ph:"/ˈwɛðər/",ja:"〜してもしなくても",pos:"接続詞 S V",cat:"conjunction",exEn:"Whether you agree or not, the decision has been made.",exJa:"あなたが賛成しようとしまいと、決定はもう下された。"},
-{en:"where",ph:"/wɛr/",ja:"〜するところで",pos:"接続詞 S V",cat:"conjunction",exEn:"Sit where you can see the screen clearly.",exJa:"画面がはっきり見えるところに座りなさい。"},
-{en:"wherever",ph:"/wɛrˈɛvər/",ja:"〜するところはどこでも",pos:"接続詞 S V",cat:"conjunction",exEn:"You can sit wherever you like.",exJa:"好きなところにどこでも座っていいですよ。"},
-{en:"during",ph:"/ˈdʊrɪŋ/",ja:"〜の間（ずっと）",pos:"(前置詞) 名",cat:"preposition",exEn:"She fell asleep during the movie.",exJa:"彼女は映画の間に眠ってしまった。"},
-{en:"by",ph:"/baɪ/",ja:"〜までには（期限）・〜によって（動作主）・〜のそばに（位置）",pos:"(前置詞) 名",cat:"preposition",exEn:"Please finish the report by Friday.",exJa:"金曜日までにレポートを終わらせてください。",exMore:[{en:"The novel was written by a famous author.",ja:"その小説は有名な作家によって書かれた。"}]},
-{en:"with all",ja:"〜にもかかわらず",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"With all his experience, he still made a mistake.",exJa:"あれだけの経験があるにもかかわらず、彼はやはり間違いを犯した。"},
-{en:"irrespective of",ja:"〜にかかわらず",pos:"(前置詞) 名",cat:"phrase",level:"advanced",exEn:"The rule applies to everyone, irrespective of age.",exJa:"その規則は年齢にかかわらず全員に適用される。"},
+{en:"when",ph:"/wɛn/",ja:"〜するとき",pos:"接続詞",cat:"conjunction",exEn:"I was reading a book when the phone rang.",exJa:"電話が鳴ったとき、私は本を読んでいた。"},
+{en:"while",ph:"/waɪl/",ja:"〜する間・〜する一方で",pos:"接続詞",cat:"conjunction",exEn:"While she was cooking, he set the table.",exJa:"彼女が料理をしている間、彼はテーブルを準備した。",exMore:[{en:"He is outgoing, while his brother is quite shy.",ja:"彼は社交的である一方、彼の弟はかなり内気だ。"}]},
+{en:"before",ph:"/bɪˈfɔːr/",ja:"〜する前に（接続詞）・〜の前に（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"Wash your hands before you eat.",exJa:"食べる前に手を洗いなさい。",exMore:[{en:"The meeting starts before noon.",ja:"会議は正午前に始まる。"}]},
+{en:"after",ph:"/ˈæftər/",ja:"〜する後に（接続詞）・〜の後に（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"We went for a walk after we had dinner.",exJa:"夕食を食べた後、私たちは散歩に行った。",exMore:[{en:"We'll meet after the concert.",ja:"コンサートの後で会いましょう。"}]},
+{en:"till",ph:"/tɪl/",ja:"〜までずっと（接続詞）・〜まで（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"Stay here till I come back.",exJa:"私が戻るまでここにいなさい。",exMore:[{en:"The store is open till midnight.",ja:"その店は深夜まで開いている。"}]},
+{en:"until",ph:"/ənˈtɪl/",ja:"〜までずっと（接続詞）・〜まで（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"We waited until the rain stopped.",exJa:"私たちは雨がやむまで待った。",exMore:[{en:"The library is open until 9 p.m.",ja:"図書館は午後9時まで開いている。"}]},
+{en:"since",ph:"/sɪns/",ja:"〜してから（今まで）・〜だから（接続詞）・〜以来（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"He has lived in Tokyo since he graduated from college.",exJa:"彼は大学を卒業してからずっと東京に住んでいる。",exMore:[{en:"Since it was already late, we decided to go home.",ja:"もう遅かったので、私たちは帰ることにした。"},{en:"I haven't seen him since last week.",ja:"先週から彼に会っていない。"}]},
+{en:"each time",ja:"〜するときはいつでも",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Each time I visit Kyoto, I discover something new.",exJa:"京都を訪れるたびに、何か新しい発見がある。"},
+{en:"the moment",ja:"〜するとすぐに",pos:"接続詞",cat:"phrase",level:"standard",exEn:"The moment she saw him, she knew something was wrong.",exJa:"彼女は彼を見た瞬間、何かがおかしいと分かった。"},
+{en:"the next time",ja:"次に〜するときは",pos:"接続詞",cat:"phrase",level:"standard",exEn:"The next time you visit, bring your family.",exJa:"次にあなたが訪れるときは、家族を連れてきてください。"},
+{en:"whenever",ph:"/wɛnˈɛvər/",ja:"〜するときはいつでも",pos:"接続詞",cat:"conjunction",exEn:"You can call me whenever you need help.",exJa:"助けが必要なときはいつでも電話してください。"},
+{en:"if",ph:"/ɪf/",ja:"もし〜なら",pos:"接続詞",cat:"conjunction",exEn:"If it rains tomorrow, we will cancel the picnic.",exJa:"もし明日雨が降ったら、ピクニックは中止します。"},
+{en:"unless",ph:"/ənˈlɛs/",ja:"〜しない限り",pos:"接続詞",cat:"conjunction",exEn:"You won't pass the exam unless you study harder.",exJa:"もっと一生懸命勉強しない限り、試験には合格しないだろう。"},
+{en:"once",ph:"/wʌns/",ja:"いったん〜すれば",pos:"接続詞",cat:"conjunction",exEn:"Once you learn to ride a bike, you never forget.",exJa:"いったん自転車の乗り方を覚えれば、決して忘れない。"},
+{en:"so far as",ja:"〜する限りは",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"So far as I know, the meeting hasn't been rescheduled.",exJa:"私が知る限りでは、会議の日程は変更されていない。"},
+{en:"insofar as",ja:"〜する限りは",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"Insofar as the data is accurate, our conclusion should hold.",exJa:"データが正確である限り、私たちの結論は成り立つはずだ。"},
+{en:"supposing",ph:"/səˈpoʊzɪŋ/",ja:"もし〜なら",pos:"接続詞",cat:"conjunction",exEn:"Supposing it rains, what will we do?",exJa:"もし雨が降ったら、私たちはどうしますか。"},
+{en:"provided",ph:"/prəˈvaɪdɪd/",ja:"もし〜なら",pos:"接続詞",cat:"conjunction",exEn:"You may leave early, provided you finish your work.",exJa:"仕事を終わらせるなら、早退してもいいですよ。"},
+{en:"providing",ph:"/prəˈvaɪdɪŋ/",ja:"もし〜なら",pos:"接続詞",cat:"conjunction",exEn:"Providing the weather is fine, we'll have the picnic outside.",exJa:"天気が良ければ、屋外でピクニックをします。"},
+{en:"assuming",ph:"/əˈsuːmɪŋ/",ja:"〜と仮定すれば",pos:"接続詞",cat:"conjunction",exEn:"Assuming the train is on time, we'll arrive by noon.",exJa:"電車が定刻通りだと仮定すれば、正午までに到着するだろう。"},
+{en:"because",ph:"/bɪˈkɔːz/",ja:"〜だから",pos:"接続詞",cat:"conjunction",exEn:"She was late because the train was delayed.",exJa:"電車が遅れたので、彼女は遅刻した。"},
+{en:"as",ph:"/æz/",ja:"〜のように（様態）・〜だから（理由）（接続詞）・〜として（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"Do as I say, not as I do.",exJa:"私がするようにではなく、私が言うようにしなさい。",exMore:[{en:"As it was raining, we stayed indoors.",ja:"雨が降っていたので、私たちは屋内にいた。"},{en:"She works as a teacher.",ja:"彼女は教師として働いている。"}]},
+{en:"though",ph:"/ðoʊ/",ja:"〜だけれども",pos:"接続詞",cat:"conjunction",exEn:"Though he was tired, he kept working.",exJa:"疲れていたけれども、彼は働き続けた。"},
+{en:"although",ph:"/ɔːlˈðoʊ/",ja:"〜だけれども",pos:"接続詞",cat:"conjunction",exEn:"Although it was raining, they went for a walk.",exJa:"雨が降っていたけれども、彼らは散歩に行った。"},
+{en:"in order that",ja:"〜するために",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"He spoke slowly in order that everyone could understand.",exJa:"皆が理解できるように、彼はゆっくり話した。"},
+{en:"whether",ph:"/ˈwɛðər/",ja:"〜してもしなくても",pos:"接続詞",cat:"conjunction",exEn:"Whether you agree or not, the decision has been made.",exJa:"あなたが賛成しようとしまいと、決定はもう下された。"},
+{en:"where",ph:"/wɛr/",ja:"〜するところで",pos:"接続詞",cat:"conjunction",exEn:"Sit where you can see the screen clearly.",exJa:"画面がはっきり見えるところに座りなさい。"},
+{en:"wherever",ph:"/wɛrˈɛvər/",ja:"〜するところはどこでも",pos:"接続詞",cat:"conjunction",exEn:"You can sit wherever you like.",exJa:"好きなところにどこでも座っていいですよ。"},
+{en:"during",ph:"/ˈdʊrɪŋ/",ja:"〜の間（ずっと）",pos:"前置詞",cat:"preposition",exEn:"She fell asleep during the movie.",exJa:"彼女は映画の間に眠ってしまった。"},
+{en:"by",ph:"/baɪ/",ja:"〜までには（期限）・〜によって（動作主）・〜のそばに（位置）",pos:"前置詞",cat:"preposition",exEn:"Please finish the report by Friday.",exJa:"金曜日までにレポートを終わらせてください。",exMore:[{en:"The novel was written by a famous author.",ja:"その小説は有名な作家によって書かれた。"}]},
+{en:"with all",ja:"〜にもかかわらず",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"With all his experience, he still made a mistake.",exJa:"あれだけの経験があるにもかかわらず、彼はやはり間違いを犯した。"},
+{en:"irrespective of",ja:"〜にかかわらず",pos:"前置詞",cat:"phrase",level:"advanced",exEn:"The rule applies to everyone, irrespective of age.",exJa:"その規則は年齢にかかわらず全員に適用される。"},
 ];
 
 
@@ -7385,6 +7553,8 @@ function exportData() {
     state: state,
     settings: settings,
     memos: loadMemos(),
+    tags: loadTags(),
+    relations: loadRelations(),
   };
   const json = JSON.stringify(payload, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
@@ -7435,6 +7605,18 @@ function importData() {
             _memoCache = payload.memos;
           } catch(e) {}
         }
+        if (payload.tags) {
+          try {
+            localStorage.setItem(TAG_KEY, JSON.stringify(payload.tags));
+            _tagCache = payload.tags;
+          } catch(e) {}
+        }
+        if (payload.relations) {
+          try {
+            localStorage.setItem(RELATION_KEY, JSON.stringify(payload.relations));
+            _relationCache = payload.relations;
+          } catch(e) {}
+        }
         saveState();
         currentCard = null;
         cardStage = 0;
@@ -7463,6 +7645,155 @@ function resetProgress() {
 
 // =============== MEMOS ===============
 const MEMO_KEY = 'lex_english_memos_v01';
+const TAG_KEY = 'lex_english_tags_v01';
+function loadTags() {
+  try { return JSON.parse(localStorage.getItem(TAG_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+let _tagCache = null;
+function _getTagMap() {
+  if (!_tagCache) _tagCache = loadTags();
+  return _tagCache;
+}
+function getTags(id) { return _getTagMap()[id] || []; }
+function saveTagsForWord(id, tags) {
+  const map = _getTagMap();
+  if (tags.length === 0) delete map[id]; else map[id] = tags;
+  try { localStorage.setItem(TAG_KEY, JSON.stringify(map)); } catch(e) {}
+  _tagCache = map;
+}
+function addTagToWord(id, tag) {
+  tag = (tag || '').trim();
+  if (!tag) return;
+  const cur = getTags(id);
+  if (!cur.includes(tag)) saveTagsForWord(id, [...cur, tag]);
+  renderTagBlock(id);
+}
+function removeTagFromWord(id, tag) {
+  saveTagsForWord(id, getTags(id).filter(t => t !== tag));
+  renderTagBlock(id);
+}
+function allTagNames() {
+  const map = _getTagMap();
+  const set = new Set();
+  Object.values(map).forEach(arr => arr.forEach(t => set.add(t)));
+  return [...set].sort((a, b) => a.localeCompare(b, 'ja'));
+}
+function renderTagBlock(id) {
+  const el = document.getElementById('tag-block-' + id);
+  if (el) el.outerHTML = tagEditHtml(id);
+  const sel = document.getElementById('tag-filter-select');
+  if (sel) {
+    const cur = tagFilter;
+    sel.innerHTML = `<option value="">タグ: すべて</option>` + allTagNames().map(t => `<option value="${escapeHtml(t)}" ${cur===t?'selected':''}>${escapeHtml(t)}</option>`).join('');
+  }
+}
+function setTagFilter(v) { tagFilter = v; listRenderedCount = LIST_PAGE_SIZE; renderList(); }
+function tagInputKeydown(event, id) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    const inp = document.getElementById('tag-input-' + id);
+    addTagToWord(id, inp.value);
+    inp.value = '';
+  }
+}
+function tagAddFromInput(id) {
+  const inp = document.getElementById('tag-input-' + id);
+  addTagToWord(id, inp.value);
+  inp.value = '';
+}
+function tagEditHtml(id) {
+  const tags = getTags(id);
+  const chips = tags.map(t => `<span class="tag-chip">${escapeHtml(t)}<button class="tag-chip-x" onclick="removeTagFromWord(${id},'${t.replace(/'/g,"\\'")}')" type="button" aria-label="${escapeHtml(t)}タグを削除">×</button></span>`).join('');
+  return `<div class="tag-block" id="tag-block-${id}">
+    <div class="tag-header"><span class="tag-label">🏷 タグ</span></div>
+    <div class="tag-chips">${chips}</div>
+    <div class="tag-add-row">
+      <input class="tag-input" id="tag-input-${id}" list="tag-suggestions" placeholder="タグ名を入力してEnter" onkeydown="tagInputKeydown(event,${id})">
+      <button class="memo-action-btn" onclick="tagAddFromInput(${id})" type="button">追　加</button>
+    </div>
+    <datalist id="tag-suggestions">${allTagNames().map(t => `<option value="${escapeHtml(t)}">`).join('')}</datalist>
+  </div>`;
+}
+const RELATION_KEY = 'lex_english_relations_v01';
+function loadRelations() {
+  try { return JSON.parse(localStorage.getItem(RELATION_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+let _relationCache = null;
+function _getRelationMap() {
+  if (!_relationCache) _relationCache = loadRelations();
+  return _relationCache;
+}
+function getRelatedIds(id) {
+  return (_getRelationMap()[id] || []).slice();
+}
+function _saveRelationMap(map) {
+  try { localStorage.setItem(RELATION_KEY, JSON.stringify(map)); } catch(e) {}
+  _relationCache = map;
+}
+function addRelation(idA, idB) {
+  idA = Number(idA); idB = Number(idB);
+  if (idA === idB) return;
+  const map = _getRelationMap();
+  map[idA] = map[idA] || [];
+  if (!map[idA].includes(idB)) map[idA].push(idB);
+  map[idB] = map[idB] || [];
+  if (!map[idB].includes(idA)) map[idB].push(idA);
+  _saveRelationMap(map);
+  renderRelationBlock(idA);
+}
+function removeRelation(idA, idB) {
+  idA = Number(idA); idB = Number(idB);
+  const map = _getRelationMap();
+  if (map[idA]) map[idA] = map[idA].filter(x => x !== idB);
+  if (map[idB]) map[idB] = map[idB].filter(x => x !== idA);
+  _saveRelationMap(map);
+  renderRelationBlock(idA);
+}
+function renderRelationBlock(id) {
+  const el = document.getElementById('relation-block-' + id);
+  if (el) el.outerHTML = relationEditHtml(id);
+}
+function relationSearchInput(event, id) {
+  const q = event.target.value.trim().toLowerCase();
+  const box = document.getElementById('relation-suggest-' + id);
+  if (!box) return;
+  if (!q) { box.innerHTML = ''; box.style.display = 'none'; return; }
+  const linked = new Set(getRelatedIds(id));
+  const matches = WORDS.filter(w => w.id !== id && !linked.has(w.id) &&
+    (w.en.toLowerCase().includes(q) || (w.ja || '').includes(q))).slice(0, 8);
+  if (matches.length === 0) {
+    box.innerHTML = '<div class="relation-suggest-empty">該当する単語がありません</div>';
+    box.style.display = 'block';
+    return;
+  }
+  box.innerHTML = matches.map(w => `<button class="relation-suggest-item" onclick="linkRelationFromSuggest(${id},${w.id})" type="button">${escapeHtml(w.en)}<span class="relation-suggest-ja">${escapeHtml((w.ja || '').slice(0, 18))}</span></button>`).join('');
+  box.style.display = 'block';
+}
+function linkRelationFromSuggest(id, otherId) {
+  addRelation(id, otherId);
+  const inp = document.getElementById('relation-input-' + id);
+  if (inp) inp.value = '';
+  const box = document.getElementById('relation-suggest-' + id);
+  if (box) { box.innerHTML = ''; box.style.display = 'none'; }
+}
+function relationEditHtml(id) {
+  const relatedIds = getRelatedIds(id);
+  const chips = relatedIds.map(rid => {
+    const rw = WORDS.find(w => w.id === rid);
+    if (!rw) return '';
+    return `<span class="tag-chip relation-chip" onclick="openWordModal(${rid})" role="button" tabindex="0" onkeydown="if(event.key==='Enter'){openWordModal(${rid})}">${escapeHtml(rw.en)}<button class="tag-chip-x" onclick="event.stopPropagation();removeRelation(${id},${rid})" type="button" aria-label="${escapeHtml(rw.en)}へのリンクを削除">×</button></span>`;
+  }).join('');
+  return `<div class="tag-block relation-block" id="relation-block-${id}">
+    <div class="tag-header"><span class="tag-label">🔗 関連語（手動リンク）</span></div>
+    <div class="tag-chips">${chips || '<span class="relation-empty">まだリンクした単語がありません</span>'}</div>
+    <div class="tag-add-row" style="position:relative">
+      <input class="tag-input" id="relation-input-${id}" placeholder="単語名・意味で検索してリンク" oninput="relationSearchInput(event,${id})" autocomplete="off">
+      <div class="relation-suggest" id="relation-suggest-${id}" style="display:none"></div>
+    </div>
+  </div>`;
+}
 function loadMemos() {
   try { return JSON.parse(localStorage.getItem(MEMO_KEY) || '{}'); }
   catch(e) { return {}; }
@@ -7615,6 +7946,7 @@ function applyRating(c, q) {
       c.ease = Math.max(1.3, c.ease - 0.2);
       c.interval = 15;
       c.due = now + 15 * DAY;
+      c.quizPassed = true; // 習得済みは失敗してもフラッシュカードのまま（4択に戻さない）
       // phase は mastered のまま
     } else {
       // 習得済み正解: 間隔を伸ばして mastered を維持（引退なし、今後も出題対象）
@@ -8082,12 +8414,17 @@ function relatedHtml(w) {
 // --- Shared HTML builders ---
 function cardHeaderHtml(c, totalIdx, opts) {
   const dir = opts && opts.dirTag ? `<span class="direction-tag">${opts.dirTag}</span>` : '';
-  const badge = opts && opts.badge ? `<span class="quiz-badge">${opts.badge}</span>` : `<span class="card-phase ${c.phase}">${phaseLabel(c.phase)}</span>`;
+  let badgeText = opts && opts.badge;
+  if (practiceQueue) {
+    badgeText = `苦手練習 ${practiceIndex}/${practiceTotal}`;
+  }
+  const badge = badgeText ? `<span class="quiz-badge">${badgeText}</span>` : `<span class="card-phase ${c.phase}">${phaseLabel(c.phase)}</span>`;
   return `
     <div class="card-header${opts && opts.mb8 ? ' mb-8' : ''}">
       ${badge}
       ${dir}
       <span class="card-num">№ ${String(totalIdx).padStart(3,'0')} / ${String(WORDS.length).padStart(3,'0')}</span>
+      ${practiceQueue ? `<button class="practice-end-btn" onclick="event.stopPropagation();endPractice()" type="button">練習終了</button>` : ''}
     </div>
   `;
 }
@@ -8171,12 +8508,117 @@ function wordIdx(w) {
 
 // =============== UI ===============
 let currentCard = null;
+let practiceQueue = null;
+let practiceIndex = 0;
+let practiceTotal = 0;
+function startWeakPractice(threshold) {
+  const t = threshold !== undefined ? threshold : easeThreshold;
+  const ids = WORDS
+    .filter(w => {
+      const c = state.cards[w.id];
+      return c.phase !== 'new' && c.ease <= t;
+    })
+    .sort((a, b) => state.cards[a.id].ease - state.cards[b.id].ease)
+    .map(w => w.id);
+  if (ids.length === 0) {
+    alert('対象の単語がありません。');
+    return;
+  }
+  // シャッフル（弱い語順に固定すると同じ並びになりがちなので毎回ランダムに）
+  for (let i = ids.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+  }
+  practiceQueue = ids;
+  practiceIndex = 0;
+  practiceTotal = ids.length;
+  currentCard = null;
+  closeModal();
+  switchView('study');
+}
+function endPractice() {
+  practiceQueue = null;
+  practiceIndex = 0;
+  practiceTotal = 0;
+  currentCard = null;
+  render();
+}
+function nextCardForStudy() {
+  if (practiceQueue) {
+    while (practiceIndex < practiceQueue.length) {
+      const id = practiceQueue[practiceIndex];
+      practiceIndex++;
+      const w = WORDS.find(x => x.id === id);
+      if (w) return w;
+    }
+    // 練習キューを使い切った
+    practiceQueue = null;
+    practiceIndex = 0;
+    practiceTotal = 0;
+    alert('苦手な語の集中練習が終わりました。お疲れさまでした！');
+  }
+  return pickNextCard();
+}
 let showingDetail = false; // renderQuizDetail を表示中かどうか
 let currentDirection = 'word2meaning';
 let currentExample = null; // {en, ja} — example2word 出題時に使う例文（複数の意味がある熟語はランダムに選択）
 let currentView = 'study';
 let listFilter = 'all';
+const LIST_PAGE_SIZE = 100;
+let listRenderedCount = LIST_PAGE_SIZE;
+let _listObserver = null;
+let tagFilter = '';
 let searchQuery = '';
+let selectMode = false;
+let selectedIds = new Set();
+function toggleSelectMode() {
+  selectMode = !selectMode;
+  if (!selectMode) selectedIds.clear();
+  renderList(true);
+}
+function toggleSelect(id) {
+  if (selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id);
+  renderList(true);
+}
+function clearSelection() {
+  selectedIds.clear();
+  renderList(true);
+}
+function bulkMarkMastered() {
+  if (selectedIds.size === 0) return;
+  const now = Date.now();
+  selectedIds.forEach(id => {
+    const c = state.cards[id];
+    c.phase = 'mastered';
+    c.interval = Math.max(c.interval || 0, 21);
+    c.due = now + c.interval * 86400000;
+    c.ease = Math.max(c.ease || 2.5, 2.5);
+  });
+  saveState();
+  selectedIds.clear();
+  selectMode = false;
+  renderList(true);
+}
+function bulkResetToNew() {
+  if (selectedIds.size === 0) return;
+  if (!confirm(`選択した${selectedIds.size}語の学習状態を「新出」に戻しますか？`)) return;
+  selectedIds.forEach(id => {
+    state.cards[id] = { phase:'new', step:0, ease:2.5, interval:0, due:0, reps:0, lapses:0, quizPassed:false, lastReviewedAt:0, skipTested:false };
+  });
+  saveState();
+  selectedIds.clear();
+  selectMode = false;
+  renderList(true);
+}
+function bulkAddTag() {
+  if (selectedIds.size === 0) return;
+  const tag = prompt(`選択した${selectedIds.size}語に追加するタグ名を入力してください`);
+  if (!tag || !tag.trim()) return;
+  selectedIds.forEach(id => addTagToWord(id, tag));
+  selectedIds.clear();
+  selectMode = false;
+  renderList(true);
+}
 let sortMode = 'index';
 
 // 複数の意味を持つ熟語は exMore からランダムに1つ例文を選ぶ（意味の数だけ用意された例文を出題ごとに変える）
@@ -8306,6 +8748,7 @@ function openEaseModal(thresh) {
           : `<div class="ease-list">${rows}</div>`}
         <div class="modal-actions">
           <button class="modal-btn secondary" onclick="closeModal()" type="button">閉じる</button>
+          <button class="modal-btn" onclick="startWeakPractice()" type="button" ${words.length===0?'disabled':''}>🎯 この${words.length}語を練習する</button>
         </div>
       </div>
     </div>`;
@@ -8541,7 +8984,7 @@ function openWordModal(id) {
     <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-word-${id}">
         <button class="modal-close" onclick="closeModal()" aria-label="閉じる" type="button">×</button>
-        <div class="modal-word" id="modal-word-${id}">${w.en}</div>
+        <div class="modal-word" id="modal-word-${id}">${displayHeadword(w)}</div>
         ${w.ph ? `<div class="modal-ph">${escapeHtml(w.ph)}</div>` : ''}
         <div class="modal-pos">${w.pos}</div>
         <div class="modal-meaning">${w.ja}</div>
@@ -8575,6 +9018,8 @@ function openWordModal(id) {
 
         <div class="mb-12">${wordInfoHtml(w)}</div>
         ${memoEditHtml(id)}
+        ${tagEditHtml(id)}
+        ${relationEditHtml(id)}
 
         <div class="modal-actions" style="margin-top:16px">
           <button class="modal-btn secondary" onclick="closeModal()" type="button">閉じる</button>
@@ -8599,6 +9044,13 @@ function studyNow(id) {
   renderCardFace();
 }
 
+function goToListFiltered(filterKey) {
+  listFilter = filterKey;
+  searchQuery = '';
+  tagFilter = '';
+  listRenderedCount = LIST_PAGE_SIZE;
+  switchView('list');
+}
 function switchView(v) {
   // currentCard / quizState / cardStage はリセットしない。
   // 戻ったとき同じ単語・同じ進行状態を維持する。
@@ -8627,7 +9079,28 @@ function isKango(w) {
 function isPhrase(w) {
   return (w.cat || '') === 'phrase';
 }
-function setFilter(f) { listFilter = f; render(); }
+function displayHeadword(w) {
+  const conj = isSetsuzokushi(w);
+  const prep = isZenchishi(w);
+  const adv = isFukushi(w);
+  let text = escapeHtml(w.en);
+  let suffix = '';
+  if (conj) suffix += ' S V';
+  if (prep) suffix += (suffix ? '/' : ' ') + '名';
+  text = text + suffix;
+  if (adv) text = `&lt;${text}&gt;`;
+  return text;
+}
+function isFukushi(w) {
+  return (w.pos || '').includes('副詞');
+}
+function isZenchishi(w) {
+  return (w.pos || '').includes('前置詞');
+}
+function isSetsuzokushi(w) {
+  return (w.pos || '').startsWith('接続詞');
+}
+function setFilter(f) { listFilter = f; listRenderedCount = LIST_PAGE_SIZE; render(); }
 
 function fmtDue(c) {
   if (c.phase === 'new') return '—';
@@ -8715,10 +9188,10 @@ function renderStats() {
         ${s.masteredC > 0 ? `<div class="phase-seg mastered" style="flex:${phasePct(s.masteredC)};">${s.masteredC}</div>` : ''}
       </div>
       <div class="phase-legend">
-        <div class="phase-legend-item"><div class="dot new"></div>新出 ${s.newC}</div>
-        <div class="phase-legend-item"><div class="dot learning"></div>学習中 ${s.learnC}</div>
-        <div class="phase-legend-item"><div class="dot review"></div>復習 ${WORDS.length - s.newC - s.learnC - s.masteredC}</div>
-        <div class="phase-legend-item"><div class="dot mastered"></div>習得 ${s.masteredC}</div>
+        <button class="phase-legend-item" onclick="goToListFiltered('new')" type="button"><div class="dot new"></div>新出 ${s.newC}</button>
+        <button class="phase-legend-item" onclick="goToListFiltered('learning')" type="button"><div class="dot learning"></div>学習中 ${s.learnC}</button>
+        <button class="phase-legend-item" onclick="goToListFiltered('review')" type="button"><div class="dot review"></div>復習 ${WORDS.length - s.newC - s.learnC - s.masteredC}</button>
+        <button class="phase-legend-item" onclick="goToListFiltered('mastered')" type="button"><div class="dot mastered"></div>習得 ${s.masteredC}</button>
       </div>
     </div>
   `;
@@ -8831,7 +9304,10 @@ function renderStats() {
           `;
         }).join('') + '</div>'
       }
-      <div style="margin-top:12px;text-align:right">
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
+        <button class="memo-action-btn" onclick="startWeakPractice(2.0)" type="button" style="font-size:11px" ${top.length===0?'disabled':''}>
+          🎯 苦手な語を集中練習する
+        </button>
         <button class="memo-action-btn" onclick="openEaseModal()" type="button" style="font-size:11px">
           苦手な語をすべて見る →
         </button>
@@ -8877,7 +9353,21 @@ function renderStats() {
   `;
 }
 
-function renderList() {
+function setupListSentinelObserver() {
+  if (_listObserver) { _listObserver.disconnect(); _listObserver = null; }
+  const sentinel = document.getElementById('list-sentinel');
+  if (!sentinel) return;
+  _listObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        listRenderedCount += LIST_PAGE_SIZE;
+        renderList();
+      }
+    });
+  }, { root: null, rootMargin: '600px' });
+  _listObserver.observe(sentinel);
+}
+function renderList(forceFull) {
   updateStats();
   const area = document.getElementById('card-area');
   let words = WORDS.slice();
@@ -8934,8 +9424,18 @@ function renderList() {
     words = words.filter(w => isKango(w));
   } else if (listFilter === 'phrase') {
     words = words.filter(w => isPhrase(w));
+  } else if (listFilter === 'fukushi') {
+    words = words.filter(w => isFukushi(w));
+  } else if (listFilter === 'zenchishi') {
+    words = words.filter(w => isZenchishi(w));
+  } else if (listFilter === 'setsuzokushi') {
+    words = words.filter(w => isSetsuzokushi(w));
   } else if (listFilter !== 'all') {
     words = words.filter(w => state.cards[w.id].phase === listFilter);
+  }
+
+  if (tagFilter) {
+    words = words.filter(w => getTags(w.id).includes(tagFilter));
   }
 
   // sort（検索中はスコア順優先のため既存ソートをスキップ）
@@ -8980,13 +9480,21 @@ function renderList() {
     kyo:   WORDS.filter(w => isKyo(w)).length,
     kango: WORDS.filter(w => isKango(w)).length,
     phrase: WORDS.filter(w => isPhrase(w)).length,
+    fukushi: WORDS.filter(w => isFukushi(w)).length,
+    zenchishi: WORDS.filter(w => isZenchishi(w)).length,
+    setsuzokushi: WORDS.filter(w => isSetsuzokushi(w)).length,
   };
 
   // ② 件数表示テキスト
-  const isFiltered = terms.length > 0 || listFilter !== 'all';
-  const countText = isFiltered ? `${words.length} 件` : '';
+  const isFiltered = terms.length > 0 || listFilter !== 'all' || !!tagFilter;
+  const totalMatched = words.length;
+  const countText = isFiltered ? `${totalMatched} 件` : '';
 
-  const rows = words.map(w => {
+  // 仮想スクロール: 一度に描画するのは listRenderedCount 件まで
+  const visibleWords = words.slice(0, listRenderedCount);
+  const hasMore = listRenderedCount < totalMatched;
+
+  const rows = visibleWords.map(w => {
     const cs = state.cards[w.id];
     const idx = w.id;
     const meaningShort = (w.ja || '').replace(/・.*$/,'').slice(0,28);
@@ -8994,8 +9502,11 @@ function renderList() {
     const phaseText = phaseLabel(cs.phase);
     const wordHtml    = highlightTerms(w.en);
     const meaningHtml = highlightTerms(meaningShort);
+    const checked = selectedIds.has(w.id);
+    const rowClick = selectMode ? `toggleSelect(${w.id})` : `openWordModal(${w.id})`;
     return `
-      <div class="row" role="button" tabindex="0" onclick="openWordModal(${w.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWordModal(${w.id})}" aria-label="${w.en}, ${meaningShort}, 状態 ${phaseText}">
+      <div class="row${selectMode ? ' row-selectable' : ''}${checked ? ' row-selected' : ''}" role="button" tabindex="0" onclick="${rowClick}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${rowClick}}" aria-label="${w.en}, ${meaningShort}, 状態 ${phaseText}">
+        ${selectMode ? `<div class="row-checkbox" aria-hidden="true"><input type="checkbox" ${checked?'checked':''} tabindex="-1" onclick="event.stopPropagation();toggleSelect(${w.id})"></div>` : ''}
         <div class="row-num" aria-hidden="true">${String(idx).padStart(2,'0')}</div>
         <div>
           <div class="row-word" lang="en">${wordHtml}${getMemo(w.id)?'<span class="row-memo-dot" title="メモあり"></span>':''}</div>
@@ -9008,23 +9519,40 @@ function renderList() {
       </div>`;
   }).join('');
 
+  const bulkBarHtml = selectMode ? `
+    <div class="bulk-bar" id="bulk-bar">
+      <span class="bulk-count">${selectedIds.size} 件選択中</span>
+      <div class="bulk-actions">
+        <button class="memo-action-btn" onclick="bulkMarkMastered()" type="button" ${selectedIds.size===0?'disabled':''}>習得済みにする</button>
+        <button class="memo-action-btn" onclick="bulkAddTag()" type="button" ${selectedIds.size===0?'disabled':''}>タグ追加</button>
+        <button class="memo-action-btn" onclick="bulkResetToNew()" type="button" ${selectedIds.size===0?'disabled':''}>新出に戻す</button>
+        <button class="memo-action-btn" onclick="clearSelection()" type="button" ${selectedIds.size===0?'disabled':''}>選択解除</button>
+        <button class="memo-action-btn" onclick="toggleSelectMode()" type="button">閉じる</button>
+      </div>
+    </div>` : '';
+
+  const noResultsHtml = searchQuery.trim() ? `<div class="no-results">「${escapeHtml(searchQuery.trim())}」に一致する単語はありません</div>` : '<div class="no-results">該当する単語がありません</div>';
+  const rowsHtml = rows || noResultsHtml;
+  const sentinelHtml = hasMore ? `<div id="list-sentinel" class="list-sentinel">${listRenderedCount} / ${totalMatched} 件を表示中・スクロールで続きを読み込み</div>` : '';
+
   // Check if list shell already exists (to preserve search input during IME)
-  const existingRows = area.querySelector('#list-rows');
+  const existingRows = !forceFull && area.querySelector('#list-rows');
   if (existingRows) {
     // Only update rows + filter counts + result count — don't touch search input
-    existingRows.innerHTML = rows || (searchQuery.trim() ? `<div class="no-results">「${escapeHtml(searchQuery.trim())}」に一致する単語はありません</div>` : '<div class="no-results">該当する単語がありません</div>');
+    existingRows.innerHTML = rowsHtml + sentinelHtml;
     const countEl = area.querySelector('#list-count');
     if (countEl) countEl.textContent = countText;
     // Update filter button counts
     const filterBtns = area.querySelectorAll('.list-filter button');
-    const countVals = [counts.all, counts.new, counts.learning, counts.review, counts.mastered, counts.memo, counts.etym_fav, counts.keigo, counts.kyo, counts.kango, counts.phrase];
-    const countKeys = ['all', 'new', 'learning', 'review', 'mastered', 'memo', 'etym_fav', 'keigo', 'kyo', 'kango', 'phrase'];
-    const countLabels = ['すべて','新出','学習中','復習','習得','✏ メモあり','★ 語源お気に入り','名詞','動詞','形容詞','熟語'];
+    const countVals = [counts.all, counts.new, counts.learning, counts.review, counts.mastered, counts.memo, counts.etym_fav, counts.keigo, counts.kyo, counts.kango, counts.phrase, counts.fukushi, counts.zenchishi, counts.setsuzokushi];
+    const countKeys = ['all', 'new', 'learning', 'review', 'mastered', 'memo', 'etym_fav', 'keigo', 'kyo', 'kango', 'phrase', 'fukushi', 'zenchishi', 'setsuzokushi'];
+    const countLabels = ['すべて','新出','学習中','復習','習得','✏ メモあり','★ 語源お気に入り','名詞','動詞','形容詞','熟語','副詞','前置詞','接続詞'];
     filterBtns.forEach((btn, i) => {
       btn.textContent = countLabels[i] + ' ' + countVals[i];
       btn.className = listFilter === countKeys[i] ? 'active' : '';
       btn.setAttribute('aria-pressed', listFilter === countKeys[i]);
     });
+    setupListSentinelObserver();
     return;
   }
 
@@ -9042,6 +9570,13 @@ function renderList() {
           <option value="due" ${sortMode==='due'?'selected':''}>期限順</option>
           <option value="difficulty" ${sortMode==='difficulty'?'selected':''}>難易度順</option>
         </select>
+        ${allTagNames().length ? `
+        <label class="sr-only" for="tag-filter-select">タグで絞り込む</label>
+        <select id="tag-filter-select" class="sort-select" onchange="setTagFilter(this.value)" aria-label="タグで絞り込む">
+          <option value="">タグ: すべて</option>
+          ${allTagNames().map(t => `<option value="${escapeHtml(t)}" ${tagFilter===t?'selected':''}>${escapeHtml(t)}</option>`).join('')}
+        </select>` : ''}
+        <button id="select-toggle-btn" class="${selectMode?'active':''}" onclick="toggleSelectMode()" type="button" aria-pressed="${selectMode}">${selectMode ? '選択中止' : '☑ 選択'}</button>
       </div>
       <div class="list-filter" role="group" aria-label="状態フィルター">
         <button class="${listFilter==='all'?'active':''}" onclick="setFilter('all')" aria-pressed="${listFilter==='all'}" type="button">すべて ${counts.all}</button>
@@ -9055,9 +9590,13 @@ function renderList() {
         <button class="${listFilter==='kyo'?'active':''}" onclick="setFilter('kyo')" aria-pressed="${listFilter==='kyo'}" type="button">動詞 ${counts.kyo}</button>
         <button class="${listFilter==='kango'?'active':''}" onclick="setFilter('kango')" aria-pressed="${listFilter==='kango'}" type="button">形容詞 ${counts.kango}</button>
         <button class="${listFilter==='phrase'?'active':''}" onclick="setFilter('phrase')" aria-pressed="${listFilter==='phrase'}" type="button">熟語 ${counts.phrase}</button>
+        <button class="${listFilter==='fukushi'?'active':''}" onclick="setFilter('fukushi')" aria-pressed="${listFilter==='fukushi'}" type="button">副詞 ${counts.fukushi}</button>
+        <button class="${listFilter==='zenchishi'?'active':''}" onclick="setFilter('zenchishi')" aria-pressed="${listFilter==='zenchishi'}" type="button">前置詞 ${counts.zenchishi}</button>
+        <button class="${listFilter==='setsuzokushi'?'active':''}" onclick="setFilter('setsuzokushi')" aria-pressed="${listFilter==='setsuzokushi'}" type="button">接続詞 ${counts.setsuzokushi}</button>
       </div>
       <div id="list-count" class="list-count">${countText}</div>
-      <div id="list-rows">${rows || (searchQuery.trim() ? `<div class="no-results">「${escapeHtml(searchQuery.trim())}」に一致する単語はありません</div>` : '<div class="no-results">該当する単語がありません</div>')}</div>
+      ${bulkBarHtml}
+      <div id="list-rows">${rowsHtml}${sentinelHtml}</div>
       <div class="legend">
         <div class="legend-item"><div class="dot new"></div>新出</div>
         <div class="legend-item"><div class="dot learning"></div>学習中</div>
@@ -9075,6 +9614,7 @@ function renderList() {
       inp.setSelectionRange(len, len);
     }
   }
+  setupListSentinelObserver();
 }
 
 let searchFocused = false;
@@ -9084,6 +9624,7 @@ function onSearchInput(el) {
   if (searchComposing) return;
   searchQuery = el.value;
   searchFocused = true;
+  listRenderedCount = LIST_PAGE_SIZE;
   clearTimeout(searchDebounce);
   searchDebounce = setTimeout(() => { renderList(); }, 300);
 }
@@ -9091,10 +9632,11 @@ function onSearchCompositionEnd(el) {
   searchComposing = false;
   searchQuery = el.value;
   searchFocused = true;
+  listRenderedCount = LIST_PAGE_SIZE;
   clearTimeout(searchDebounce);
   searchDebounce = setTimeout(() => { renderList(); }, 50);
 }
-function setSort(v) { sortMode = v; renderList(); }
+function setSort(v) { sortMode = v; listRenderedCount = LIST_PAGE_SIZE; renderList(); }
 
 function render() {
   if (currentView === 'list') { renderList(); return; }
@@ -9105,7 +9647,7 @@ function render() {
 
   const wasNull = !currentCard;
   if (!currentCard) {
-    currentCard = pickNextCard();
+    currentCard = nextCardForStudy();
     currentDirection = pickDirection();
     currentExample = currentDirection === 'example2word' ? pickExample(currentCard) : null;
     cardStage = 0;
@@ -9168,7 +9710,7 @@ function renderSkipCheckFace() {
   const stage0 = `
     <div class="stage-section">
       <div class="word-pos">${w.pos}</div>
-      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${w.en}</div>
+      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${displayHeadword(w)}</div>
       ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
     </div>
   `;
@@ -9365,11 +9907,11 @@ function renderQuizFace() {
   let continueHtml = '';
   if (answered) {
     if (quizState.isCorrect) {
-      resultHtml = `<div class="quiz-result">正解。「${w.en}」=${shortenMeaning(w.ja)}</div>`;
+      resultHtml = `<div class="quiz-result">正解。「${displayHeadword(w)}」=${shortenMeaning(w.ja)}</div>`;
     } else if (quizState.dontKnow) {
-      resultHtml = `<div class="quiz-result wrong">「${w.en}」=${shortenMeaning(w.ja)}<br><small class="text-muted">焦らずいきましょう</small></div>`;
+      resultHtml = `<div class="quiz-result wrong">「${displayHeadword(w)}」=${shortenMeaning(w.ja)}<br><small class="text-muted">焦らずいきましょう</small></div>`;
     } else {
-      resultHtml = `<div class="quiz-result wrong">不正解。正しくは「${w.en}」=${shortenMeaning(w.ja)}</div>`;
+      resultHtml = `<div class="quiz-result wrong">不正解。正しくは「${displayHeadword(w)}」=${shortenMeaning(w.ja)}</div>`;
     }
     const btnLabel = (!quizState.isCorrect && !settings.showDetailOnWrong) ? '次 へ' : '詳 細 を 見 る';
     continueHtml = `<button class="quiz-continue" onclick="finishQuiz()" type="button">${btnLabel}</button>`;
@@ -9379,7 +9921,7 @@ function renderQuizFace() {
     <div class="card">
       ${cardHeaderHtml(c, wordIdx(w), {badge: c.phase === 'new' ? '初出 4択' : '再確認 4択', mb8: true})}
       <div class="word-pos">${w.pos}</div>
-      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${w.en}</div>
+      <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${displayHeadword(w)}</div>
       ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
       <div class="quiz-prompt">意 味 は ど れ か</div>
       <div class="quiz-options">
@@ -9453,7 +9995,7 @@ function renderQuizDetail() {
     <div class="stage-card" id="quiz-detail">
       ${cardHeaderHtml(c, wordIdx(w), {})}
       <div class="word-pos">${w.pos}</div>
-      <div class="word-jp">${w.en}</div>
+      <div class="word-jp">${displayHeadword(w)}</div>
       ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
       <div class="meaning-block mt-14">
         <div class="meaning-label">Meaning</div>
@@ -9525,7 +10067,7 @@ function renderCardFace() {
     stage0 = `
       <div class="stage-section">
         <div class="word-pos">${w.pos}</div>
-        <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${w.en}</div>
+        <div class="word-jp" onclick="event.stopPropagation();speakWord('${w.en.replace(/'/g,"\'")}')" style="cursor:pointer;font-size:${wordFontSize(w.en)}" title="クリックで読み上げ">${displayHeadword(w)}</div>
         ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
       </div>
     `;
@@ -9545,7 +10087,7 @@ function renderCardFace() {
     if (currentDirection === 'example2word') {
       revealTop = `
         <div class="text-center">
-          <div class="word-back">${w.en}</div>
+          <div class="word-back">${displayHeadword(w)}</div>
           ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
           <div class="word-back-pos">${w.pos}</div>
         </div>
@@ -9564,7 +10106,7 @@ function renderCardFace() {
     } else {
       revealTop = `
         <div class="text-center">
-          <div class="word-back">${w.en}</div>
+          <div class="word-back">${displayHeadword(w)}</div>
           ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
           <div class="word-back-pos">${w.pos}</div>
         </div>
@@ -9717,6 +10259,7 @@ function rate(q) {
   autoSaveMemo();
   const c = state.cards[currentCard.id];
   const wasNew = c.phase === 'new';
+  const wasLearning = c.phase === 'learning';
   const wasReview = c.phase === 'review' || c.phase === 'mastered';
 
   if (q === 0) sfxAgain();
@@ -9725,14 +10268,16 @@ function rate(q) {
   else if (q === 3) sfxEasy();
 
   applyRating(c, q);
-  // 不正解時は次回クイズを要求
-  if (q === 0) c.quizPassed = false;
+  // 不正解時は次回クイズを要求（new/learning のときのみ。review/mastered の lapse は
+  // applyRating 側でフラッシュカード継続と決めているのでここで上書きしない）
+  if (q === 0 && (wasNew || wasLearning)) c.quizPassed = false;
   c.lastReviewedAt = Date.now();
   state.lastShownId = currentCard.id;
 
   if (wasNew) state.daily.newDone += 1;
   else if (wasReview) state.daily.reviewDone += (currentDirection === 'example2word' ? 2 : 1);
 
+  recordReview(wasNew);
   saveState();
   currentCard = null;
   render();
