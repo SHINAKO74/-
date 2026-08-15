@@ -1610,6 +1610,13 @@
     font-size: 12px;
     color: var(--muted);
   }
+  .relation-bulk-desc {
+    font-family: 'Klee One', serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
   .relation-suggest {
     position: absolute;
     top: 100%;
@@ -5040,7 +5047,7 @@ const WORDS = [
 {en:"allergy",ph:"/ˈælədʒi/",ja:"アレルギー",pos:"名詞",cat:"noun",exEn:"She has a severe allergy to nuts.",exJa:"彼女はナッツに対する深刻なアレルギーがある。"},
 {en:"amuse",ph:"/əˈmjuːz/",ja:"面白がらせる・楽しませる",pos:"動詞",cat:"verb",exEn:"The clown amused the children at the party.",exJa:"道化師はパーティーで子供たちを楽しませた。"},
 {en:"anatomy",ph:"/əˈnætəmi/",ja:"解剖学・体の構造",pos:"名詞",cat:"noun",exEn:"Medical students study anatomy in their first year.",exJa:"医学生は1年目に解剖学を学ぶ。"},
-{en:"annoy",ph:"/əˈnɔɪ/",ja:"怒らせる・むっとさせる",pos:"動詞",cat:"verb",exEn:"Loud music at night annoys the neighbours.",exJa:"夜の騒音は近所の人々をむっとさせる。"},
+{en:"annoy",ph:"/əˈnɔɪ/",ja:"怒らせる・むっとさせる",pos:"動詞",cat:"verb",exEn:"Loud music at night annoys the neighbors.",exJa:"夜の騒音は近所の人々をむっとさせる。"},
 {en:"apology",ph:"/əˈpɑːlədʒi/",ja:"謝罪",pos:"名詞",cat:"noun",exEn:"He offered a sincere apology for his behavior.",exJa:"彼は自分の行動に対して誠実な謝罪をした。"},
 {en:"appreciate",ph:"/əˈpriːʃieɪt/",ja:"感謝する・正しく評価する",pos:"動詞",cat:"verb",exEn:"I deeply appreciate your help and support.",exJa:"あなたの助けとサポートに深く感謝します。"},
 {en:"approach",ph:"/əˈproʊtʃ/",ja:"接近する・取り組む・方法",pos:"動詞/名詞",cat:"verb",exEn:"We need a fresh approach to solve this problem.",exJa:"この問題を解決するには新鮮なアプローチが必要だ。"},
@@ -5301,7 +5308,7 @@ const WORDS = [
 {en:"interval",ph:"/ˈɪntəvəl/",ja:"間隔・休憩",pos:"名詞",cat:"noun",exEn:"There will be a short interval between the two acts.",exJa:"2幕の間には短い休憩がある。"},
 {en:"introduce",ph:"/ˌɪntrəˈdjuːs/",ja:"紹介する・導入する",pos:"動詞",cat:"verb",exEn:"She introduced a new system to improve efficiency.",exJa:"彼女は効率を向上させるための新しいシステムを導入した。"},
 {en:"intrude",ph:"/ɪnˈtruːd/",ja:"侵入する・邪魔をする・押しつける",pos:"動詞",cat:"verb",exEn:"I am sorry to intrude, but may I ask a question?",exJa:"お邪魔して申し訳ありませんが、質問してもいいですか？"},
-{en:"invade",ph:"/ɪnˈveɪd/",ja:"侵入する・侵略する",pos:"動詞",cat:"verb",exEn:"The army invaded the neighbouring country.",exJa:"軍は隣国に侵略した。"},
+{en:"invade",ph:"/ɪnˈveɪd/",ja:"侵入する・侵略する",pos:"動詞",cat:"verb",exEn:"The army invaded the neighboring country.",exJa:"軍は隣国に侵略した。"},
 {en:"irony",ph:"/ˈaɪrəni/",ja:"皮肉・反語",pos:"名詞",cat:"noun",exEn:"The irony is that he became what he once criticized.",exJa:"皮肉なことに、彼はかつて批判していたものになった。"},
 {en:"irrigation",ph:"/ˌɪrɪˈɡeɪʃən/",ja:"灌漑",pos:"名詞",cat:"noun",exEn:"Irrigation systems allow farming in dry regions.",exJa:"灌漑システムは乾燥した地域での農業を可能にする。"},
 {en:"jury",ph:"/ˈdʒʊri/",ja:"陪審員団",pos:"名詞",cat:"noun",exEn:"The jury found the defendant not guilty after deliberation.",exJa:"陪審員団は審議の末、被告を無罪と判定した。"},
@@ -5424,7 +5431,7 @@ const WORDS = [
 {en:"qualify",ph:"/ˈkwɑːlɪfaɪ/",ja:"資格を与える・条件を満たす・限定する",pos:"動詞",cat:"verb",exEn:"She qualified as a doctor after six years of study.",exJa:"彼女は6年間の勉強の後、医師の資格を得た。"},
 {en:"quality",ph:"/ˈkwɑːlɪti/",ja:"質・品質・性質・特性",pos:"名詞",cat:"noun",exEn:"We must never sacrifice quality for speed.",exJa:"スピードのために品質を犠牲にしてはならない。"},
 {en:"quantity",ph:"/ˈkwɑːntɪti/",ja:"量",pos:"名詞",cat:"noun",exEn:"Quality matters more than quantity in most cases.",exJa:"ほとんどの場合、量より質が重要だ。"},
-{en:"quarrel",ph:"/ˈkwɑːrəl/",ja:"口論する・けんかする",pos:"動詞/名詞",cat:"verb",exEn:"The two neighbours quarrelled over the fence boundary.",exJa:"2人の隣人はフェンスの境界について口論した。"},
+{en:"quarrel",ph:"/ˈkwɑːrəl/",ja:"口論する・けんかする",pos:"動詞/名詞",cat:"verb",exEn:"The two neighbors quarreled over the fence boundary.",exJa:"2人の隣人はフェンスの境界について口論した。"},
 {en:"quarter",ph:"/ˈkwɔːtər/",ja:"4分の1・地域・界隈",pos:"名詞",cat:"noun",exEn:"Sales increased by a quarter compared to last year.",exJa:"売上は昨年に比べて4分の1増加した。"},
 {en:"quit",ph:"/kwɪt/",ja:"やめる・辞める",pos:"動詞",cat:"verb",exEn:"He quit his job to start his own business.",exJa:"彼は自分のビジネスを始めるために仕事を辞めた。"},
 {en:"race",ph:"/reɪs/",ja:"人種・競争・競走する",pos:"名詞",cat:"noun",exEn:"People of every race deserve equal treatment.",exJa:"あらゆる人種の人々は平等な扱いを受ける権利がある。"},
@@ -6462,7 +6469,7 @@ const WORDS = [
 {en:"be contingent on",ja:"〜次第である",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The project's success is contingent on adequate funding.",exJa:"そのプロジェクトの成功は十分な資金調達次第だ。",note:"contingent: 〜次第の、〜を条件とする",exMore:[{en:"Whether the festival goes ahead is entirely contingent on the weather forecast.",ja:"その祭りが実行されるかどうかは、完全に天気予報次第である。"}]},
 {en:"not so much A as B",ja:"AというよりもむしろB",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He is not so much a genius as a very hard worker.",exJa:"彼は天才というよりもむしろ非常に勤勉な人だ。",exMore:[{en:"Isn't he not so much unlucky as simply careless?",ja:"彼は不運というよりも、単に不注意なだけなのではないか。"}]},
 {en:"It is not until A that B",ja:"AになってはじめてB",pos:"熟語",cat:"phrase",level:"advanced",exEn:"It is not until you lose your health that you realize its value.",exJa:"健康を失ってはじめてその価値がわかる。",exMore:[{en:"It was not until she moved abroad that she appreciated her hometown.",ja:"彼女は海外に引っ越して初めて故郷のありがたみが分かった。"}]},
-{en:"the comparative, the comparative",ja:"〜すればするほど〜",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The more you practice, the better you become.",exJa:"練習すればするほど上達する。",exMore:[{en:"The more you read, the richer your vocabulary becomes.",ja:"本を読めば読むほど、語彙が豊かになる。"}]},
+{en:"the + comparative, the + comparative",ja:"〜すればするほど〜",pos:"熟語",cat:"phrase",level:"advanced",exEn:"The more you practice, the better you become.",exJa:"練習すればするほど上達する。",exMore:[{en:"The more you read, the richer your vocabulary becomes.",ja:"本を読めば読むほど、語彙が豊かになる。"}]},
 {en:"so ... that",ja:"とても〜なので〜",pos:"接続詞（相関）",cat:"phrase",level:"advanced",exEn:"She was so tired that she fell asleep immediately.",exJa:"彼女はとても疲れていたのですぐに眠ってしまった。",exMore:[{en:"Had the music not been so loud, would they have heard the alarm?",ja:"音楽があれほど大きくなければ、彼らは警報に気づいていただろうか。"}]},
 {en:"such ... that",ja:"とても〜な〜なので〜",pos:"接続詞（相関）",cat:"phrase",level:"advanced",exEn:"It was such a difficult problem that nobody could solve it.",exJa:"それはとても難しい問題だったので誰も解けなかった。",exMore:[{en:"It was such a small kitchen that only one person could cook at a time.",ja:"あまりに小さい台所だったので、一度に一人しか料理できなかった。"}]},
 {en:"never do A without doing B",ja:"〜するときは必ず〜する",pos:"熟語",cat:"phrase",level:"advanced",exEn:"He never leaves for work without checking his email.",exJa:"彼は仕事に出かけるときは必ずメールを確認する。",exMore:[{en:"Never had he driven past that intersection without being reminded of the accident.",ja:"その交差点を車で通るたびに、彼は必ずその事故を思い出さずにはいられなかった。"}]},
@@ -6878,7 +6885,7 @@ const WORDS = [
 {en:"be of use",ja:"役に立つ",pos:"熟語",cat:"phrase",level:"basic",exEn:"This tool is of great use to engineers.",exJa:"このツールはエンジニアにとって大変役立つ。",exMore:[{en:"This old map might still be of use to us.",ja:"この古い地図はまだ私たちの役に立つかもしれない。"}]},
 {en:"be on good terms with",ja:"〜と仲良くしている",pos:"熟語",cat:"phrase",level:"basic",exEn:"She is on good terms with all her neighbors.",exJa:"彼女はすべての近所の人と仲良くしている。",exMore:[{en:"So long had they been on good terms that the sudden argument shocked everyone.",ja:"二人はあまりに長い間仲が良かったので、その突然の口論は皆を驚かせた。"}]},
 {en:"be second to none",ja:"誰にも劣らない",pos:"熟語",cat:"phrase",level:"standard",exEn:"His dedication to his work is second to none.",exJa:"仕事への彼の献身は誰にも劣らない。",exMore:[{en:"In terms of dedication, was any employee ever second to none quite like her?",ja:"献身という点で、彼女ほど誰にも劣らなかった従業員がかつていただろうか。"}]},
-{en:"be short of",ja:"〜が不足している",pos:"熟語",cat:"phrase",level:"basic",exEn:"We are short of volunteers for the event.",exJa:"イベントのボランティアが不足している。",exMore:[{en:"Had the charity not been so short of volunteers, would the event have been cancelled?",ja:"その慈善団体がこれほどボランティア不足でなければ、そのイベントは中止されていただろうか。"}]},
+{en:"be short of",ja:"〜が不足している",pos:"熟語",cat:"phrase",level:"basic",exEn:"We are short of volunteers for the event.",exJa:"イベントのボランティアが不足している。",exMore:[{en:"Had the charity not been so short of volunteers, would the event have been canceled?",ja:"その慈善団体がこれほどボランティア不足でなければ、そのイベントは中止されていただろうか。"}]},
 {en:"be superior to",ja:"〜より優れている",pos:"熟語",cat:"phrase",level:"standard",exEn:"This method is superior to the old one.",exJa:"この方法は古いものより優れている。",exMore:[{en:"Is handmade furniture always superior to mass-produced pieces, or is that just a myth?",ja:"手作りの家具は常に大量生産品より優れているのか、それとも単なる思い込みなのだろうか。"}]},
 {en:"be to blame",ja:"〜に責任がある",pos:"熟語",cat:"phrase",level:"standard",exEn:"Nobody is entirely to blame for the accident.",exJa:"その事故に全面的に責任があるのは誰でもない。",exMore:[{en:"Had the software not been to blame, who else could have caused the outage?",ja:"そのソフトウェアに責任がなかったなら、他に誰がその停止を引き起こし得ただろうか。"}]},
 {en:"be typical of",ja:"〜に典型的な",pos:"熟語",cat:"phrase",level:"basic",exEn:"This behavior is typical of teenagers.",exJa:"この行動はティーンエイジャーに典型的だ。",exMore:[{en:"Is such reckless spending really typical of every new manager, or just this one?",ja:"そのような無謀な出費は、本当にどの新任マネージャーにも典型的なものなのか、それともこの人物だけなのか。"}]},
@@ -7778,6 +7785,19 @@ function linkRelationFromSuggest(id, otherId) {
   const box = document.getElementById('relation-suggest-' + id);
   if (box) { box.innerHTML = ''; box.style.display = 'none'; }
 }
+function relatedManualViewHtml(w) {
+  const relatedIds = getRelatedIds(w.id);
+  if (relatedIds.length === 0) return '';
+  const chips = relatedIds.map(rid => {
+    const rw = WORDS.find(x => x.id === rid);
+    if (!rw) return '';
+    return `<span class="tag-chip relation-chip" onclick="event.stopPropagation();openWordModal(${rid})" role="button" tabindex="0" onkeydown="if(event.key==='Enter'){event.stopPropagation();openWordModal(${rid})}">${escapeHtml(rw.en)}</span>`;
+  }).join('');
+  return `<div class="tag-block relation-block">
+    <div class="tag-header"><span class="tag-label">🔗 関連語</span></div>
+    <div class="tag-chips">${chips}</div>
+  </div>`;
+}
 function relationEditHtml(id) {
   const relatedIds = getRelatedIds(id);
   const chips = relatedIds.map(rid => {
@@ -7793,6 +7813,78 @@ function relationEditHtml(id) {
       <div class="relation-suggest" id="relation-suggest-${id}" style="display:none"></div>
     </div>
   </div>`;
+}
+let bulkRelationSelection = [];
+function openBulkRelationModal() {
+  bulkRelationSelection = [];
+  lastFocused = document.activeElement;
+  document.getElementById('modal-root').innerHTML = bulkRelationModalHtml();
+}
+function bulkRelationModalHtml() {
+  const chips = bulkRelationSelection.map(id => {
+    const w = WORDS.find(x => x.id === id);
+    if (!w) return '';
+    return `<span class="tag-chip relation-chip" style="cursor:default">${escapeHtml(w.en)}<button class="tag-chip-x" onclick="removeBulkRelationSelection(${id})" type="button" aria-label="${escapeHtml(w.en)}を選択解除">×</button></span>`;
+  }).join('');
+  return `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bulk-relation-title">
+        <button class="modal-close" onclick="closeModal()" aria-label="閉じる" type="button">×</button>
+        <div class="modal-header">
+          <div class="modal-word" id="bulk-relation-title" style="font-size:22px">関連語を一括登録</div>
+        </div>
+        <p class="relation-bulk-desc">選んだ単語同士が、すべてお互いの関連語としてリンクされます。</p>
+        <div class="tag-chips" id="bulk-relation-chips">${chips || '<span class="relation-empty">まだ選択されていません</span>'}</div>
+        <div class="tag-add-row" style="position:relative">
+          <input class="tag-input" id="bulk-relation-input" placeholder="単語名・意味で検索して追加" oninput="bulkRelationSearchInput(event)" autocomplete="off">
+          <div class="relation-suggest" id="bulk-relation-suggest" style="display:none"></div>
+        </div>
+        <div class="modal-actions" style="margin-top:16px">
+          <button class="modal-btn secondary" onclick="closeModal()" type="button">閉じる</button>
+          <button class="modal-btn" onclick="confirmBulkRelation()" type="button" ${bulkRelationSelection.length < 2 ? 'disabled' : ''}>この${bulkRelationSelection.length}語を関連語として登録</button>
+        </div>
+      </div>
+    </div>`;
+}
+function bulkRelationSearchInput(event) {
+  const q = event.target.value.trim().toLowerCase();
+  const box = document.getElementById('bulk-relation-suggest');
+  if (!box) return;
+  if (!q) { box.innerHTML = ''; box.style.display = 'none'; return; }
+  const selected = new Set(bulkRelationSelection);
+  const matches = WORDS.filter(w => !selected.has(w.id) &&
+    (w.en.toLowerCase().includes(q) || (w.ja || '').includes(q))).slice(0, 8);
+  if (matches.length === 0) {
+    box.innerHTML = '<div class="relation-suggest-empty">該当する単語がありません</div>';
+    box.style.display = 'block';
+    return;
+  }
+  box.innerHTML = matches.map(w => `<button class="relation-suggest-item" onclick="addBulkRelationSelection(${w.id})" type="button">${escapeHtml(w.en)}<span class="relation-suggest-ja">${escapeHtml((w.ja || '').slice(0, 18))}</span></button>`).join('');
+  box.style.display = 'block';
+}
+function addBulkRelationSelection(id) {
+  if (!bulkRelationSelection.includes(id)) bulkRelationSelection.push(id);
+  const root = document.getElementById('modal-root');
+  if (root) root.innerHTML = bulkRelationModalHtml();
+  const inp = document.getElementById('bulk-relation-input');
+  if (inp) inp.focus();
+}
+function removeBulkRelationSelection(id) {
+  bulkRelationSelection = bulkRelationSelection.filter(x => x !== id);
+  const root = document.getElementById('modal-root');
+  if (root) root.innerHTML = bulkRelationModalHtml();
+}
+function confirmBulkRelation() {
+  if (bulkRelationSelection.length < 2) return;
+  for (let i = 0; i < bulkRelationSelection.length; i++) {
+    for (let j = i + 1; j < bulkRelationSelection.length; j++) {
+      addRelation(bulkRelationSelection[i], bulkRelationSelection[j]);
+    }
+  }
+  const n = bulkRelationSelection.length;
+  bulkRelationSelection = [];
+  closeModal();
+  alert(`${n}語を相互に関連語として登録しました。`);
 }
 function loadMemos() {
   try { return JSON.parse(localStorage.getItem(MEMO_KEY) || '{}'); }
@@ -8475,7 +8567,8 @@ function triviaHtml(w) {
   return synonymsHtml(w) + relatedWordsHtml(w);
 }
 
-function wordInfoHtml(w) {
+function wordInfoHtml(w, opts) {
+  const editableRelations = opts && opts.editableRelations;
   const q = encodeURIComponent(w.en);
   const c = state.cards[w.id];
   const phase = c ? c.phase : 'new';
@@ -8498,6 +8591,7 @@ function wordInfoHtml(w) {
     ${showDeep ? renderExamples(w) : ''}
     ${showEtym ? etymHtml(w) : ''}
     ${showRelated ? relatedWordsHtml(w) : ''}
+    ${editableRelations ? relationEditHtml(w.id) : relatedManualViewHtml(w)}
     ${w.note ? `<div class="example-note">補足: ${escapeHtml(w.note)}</div>` : ''}
   `;
 }
@@ -9016,10 +9110,9 @@ function openWordModal(id) {
           </div>
         </div>
 
-        <div class="mb-12">${wordInfoHtml(w)}</div>
+        <div class="mb-12">${wordInfoHtml(w, {editableRelations: true})}</div>
         ${memoEditHtml(id)}
         ${tagEditHtml(id)}
-        ${relationEditHtml(id)}
 
         <div class="modal-actions" style="margin-top:16px">
           <button class="modal-btn secondary" onclick="closeModal()" type="button">閉じる</button>
@@ -9340,6 +9433,14 @@ function renderStats() {
     </div>
   `;
 
+  const relationGroupHtml = `
+    <div class="panel">
+      <h2 class="panel-title">関 連 語 登 録 <span class="panel-title-en">link words</span></h2>
+      <p class="relation-bulk-desc">複数の単語をまとめて選び、一度にお互いの関連語として登録できます。</p>
+      <button class="memo-action-btn" onclick="openBulkRelationModal()" type="button">🔗 複数の単語を関連語として一括登録する</button>
+    </div>
+  `;
+
   area.innerHTML = `
     <div class="stats-wrap">
       ${streakHtml}
@@ -9348,6 +9449,7 @@ function renderStats() {
       ${fcHtml}
       ${heatmapHtml}
       ${hardHtml}
+      ${relationGroupHtml}
       ${recentHtml}
     </div>
   `;
