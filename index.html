@@ -895,6 +895,26 @@
     font-weight: 500;
     letter-spacing: 0.03em;
   }
+  .fill-blank {
+    display: inline-flex;
+    gap: 6px;
+  }
+  .fill-blank-word {
+    display: inline-block;
+    min-width: 2.6em;
+    border-bottom: 2px solid var(--shu);
+    color: transparent;
+    user-select: none;
+  }
+  .fill-blank-translation {
+    text-align: center;
+    font-family: 'Klee One', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--sumi);
+    padding: 10px 16px 4px;
+    margin-top: 2px;
+  }
   .tap-hint-sub {
     text-align: center;
     font-size: 11px;
@@ -1771,8 +1791,7 @@
   <main id="card-area" role="tabpanel" aria-live="polite" aria-atomic="false"></main>
 
   <footer role="contentinfo">
-    LEXICON · <span id="footer-word-count">—</span> words · <span aria-label="キーボードショートカット">⌨ space:めくる 1-2:評価 ←→:スワイプ</span><br>
-    <button class="reset-btn" onclick="resetProgress()" type="button">reset progress</button>
+    LEXICON · <span id="footer-word-count">—</span> words · <span aria-label="キーボードショートカット">⌨ space:めくる 1-2:評価 ←→:スワイプ</span>
   </footer>
 </div>
 
@@ -5248,7 +5267,7 @@ const WORDS = [
 {en:"former",ph:"/ˈfɔːmər/",ja:"以前の・前者の",pos:"形容詞",cat:"adjective",exEn:"The former president gave a speech at the event.",exJa:"前大統領がイベントでスピーチをした。"},
 {en:"fortune",ph:"/ˈfɔːtʃən/",ja:"富・財産・幸運・運命",pos:"名詞",cat:"noun",exEn:"She made a fortune by investing in technology stocks.",exJa:"彼女は技術株に投資して財産を築いた。"},
 {en:"fossil",ph:"/ˈfɑːsəl/",ja:"化石",pos:"名詞",cat:"noun",exEn:"Fossils give us clues about ancient life on Earth.",exJa:"化石は地球の古代生命についての手掛かりを与えてくれる。"},
-{en:"free",ph:"/friː/",ja:"自由な・無料の・解放する",pos:"形容詞/動詞",cat:"adjective",exEn:"The volunteers gave their time for free.",exJa:"ボランティアは無料で時間を提供した。"},
+{en:"free",ph:"/friː/",ja:"自由な・無料の・解放する",pos:"形容詞/動詞",cat:"adjective",exEn:"The store offered free samples to customers.",exJa:"その店は客に無料の試供品を提供した。"},
 {en:"friction",ph:"/ˈfrɪkʃən/",ja:"摩擦・不和",pos:"名詞",cat:"noun",exEn:"There is some friction between the two departments.",exJa:"2つの部署の間にいくらかの不和がある。"},
 {en:"frighten",ph:"/ˈfraɪtən/",ja:"怖がらせる・おびえさせる",pos:"動詞",cat:"verb",exEn:"The sudden noise frightened the sleeping baby.",exJa:"突然の音が眠っている赤ちゃんを怖がらせた。"},
 {en:"frontier",ph:"/frʌnˈtɪr/",ja:"辺境・国境・最先端",pos:"名詞",cat:"noun",exEn:"Space exploration is the new frontier of science.",exJa:"宇宙探査は科学の新しい最先端だ。"},
@@ -5723,7 +5742,7 @@ const WORDS = [
 {en:"prone",ph:"/proʊn/",ja:"～しがちな・うつ伏せの",pos:"形容詞",cat:"adjective",exEn:"Children are prone to catching colds in winter.",exJa:"子供たちは冬に風邪をひきやすい。"},
 {en:"susceptible",ph:"/səˈseptɪbəl/",ja:"影響を受けやすい・感染しやすい",pos:"形容詞",cat:"adjective",exEn:"The elderly are particularly susceptible to respiratory infections.",exJa:"高齢者は特に呼吸器感染症にかかりやすい。"},
 {en:"probable",ph:"/ˈprɑːbəbəl/",ja:"ありそうな",pos:"形容詞",cat:"adjective",exEn:"It is probable that the meeting will be postponed.",exJa:"会議は延期される可能性が高い。"},
-{en:"possibly",ph:"/ˈpɑːsɪbli/",ja:"もしかすると",pos:"副詞",cat:"adverb",exEn:"Could you possibly help me with this assignment?",exJa:"この課題を手伝っていただけますか？"},
+{en:"possibly",ph:"/ˈpɑːsɪbli/",ja:"もしかすると",pos:"副詞",cat:"adverb",exEn:"Could you possibly help me with this assignment?",exJa:"もしよろしければ、この課題を手伝っていただけますか？"},
 {en:"reluctant",ph:"/rɪˈlʌktənt/",ja:"気が進まない",pos:"形容詞",cat:"adjective",exEn:"He was reluctant to admit that he had made a mistake.",exJa:"彼は自分が間違いを犯したことを認めるのに気が進まなかった。"},
 {en:"enthusiastic",ph:"/ɪnˌθjuːziˈæstɪk/",ja:"熱狂的な・熱心な",pos:"形容詞",cat:"adjective",exEn:"The students were enthusiastic about the new science project.",exJa:"生徒たちは新しい科学プロジェクトに熱心だった。"},
 {en:"intent",ph:"/ɪnˈtent/",ja:"意図・熱心な",pos:"名詞/形容詞",cat:"noun",exEn:"His intent was to improve the efficiency of the system.",exJa:"彼の意図はシステムの効率を向上させることだった。"},
@@ -6335,7 +6354,7 @@ const WORDS = [
 {en:"contrary to",ja:"〜に反して",pos:"前置詞",cat:"phrase",level:"standard",exEn:"Contrary to expectations, the experiment succeeded.",exJa:"予想に反して、実験は成功した。",exMore:[{en:"Contrary to what had been reported, the bridge was never actually closed.",ja:"報道されていた内容とは反対に、その橋は実際には一度も閉鎖されていなかった。"}]},
 {en:"for the sake of",ja:"〜のために",pos:"前置詞",cat:"phrase",level:"standard",exEn:"For the sake of argument, let's assume it is true.",exJa:"議論のために、それが真実と仮定しよう。",exMore:[{en:"Was it really necessary to sacrifice so much for the sake of the deadline?",ja:"締め切りのためにそこまで犠牲を払う必要が本当にあったのだろうか。"}]},
 {en:"with a view to doing",ja:"〜する目的で",pos:"熟語",cat:"phrase",level:"standard",exEn:"He traveled to France with a view to improving his French.",exJa:"彼はフランス語を上達させる目的でフランスに渡った。",exMore:[{en:"The policy was revised with a view to reducing costs, though few costs were actually cut.",ja:"その方針はコスト削減を目的として改定されたが、実際に削減された費用はほとんどなかった。"}]},
-{en:"on condition that",ja:"〜という条件で",pos:"接続詞",cat:"phrase",level:"standard",exEn:"I'll lend you money on condition that you repay it.",exJa:"返済するという条件でお金を貸しましょう。",exMore:[{en:"She would only sign the contract on condition that the terms were rewritten.",ja:"彼女は条件が書き直されるという条件でしか、その契約に署名しようとしなかった。"}]},
+{en:"on condition that",ja:"〜という条件で",pos:"接続詞",cat:"phrase",level:"standard",exEn:"I'll lend you money on condition that you repay it.",exJa:"返済するという条件でお金を貸しましょう。",exMore:[{en:"She would only sign the contract on condition that the terms were rewritten.",ja:"彼女は契約条件が書き直されるという条件でしか、その契約に署名しようとしなかった。"}]},
 {en:"provided that",ja:"〜という条件で",pos:"接続詞",cat:"phrase",level:"standard",exEn:"You may attend provided that you register in advance.",exJa:"事前登録するという条件で参加できます。",exMore:[{en:"You may leave early, provided that your work is finished.",ja:"仕事が終わっているという条件であれば、早く帰ってもいい。"}]},
 {en:"now that",ja:"今や〜だから",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Now that you have graduated, what will you do?",exJa:"卒業した今、何をするつもりですか？",exMore:[{en:"Now that the exams are over, let's relax a bit.",ja:"試験が終わった今、少しリラックスしましょう。"}]},
 {en:"in case",ja:"〜の場合に備えて",pos:"接続詞",cat:"phrase",level:"standard",exEn:"Take an umbrella in case it rains.",exJa:"雨が降る場合に備えて傘を持っていきなさい。",exMore:[{en:"Had they not packed extra food in case of delays, they would have gone hungry.",ja:"遅延に備えて余分な食料を持っていなければ、彼らは空腹に苦しんでいただろう。"}]},
@@ -7412,7 +7431,7 @@ const WORDS = [
 {en:"providing",ph:"/prəˈvaɪdɪŋ/",ja:"もし〜なら",pos:"接続詞",cat:"conjunction",exEn:"Providing the weather is fine, we'll have the picnic outside.",exJa:"天気が良ければ、屋外でピクニックをします。"},
 {en:"assuming",ph:"/əˈsuːmɪŋ/",ja:"〜と仮定すれば",pos:"接続詞",cat:"conjunction",exEn:"Assuming the train is on time, we'll arrive by noon.",exJa:"電車が定刻通りだと仮定すれば、正午までに到着するだろう。"},
 {en:"because",ph:"/bɪˈkɔːz/",ja:"〜だから",pos:"接続詞",cat:"conjunction",exEn:"She was late because the train was delayed.",exJa:"電車が遅れたので、彼女は遅刻した。"},
-{en:"as",ph:"/æz/",ja:"〜のように（様態）・〜だから（理由）（接続詞）・〜として（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"Do as I say, not as I do.",exJa:"私がするようにではなく、私が言うようにしなさい。",exMore:[{en:"As it was raining, we stayed indoors.",ja:"雨が降っていたので、私たちは屋内にいた。"},{en:"She works as a teacher.",ja:"彼女は教師として働いている。"}]},
+{en:"as",ph:"/æz/",ja:"〜のように・〜だから（接続詞）・〜として（前置詞）",pos:"接続詞/前置詞",cat:"conjunction",exEn:"Do as I say, not as I do.",exJa:"私がするようにではなく、私が言うようにしなさい。",exMore:[{en:"As it was raining, we stayed indoors.",ja:"雨が降っていたので、私たちは屋内にいた。"},{en:"She works as a teacher.",ja:"彼女は教師として働いている。"}]},
 {en:"though",ph:"/ðoʊ/",ja:"〜だけれども",pos:"接続詞",cat:"conjunction",exEn:"Though he was tired, he kept working.",exJa:"疲れていたけれども、彼は働き続けた。"},
 {en:"although",ph:"/ɔːlˈðoʊ/",ja:"〜だけれども",pos:"接続詞",cat:"conjunction",exEn:"Although it was raining, they went for a walk.",exJa:"雨が降っていたけれども、彼らは散歩に行った。"},
 {en:"in order that",ja:"〜するために",pos:"接続詞",cat:"phrase",level:"advanced",exEn:"He spoke slowly in order that everyone could understand.",exJa:"皆が理解できるように、彼はゆっくり話した。"},
@@ -7511,6 +7530,28 @@ function defaultState() {
   };
 }
 
+function migrateCard(c) {
+  // Migration: handle old quizDone field
+  if (c.quizDone !== undefined) {
+    c.quizPassed = c.quizDone;
+    delete c.quizDone;
+  }
+  if (c.quizPassed === undefined) {
+    c.quizPassed = c.phase !== 'new';
+  }
+  if (c.lastReviewedAt === undefined) {
+    c.lastReviewedAt = 0;
+  }
+  if (c.skipTested === undefined) {
+    c.skipTested = false;
+  }
+  // Migration: 旧バージョンのバグにより review/mastered なのに quizPassed=false のまま
+  // 固まってしまったカードを修復（4択クイズへの誤った格下げを防ぐ）
+  if ((c.phase === 'review' || c.phase === 'mastered') && c.quizPassed === false) {
+    c.quizPassed = true;
+  }
+  return c;
+}
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -7523,20 +7564,7 @@ function loadState() {
         if (!s.cards[w.id]) {
           s.cards[w.id] = { phase:'new', step:0, ease:2.5, interval:0, due:0, reps:0, lapses:0, quizPassed:false, lastReviewedAt:0 };
         } else {
-          // Migration: handle old quizDone field
-          if (s.cards[w.id].quizDone !== undefined) {
-            s.cards[w.id].quizPassed = s.cards[w.id].quizDone;
-            delete s.cards[w.id].quizDone;
-          }
-          if (s.cards[w.id].quizPassed === undefined) {
-            s.cards[w.id].quizPassed = s.cards[w.id].phase !== 'new';
-          }
-          if (s.cards[w.id].lastReviewedAt === undefined) {
-            s.cards[w.id].lastReviewedAt = 0;
-          }
-          if (s.cards[w.id].skipTested === undefined) {
-            s.cards[w.id].skipTested = false;
-          }
+          migrateCard(s.cards[w.id]);
         }
       });
       if (!s.history) s.history = {};
@@ -7594,6 +7622,7 @@ function importData() {
         const importedCards = payload.state.cards;
         Object.keys(importedCards).forEach(id => {
           if (!idSet.has(parseInt(id))) delete importedCards[id];
+          else migrateCard(importedCards[id]);
         });
         state = { ...loadState(), ...payload.state, cards: importedCards };
         // Re-migrate new cards if word count expanded
@@ -8452,6 +8481,32 @@ function buildHighlightRegex(hl) {
   return new RegExp('\\b' + parts.join(gap) + '\\b', 'i');
 }
 
+function blankExample(text, hl) {
+  if (!hl) return escapeHtml(text);
+  function makeBlank(matchedText) {
+    const wordCount = matchedText.split(/\s+/).filter(Boolean).length;
+    return '<span class="fill-blank">' +
+      Array.from({length: wordCount}, () => '<span class="fill-blank-word">＿＿＿</span>').join(' ') +
+      '</span>';
+  }
+  const idxExact = text.toLowerCase().indexOf(hl.toLowerCase());
+  if (idxExact !== -1) {
+    const matched = text.slice(idxExact, idxExact + hl.length);
+    return escapeHtml(text.slice(0, idxExact)) + makeBlank(matched) +
+      escapeHtml(text.slice(idxExact + hl.length));
+  }
+  try {
+    const re = buildHighlightRegex(hl);
+    const m = text.match(re);
+    if (m) {
+      const idx = m.index;
+      const len = m[0].length;
+      return escapeHtml(text.slice(0, idx)) + makeBlank(m[0]) + escapeHtml(text.slice(idx + len));
+    }
+  } catch (e) { /* ignore malformed pattern, fall through */ }
+  return escapeHtml(text);
+}
+
 function highlightExample(text, hl) {
   if (!hl) return escapeHtml(text);
   // 1) 完全一致（従来通り、最速）
@@ -8745,10 +8800,10 @@ function pickExample(card) {
 }
 
 function pickDirection() {
-  // 熟語（cat:"phrase"）: 新出・学習中は英熟語で出題、復習は例文で出題、習得済みは日本語で出題
+  // 熟語（cat:"phrase"）: 新出・学習中は英熟語で出題、復習は例文で出題、習得済みは例文穴埋めで出題
   if (currentCard && currentCard.cat === 'phrase') {
     const phase = state.cards[currentCard.id].phase;
-    if (phase === 'mastered') return 'meaning2word';
+    if (phase === 'mastered') return currentCard.exEn ? 'example_blank' : 'meaning2word';
     if (phase === 'review' && currentCard.exEn) return 'example2word';
     if (phase === 'new' || phase === 'learning') return 'word2meaning';
   }
@@ -9766,11 +9821,13 @@ function render() {
   if (!currentCard) {
     currentCard = nextCardForStudy();
     currentDirection = pickDirection();
-    currentExample = currentDirection === 'example2word' ? pickExample(currentCard) : null;
+    currentExample = (currentDirection === 'example2word' || currentDirection === 'example_blank') ? pickExample(currentCard) : null;
     cardStage = 0;
     showingDetail = false;
     if (currentCard && settings.ttsEnabled) {
-      if (currentDirection === 'example2word' && currentExample) {
+      if (currentDirection === 'example_blank') {
+        // 穴埋め問題なので自動読み上げしない（答えが分かってしまうため）
+      } else if (currentDirection === 'example2word' && currentExample) {
         if (settings.autoSpeakExample) speakSentence(currentExample.en);
       } else {
         speakWord(currentCard.en);
@@ -10158,6 +10215,7 @@ function renderCardFace() {
 
   const dirTag = currentDirection === 'word2meaning' ? 'word → meaning'
                : currentDirection === 'example2word' ? 'example → word'
+               : currentDirection === 'example_blank' ? 'fill in the blank'
                : 'meaning → word';
   const fullyOpen = cardStage >= 1;
 
@@ -10168,7 +10226,20 @@ function renderCardFace() {
 
   // === Stage 0: prompt ===
   let stage0;
-  if (currentDirection === 'example2word') {
+  if (currentDirection === 'example_blank') {
+    const ex = (currentExample ? currentExample.en : (w.exEn || '')).trim();
+    const exJa = (currentExample ? currentExample.ja : (w.exJa || '')).trim();
+    const hl = w.en || '';
+    const blanked = blankExample(ex, hl);
+    stage0 = `
+      <div class="stage-section">
+        <div class="word-pos">${w.pos}</div>
+        <div class="example-prompt">${blanked}</div>
+        ${settings.showTranslation && exJa ? `<div class="fill-blank-translation">${escapeHtml(exJa)}</div>` : ''}
+        <div class="tap-hint-sub">空欄に入る熟語は？ / What idiom fits the blank?</div>
+      </div>
+    `;
+  } else if (currentDirection === 'example2word') {
     const ex  = (currentExample ? currentExample.en : (w.exEn || '')).trim();
     const hl  = w.en || '';
     const displayed = highlightExample(ex, hl);
@@ -10201,7 +10272,25 @@ function renderCardFace() {
   let stage1 = '';
   if (cardStage >= 1) {
     let revealTop;
-    if (currentDirection === 'example2word') {
+    if (currentDirection === 'example_blank') {
+      const ex = (currentExample ? currentExample.en : (w.exEn || '')).trim();
+      const exJa = (currentExample ? currentExample.ja : (w.exJa || '')).trim();
+      const hl = w.en || '';
+      const displayed = highlightExample(ex, hl);
+      revealTop = `
+        <div class="text-center">
+          <div class="word-back">${displayHeadword(w)}</div>
+          ${w.ph ? `<div class="word-ph">${escapeHtml(w.ph)}</div>` : ''}
+          <div class="word-back-pos">${w.pos}</div>
+        </div>
+        <div class="meaning-block">
+          <div class="meaning-label">Meaning</div>
+          <div class="meaning-text">${w.ja}</div>
+        </div>
+        <div class="example-prompt" style="margin-top:10px">${displayed}</div>
+        ${settings.showTranslation && exJa ? `<div class="translation text-center">${escapeHtml(exJa)}</div>` : ''}
+      `;
+    } else if (currentDirection === 'example2word') {
       revealTop = `
         <div class="text-center">
           <div class="word-back">${displayHeadword(w)}</div>
@@ -10392,7 +10481,7 @@ function rate(q) {
   state.lastShownId = currentCard.id;
 
   if (wasNew) state.daily.newDone += 1;
-  else if (wasReview) state.daily.reviewDone += (currentDirection === 'example2word' ? 2 : 1);
+  else if (wasReview) state.daily.reviewDone += ((currentDirection === 'example2word' || currentDirection === 'example_blank') ? 2 : 1);
 
   recordReview(wasNew);
   saveState();
