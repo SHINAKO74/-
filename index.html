@@ -8500,9 +8500,13 @@ function buildHighlightRegex(hl) {
 function blankExample(text, hl) {
   if (!hl) return escapeHtml(text);
   function makeBlank(matchedText) {
-    const wordCount = matchedText.split(/\s+/).filter(Boolean).length;
+    const words = matchedText.split(/\s+/).filter(Boolean);
     return '<span class="fill-blank">' +
-      Array.from({length: wordCount}, () => '<span class="fill-blank-word">＿＿＿</span>').join(' ') +
+      words.map(word => {
+        const first = escapeHtml(word.slice(0, 1));
+        const rest = '＿'.repeat(Math.max(word.length - 1, 0));
+        return `<span class="fill-blank-word">${first}${rest}</span>`;
+      }).join(' ') +
       '</span>';
   }
   const idxExact = text.toLowerCase().indexOf(hl.toLowerCase());
